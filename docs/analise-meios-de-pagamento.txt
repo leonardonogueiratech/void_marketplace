@@ -1,0 +1,254 @@
+﻿================================================================================
+  ANÁLISE DE MEIOS DE PAGAMENTO — MARKETPLACE FEITO DE GENTE
+  Data: Abril/2026 | Contexto: Marketplace B2C com split e assinaturas
+================================================================================
+
+CENÁRIO DO PROJETO
+------------------
+O marketplace possui dois fluxos financeiros distintos:
+
+  [1] VENDA DE PRODUTO
+      Comprador paga → plataforma retém comissão → artesão recebe o restante
+      Requer: PIX, cartão de crédito, split de pagamento
+
+  [2] PLANO DO ARTESÃO (assinatura)
+      Artesão paga mensalidade pelo plano FREE / BASIC / PRO
+      Requer: cobrança recorrente, cartão ou boleto/PIX
+
+Qualquer gateway escolhido precisa cobrir os dois fluxos ou aceitar combinar
+com um segundo fornecedor sem elevar muito a complexidade.
+
+================================================================================
+  PARTE 1 — MODALIDADES DE PAGAMENTO
+================================================================================
+
+1. PIX
+------
+  O que é:    Transferência instantânea, disponível 24/7, liquidação imediata.
+  Taxa média: 0,99% por transação (alguns cobram fixo ~R$0,59)
+  Prazo:      D+0 (cai na hora)
+  Cancelamento: Estorno manual, sem chargeback automático
+  Indicado:   SIM — obrigatório para marketplace brasileiro em 2025+
+
+  Vantagens:
+    - Menor taxa entre todos os métodos
+    - Sem fraude de chargeback
+    - Conversão alta (brasileiro adotou massivamente)
+    - Ideal para ticket baixo (artesanato ~R$30 a R$300)
+
+  Desvantagens:
+    - Sem parcelamento
+    - Requer QR code / copia-e-cola na interface
+    - Comprador precisa ter saldo disponível
+
+  VEREDITO: ESSENCIAL. Primeiro método a implementar.
+
+----
+
+2. CARTÃO DE CRÉDITO
+--------------------
+  O que é:    Pagamento parcelado ou à vista via bandeira (Visa, Master, Elo)
+  Taxa média: 2,79% a 4,99% + R$0,25 a R$0,40 por transação
+  Prazo:      D+2 (à vista) / D+30 por parcela (parcelado)
+  Cancelamento: Chargeback — comprador pode contestar até 180 dias
+
+  Vantagens:
+    - Permite parcelamento (aumenta ticket médio)
+    - Alta conversão em produtos acima de R$100
+    - Amplamente aceito
+
+  Desvantagens:
+    - Taxa mais alta de todas as modalidades
+    - Risco de chargeback (fraude)
+    - Repasse ao artesão pode demorar (D+30 por parcela)
+
+  VEREDITO: ESSENCIAL. Segundo método prioritário. Implementar com 2x a 6x
+            sem juros para aumentar conversão em produtos artesanais caros.
+
+----
+
+3. BOLETO BANCÁRIO
+------------------
+  O que é:    Documento bancário para pagamento em bancos, lotéricas ou apps
+  Taxa média: R$2,50 a R$3,50 por boleto gerado (cobrado mesmo se não pago)
+  Prazo:      D+2 após compensação (pode demorar até 3 dias úteis)
+  Vencimento: Normalmente 1 a 3 dias após emissão
+
+  Vantagens:
+    - Alcança quem não tem cartão de crédito
+    - Sem risco de chargeback
+
+  Desvantagens:
+    - Taxa por emissão (cobrada mesmo se o boleto não for pago)
+    - Alta taxa de abandono (~40% dos boletos gerados não são pagos)
+    - Demora no repasse
+    - Usuário precisa lembrar de pagar
+
+  VEREDITO: NÃO PRIORITÁRIO. Para o perfil do marketplace (artesanato, ticket
+            médio baixo/médio), o custo fixo por boleto e a taxa de abandono
+            não compensam. Implementar apenas se houver demanda real dos clientes.
+
+----
+
+4. CARTÃO DE DÉBITO
+-------------------
+  O que é:    Débito imediato na conta do comprador via bandeira
+  Taxa média: 1,5% a 2,0%
+  Prazo:      D+1
+
+  Vantagens:
+    - Taxa menor que crédito
+    - Liquidação rápida
+    - Sem risco de chargeback
+
+  Desvantagens:
+    - Pouco suportado em e-commerce (maioria dos gateways não oferece)
+    - Experiência ruim (redireciona para banco do usuário)
+    - Baixa conversão online
+
+  VEREDITO: NÃO VALE. Complexidade alta para benefício baixo. Pular.
+
+----
+
+5. COBRANÇA RECORRENTE (ASSINATURA)
+------------------------------------
+  O que é:    Cobrança automática mensal no cartão ou via PIX/boleto
+  Taxa:       Mesmas do método subjacente (cartão: ~3%, PIX: ~1%)
+  Uso:        Planos FREE/BASIC/PRO dos artesãos
+
+  Vantagens:
+    - Receita previsível para o marketplace
+    - Artesão não precisa lembrar de pagar todo mês
+    - Cancela automaticamente se houver inadimplência
+
+  Desvantagens:
+    - Complexidade de implementação (ciclos, trial, upgrade/downgrade)
+    - Gateway precisa suportar nativamente
+
+  VEREDITO: ESSENCIAL. Precisa ser nativa no gateway escolhido ou é necessário
+            um segundo fornecedor dedicado a isso.
+
+----
+
+6. SPLIT DE PAGAMENTO
+---------------------
+  O que é:    Divisão automática do valor pago entre dois recebedores
+              (plataforma recebe comissão, artesão recebe o restante)
+  Taxa:       Já embutida nas taxas do gateway — sem custo adicional na maioria
+
+  Vantagens:
+    - Elimina a necessidade de transferir manualmente para artesãos
+    - Compliance fiscal simplificado
+    - Artesão recebe direto na conta cadastrada
+
+  Desvantagens:
+    - Nem todo gateway tem (Stripe Brasil não tem split nativo)
+    - Requer cadastro financeiro do artesão no gateway
+
+  VEREDITO: ESSENCIAL. Não negociável para marketplace. Filtro eliminatório
+            na escolha do gateway.
+
+================================================================================
+  PARTE 2 — COMPARATIVO DE GATEWAYS
+================================================================================
+
+                    ASAAS       PAGAR.ME    MERCADO PAGO   IUGU      STRIPE BR
+  ─────────────────────────────────────────────────────────────────────────────
+  PIX               1,0%        0,99%        0,99%         1,1%      N/A
+  Cartão crédito    2,99%+R$0,39 2,79%+R$0,25 4,99%+R$0,40 2,5%+R$0,25 3,4%+R$0,30
+  Boleto            R$2,99      R$2,50       R$3,49        R$2,90    N/A
+  Split nativo      SIM         SIM          SIM           SIM       NÃO
+  Assinatura nativa SIM         NÃO          SIM (limitado) SIM      SIM
+  SDK TypeScript    SIM         SIM          SIM           SIM       SIM
+  Docs em português SIM         SIM          SIM           SIM       NÃO
+  Antifraude incl.  SIM         SIM (D4Sign) SIM           SIM       SIM
+  Sandbox gratuito  SIM         SIM          SIM           SIM       SIM
+  ─────────────────────────────────────────────────────────────────────────────
+
+SIMULAÇÃO DE CUSTO — Venda de R$150 com cartão de crédito à vista
+  Asaas:        R$150 × 2,99% + R$0,39 = R$4,89 de taxa
+  Pagar.me:     R$150 × 2,79% + R$0,25 = R$4,44 de taxa
+  Mercado Pago: R$150 × 4,99% + R$0,40 = R$7,89 de taxa
+  Iugu:         R$150 × 2,50% + R$0,25 = R$4,00 de taxa
+
+SIMULAÇÃO DE CUSTO — PIX de R$150
+  Asaas:        R$150 × 1,00% = R$1,50
+  Pagar.me:     R$150 × 0,99% = R$1,49
+  Mercado Pago: R$150 × 0,99% = R$1,49
+  Iugu:         R$150 × 1,10% = R$1,65
+
+================================================================================
+  PARTE 3 — ANÁLISE CUSTO-BENEFÍCIO PARA O PROJETO
+================================================================================
+
+GATEWAY MAIS BARATO NO CARTÃO: Iugu (2,5%) ou Pagar.me (2,79%)
+GATEWAY MAIS BARATO NO PIX:    Pagar.me / Mercado Pago (empatados em 0,99%)
+GATEWAY COMPLETO PARA MARKETPLACE + ASSINATURA: Asaas ou Iugu
+
+----
+
+OPÇÃO A — ASAAS (recomendada)
+  ✓ Resolve venda + assinatura em um só lugar
+  ✓ Split nativo
+  ✓ PIX + cartão + boleto
+  ✓ Cobrança recorrente para planos dos artesãos
+  ✓ API bem documentada em português
+  ✗ Cartão levemente mais caro que Pagar.me/Iugu
+
+  CUSTO MÉDIO ESTIMADO por transação de R$150:
+    - Cartão: R$4,89 (~3,26%)
+    - PIX:    R$1,50 (1,00%)
+
+  IDEAL PARA: projeto que quer escalar sem gerenciar dois fornecedores
+
+----
+
+OPÇÃO B — PAGAR.ME (melhor custo no cartão)
+  ✓ Menor taxa de cartão entre os principais
+  ✓ Split nativo e flexível
+  ✓ PIX 0,99%
+  ✗ Sem cobrança recorrente nativa (precisaria usar Iugu ou Stripe para assinaturas)
+  ✗ Dois fornecedores = mais complexidade de código e suporte
+
+  IDEAL PARA: quem prioriza custo no cartão e não tem assinatura ainda
+
+----
+
+OPÇÃO C — MERCADO PAGO (manter atual)
+  ✓ Já mockado no projeto
+  ✓ Maior reconhecimento pelo consumidor brasileiro
+  ✓ Split via Marketplace API
+  ✗ Cartão mais caro de todos (~4,99%)
+  ✗ Suporte técnico ruim para desenvolvedores
+  ✗ Burocracia para ativar Marketplace API
+
+  IDEAL PARA: nenhum cenário onde custo importa
+
+================================================================================
+  PARTE 4 — RECOMENDAÇÃO FINAL
+================================================================================
+
+FASE 1 (MVP — até primeiros 50 artesãos)
+  Gateway: ASAAS
+  Métodos: PIX + Cartão de crédito (2x a 6x sem juros)
+  Motivo:  Custo único, split + assinatura nativos, menor complexidade
+
+FASE 2 (crescimento — acima de R$50.000/mês em GMV)
+  Reavaliar: Se o volume de cartão for muito alto, migrar cartão para IUGU
+             (2,5%) e manter Asaas apenas para assinatura + PIX
+  Justificativa: A diferença de 0,5% começa a fazer diferença só em volume alto
+
+MÉTODOS A IMPLEMENTAR (por prioridade)
+  1. PIX               — menor custo, maior conversão atual no BR
+  2. Cartão crédito    — essencial para parcelamento
+  3. Assinatura        — recorrente para planos dos artesãos
+  4. Boleto            — opcional, só se houver demanda dos clientes
+
+MÉTODOS A NÃO IMPLEMENTAR (custo vs benefício negativo)
+  - Débito online      — baixa conversão, complexidade desnecessária
+  - Criptomoedas       — nicho, volatilidade, fora do perfil do marketplace
+  - Pay After Delivery — risco alto para artesãos de ticket baixo
+
+================================================================================
+  FIM DA ANÁLISE
+================================================================================
