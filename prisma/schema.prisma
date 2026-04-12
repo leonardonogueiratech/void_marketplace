@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // ─── ENUMS ────────────────────────────────────────────────────────────────────
@@ -236,8 +236,8 @@ model Product {
   stock        Int           @default(0)
   sku          String?
   weight       Float?
-  tags         String        @default("[]")
-  materials    String        @default("[]")
+  tags         String[]
+  materials    String[]
   status       ProductStatus @default(DRAFT)
   featured     Boolean       @default(false)
   views        Int           @default(0)
