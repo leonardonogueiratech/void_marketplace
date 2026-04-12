@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { jwtDecrypt } from "jose";
 import { hkdf } from "@panva/hkdf";
 

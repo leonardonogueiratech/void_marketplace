@@ -1,4 +1,4 @@
-import { MercadoPagoConfig, Payment, Preference } from "mercadopago";
+﻿import { MercadoPagoConfig, Payment, Preference } from "mercadopago";
 
 const isMock = !process.env.MERCADOPAGO_ACCESS_TOKEN;
 
