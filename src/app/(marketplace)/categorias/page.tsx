@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { CategoryCard } from "@/components/marketplace/category-card";
 import { Badge } from "@/components/ui/badge";

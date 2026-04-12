@@ -1,4 +1,4 @@
-﻿import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { ArtisanCard } from "@/components/marketplace/artisan-card";
 import type { Metadata } from "next";
 

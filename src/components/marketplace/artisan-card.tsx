@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Image from "next/image";
 import { Star, MapPin } from "lucide-react";
 import { getInitials } from "@/lib/utils";

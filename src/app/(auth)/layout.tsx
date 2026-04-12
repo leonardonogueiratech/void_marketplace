@@ -1,4 +1,4 @@
-﻿import { Providers } from "@/components/providers";
+import { Providers } from "@/components/providers";
 import Link from "next/link";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
