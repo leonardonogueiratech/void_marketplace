@@ -32,8 +32,8 @@ export async function PUT(req: NextRequest, { params }: Params) {
     const status = formData.get("status") as string;
     const tagsRaw = formData.get("tags") as string;
     const materialsRaw = formData.get("materials") as string;
-    const tags = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
-    const materials = materialsRaw ? materialsRaw.split(",").map((m) => m.trim()).filter(Boolean) : [];
+    const tags: string[] = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
+    const materials: string[] = materialsRaw ? materialsRaw.split(",").map((m) => m.trim()).filter(Boolean) : [];
 
     // New images
     const imageFiles = formData.getAll("images") as File[];
@@ -48,7 +48,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
     const updated = await prisma.product.update({
       where: { id },
-      data: { name, description: description || null, story: story || null, price, comparePrice, stock, sku: sku || null, weight, categoryId, status: status as "DRAFT" | "ACTIVE" | "INACTIVE", tags: JSON.stringify(tags), materials: JSON.stringify(materials) },
+      data: { name, description: description || null, story: story || null, price, comparePrice, stock, sku: sku || null, weight, categoryId, status: status as "DRAFT" | "ACTIVE" | "INACTIVE", tags, materials },
     });
 
     return NextResponse.json(updated);

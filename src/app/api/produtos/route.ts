@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
     const status = formData.get("status") as string;
     const tagsRaw = formData.get("tags") as string;
     const materialsRaw = formData.get("materials") as string;
-    const tags = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
-    const materials = materialsRaw ? materialsRaw.split(",").map((m) => m.trim()).filter(Boolean) : [];
+    const tags: string[] = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
+    const materials: string[] = materialsRaw ? materialsRaw.split(",").map((m) => m.trim()).filter(Boolean) : [];
 
     const baseSlug = slugify(name);
     let slug = baseSlug;
@@ -68,8 +68,8 @@ export async function POST(req: NextRequest) {
         weight,
         categoryId,
         status: status as "DRAFT" | "ACTIVE" | "INACTIVE",
-        tags: JSON.stringify(tags),
-        materials: JSON.stringify(materials),
+        tags,
+        materials,
         images: {
           create: uploadedImages.map((url, i) => ({ url, order: i })),
         },

@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Globe, Instagram, MapPin, MessageCircle } from "lucide-react";
+import { Globe, AtSign, MapPin, MessageCircle } from "lucide-react";
 
 export default async function DashboardProfilePage() {
   const session = await auth();
@@ -99,7 +99,7 @@ export default async function DashboardProfilePage() {
             )}
             {artisan.instagram && (
               <div className="flex items-start gap-2 text-muted-foreground">
-                <Instagram className="mt-0.5 size-4 shrink-0" />
+                <AtSign className="mt-0.5 size-4 shrink-0" />
                 <span>@{artisan.instagram}</span>
               </div>
             )}

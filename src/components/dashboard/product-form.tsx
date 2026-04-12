@@ -49,8 +49,8 @@ export function ProductForm({ artisanId, categories, product }: ProductFormProps
     weight: product?.weight?.toString() ?? "",
     categoryId: product?.categoryId ?? "",
     status: product?.status ?? "DRAFT",
-    tags: (JSON.parse(product?.tags || "[]") as string[]).join(", "),
-    materials: (JSON.parse(product?.materials || "[]") as string[]).join(", "),
+    tags: (product?.tags ?? []).join(", "),
+    materials: (product?.materials ?? []).join(", "),
   });
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {

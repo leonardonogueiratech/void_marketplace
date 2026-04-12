@@ -162,20 +162,17 @@ export default async function ProductPage({ params }: Props) {
           <Separator />
 
           {/* Tags */}
-          {(() => {
-            const tags: string[] = JSON.parse(product.tags || "[]");
-            return tags.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">{tag}</Badge>
-                ))}
-              </div>
-            ) : null;
-          })()}
+          {product.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {product.tags.map((tag) => (
+                <Badge key={tag} variant="secondary">{tag}</Badge>
+              ))}
+            </div>
+          )}
 
           {/* Materials */}
           {(() => {
-            const materials: string[] = JSON.parse(product.materials || "[]");
+            const materials: string[] = product.materials;
             return materials.length > 0 ? (
               <div>
                 <p className="text-sm font-medium text-neutral-700 mb-1">Materiais:</p>

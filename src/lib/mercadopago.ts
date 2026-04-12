@@ -6,6 +6,13 @@ const isMock = !process.env.MERCADOPAGO_ACCESS_TOKEN;
 
 function createMockPayment() {
   return {
+    async get({ id }: { id: string }) {
+      return {
+        id,
+        status: "approved",
+        external_reference: null as string | null,
+      };
+    },
     async create({ body }: { body: { payment_method_id?: string; [key: string]: unknown } }) {
       const id = `mock_${Date.now()}`;
       const method = body.payment_method_id ?? "";
