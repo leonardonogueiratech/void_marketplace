@@ -9,6 +9,8 @@ import { AddToCartButton } from "@/components/marketplace/add-to-cart-button";
 import { ProductGallery } from "@/components/marketplace/product-gallery";
 import { ReviewList } from "@/components/marketplace/review-list";
 import { ProductCard } from "@/components/marketplace/product-card";
+import { ContactArtisanButton } from "@/components/marketplace/contact-artisan-button";
+import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 
 interface Props {
@@ -23,7 +25,7 @@ async function getProduct(slug: string) {
       category: true,
       artisan: {
         include: {
-          user: { select: { name: true } },
+          user: { select: { id: true, name: true } },
           subscription: true,
         },
       },
@@ -66,7 +68,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = await getProduct(slug);
+  const [product, session] = await Promise.all([getProduct(slug), auth()]);
   if (!product) notFound();
 
   const related = await getRelatedProducts(slug, product.categoryId, product.artisanId);
@@ -158,6 +160,13 @@ export default async function ProductPage({ params }: Props) {
 
           {/* Add to cart */}
           <AddToCartButton product={product} />
+
+          {/* Chat with artisan */}
+          <ContactArtisanButton
+            artisanUserId={product.artisan.user.id}
+            artisanName={product.artisan.storeName}
+            isLoggedIn={!!session?.user}
+          />
 
           <Separator />
 

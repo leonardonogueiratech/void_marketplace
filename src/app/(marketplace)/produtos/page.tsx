@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/marketplace/product-card";
 import { ProductFilters } from "@/components/marketplace/product-filters";
+import { ActiveFilters } from "@/components/marketplace/active-filters";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Produtos" };
@@ -22,9 +23,7 @@ async function getProducts(params: SearchParams) {
 
   const where = {
     status: "ACTIVE" as const,
-    ...(params.categoria && {
-      category: { slug: params.categoria },
-    }),
+    ...(params.categoria && { category: { slug: params.categoria } }),
     ...(params.q && {
       OR: [
         { name: { contains: params.q, mode: "insensitive" as const } },
@@ -44,11 +43,12 @@ async function getProducts(params: SearchParams) {
 
   const orderBy = (() => {
     switch (params.ordem) {
-      case "menor-preco": return { price: "asc" as const };
-      case "maior-preco": return { price: "desc" as const };
+      case "menor-preco":  return { price: "asc" as const };
+      case "maior-preco":  return { price: "desc" as const };
       case "mais-vendidos": return { salesCount: "desc" as const };
-      case "avaliacao": return { rating: "desc" as const };
-      default: return { createdAt: "desc" as const };
+      case "avaliacao":    return { rating: "desc" as const };
+      case "categoria":    return { category: { name: "asc" as const } };
+      default:             return { createdAt: "desc" as const };
     }
   })();
 
@@ -88,51 +88,75 @@ export default async function ProductsPage({
     getCategories(),
   ]);
 
+  const activeCategory = categories.find((c) => c.slug === params.categoria);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-neutral-900">Produtos</h1>
-        <p className="text-muted-foreground mt-1">{total} produtos encontrados</p>
+    <div className="min-h-screen bg-[#f7f3ed]">
+      {/* Page header — creme com acento verde */}
+      <div className="bg-[#f7f3ed] border-b border-[#1e3a5f]/8 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#4a7c3f] mb-1">Marketplace</p>
+          <h1 className="text-3xl font-bold text-[#1e3a5f]">
+            {activeCategory ? activeCategory.name : "Todos os Produtos"}
+          </h1>
+          <p className="text-neutral-500 mt-1 text-sm">
+            {total > 0
+              ? `${total} produto${total !== 1 ? "s" : ""} encontrado${total !== 1 ? "s" : ""}`
+              : "Nenhum produto encontrado"}
+            {params.q && <span> para &quot;{params.q}&quot;</span>}
+          </p>
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        <aside className="lg:w-56 shrink-0">
-          <ProductFilters categories={categories} />
-        </aside>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <aside className="lg:w-60 shrink-0">
+            <ProductFilters categories={categories} />
+          </aside>
 
-        <div className="flex-1">
-          {products.length === 0 ? (
-            <div className="text-center py-20 text-muted-foreground">
-              Nenhum produto encontrado.
-            </div>
-          ) : (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+          {/* Main content */}
+          <div className="flex-1 min-w-0">
+            {/* Active filter chips */}
+            <ActiveFilters params={params} categories={categories} total={total} />
+
+            {products.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-[#1e3a5f]/20 bg-white py-20 text-center px-6 mt-4">
+                <p className="text-2xl mb-2">🔍</p>
+                <p className="font-semibold text-[#1e3a5f] text-lg">Nenhum produto encontrado</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Tente ajustar os filtros ou buscar por outro termo.
+                </p>
               </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-10">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                    <a
-                      key={p}
-                      href={`?${new URLSearchParams({ ...params, pagina: String(p) })}`}
-                      className={`size-9 flex items-center justify-center rounded-md text-sm font-medium border transition-colors ${
-                        p === page
-                          ? "bg-primary text-primary-foreground border-primary"
-                          : "border-border hover:bg-neutral-50"
-                      }`}
-                    >
-                      {p}
-                    </a>
+            ) : (
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+                  {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
                   ))}
                 </div>
-              )}
-            </>
-          )}
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center gap-2 mt-10">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                      <a
+                        key={p}
+                        href={`?${new URLSearchParams({ ...params, pagina: String(p) })}`}
+                        className={`size-9 flex items-center justify-center rounded-lg text-sm font-medium border transition-colors ${
+                          p === page
+                            ? "bg-[#1e3a5f] text-white border-[#1e3a5f]"
+                            : "border-[#1e3a5f]/20 text-[#1e3a5f] hover:bg-white"
+                        }`}
+                      >
+                        {p}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

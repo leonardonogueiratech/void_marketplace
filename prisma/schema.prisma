@@ -325,8 +325,8 @@ model Payment {
   method           PaymentMethod
   status           PaymentStatus @default(PENDING)
   amount           Float
-  mpPaymentId      String?
-  mpPreferenceId   String?
+  asaasPaymentId   String?
+  asaasPaymentLink String?
   pixQrCode        String?
   pixQrCodeBase64  String?
   boletoUrl        String?
@@ -363,7 +363,7 @@ model Subscription {
   artisanId          String             @unique
   plan               SubscriptionPlan   @default(FREE)
   status             SubscriptionStatus @default(ACTIVE)
-  mpSubscriptionId   String?
+  asaasSubscriptionId String?
   currentPeriodStart DateTime?
   currentPeriodEnd   DateTime?
   canceledAt         DateTime?
@@ -441,4 +441,19 @@ model Message {
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   sender       User         @relation("SentMessages", fields: [senderId], references: [id])
+}
+
+// ─── CONTACT MESSAGE ──────────────────────────────────────────────────────────
+
+model ContactMessage {
+  id         String    @id @default(cuid())
+  name       String
+  email      String
+  subject    String
+  message    String
+  read       Boolean   @default(false)
+  reply      String?
+  repliedAt  DateTime?
+  token      String    @unique @default(cuid())
+  createdAt  DateTime  @default(now())
 }

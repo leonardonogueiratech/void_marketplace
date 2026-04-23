@@ -23,36 +23,39 @@ export default async function CategoriesPage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="max-w-3xl mb-8">
-        <Badge variant="secondary" className="mb-3">
-          Navegue por interesse
-        </Badge>
-        <h1 className="text-3xl font-bold text-neutral-900">Categorias</h1>
-        <p className="mt-2 text-muted-foreground">
-          Explore o marketplace por tipo de produto, estilo e técnica artesanal.
-        </p>
+    <div className="min-h-screen bg-[#f7f3ed]">
+      {/* Header — âmbar quente, convite à exploração */}
+      <div className="bg-[#f7f3ed] border-b border-[#e07b2a]/20 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#e07b2a] mb-1">Navegue</p>
+          <h1 className="text-3xl font-bold text-[#1e3a5f]">Categorias</h1>
+          <p className="mt-2 text-neutral-500 text-sm">
+            Explore o marketplace por tipo de produto, estilo e técnica artesanal.
+          </p>
+        </div>
       </div>
 
-      {categories.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-border py-16 text-center text-muted-foreground">
-          Nenhuma categoria disponível no momento.
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {categories.map((category) => (
-            <div key={category.id} className="space-y-2">
-              <CategoryCard category={category} />
-              <div className="px-1">
-                <p className="font-medium text-neutral-900">{category.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  {category._count.products} produto(s)
-                </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {categories.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-[#1e3a5f]/30 py-16 text-center text-muted-foreground bg-white">
+            Nenhuma categoria disponível no momento.
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {categories.map((category) => (
+              <div key={category.id} className="space-y-2">
+                <CategoryCard category={category} />
+                <div className="px-1">
+                  <p className="font-medium text-[#1e3a5f]">{category.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {category._count.products} produto(s)
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

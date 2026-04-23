@@ -1,69 +1,76 @@
-<svg width="100%" viewBox="0 0 680 230" role="img" xmlns="http://www.w3.org/2000/svg">
-  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Feito de Gente — logo horizontal</title>
-  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Versão horizontal da marca Feito de Gente marketplace de artesanato</desc>
+<svg viewBox="0 0 680 160" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Feito de Gente</title>
 
   <defs>
-    <linearGradient id="fg" x1="0.3" y1="1" x2="0.6" y2="0">
+    <linearGradient id="flame" x1="0.3" y1="1" x2="0.6" y2="0">
       <stop offset="0%" stop-color="#F5B942"/>
-      <stop offset="50%" stop-color="#E86030"/>
+      <stop offset="55%" stop-color="#E86030"/>
       <stop offset="100%" stop-color="#C83A18"/>
     </linearGradient>
-    <linearGradient id="cg" x1="0" y1="0" x2="1" y2="0">
+    <linearGradient id="candle" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#EAE0C0"/>
       <stop offset="50%" stop-color="#F8F2E0"/>
       <stop offset="100%" stop-color="#D5C99A"/>
     </linearGradient>
-    <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#6BBF5A"/>
+    <linearGradient id="leafL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#78CC65"/>
       <stop offset="100%" stop-color="#2E7828"/>
     </linearGradient>
-    <linearGradient id="lg2" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#6BBF5A"/>
+    <linearGradient id="leafR" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#78CC65"/>
       <stop offset="100%" stop-color="#2E7828"/>
     </linearGradient>
   </defs>
 
-  <!-- Fundo -->
-
-  <!-- ÍCONE centrado verticalmente em y=110, posicionado em x=120 -->
-  <g transform="translate(130, 110)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+  <!-- ÍCONE — centrado em x=86, y=82 -->
+  <g transform="translate(86,84)">
 
     <!-- Folha esquerda -->
-    <path d="M-10,56 C-42,40 -74,18 -77,-12 C-79,-30 -64,-42 -46,-34 C-28,-24 -12,14 -10,56Z" fill="url(#lg1)" stroke="#1E6018" stroke-width="0.8" style="stroke:rgb(30, 96, 24);color:rgb(0, 0, 0);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <path d="M-11,54 C-34,26 -54,2 -62,-24" stroke="#2A7020" stroke-width="0.6" fill="none" opacity="0.4" style="fill:none;stroke:rgb(42, 112, 32);color:rgb(0, 0, 0);stroke-width:0.6px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.4;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <path d="M-11,52 C-44,36 -76,14 -78,-16 C-80,-34 -64,-46 -46,-37 C-27,-26 -12,12 -11,52Z"
+          fill="url(#leafL)" stroke="#1E6018" stroke-width="0.7"/>
+    <path d="M-12,50 C-35,22 -56,-2 -64,-28"
+          stroke="#2A7020" stroke-width="0.5" fill="none" opacity="0.35"/>
 
     <!-- Folha direita -->
-    <path d="M10,56 C42,40 74,18 77,-12 C79,-30 64,-42 46,-34 C28,-24 12,14 10,56Z" fill="url(#lg2)" stroke="#1E6018" stroke-width="0.8" style="stroke:rgb(30, 96, 24);color:rgb(0, 0, 0);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <path d="M11,54 C34,26 54,2 62,-24" stroke="#2A7020" stroke-width="0.6" fill="none" opacity="0.4" style="fill:none;stroke:rgb(42, 112, 32);color:rgb(0, 0, 0);stroke-width:0.6px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.4;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <path d="M11,52 C44,36 76,14 78,-16 C80,-34 64,-46 46,-37 C27,-26 12,12 11,52Z"
+          fill="url(#leafR)" stroke="#1E6018" stroke-width="0.7"/>
+    <path d="M12,50 C35,22 56,-2 64,-28"
+          stroke="#2A7020" stroke-width="0.5" fill="none" opacity="0.35"/>
 
     <!-- Vela corpo -->
-    <rect x="-14" y="-6" width="28" height="64" rx="4" fill="url(#cg)" stroke="#C2AF82" stroke-width="0.7" style="stroke:rgb(194, 175, 130);color:rgb(0, 0, 0);stroke-width:0.7px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <ellipse cx="0" cy="-6" rx="14" ry="3" fill="#F5EDD5" stroke="#C2AF82" stroke-width="0.5" style="fill:rgb(245, 237, 213);stroke:rgb(194, 175, 130);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <rect x="-15" y="-4" width="30" height="60" rx="5" fill="url(#candle)" stroke="#C2AF82" stroke-width="0.6"/>
+    <ellipse cx="0" cy="-4" rx="15" ry="3.5" fill="#F5EDD5" stroke="#C2AF82" stroke-width="0.5"/>
     <!-- brilho -->
-    <rect x="-8" y="2" width="4" height="44" rx="2" fill="#fff" opacity="0.18" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.18;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <rect x="-9" y="4" width="4.5" height="42" rx="2.2" fill="#fff" opacity="0.2"/>
 
     <!-- Pavio -->
-    <line x1="0" y1="-9" x2="0" y2="-18" stroke="#3C2810" stroke-width="1.6" stroke-linecap="round" style="fill:rgb(0, 0, 0);stroke:rgb(60, 40, 16);color:rgb(0, 0, 0);stroke-width:1.6px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <line x1="0" y1="-7" x2="0" y2="-18" stroke="#3C2810" stroke-width="1.8" stroke-linecap="round"/>
 
-    <!-- Chama -->
-    <path d="M0,-70 C12,-52 18,-36 15,-18 C13,-6 6,3 0,7 C-6,3 -13,-6 -15,-18 C-18,-36 -12,-52 0,-70Z" fill="url(#fg)" style="stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-    <path d="M0,-56 C6,-42 9,-30 7,-15 C5,-5 2,2 0,5 C-2,2 -5,-5 -7,-15 C-9,-30 -6,-42 0,-56Z" fill="#FFE88A" opacity="0.6" style="fill:rgb(255, 232, 138);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.6;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <!-- Chama externa -->
+    <path d="M0,-72 C13,-54 20,-36 16,-17 C14,-5 7,4 0,8 C-7,4 -14,-5 -16,-17 C-20,-36 -13,-54 0,-72Z"
+          fill="url(#flame)"/>
+    <!-- Chama interna -->
+    <path d="M0,-56 C7,-42 10,-28 8,-14 C6,-4 2,3 0,6 C-2,3 -6,-4 -8,-14 C-10,-28 -7,-42 0,-56Z"
+          fill="#FFE88A" opacity="0.65"/>
 
-    <!-- Linha base tracejada -->
-    <path d="M-76,64 C-50,58 -25,60 0,58 C25,60 50,58 76,64" stroke="#7A4F20" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-dasharray="4,3" style="fill:none;stroke:rgb(122, 79, 32);color:rgb(0, 0, 0);stroke-width:1.8px;stroke-dasharray:4px, 3px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-
-    <!-- Arco de acolhimento -->
-    <path d="M-76,72 C-52,86 -28,90 0,88 C28,90 52,86 76,72" stroke="#C8904A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.45" style="fill:none;stroke:rgb(200, 144, 74);color:rgb(0, 0, 0);stroke-width:1.4px;stroke-linecap:round;stroke-linejoin:miter;opacity:0.45;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <!-- Base tracejada -->
+    <path d="M-78,62 C-52,56 -26,58 0,56 C26,58 52,56 78,62"
+          stroke="#9A6428" stroke-width="1.6" fill="none"
+          stroke-linecap="round" stroke-dasharray="4,3" opacity="0.7"/>
   </g>
 
-  <!-- Separador vertical suave -->
-  <line x1="236" y1="58" x2="236" y2="162" stroke="#E0D4B8" stroke-width="1" style="fill:rgb(0, 0, 0);stroke:rgb(224, 212, 184);color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <!-- Separador vertical -->
+  <line x1="196" y1="30" x2="196" y2="134"
+        stroke="#D8C8A8" stroke-width="1.2" stroke-linecap="round"/>
 
-  <!-- TEXTO -->
-  <!-- Nome principal -->
-  <text x="262" y="122" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="58" font-weight="400" fill="#3A2210" letter-spacing="0.5" style="fill:rgb(58, 34, 16);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, &quot;Times New Roman&quot;, serif;font-size:58px;font-weight:400;font-style:italic;text-anchor:start;dominant-baseline:auto">feito de gente</text>
-
-  <!-- Tagline -->
-  <text x="264" y="152" font-family="system-ui,sans-serif" font-size="12" letter-spacing="0.24em" fill="#8A6A30" style="fill:rgb(138, 106, 48);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:system-ui, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">MARKETPLACE DE ARTESANATO</text>
+  <!-- Texto principal — maior, mais presença -->
+  <text
+    x="220" y="106"
+    font-family="Georgia,'Times New Roman',serif"
+    font-style="italic"
+    font-size="66"
+    font-weight="400"
+    fill="#2E1A0E"
+    letter-spacing="-0.5">feito de gente</text>
 
 </svg>

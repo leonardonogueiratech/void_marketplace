@@ -15,24 +15,30 @@ export default async function ArtisansPage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-neutral-900">Artesãos</h1>
-        <p className="text-muted-foreground mt-1">
-          {artisans.length} artesãos cadastrados na plataforma
-        </p>
+    <div className="min-h-screen bg-[#f7f3ed]">
+      {/* Header — navy, autoridade e comunidade */}
+      <div className="bg-[#1e3a5f] py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#a8d5a2] mb-1">Comunidade</p>
+          <h1 className="text-3xl font-bold text-[#f7f3ed]">Artesãos</h1>
+          <p className="text-[#f7f3ed]/55 mt-1 text-sm">
+            {artisans.length} artesã{artisans.length !== 1 ? "os" : "o"} cadastrado{artisans.length !== 1 ? "s" : ""} na plataforma
+          </p>
+        </div>
       </div>
-      {artisans.length === 0 ? (
-        <div className="text-center py-20 text-muted-foreground">
-          Nenhum artesão cadastrado ainda.
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {artisans.map((artisan) => (
-            <ArtisanCard key={artisan.id} artisan={artisan} />
-          ))}
-        </div>
-      )}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {artisans.length === 0 ? (
+          <div className="text-center py-20 text-muted-foreground">
+            Nenhum artesão cadastrado ainda.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {artisans.map((artisan) => (
+              <ArtisanCard key={artisan.id} artisan={artisan} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

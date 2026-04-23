@@ -56,18 +56,30 @@ export function getInitials(name: string): string {
     .toUpperCase();
 }
 
-export const COMMISSION_RATE = 0.10;
+/** Comissão padrão (fallback) */
+export const COMMISSION_RATE = 0.12;
+
+/** Comissão por plano — decresce conforme assinatura sobe */
+export const COMMISSION_BY_PLAN: Record<string, number> = {
+  FREE:  0.12,   // 12%
+  BASIC: 0.08,   // 8%
+  PRO:   0.05,   // 5%
+};
+
+/** Taxa de processamento de pagamento (cobrada pelo gateway, igual para todos) */
+export const PAYMENT_PROCESSING_FEE = 0.0299;  // 2,99%
+export const PAYMENT_PROCESSING_FIXED = 0.39;  // R$ 0,39 por transação
 
 export const SUBSCRIPTION_PRICES: Record<string, number> = {
-  FREE: 0,
+  FREE:  0,
   BASIC: 49.9,
-  PRO: 99.9,
+  PRO:   99.9,
 };
 
 export const SUBSCRIPTION_LIMITS: Record<string, number> = {
-  FREE: 5,
+  FREE:  5,
   BASIC: 50,
-  PRO: 999,
+  PRO:   999,
 };
 
 export const HIGHLIGHT_PRICE = 29.9;

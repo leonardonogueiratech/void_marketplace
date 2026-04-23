@@ -1,0 +1,187 @@
+﻿Assunto: Proposta Comercial — Desenvolvimento do Marketplace Feito de Gente
+
+Prezado Luiz André,
+
+Bom dia. Conforme nossa conversa, segue abaixo a proposta formal para o desenvolvimento,
+implantação e manutenção da plataforma Feito de Gente.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. OBJETO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Desenvolvimento completo de marketplace de artesanato brasileiro, conectando
+artesãos e compradores, com processamento de pagamentos, painel administrativo
+e hospedagem em servidor dedicado.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. ENTREGÁVEIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2.1 Plataforma Marketplace
+    - Página inicial com vitrine de produtos e artesãos em destaque
+    - Listagem e busca de produtos por categoria, preço e filtros
+    - Página de perfil público de cada artesão
+    - Página de detalhe de produto com galeria de imagens
+    - Carrinho de compras e fluxo de checkout completo
+
+2.2 Autenticação e Cadastro
+    - Cadastro e login de compradores
+    - Cadastro e login de artesãos com aprovação administrativa
+    - Recuperação de senha
+
+2.3 Dashboard do Artesão
+    - Gerenciamento de produtos (criar, editar, excluir)
+    - Acompanhamento de pedidos
+    - Painel financeiro com histórico de vendas e comissões
+    - Avaliações recebidas
+    - Edição de perfil da loja
+
+2.4 Painel Administrativo
+    - Aprovação e gestão de artesãos
+    - Gerenciamento de categorias
+    - Visão financeira geral da plataforma
+
+2.5 Pagamentos (Asaas)
+    - Pagamento via PIX (taxa: 1% por transação)
+    - Pagamento via cartão de crédito (taxa: 2,99% + R$0,39 por transação)
+    - Split automático: plataforma retém comissão, artesão recebe o restante
+    - Planos de assinatura mensal para artesãos (FREE / BASIC / PRO)
+
+2.6 Infraestrutura e Servidor
+    - Servidor dedicado Hetzner CX22 (2 vCPU, 4GB RAM, 40GB SSD)
+    - Banco de dados PostgreSQL no próprio servidor
+    - Armazenamento de imagens no servidor
+    - Certificado SSL (HTTPS) incluso
+    - Domínio feitodegente.com.br configurado e apontado
+
+2.7 Segurança da Informação
+    - Comunicação 100% criptografada via HTTPS/TLS
+    - Senhas armazenadas com hash bcrypt (nunca em texto puro)
+    - Autenticação com tokens JWT de curta duração
+    - Dados de pagamento processados exclusivamente pela Asaas
+      (plataforma não armazena dados de cartão)
+    - Conformidade com LGPD: dados pessoais coletados apenas quando necessários,
+      com finalidade definida e possibilidade de exclusão a pedido do titular
+    - Backups automáticos diários do banco de dados
+    - Acesso administrativo restrito por autenticação de dois fatores
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. PRAZOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Fase 1 — Desenvolvimento:         30 dias corridos após assinatura do contrato
+    Fase 2 — Implantação e testes:    10 dias corridos após entrega do desenvolvimento
+    Fase 3 — Acompanhamento:          30 dias após o site entrar em produção
+    Fase 4 — Manutenção contínua:     A partir do 71º dia (contrato mensal)
+
+    Prazo total até site em produção: aproximadamente 40 dias.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. APOIO PARA IMPLANTAÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    - Configuração completa do servidor Hetzner
+    - Configuração do banco de dados em produção
+    - Cadastro inicial de categorias e conteúdo demo
+    - Integração e ativação da conta Asaas
+    - Apontamento e configuração do domínio feitodegente.com.br
+    - Treinamento remoto para uso do painel administrativo (1 sessão de até 2h)
+    - Suporte via WhatsApp durante o período de acompanhamento (30 dias)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. O QUE ESTÁ FORA DO ESCOPO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    - Criação de conteúdo (textos, fotos, vídeos)
+    - Gestão de redes sociais
+    - Campanhas de marketing ou anúncios pagos
+    - Desenvolvimento de aplicativo mobile (iOS / Android)
+    - Integrações não descritas nesta proposta
+    - Suporte presencial
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. INVESTIMENTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6.1 Desenvolvimento e Implantação (valor único)
+
+    R$ 10.000,00
+    Pagamento em 2 parcelas:
+      - R$ 5.000,00 na assinatura do contrato
+      - R$ 5.000,00 na entrega e ativação do site
+
+6.2 Manutenção Mensal (após implantação)
+
+    R$ 600,00/mês — incluso:
+      - Servidor Hetzner CX22 (~R$23/mês)
+      - Monitoramento e atualizações de segurança
+      - Backups diários
+      - Suporte técnico via WhatsApp (horário comercial)
+      - Até 4 horas de ajustes/melhorias por mês
+
+6.3 Custos Operacionais da Plataforma (pagos pela plataforma conforme uso)
+
+    Processamento de pagamentos — Asaas (sem mensalidade):
+      - PIX:             1% por transação
+      - Cartão crédito:  2,99% + R$0,39 por transação
+      - Boleto:          R$2,99 por boleto emitido
+
+    Esses custos são descontados automaticamente das transações.
+    Não há mensalidade fixa para a Asaas.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. TERMO DE CONFIDENCIALIDADE (NDA)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+As partes comprometem-se a:
+
+    a) Manter em absoluto sigilo todas as informações trocadas durante o
+       desenvolvimento, incluindo estratégias de negócio, dados de usuários,
+       código-fonte e credenciais de acesso.
+
+    b) Não divulgar, compartilhar ou utilizar as informações confidenciais
+       para qualquer finalidade que não seja a execução deste contrato.
+
+    c) A obrigação de confidencialidade permanece vigente por 5 (cinco) anos
+       após o término do contrato, independentemente do motivo de encerramento.
+
+    d) O prestador de serviços (Leonardo) não divulgará publicamente o
+       projeto sem autorização prévia e por escrito do contratante (Luiz André),
+       exceto para fins de portfólio mediante aprovação.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. SEGURANÇA DA INFORMAÇÃO E DADOS SENSÍVEIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    - Nenhum dado de cartão de crédito transita ou é armazenado na plataforma.
+      Todo o processamento é realizado pela Asaas, empresa regulada pelo Banco
+      Central do Brasil.
+
+    - Dados pessoais dos usuários (nome, e-mail, CPF, endereço) são armazenados
+      em servidor privado com acesso restrito e criptografado.
+
+    - A plataforma está em conformidade com a Lei Geral de Proteção de Dados
+      (LGPD — Lei 13.709/2018), garantindo:
+        * Coleta mínima de dados (apenas o necessário)
+        * Finalidade específica e declarada
+        * Direito de acesso, correção e exclusão pelo titular
+        * Política de privacidade disponível no site
+
+    - Credenciais administrativas e chaves de API são armazenadas em variáveis
+      de ambiente seguras, nunca expostas no código-fonte.
+
+    - Em caso de incidente de segurança, o contratante será notificado em até
+      72 horas, conforme determina a LGPD.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fico à disposição para quaisquer dúvidas ou ajustes nesta proposta.
+Aguardo seu retorno para darmos início à formalização.
+
+Atenciosamente,
+
+Leonardo Nogueira
+Void Technologies
+leojunio007@gmail.com
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

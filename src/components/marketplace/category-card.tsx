@@ -15,7 +15,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
   return (
     <Link
       href={`/categorias/${category.slug}`}
-      className="group relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-amber-100 to-orange-50 border border-border hover:shadow-md transition-shadow"
+      className="group relative aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-[#4a7c3f]/20 to-[#3a6b35]/30 border border-[#1e3a5f]/10 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
     >
       {category.image && (
         <Image

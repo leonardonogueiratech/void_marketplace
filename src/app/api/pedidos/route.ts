@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { mpPayment } from "@/lib/mercadopago";
+import {
+  findOrCreateCustomer,
+  createPixPayment,
+  createBoletoPayment,
+  createCreditCardPayment,
+  isApproved,
+} from "@/lib/asaas";
 import { COMMISSION_RATE } from "@/lib/utils";
 import { z } from "zod";
 
@@ -33,6 +39,12 @@ const orderSchema = z.object({
   }).optional(),
 });
 
+function todayPlusDays(days: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split("T")[0]!;
+}
+
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user) {
@@ -43,10 +55,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const data = orderSchema.parse(body);
 
-    // Validate products and get current prices
-    const productIds = data.items.map((i) => i.productId);
     const products = await prisma.product.findMany({
-      where: { id: { in: productIds }, status: "ACTIVE" },
+      where: { id: { in: data.items.map((i) => i.productId) }, status: "ACTIVE" },
       include: { artisan: true },
     });
 
@@ -54,7 +64,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Um ou mais produtos não estão disponíveis." }, { status: 400 });
     }
 
-    // Check stock
     for (const item of data.items) {
       const product = products.find((p) => p.id === item.productId)!;
       if (product.stock < item.quantity) {
@@ -64,12 +73,10 @@ export async function POST(req: NextRequest) {
 
     const subtotal = data.items.reduce((acc, i) => acc + i.unitPrice * i.quantity, 0);
 
-    // Create address
     const address = await prisma.address.create({
       data: { userId: session.user.id, ...data.address },
     });
 
-    // Create order
     const order = await prisma.order.create({
       data: {
         customerId: session.user.id,
@@ -90,65 +97,90 @@ export async function POST(req: NextRequest) {
       include: { items: true, user: true },
     });
 
-    // Process payment with MercadoPago
-    let paymentResponse;
+    const payerName = session.user.name ?? "Cliente";
+    const payerEmail = session.user.email ?? "comprador@artesao.com";
+    const description = `Pedido #${order.id.slice(-8)} – Feito de Gente`;
+    const dueDate = todayPlusDays(data.paymentMethod === "BOLETO" ? 3 : 1);
+
+    const customerId = await findOrCreateCustomer({ name: payerName, email: payerEmail });
+
+    let asaasPaymentId = "";
+    let asaasPaymentLink: string | undefined;
     let pixQrCode: string | undefined;
     let pixQrCodeBase64: string | undefined;
     let boletoUrl: string | undefined;
     let boletoBarcode: string | undefined;
-
-    const payerEmail = session.user.email ?? "comprador@artesao.com";
+    let approved = false;
 
     if (data.paymentMethod === "PIX") {
-      paymentResponse = await mpPayment.create({
-        body: {
-          transaction_amount: subtotal,
-          payment_method_id: "pix",
-          payer: { email: payerEmail },
-          description: `Pedido #${order.id.slice(-8)} - Feito de Gente`,
-          external_reference: order.id,
-        },
+      const { payment, pix } = await createPixPayment({
+        customerId,
+        value: subtotal,
+        description,
+        orderId: order.id,
+        dueDate,
       });
-      pixQrCode = paymentResponse.point_of_interaction?.transaction_data?.qr_code ?? undefined;
-      pixQrCodeBase64 = paymentResponse.point_of_interaction?.transaction_data?.qr_code_base64 ?? undefined;
+      asaasPaymentId = payment.id;
+      pixQrCode = pix.payload;
+      pixQrCodeBase64 = pix.encodedImage;
+      approved = isApproved(payment.status);
     } else if (data.paymentMethod === "BOLETO") {
-      paymentResponse = await mpPayment.create({
-        body: {
-          transaction_amount: subtotal,
-          payment_method_id: "bolbradesco",
-          payer: { email: payerEmail, first_name: session.user.name?.split(" ")[0] ?? "Cliente", last_name: session.user.name?.split(" ").slice(1).join(" ") ?? "" },
-          description: `Pedido #${order.id.slice(-8)} - Feito de Gente`,
-          external_reference: order.id,
-        },
+      const payment = await createBoletoPayment({
+        customerId,
+        value: subtotal,
+        description,
+        orderId: order.id,
+        dueDate,
+        name: payerName,
       });
-      boletoUrl = (paymentResponse as { transaction_details?: { external_resource_url?: string } }).transaction_details?.external_resource_url ?? undefined;
-      boletoBarcode = (paymentResponse as { barcode?: { content?: string } }).barcode?.content ?? undefined;
+      asaasPaymentId = payment.id;
+      boletoUrl = payment.bankSlipUrl ?? payment.invoiceUrl;
+      approved = isApproved(payment.status);
     } else {
-      // Credit card - simplified (in production would use MercadoPago SDK tokenization)
-      paymentResponse = { id: `mock_${Date.now()}`, status: "approved" };
+      const expiry = data.cardData?.expiry ?? "12/99";
+      const [expiryMonth, expiryYear] = expiry.split("/");
+      const installments = parseInt(data.cardData?.installments ?? "1", 10);
+
+      const payment = await createCreditCardPayment({
+        customerId,
+        value: subtotal,
+        description,
+        orderId: order.id,
+        dueDate,
+        installmentCount: installments,
+        card: {
+          holderName: data.cardData?.name ?? payerName,
+          number: (data.cardData?.number ?? "").replace(/\s/g, ""),
+          expiryMonth: expiryMonth ?? "12",
+          expiryYear: expiryYear ?? "2099",
+          ccv: data.cardData?.cvv ?? "",
+        },
+        cardHolderInfo: { name: payerName, email: payerEmail },
+      });
+      asaasPaymentId = payment.id;
+      asaasPaymentLink = payment.invoiceUrl;
+      approved = isApproved(payment.status);
     }
 
-    const mpStatus = (paymentResponse as { status?: string }).status ?? "pending";
-
-    // Save payment
     await prisma.payment.create({
       data: {
         orderId: order.id,
         method: data.paymentMethod,
-        status: mpStatus === "approved" ? "APPROVED" : mpStatus === "in_process" ? "IN_PROCESS" : "PENDING",
+        status: approved ? "APPROVED" : "PENDING",
         amount: subtotal,
-        mpPaymentId: String((paymentResponse as { id?: number | string }).id ?? ""),
+        asaasPaymentId,
+        asaasPaymentLink,
         pixQrCode,
         pixQrCodeBase64,
         boletoUrl,
-        boletoBarcode,
-        paidAt: mpStatus === "approved" ? new Date() : null,
-        expiresAt: data.paymentMethod === "BOLETO" ? new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) : null,
+        paidAt: approved ? new Date() : null,
+        expiresAt: data.paymentMethod === "BOLETO"
+          ? new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)
+          : null,
       },
     });
 
-    // If approved, create commissions and update stock
-    if (mpStatus === "approved") {
+    if (approved) {
       await prisma.order.update({ where: { id: order.id }, data: { status: "PAID" } });
 
       for (const item of order.items) {
@@ -168,13 +200,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({
-      orderId: order.id,
-      pixQrCode,
-      pixQrCodeBase64,
-      boletoUrl,
-      boletoBarcode,
-    }, { status: 201 });
+    return NextResponse.json({ orderId: order.id, pixQrCode, pixQrCodeBase64, boletoUrl }, { status: 201 });
 
   } catch (err) {
     if (err instanceof z.ZodError) {

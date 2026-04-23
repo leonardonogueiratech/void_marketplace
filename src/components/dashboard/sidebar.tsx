@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Package, ShoppingBag, DollarSign,
-  User, Settings, LogOut, Menu, X, Star
+  User, Settings, LogOut, Menu, X, Star, MessageCircle
 } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,6 +28,7 @@ const navItems = [
   { href: "/dashboard/avaliacoes", label: "Avaliações", icon: Star },
   { href: "/dashboard/perfil", label: "Meu Perfil", icon: User },
   { href: "/dashboard/configuracoes", label: "Configurações", icon: Settings },
+  { href: "/dashboard/chat", label: "Mensagens", icon: MessageCircle },
 ];
 
 export function DashboardSidebar({ artisan }: SidebarProps) {

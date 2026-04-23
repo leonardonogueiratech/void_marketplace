@@ -46,11 +46,18 @@ export default async function proxy(req: NextRequest) {
   const isDashboard = pathname.startsWith("/dashboard");
   const isAdmin = pathname.startsWith("/admin");
   const isCheckout = pathname.startsWith("/checkout");
+  const isConta = pathname.startsWith("/conta");
 
   if (isAuthPage && isLoggedIn) {
     if (role === "ADMIN") return NextResponse.redirect(new URL("/admin", req.nextUrl));
     if (role === "ARTISAN") return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
     return NextResponse.redirect(new URL("/", req.nextUrl));
+  }
+
+  if (isConta && !isLoggedIn) {
+    return NextResponse.redirect(
+      new URL(`/login?callbackUrl=${encodeURIComponent(pathname)}`, req.nextUrl)
+    );
   }
 
   if (isDashboard && !isLoggedIn) {

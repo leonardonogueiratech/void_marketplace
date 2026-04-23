@@ -1,159 +1,146 @@
-import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Globe, AtSign, MapPin, MessageCircle } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Globe, AtSign, MapPin, MessageCircle, ExternalLink } from "lucide-react";
+import { EditProfileForm } from "./edit-form";
 
 export default async function DashboardProfilePage() {
   const session = await auth();
-  const artisan = await prisma.artisanProfile.findUnique({
-    where: { userId: session!.user.id },
-    include: {
-      categories: {
-        include: { category: true },
+
+  const [artisan, allCategories] = await Promise.all([
+    prisma.artisanProfile.findUnique({
+      where: { userId: session!.user.id },
+      include: {
+        categories: { include: { category: true } },
+        subscription: true,
+        _count: { select: { products: { where: { status: "ACTIVE" } }, reviews: true } },
       },
-      subscription: true,
-      _count: {
-        select: {
-          products: { where: { status: "ACTIVE" } },
-          reviews: true,
-        },
-      },
-    },
-  });
+    }),
+    prisma.category.findMany({ orderBy: { name: "asc" } }),
+  ]);
 
   if (!artisan) return null;
 
+  const statusLabels: Record<string, string> = {
+    APPROVED: "Ativo",
+    PENDING: "Em análise",
+    REJECTED: "Rejeitado",
+    SUSPENDED: "Suspenso",
+  };
+  const statusColors: Record<string, string> = {
+    APPROVED: "bg-[#4a7c3f]/10 text-[#4a7c3f] border-[#4a7c3f]/20",
+    PENDING: "bg-amber-50 text-amber-700 border-amber-200",
+    REJECTED: "bg-red-50 text-red-600 border-red-200",
+    SUSPENDED: "bg-neutral-100 text-neutral-600 border-neutral-200",
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 max-w-3xl">
+
+      {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Perfil da loja</h1>
-          <p className="mt-1 text-muted-foreground">
-            Resumo público do seu ateliê dentro do marketplace.
+          <h1 className="text-2xl font-bold text-[#1e3a5f]">Perfil da loja</h1>
+          <p className="mt-1 text-sm text-neutral-500">
+            Informações exibidas publicamente no marketplace.
           </p>
         </div>
-        <Button variant="outline" asChild>
-          <Link href={`/artesao/${artisan.slug}`}>Ver loja pública</Link>
+        <Button variant="outline" asChild className="border-[#1e3a5f]/20 text-[#1e3a5f] hover:bg-[#1e3a5f]/5 self-start sm:self-auto">
+          <Link href={`/artesao/${artisan.slug}`} target="_blank">
+            <ExternalLink className="mr-2 size-4" /> Ver loja pública
+          </Link>
         </Button>
       </div>
 
-      <Card className="overflow-hidden">
-        <div className="relative h-40 bg-gradient-to-br from-amber-100 via-orange-50 to-rose-100">
+      {/* Preview card */}
+      <Card className="overflow-hidden border-[#1e3a5f]/10 shadow-sm">
+        <div className="relative h-36 bg-gradient-to-br from-[#e07b2a]/20 via-[#f7f3ed] to-[#4a7c3f]/15">
           {artisan.bannerImage && (
-            <Image
+            <img
               src={artisan.bannerImage}
               alt={artisan.storeName}
-              fill
-              className="object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           )}
         </div>
-        <CardContent className="relative pt-0">
-          <div className="-mt-10 flex flex-col gap-4 sm:flex-row sm:items-end">
-            <div className="flex size-20 items-center justify-center rounded-2xl border-4 border-white bg-white text-2xl font-bold text-amber-700 shadow-sm">
-              {artisan.storeName.slice(0, 2).toUpperCase()}
+        <CardContent className="relative pt-0 pb-5">
+          <div className="-mt-9 flex flex-col gap-4 sm:flex-row sm:items-end">
+            <div className="size-[72px] shrink-0 flex items-center justify-center rounded-2xl border-4 border-white bg-[#1e3a5f] text-white text-xl font-bold shadow-sm overflow-hidden">
+              {artisan.logoImage
+                ? <img src={artisan.logoImage} alt={artisan.storeName} className="w-full h-full object-cover" />
+                : artisan.storeName.slice(0, 2).toUpperCase()
+              }
             </div>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-2xl font-bold text-neutral-900">{artisan.storeName}</h2>
-                <Badge variant="secondary">{artisan.status}</Badge>
-                {artisan.featured && <Badge className="bg-amber-500 hover:bg-amber-500">Destaque</Badge>}
+                <h2 className="text-xl font-bold text-[#1e3a5f]">{artisan.storeName}</h2>
+                <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${statusColors[artisan.status] ?? statusColors.PENDING}`}>
+                  {statusLabels[artisan.status] ?? artisan.status}
+                </span>
+                {artisan.featured && (
+                  <Badge className="bg-[#e07b2a] hover:bg-[#e07b2a] text-white text-xs">Destaque</Badge>
+                )}
               </div>
-              <p className="mt-1 text-sm text-muted-foreground">
-                @{artisan.slug}
-              </p>
+              <p className="text-xs text-neutral-400 mt-0.5">@{artisan.slug}</p>
+            </div>
+            <div className="flex gap-4 text-center">
+              <div>
+                <p className="text-lg font-bold text-[#1e3a5f]">{artisan._count.products}</p>
+                <p className="text-xs text-neutral-400">produtos</p>
+              </div>
+              <div>
+                <p className="text-lg font-bold text-[#1e3a5f]">{artisan._count.reviews}</p>
+                <p className="text-xs text-neutral-400">avaliações</p>
+              </div>
+              <div>
+                <p className="text-lg font-bold text-[#4a7c3f]">{artisan.subscription?.plan ?? "FREE"}</p>
+                <p className="text-xs text-neutral-400">plano</p>
+              </div>
             </div>
           </div>
 
           {artisan.bio && (
-            <p className="mt-5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              {artisan.bio}
-            </p>
+            <p className="mt-4 text-sm text-neutral-500 leading-relaxed line-clamp-2">{artisan.bio}</p>
+          )}
+
+          {(artisan.city || artisan.whatsapp || artisan.instagram || artisan.website) && (
+            <div className="mt-3 flex flex-wrap gap-3 text-xs text-neutral-400">
+              {(artisan.city || artisan.state) && (
+                <span className="flex items-center gap-1">
+                  <MapPin className="size-3" />
+                  {[artisan.city, artisan.state].filter(Boolean).join(", ")}
+                </span>
+              )}
+              {artisan.whatsapp && (
+                <span className="flex items-center gap-1">
+                  <MessageCircle className="size-3" /> {artisan.whatsapp}
+                </span>
+              )}
+              {artisan.instagram && (
+                <span className="flex items-center gap-1">
+                  <AtSign className="size-3" /> {artisan.instagram}
+                </span>
+              )}
+              {artisan.website && (
+                <span className="flex items-center gap-1">
+                  <Globe className="size-3" /> {artisan.website}
+                </span>
+              )}
+            </div>
           )}
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Informações da loja</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-sm">
-            {(artisan.city || artisan.state || artisan.location) && (
-              <div className="flex items-start gap-2 text-muted-foreground">
-                <MapPin className="mt-0.5 size-4 shrink-0" />
-                <span>
-                  {[artisan.location, artisan.city, artisan.state].filter(Boolean).join(" • ")}
-                </span>
-              </div>
-            )}
-            {artisan.whatsapp && (
-              <div className="flex items-start gap-2 text-muted-foreground">
-                <MessageCircle className="mt-0.5 size-4 shrink-0" />
-                <span>{artisan.whatsapp}</span>
-              </div>
-            )}
-            {artisan.instagram && (
-              <div className="flex items-start gap-2 text-muted-foreground">
-                <AtSign className="mt-0.5 size-4 shrink-0" />
-                <span>@{artisan.instagram}</span>
-              </div>
-            )}
-            {artisan.website && (
-              <div className="flex items-start gap-2 text-muted-foreground">
-                <Globe className="mt-0.5 size-4 shrink-0" />
-                <span>{artisan.website}</span>
-              </div>
-            )}
-
-            {artisan.story && (
-              <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">
-                  História da marca
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-amber-800">
-                  {artisan.story}
-                </p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Indicadores</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <p className="text-sm text-muted-foreground">Produtos ativos</p>
-              <p className="text-2xl font-bold">{artisan._count.products}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Avaliações</p>
-              <p className="text-2xl font-bold">{artisan._count.reviews}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Plano atual</p>
-              <p className="text-2xl font-bold">{artisan.subscription?.plan ?? "FREE"}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Categorias</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {artisan.categories.length > 0 ? (
-                  artisan.categories.map(({ category }) => (
-                    <Badge key={category.id} variant="outline">{category.name}</Badge>
-                  ))
-                ) : (
-                  <span className="text-sm text-muted-foreground">Nenhuma categoria definida.</span>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Edit form */}
+      <div>
+        <h2 className="text-lg font-bold text-[#1e3a5f] mb-4">Editar perfil</h2>
+        <EditProfileForm
+          artisan={artisan}
+          allCategories={allCategories}
+        />
       </div>
     </div>
   );
