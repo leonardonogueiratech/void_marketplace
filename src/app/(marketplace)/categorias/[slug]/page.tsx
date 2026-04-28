@@ -15,7 +15,7 @@ async function getCategory(slug: string) {
     where: { slug, active: true },
     include: {
       products: {
-        where: { status: "ACTIVE" },
+        where: { status: "ACTIVE", artisan: { status: "APPROVED" } },
         include: {
           images: { orderBy: { order: "asc" }, take: 1 },
           artisan: { select: { storeName: true, slug: true } },

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ShoppingBag, Star, Heart } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
@@ -26,6 +27,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter();
   const addItem = useCartStore((s) => s.addItem);
   const [wishlisted, setWishlisted] = useState(false);
   const imageUrl = product.images[0]?.url ?? "/placeholder-product.jpg";
@@ -57,9 +59,9 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Link
-      href={`/produto/${product.slug}`}
-      className="group relative flex flex-col rounded-2xl overflow-hidden border border-[#1e3a5f]/10 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-250"
+    <div
+      onClick={() => router.push(`/produto/${product.slug}`)}
+      className="group relative flex flex-col rounded-2xl overflow-hidden border border-[#1e3a5f]/10 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-250 cursor-pointer"
     >
       {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-[#f7f3ed]">
@@ -163,6 +165,6 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

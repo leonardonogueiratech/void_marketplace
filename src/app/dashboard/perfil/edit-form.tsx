@@ -8,8 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Loader2, Upload, X, Check } from "lucide-react";
+import { Loader2, Upload, Check } from "lucide-react";
 
 interface Category {
   id: string;
@@ -34,6 +33,16 @@ interface Props {
   allCategories: Category[];
 }
 
+async function uploadFile(file: File, folder: string): Promise<string> {
+  const fd = new FormData();
+  fd.append("file", file);
+  fd.append("folder", folder);
+  const res = await fetch("/api/upload", { method: "POST", body: fd });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error ?? "Erro no upload.");
+  return data.url as string;
+}
+
 export function EditProfileForm({ artisan, allCategories }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -54,20 +63,42 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
     artisan.categories.map((c) => c.category.id)
   );
 
-  const [logoPreview, setLogoPreview] = useState<string | null>(artisan.logoImage ?? null);
-  const [bannerPreview, setBannerPreview] = useState<string | null>(artisan.bannerImage ?? null);
+  const [logoUrl, setLogoUrl] = useState<string | null>(artisan.logoImage ?? null);
+  const [bannerUrl, setBannerUrl] = useState<string | null>(artisan.bannerImage ?? null);
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [bannerUploading, setBannerUploading] = useState(false);
+
   const logoRef = useRef<HTMLInputElement>(null);
   const bannerRef = useRef<HTMLInputElement>(null);
 
-  function handleFile(
-    e: React.ChangeEvent<HTMLInputElement>,
-    setPreview: (v: string | null) => void
-  ) {
+  async function handleLogoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setPreview(reader.result as string);
-    reader.readAsDataURL(file);
+    e.target.value = "";
+    setLogoUploading(true);
+    try {
+      const url = await uploadFile(file, "artesao/logos");
+      setLogoUrl(url);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erro ao enviar logo.");
+    } finally {
+      setLogoUploading(false);
+    }
+  }
+
+  async function handleBannerChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = "";
+    setBannerUploading(true);
+    try {
+      const url = await uploadFile(file, "artesao/banners");
+      setBannerUrl(url);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Erro ao enviar banner.");
+    } finally {
+      setBannerUploading(false);
+    }
   }
 
   function toggleCategory(id: string) {
@@ -76,17 +107,15 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
     );
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-
     try {
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
       selectedCategories.forEach((id) => fd.append("categoryIds", id));
-
-      if (logoRef.current?.files?.[0]) fd.append("logo", logoRef.current.files[0]);
-      if (bannerRef.current?.files?.[0]) fd.append("banner", bannerRef.current.files[0]);
+      if (logoUrl) fd.append("logoUrl", logoUrl);
+      if (bannerUrl) fd.append("bannerUrl", bannerUrl);
 
       const res = await fetch("/api/dashboard/perfil", { method: "PUT", body: fd });
       const data = await res.json();
@@ -123,8 +152,13 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               className="relative h-32 rounded-xl border-2 border-dashed border-[#1e3a5f]/20 bg-[#f7f3ed] overflow-hidden cursor-pointer hover:border-[#1e3a5f]/40 transition-colors"
               onClick={() => bannerRef.current?.click()}
             >
-              {bannerPreview ? (
-                <img src={bannerPreview} alt="Banner" className="w-full h-full object-cover" />
+              {bannerUploading ? (
+                <div className="flex flex-col items-center justify-center h-full gap-1.5">
+                  <Loader2 className="size-6 text-[#1e3a5f] animate-spin" />
+                  <span className="text-xs text-[#1e3a5f]">Enviando...</span>
+                </div>
+              ) : bannerUrl ? (
+                <img src={bannerUrl} alt="Banner" className="w-full h-full object-cover" />
               ) : (
                 <div className="flex flex-col items-center justify-center h-full gap-1.5 text-neutral-400">
                   <Upload className="size-6" />
@@ -137,7 +171,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e) => handleFile(e, setBannerPreview)}
+              onChange={handleBannerChange}
             />
           </div>
 
@@ -149,8 +183,10 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
                 className="size-20 rounded-2xl border-2 border-dashed border-[#1e3a5f]/20 bg-[#f7f3ed] overflow-hidden cursor-pointer hover:border-[#1e3a5f]/40 transition-colors flex items-center justify-center"
                 onClick={() => logoRef.current?.click()}
               >
-                {logoPreview ? (
-                  <img src={logoPreview} alt="Logo" className="w-full h-full object-cover" />
+                {logoUploading ? (
+                  <Loader2 className="size-5 text-[#1e3a5f] animate-spin" />
+                ) : logoUrl ? (
+                  <img src={logoUrl} alt="Logo" className="w-full h-full object-cover" />
                 ) : (
                   <Upload className="size-5 text-neutral-400" />
                 )}
@@ -165,7 +201,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e) => handleFile(e, setLogoPreview)}
+              onChange={handleLogoChange}
             />
           </div>
         </CardContent>
@@ -308,11 +344,10 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
         </Card>
       )}
 
-      {/* Submit */}
       <div className="flex justify-end">
         <Button
           type="submit"
-          disabled={loading}
+          disabled={loading || logoUploading || bannerUploading}
           className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold px-8 hover:scale-105 transition-all"
         >
           {loading && <Loader2 className="mr-2 size-4 animate-spin" />}

@@ -41,9 +41,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const artisan = await prisma.artisanProfile.findUnique({
     where: { slug },
-    select: { storeName: true, bio: true },
+    select: { storeName: true, bio: true, logoImage: true, bannerImage: true, city: true, state: true },
   });
-  return { title: artisan?.storeName ?? "Artesão", description: artisan?.bio ?? undefined };
+
+  if (!artisan) return { title: "Artesão não encontrado" };
+
+  const location = [artisan.city, artisan.state].filter(Boolean).join(", ");
+  const title = artisan.storeName;
+  const description = artisan.bio
+    ? artisan.bio.slice(0, 160)
+    : `Conheça ${artisan.storeName}${location ? ` de ${location}` : ""} e seus produtos artesanais no Feito de Gente.`;
+  const image = artisan.logoImage ?? artisan.bannerImage;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/artesao/${slug}`,
+      images: image ? [{ url: image, width: 400, height: 400, alt: artisan.storeName }] : [],
+    },
+    twitter: {
+      title,
+      description,
+      images: image ? [image] : [],
+    },
+  };
 }
 
 export default async function ArtisanPage({ params }: Props) {

@@ -27,6 +27,7 @@ export default async function DashboardOrdersPage() {
     orderBy: { order: { createdAt: "desc" } },
   });
 
+
   const totalRevenue = orderItems
     .filter((i) => ["PAID", "PROCESSING", "SHIPPED", "DELIVERED"].includes(i.order.status))
     .reduce((s, i) => s + i.totalPrice, 0);

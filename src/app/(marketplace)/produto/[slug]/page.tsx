@@ -19,7 +19,7 @@ interface Props {
 
 async function getProduct(slug: string) {
   return prisma.product.findUnique({
-    where: { slug, status: "ACTIVE" },
+    where: { slug, status: "ACTIVE", artisan: { status: "APPROVED" } },
     include: {
       images: { orderBy: { order: "asc" } },
       category: true,
@@ -43,6 +43,7 @@ async function getRelatedProducts(slug: string, categoryId: string | null, artis
   return prisma.product.findMany({
     where: {
       status: "ACTIVE",
+      artisan: { status: "APPROVED" },
       slug: { not: slug },
       OR: [{ categoryId }, { artisanId }],
     },
@@ -58,11 +59,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await prisma.product.findUnique({
     where: { slug },
-    select: { name: true, description: true },
+    select: {
+      name: true,
+      description: true,
+      images: { orderBy: { order: "asc" }, take: 1, select: { url: true } },
+      artisan: { select: { storeName: true } },
+    },
   });
+
+  if (!product) return { title: "Produto não encontrado" };
+
+  const title = `${product.name} — ${product.artisan.storeName}`;
+  const description = product.description
+    ? product.description.slice(0, 160)
+    : `Compre ${product.name} handmade de ${product.artisan.storeName} no Feito de Gente.`;
+  const image = product.images[0]?.url;
+
   return {
-    title: product?.name ?? "Produto",
-    description: product?.description ?? undefined,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/produto/${slug}`,
+      images: image ? [{ url: image, width: 800, height: 800, alt: product.name }] : [],
+    },
+    twitter: {
+      title,
+      description,
+      images: image ? [image] : [],
+    },
   };
 }
 

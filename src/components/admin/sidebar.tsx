@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Users, Store, ShoppingBag,
-  MessageSquare, LogOut, ShieldCheck, Tag,
+  MessageSquare, LogOut, ShieldCheck, Tag, Wallet,
 } from "lucide-react";
 
 const navItems = [
@@ -14,6 +14,7 @@ const navItems = [
   { href: "/admin/categorias", label: "Categorias", icon: Tag },
   { href: "/admin/usuarios", label: "Usuários", icon: Users },
   { href: "/admin/pedidos", label: "Pedidos", icon: ShoppingBag },
+  { href: "/admin/financeiro", label: "Financeiro", icon: Wallet },
   { href: "/admin/mensagens", label: "Mensagens", icon: MessageSquare },
 ];
 

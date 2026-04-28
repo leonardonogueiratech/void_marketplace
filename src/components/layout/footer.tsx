@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { Share2, MessageCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export function Footer() {
+  const { data: session } = useSession();
+  const isArtisan = session?.user?.role === "ARTISAN";
+
   return (
     <footer className="bg-[#1e3a5f] text-[#f7f3ed]/80 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
@@ -9,7 +15,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="mb-4">
-              <img src="/logo.svg" alt="Feito de Gente" className="h-10 w-auto sm:h-12 md:h-14 brightness-0 invert" />
+              <img src="/logo.svg" alt="Feito de Gente" className="h-10 w-auto sm:h-11 md:h-12 brightness-0 invert" />
             </div>
             <p className="text-sm leading-relaxed text-[#f7f3ed]/70">
               Conectamos artesãos e clientes que valorizam o feito à mão,
@@ -55,7 +61,7 @@ export function Footer() {
               <li><Link href="/seja-artesao" className="hover:text-[#f7f3ed] transition-colors">Seja um Artesão</Link></li>
               <li><Link href="/planos" className="hover:text-[#f7f3ed] transition-colors">Planos e Preços</Link></li>
               <li><Link href="/guia-vendedor" className="hover:text-[#f7f3ed] transition-colors">Guia do Vendedor</Link></li>
-              <li><Link href="/dashboard" className="hover:text-[#f7f3ed] transition-colors">Meu Dashboard</Link></li>
+              {isArtisan && <li><Link href="/dashboard" className="hover:text-[#f7f3ed] transition-colors">Meu Dashboard</Link></li>}
             </ul>
           </div>
 

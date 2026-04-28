@@ -9,6 +9,10 @@ import {
   isApproved,
 } from "@/lib/asaas";
 import { COMMISSION_RATE } from "@/lib/utils";
+import {
+  sendOrderConfirmedToCustomer,
+  sendNewOrderToArtisan,
+} from "@/lib/email";
 import { z } from "zod";
 
 const orderSchema = z.object({
@@ -57,7 +61,7 @@ export async function POST(req: NextRequest) {
 
     const products = await prisma.product.findMany({
       where: { id: { in: data.items.map((i) => i.productId) }, status: "ACTIVE" },
-      include: { artisan: true },
+      include: { artisan: { include: { user: { select: { name: true, email: true } } } } },
     });
 
     if (products.length !== data.items.length) {
@@ -109,7 +113,6 @@ export async function POST(req: NextRequest) {
     let pixQrCode: string | undefined;
     let pixQrCodeBase64: string | undefined;
     let boletoUrl: string | undefined;
-    let boletoBarcode: string | undefined;
     let approved = false;
 
     if (data.paymentMethod === "PIX") {
@@ -196,6 +199,45 @@ export async function POST(req: NextRequest) {
         await prisma.product.update({
           where: { id: item.productId },
           data: { stock: { decrement: item.quantity }, salesCount: { increment: item.quantity } },
+        });
+      }
+
+      // fire-and-forget emails
+      const itemSummary = order.items.map((item) => {
+        const p = products.find((p) => p.id === item.productId)!;
+        return { name: p.name, quantity: item.quantity, totalPrice: item.totalPrice };
+      });
+      const firstArtisan = products[0]?.artisan;
+
+      void sendOrderConfirmedToCustomer({
+        to: payerEmail,
+        customerName: payerName,
+        orderId: order.id,
+        items: itemSummary,
+        total: subtotal,
+        storeName: firstArtisan?.storeName ?? "Artesão",
+      });
+
+      // one email per artisan
+      const artisanMap = new Map<string, typeof firstArtisan>();
+      for (const p of products) { artisanMap.set(p.artisanId, p.artisan); }
+      for (const [artisanId, artisan] of artisanMap) {
+        if (!artisan?.user?.email) continue;
+        const artisanItems = order.items
+          .filter((i) => i.artisanId === artisanId)
+          .map((i) => {
+            const p = products.find((p) => p.id === i.productId)!;
+            return { name: p.name, quantity: i.quantity, totalPrice: i.totalPrice };
+          });
+        void sendNewOrderToArtisan({
+          to: artisan.user.email,
+          artisanName: artisan.user.name ?? artisan.storeName,
+          storeName: artisan.storeName,
+          orderId: order.id,
+          items: artisanItems,
+          subtotal: artisanItems.reduce((s, i) => s + i.totalPrice, 0),
+          customerCity: data.address.city,
+          customerState: data.address.state,
         });
       }
     }

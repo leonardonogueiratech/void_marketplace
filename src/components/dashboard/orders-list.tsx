@@ -14,6 +14,7 @@ interface OrderItem {
   order: {
     id: string;
     status: string;
+    trackingCode: string | null;
     createdAt: Date;
     user: { name: string | null; email: string };
     customer: {
@@ -87,7 +88,6 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
       ) : (
         <div className="space-y-3">
           {visible.map((item) => {
-            const currentOpt = STATUS_OPTIONS.find((o) => o.value === item.order.status);
             return (
               <Card key={item.id} className="border-[#1e3a5f]/10 hover:shadow-md transition-shadow">
                 <CardContent className="p-5">
@@ -133,6 +133,7 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
                       <OrderStatusSelect
                         orderId={item.order.id}
                         currentStatus={item.order.status}
+                        currentTrackingCode={item.order.trackingCode}
                       />
                       <span className="text-lg font-bold text-[#1e3a5f]">
                         {formatCurrency(item.totalPrice)}

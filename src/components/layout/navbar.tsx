@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingBag, Search, Menu, X, User, LogOut, LayoutDashboard, ShieldCheck } from "lucide-react";
-import { useState, useRef, FormEvent } from "react";
+import { useState, useRef } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,7 +34,7 @@ export function Navbar() {
   const { data: session } = useSession();
   const itemCount = useCartStore((s) => s.items.reduce((a, i) => a + i.quantity, 0));
 
-  function handleSearch(e: FormEvent<HTMLFormElement>) {
+  function handleSearch(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     const q = searchRef.current?.value.trim();
     if (q) {
@@ -59,13 +59,13 @@ export function Navbar() {
             <img
               src="/logo-icon.svg"
               alt="Feito de Gente"
-              className="h-10 w-auto sm:hidden brightness-0 invert"
+              className="h-11 w-auto sm:hidden"
             />
             {/* Logo completo a partir de sm */}
             <img
               src="/logo.svg"
               alt="Feito de Gente"
-              className="hidden sm:block h-10 md:h-11 lg:h-12 w-auto brightness-0 invert"
+              className="hidden sm:block h-10 md:h-11 lg:h-12 w-auto"
             />
           </Link>
 

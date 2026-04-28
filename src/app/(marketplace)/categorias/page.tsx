@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { CategoryCard } from "@/components/marketplace/category-card";
-import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Categorias",
@@ -43,15 +42,7 @@ export default async function CategoriesPage() {
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {categories.map((category) => (
-              <div key={category.id} className="space-y-2">
-                <CategoryCard category={category} />
-                <div className="px-1">
-                  <p className="font-medium text-[#1e3a5f]">{category.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {category._count.products} produto(s)
-                  </p>
-                </div>
-              </div>
+              <CategoryCard key={category.id} category={category} />
             ))}
           </div>
         )}

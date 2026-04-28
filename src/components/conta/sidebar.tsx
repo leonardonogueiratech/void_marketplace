@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingBag, User, MapPin, MessageCircle } from "lucide-react";
+import { ShoppingBag, User, MapPin, MessageCircle, Store } from "lucide-react";
 import { getInitials } from "@/lib/utils";
 
 interface Props {
   user: { name?: string | null; email?: string | null; image?: string | null };
+  role?: string;
 }
 
 const navItems = [
@@ -16,7 +17,7 @@ const navItems = [
   { href: "/conta/chat", label: "Mensagens", icon: MessageCircle },
 ];
 
-export function ContaSidebar({ user }: Props) {
+export function ContaSidebar({ user, role }: Props) {
   const pathname = usePathname();
 
   return (
@@ -55,6 +56,22 @@ export function ContaSidebar({ user }: Props) {
           );
         })}
       </nav>
+
+      {/* Become artisan CTA */}
+      {role === "CUSTOMER" && (
+        <Link
+          href="/conta/seja-artesao"
+          className="mt-3 flex items-center gap-3 px-4 py-3 rounded-2xl border-2 border-dashed border-[#e07b2a]/40 bg-[#e07b2a]/4 hover:bg-[#e07b2a]/8 hover:border-[#e07b2a]/60 transition-all group"
+        >
+          <div className="size-7 rounded-lg bg-[#e07b2a]/10 flex items-center justify-center shrink-0 group-hover:bg-[#e07b2a]/20 transition-colors">
+            <Store className="size-4 text-[#e07b2a]" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold text-[#e07b2a] leading-tight">Quero ser artesão</p>
+            <p className="text-xs text-neutral-400 leading-tight">Abra sua loja</p>
+          </div>
+        </Link>
+      )}
     </aside>
   );
 }

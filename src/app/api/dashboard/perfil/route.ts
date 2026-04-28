@@ -50,23 +50,11 @@ export async function PUT(req: NextRequest) {
 
     const data = schema.parse(raw);
 
-    // Upload logo se enviada
-    let logoImage = artisan.logoImage;
-    const logoFile = formData.get("logo") as File | null;
-    if (logoFile && logoFile.size > 0) {
-      const buffer = Buffer.from(await logoFile.arrayBuffer());
-      const base64 = `data:${logoFile.type};base64,${buffer.toString("base64")}`;
-      logoImage = await uploadImage(base64, `artesao/${artisan.id}/logo`);
-    }
-
-    // Upload banner se enviado
-    let bannerImage = artisan.bannerImage;
-    const bannerFile = formData.get("banner") as File | null;
-    if (bannerFile && bannerFile.size > 0) {
-      const buffer = Buffer.from(await bannerFile.arrayBuffer());
-      const base64 = `data:${bannerFile.type};base64,${buffer.toString("base64")}`;
-      bannerImage = await uploadImage(base64, `artesao/${artisan.id}/banner`);
-    }
+    // Accept pre-uploaded URLs or fall back to existing values
+    const logoUrl = formData.get("logoUrl") as string | null;
+    const bannerUrl = formData.get("bannerUrl") as string | null;
+    const logoImage = (logoUrl && logoUrl.startsWith("http")) ? logoUrl : artisan.logoImage;
+    const bannerImage = (bannerUrl && bannerUrl.startsWith("http")) ? bannerUrl : artisan.bannerImage;
 
     // Atualizar perfil
     const updated = await prisma.artisanProfile.update({

@@ -20,7 +20,7 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     try {
@@ -66,7 +66,12 @@ function LoginForm() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="password">Senha</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Senha</Label>
+              <Link href="/recuperar-senha" className="text-xs text-muted-foreground hover:text-[#1e3a5f] transition-colors">
+                Esqueceu a senha?
+              </Link>
+            </div>
             <div className="relative">
               <Input
                 id="password"

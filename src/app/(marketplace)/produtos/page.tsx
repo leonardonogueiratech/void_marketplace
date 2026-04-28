@@ -23,6 +23,7 @@ async function getProducts(params: SearchParams) {
 
   const where = {
     status: "ACTIVE" as const,
+    artisan: { status: "APPROVED" as const },
     ...(params.categoria && { category: { slug: params.categoria } }),
     ...(params.q && {
       OR: [

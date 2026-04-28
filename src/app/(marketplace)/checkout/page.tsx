@@ -42,13 +42,14 @@ export default function CheckoutPage() {
 
   const numberRef = useRef<HTMLInputElement>(null);
   const artisanIds = [...new Set(items.map((i) => i.artisanId))].join(",");
+  const productIds = items.map((i) => i.productId).join(",");
 
   const fetchShipping = useCallback(async (cep: string) => {
     if (cep.replace(/\D/g, "").length !== 8) return;
     setShippingLoading(true);
     setSelectedShipping(null);
     try {
-      const res = await fetch(`/api/frete?cep=${cep}&artisanIds=${artisanIds}`);
+      const res = await fetch(`/api/frete?cep=${cep}&artisanIds=${artisanIds}&productIds=${productIds}`);
       const data = await res.json();
       if (res.ok && data.options?.length) {
         setShippingOptions(data.options);
@@ -85,7 +86,7 @@ export default function CheckoutPage() {
   const shippingCost = selectedShipping?.price ?? 0;
   const orderTotal = total() + shippingCost;
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!selectedShipping && shippingOptions.length > 0) {
       toast.error("Selecione uma opção de frete.");

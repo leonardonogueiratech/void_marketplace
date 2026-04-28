@@ -1,9 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { uploadImage } from "@/lib/cloudinary";
+import { z } from "zod";
 
 interface Params { params: Promise<{ id: string }> }
+
+const schema = z.object({
+  name: z.string().min(2),
+  description: z.string().optional(),
+  story: z.string().optional(),
+  price: z.coerce.number().positive(),
+  comparePrice: z.coerce.number().optional().nullable(),
+  stock: z.coerce.number().int().min(0),
+  sku: z.string().optional(),
+  weight: z.coerce.number().optional().nullable(),
+  categoryId: z.string().optional().nullable(),
+  status: z.enum(["DRAFT", "ACTIVE", "INACTIVE"]),
+  tags: z.string().optional(),
+  materials: z.string().optional(),
+  imageUrls: z.array(z.string().url()).default([]),
+});
 
 export async function PUT(req: NextRequest, { params }: Params) {
   const session = await auth();
@@ -19,40 +35,40 @@ export async function PUT(req: NextRequest, { params }: Params) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 403 });
     }
 
-    const formData = await req.formData();
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const story = formData.get("story") as string;
-    const price = parseFloat(formData.get("price") as string);
-    const comparePrice = formData.get("comparePrice") ? parseFloat(formData.get("comparePrice") as string) : null;
-    const stock = parseInt(formData.get("stock") as string);
-    const sku = formData.get("sku") as string;
-    const weight = formData.get("weight") ? parseFloat(formData.get("weight") as string) : null;
-    const categoryId = formData.get("categoryId") as string || null;
-    const status = formData.get("status") as string;
-    const tagsRaw = formData.get("tags") as string;
-    const materialsRaw = formData.get("materials") as string;
-    const tags: string[] = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
-    const materials: string[] = materialsRaw ? materialsRaw.split(",").map((m) => m.trim()).filter(Boolean) : [];
+    const body = await req.json();
+    const data = schema.parse(body);
 
-    // New images
-    const imageFiles = formData.getAll("images") as File[];
-    for (const file of imageFiles) {
-      if (file.size > 0) {
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
-        const url = await uploadImage(base64, `artesao/${product.artisanId}/produtos`);
-        await prisma.productImage.create({ data: { productId: id, url, order: 99 } });
-      }
-    }
+    const tags = data.tags ? data.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
+    const materials = data.materials ? data.materials.split(",").map((m) => m.trim()).filter(Boolean) : [];
 
+    // Replace all images with the new set
+    await prisma.productImage.deleteMany({ where: { productId: id } });
     const updated = await prisma.product.update({
       where: { id },
-      data: { name, description: description || null, story: story || null, price, comparePrice, stock, sku: sku || null, weight, categoryId, status: status as "DRAFT" | "ACTIVE" | "INACTIVE", tags, materials },
+      data: {
+        name: data.name,
+        description: data.description || null,
+        story: data.story || null,
+        price: data.price,
+        comparePrice: data.comparePrice ?? null,
+        stock: data.stock,
+        sku: data.sku || null,
+        weight: data.weight ?? null,
+        categoryId: data.categoryId ?? null,
+        status: data.status,
+        tags,
+        materials,
+        images: {
+          create: data.imageUrls.map((url, i) => ({ url, order: i })),
+        },
+      },
     });
 
     return NextResponse.json(updated);
   } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json({ error: err.issues[0]?.message ?? "Dados inválidos." }, { status: 400 });
+    }
     console.error(err);
     return NextResponse.json({ error: "Erro ao atualizar produto." }, { status: 500 });
   }
