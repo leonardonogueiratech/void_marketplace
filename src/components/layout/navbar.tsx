@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -164,20 +164,20 @@ export function Navbar() {
                   </div>
                   <DropdownMenuItem asChild className="mt-1">
                     <Link href="/conta/perfil">
-                      <User className="mr-2 size-4 text-[#4a7c3f]" /> Minha Conta
+                      <User className="mr-2 size-4 text-[#27ae60]" /> Minha Conta
                     </Link>
                   </DropdownMenuItem>
                   {session.user.role === "ARTISAN" && (
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard">
-                        <LayoutDashboard className="mr-2 size-4 text-[#4a7c3f]" /> Dashboard
+                        <LayoutDashboard className="mr-2 size-4 text-[#27ae60]" /> Dashboard
                       </Link>
                     </DropdownMenuItem>
                   )}
                   {session.user.role === "ADMIN" && (
                     <DropdownMenuItem asChild>
                       <Link href="/admin">
-                        <ShieldCheck className="mr-2 size-4 text-[#4a7c3f]" /> Admin
+                        <ShieldCheck className="mr-2 size-4 text-[#27ae60]" /> Admin
                       </Link>
                     </DropdownMenuItem>
                   )}
@@ -194,7 +194,7 @@ export function Navbar() {
               <Button
                 asChild
                 size="sm"
-                className="bg-white/15 hover:bg-white/25 text-white border border-white/25 rounded-full px-5 hidden sm:flex"
+                className="bg-white/20 hover:bg-white/30 text-white border border-white/50 hover:border-white rounded-full px-5 hidden sm:flex"
               >
                 <Link href="/login">Entrar</Link>
               </Button>

@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+﻿import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -83,7 +83,7 @@ export default async function FinancialPage() {
   const withdrawalStatusConfig: Record<string, { label: string; color: string }> = {
     PENDING: { label: "Aguardando", color: "bg-amber-100 text-amber-700" },
     PROCESSING: { label: "Processando", color: "bg-blue-100 text-blue-700" },
-    PAID: { label: "Pago", color: "bg-[#4a7c3f]/10 text-[#4a7c3f]" },
+    PAID: { label: "Pago", color: "bg-[#27ae60]/10 text-[#27ae60]" },
     REJECTED: { label: "Rejeitado", color: "bg-red-100 text-red-700" },
   };
 
@@ -105,9 +105,9 @@ export default async function FinancialPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: "Total em vendas", value: formatCurrency(totalSales), icon: TrendingUp, color: "text-[#1e3a5f]" },
-          { label: "Saldo disponível", value: formatCurrency(freeBalance), icon: DollarSign, color: "text-[#4a7c3f]" },
+          { label: "Saldo disponível", value: formatCurrency(freeBalance), icon: DollarSign, color: "text-[#27ae60]" },
           { label: "Aguardando saque", value: formatCurrency(lockedAmount), icon: Clock, color: "text-[#e07b2a]" },
-          { label: "Plataforma recebeu", value: formatCurrency(totalCommissions), icon: CheckCircle2, color: "text-purple-500" },
+          { label: "Plataforma recebeu", value: formatCurrency(totalCommissions), icon: CheckCircle2, color: "text-[#17a2b8]" },
         ].map(({ label, value, icon: Icon, color }) => (
           <Card key={label} className="border-[#1e3a5f]/10">
             <CardContent className="pt-5 pb-4">
@@ -140,7 +140,7 @@ export default async function FinancialPage() {
           <CardContent>
             <p className="text-sm text-neutral-500 mb-4">
               Saldo disponível:{" "}
-              <strong className="text-[#4a7c3f]">{formatCurrency(freeBalance)}</strong>
+              <strong className="text-[#27ae60]">{formatCurrency(freeBalance)}</strong>
             </p>
             <WithdrawalForm maxAmount={freeBalance} artisanId={artisan.id} />
           </CardContent>
@@ -210,9 +210,9 @@ export default async function FinancialPage() {
                       <td className="px-4 py-3 font-medium text-[#1e3a5f] max-w-[180px] truncate">{c.orderItem.product.name}</td>
                       <td className="px-4 py-3 text-right text-[#1e3a5f] font-medium">{formatCurrency(c.saleAmount)}</td>
                       <td className="px-4 py-3 text-right text-red-500 text-xs">−{formatCurrency(c.amount)}</td>
-                      <td className="px-4 py-3 text-right font-semibold text-[#4a7c3f]">{formatCurrency(c.saleAmount - c.amount)}</td>
+                      <td className="px-4 py-3 text-right font-semibold text-[#27ae60]">{formatCurrency(c.saleAmount - c.amount)}</td>
                       <td className="px-4 py-3 text-center">
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${c.paid ? "bg-[#4a7c3f]/10 text-[#4a7c3f]" : "bg-amber-50 text-amber-700"}`}>
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${c.paid ? "bg-[#27ae60]/10 text-[#27ae60]" : "bg-amber-50 text-amber-700"}`}>
                           {c.paid ? "Pago" : "Pendente"}
                         </span>
                       </td>

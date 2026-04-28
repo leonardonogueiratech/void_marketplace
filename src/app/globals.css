@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -50,7 +50,7 @@
 
 /* ─── Feito de Gente — Paleta ─────────────────────────────────────────────────
    Azul marinho  #1e3a5f  → primária
-   Verde folha   #4a7c3f  → secundária / acentos
+   Verde folha   #27ae60  → secundária / acentos
    Creme         #f7f3ed  → fundo
    Âmbar chama   #e07b2a  → destaques quentes
 ────────────────────────────────────────────────────────────────────────────── */

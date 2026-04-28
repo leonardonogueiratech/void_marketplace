@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Suspense, useState } from "react";
 import Link from "next/link";
@@ -105,7 +105,7 @@ function LoginForm() {
         </p>
         <p className="text-center text-sm text-muted-foreground mt-2">
           Quer vender?{" "}
-          <Link href="/seja-artesao" className="text-amber-600 hover:underline font-medium">
+          <Link href="/seja-artesao" className="text-[#e07b2a] hover:underline font-medium">
             Seja um artesão
           </Link>
         </p>

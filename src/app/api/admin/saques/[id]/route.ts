@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { WithdrawalStatus } from "@/generated/prisma";
 import { z } from "zod";
 
 const schema = z.object({
-  status: z.enum(["APPROVED", "REJECTED", "PROCESSED"]),
+  status: z.nativeEnum(WithdrawalStatus),
   notes: z.string().optional(),
 });
 
@@ -29,7 +30,7 @@ export async function PATCH(
     data: {
       status: parsed.data.status,
       notes: parsed.data.notes,
-      processedAt: parsed.data.status === "PROCESSED" ? new Date() : undefined,
+      processedAt: parsed.data.status === "PAID" ? new Date() : undefined,
     },
   });
 

@@ -1,21 +1,21 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 
 const CATEGORY_STYLES: Record<string, { bg: string; accent: string; emoji: string }> = {
   "ceramica-barro":    { bg: "from-orange-50 to-amber-100",  accent: "border-orange-200",  emoji: "🏺" },
-  "bordado-tecido":    { bg: "from-pink-50 to-rose-100",     accent: "border-pink-200",    emoji: "🧵" },
+  "bordado-tecido":    { bg: "from-yellow-50 to-amber-100",  accent: "border-yellow-200",  emoji: "🧵" },
   "madeira-marcenaria":{ bg: "from-amber-50 to-yellow-100",  accent: "border-amber-200",   emoji: "🪵" },
-  "joias-bijuterias":  { bg: "from-yellow-50 to-amber-100",  accent: "border-yellow-200",  emoji: "💍" },
+  "joias-bijuterias":  { bg: "from-amber-50 to-orange-100",  accent: "border-amber-300",   emoji: "💍" },
   "couro-couroaria":   { bg: "from-stone-50 to-stone-100",   accent: "border-stone-200",   emoji: "👜" },
-  "pintura-arte":      { bg: "from-purple-50 to-violet-100", accent: "border-purple-200",  emoji: "🎨" },
+  "pintura-arte":      { bg: "from-orange-50 to-orange-100", accent: "border-orange-300",  emoji: "🎨" },
   "cestaria-palha":    { bg: "from-lime-50 to-green-100",    accent: "border-lime-200",    emoji: "🧺" },
-  "pedra-cristal":     { bg: "from-sky-50 to-blue-100",      accent: "border-sky-200",     emoji: "💎" },
-  "papel-origami":     { bg: "from-cyan-50 to-teal-100",     accent: "border-cyan-200",    emoji: "📄" },
-  "velas-aromaterapia":{ bg: "from-fuchsia-50 to-pink-100",  accent: "border-fuchsia-200", emoji: "🕯️" },
-  "decoracao":         { bg: "from-emerald-50 to-teal-100",  accent: "border-emerald-200", emoji: "🪴" },
-  "moda-vestuario":    { bg: "from-indigo-50 to-blue-100",   accent: "border-indigo-200",  emoji: "👗" },
+  "pedra-cristal":     { bg: "from-stone-50 to-neutral-100", accent: "border-stone-300",   emoji: "💎" },
+  "papel-origami":     { bg: "from-neutral-50 to-stone-100", accent: "border-neutral-200", emoji: "📄" },
+  "velas-aromaterapia":{ bg: "from-amber-50 to-yellow-100",  accent: "border-amber-200",   emoji: "🕯️" },
+  "decoracao":         { bg: "from-emerald-50 to-green-100", accent: "border-emerald-200", emoji: "🪴" },
+  "moda-vestuario":    { bg: "from-stone-100 to-neutral-100",accent: "border-stone-300",   emoji: "👗" },
 };
 
 const DEFAULT_STYLE = { bg: "from-neutral-50 to-neutral-100", accent: "border-neutral-200", emoji: "🎁" };

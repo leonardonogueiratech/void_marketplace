@@ -12,12 +12,12 @@
       <stop offset="100%" stop-color="#D4C880"/>
     </linearGradient>
     <linearGradient id="lL" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="#2A7A1A"/>
-      <stop offset="100%" stop-color="#60C040"/>
+      <stop offset="0%" stop-color="#1a7a40"/>
+      <stop offset="100%" stop-color="#33c068"/>
     </linearGradient>
     <linearGradient id="lR" x1="1" y1="1" x2="0" y2="0">
-      <stop offset="0%" stop-color="#2A7A1A"/>
-      <stop offset="100%" stop-color="#60C040"/>
+      <stop offset="0%" stop-color="#1a7a40"/>
+      <stop offset="100%" stop-color="#33c068"/>
     </linearGradient>
   </defs>
 
@@ -25,17 +25,17 @@
     <!-- Folha esquerda -->
     <path d="M-6,52 C-22,44 -58,28 -68,0 C-74,-18 -58,-36 -40,-26 C-24,-16 -8,18 -6,52Z"
           fill="url(#lL)"/>
-    <path d="M-7,50 C-28,24 -48,2 -58,-20" stroke="#1E6010" stroke-width="1" fill="none" opacity="0.35"/>
+    <path d="M-7,50 C-28,24 -48,2 -58,-20" stroke="#1a7a40" stroke-width="1" fill="none" opacity="0.35"/>
 
     <!-- Folha direita -->
     <path d="M6,52 C22,44 58,28 68,0 C74,-18 58,-36 40,-26 C24,-16 8,18 6,52Z"
           fill="url(#lR)"/>
-    <path d="M7,50 C28,24 48,2 58,-20" stroke="#1E6010" stroke-width="1" fill="none" opacity="0.35"/>
+    <path d="M7,50 C28,24 48,2 58,-20" stroke="#1a7a40" stroke-width="1" fill="none" opacity="0.35"/>
 
     <!-- Vela corpo -->
-    <rect x="-14" y="-4" width="28" height="60" rx="4" fill="url(#cv)" stroke="#2c4f7b" stroke-width="2.8"/>
+    <rect x="-14" y="-4" width="28" height="60" rx="4" fill="url(#cv)" stroke="#0d6a6a" stroke-width="2.8"/>
     <!-- Topo da vela -->
-    <ellipse cx="0" cy="-4" rx="14" ry="4" fill="#F2EAD0" stroke="#2c4f7b" stroke-width="2.5"/>
+    <ellipse cx="0" cy="-4" rx="14" ry="4" fill="#F2EAD0" stroke="#0d6a6a" stroke-width="2.5"/>
     <!-- Brilho -->
     <rect x="-7" y="4" width="4" height="38" rx="2" fill="#fff" opacity="0.22"/>
 
@@ -50,12 +50,12 @@
           fill="#FFE84A" opacity="0.65"/>
 
     <!-- Linha base -->
-    <line x1="-66" y1="60" x2="66" y2="60" stroke="#2c4f7b" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="-66" y1="60" x2="66" y2="60" stroke="#0d6a6a" stroke-width="2.2" stroke-linecap="round"/>
     <!-- Pontinhos decorativos -->
-    <circle cx="-52" cy="55" r="3" fill="#2c4f7b"/>
-    <circle cx="52" cy="55" r="3" fill="#2c4f7b"/>
-    <circle cx="-38" cy="57" r="1.8" fill="#2c4f7b" opacity="0.5"/>
-    <circle cx="38" cy="57" r="1.8" fill="#2c4f7b" opacity="0.5"/>
+    <circle cx="-52" cy="55" r="3" fill="#0d6a6a"/>
+    <circle cx="52" cy="55" r="3" fill="#0d6a6a"/>
+    <circle cx="-38" cy="57" r="1.8" fill="#0d6a6a" opacity="0.5"/>
+    <circle cx="38" cy="57" r="1.8" fill="#0d6a6a" opacity="0.5"/>
   </g>
 
   <!-- Separador -->

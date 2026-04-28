@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+﻿import nodemailer from "nodemailer";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
@@ -123,7 +123,7 @@ export async function sendOrderConfirmedToCustomer(opts: {
   const shortId = opts.orderId.slice(-8).toUpperCase();
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Pedido confirmado", "#4a7c3f")}
+      ${badge("Pedido confirmado", "#27ae60")}
       <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
         Seu pedido foi confirmado! ✦
       </h1>
@@ -272,7 +272,7 @@ export async function sendOrderDeliveredToCustomer(opts: {
   const shortId = opts.orderId.slice(-8).toUpperCase();
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Entregue", "#4a7c3f")}
+      ${badge("Entregue", "#27ae60")}
       <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
         Seu pedido chegou! 🎁
       </h1>
@@ -288,7 +288,7 @@ export async function sendOrderDeliveredToCustomer(opts: {
 
     <div style="background:#f0f7ee;border:1px solid #c8e0c0;border-radius:12px;padding:20px 24px;margin-bottom:24px;text-align:center">
       <p style="margin:0 0 8px;font-size:15px;font-weight:600;color:#2a5a1a">Gostou do que recebeu?</p>
-      <p style="margin:0;font-size:13px;color:#4a7c3f;line-height:1.5">
+      <p style="margin:0;font-size:13px;color:#27ae60;line-height:1.5">
         Sua avaliação ajuda outros compradores e incentiva o trabalho artesanal.
         Leva menos de 1 minuto!
       </p>
@@ -314,7 +314,7 @@ export async function sendArtisanApproved(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Cadastro aprovado", "#4a7c3f")}
+      ${badge("Cadastro aprovado", "#27ae60")}
       <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
         Parabéns, ${opts.artisanName}! Sua loja está no ar ✦
       </h1>
@@ -325,7 +325,7 @@ export async function sendArtisanApproved(opts: {
 
     <div style="background:#f0f7ee;border:1px solid #c8e0c0;border-radius:12px;padding:20px 24px;margin-bottom:24px">
       <p style="margin:0 0 12px;font-size:14px;font-weight:700;color:#2a5a1a">O que fazer agora:</p>
-      <ul style="margin:0;padding:0 0 0 18px;color:#4a7c3f;font-size:13px;line-height:2">
+      <ul style="margin:0;padding:0 0 0 18px;color:#27ae60;font-size:13px;line-height:2">
         <li>Acesse o <strong>Dashboard</strong> e cadastre seus primeiros produtos</li>
         <li>Complete o perfil da sua loja com foto e biografia</li>
         <li>Compartilhe sua loja nas redes sociais</li>
@@ -337,7 +337,7 @@ export async function sendArtisanApproved(opts: {
       Boas vendas!
     </p>
 
-    ${ctaButton(`${BASE_URL}/dashboard`, "Acessar meu painel →", "#4a7c3f")}
+    ${ctaButton(`${BASE_URL}/dashboard`, "Acessar meu painel →", "#27ae60")}
   `;
 
   await send({
@@ -512,7 +512,7 @@ export async function sendReplyNotification(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      <div style="display:inline-block;background:#4a7c3f;color:white;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px">Resposta recebida</div>
+      <div style="display:inline-block;background:#27ae60;color:white;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px">Resposta recebida</div>
       <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">Olá, ${opts.clientName}! ✦</h1>
       <p style="margin:0;color:#888;font-size:14px">Respondemos à sua mensagem. Veja abaixo.</p>
     </div>

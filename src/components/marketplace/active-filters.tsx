@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
@@ -71,7 +71,7 @@ export function ActiveFilters({ params, categories, total }: ActiveFiltersProps)
       ))}
       <button
         onClick={() => router.push("/produtos")}
-        className="text-xs text-[#4a7c3f] hover:text-[#3a6230] font-medium underline underline-offset-2 transition-colors"
+        className="text-xs text-[#27ae60] hover:text-[#1e9150] font-medium underline underline-offset-2 transition-colors"
       >
         Limpar tudo
       </button>

@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { CategoryManager } from "./category-manager";
 import type { Metadata } from "next";
 

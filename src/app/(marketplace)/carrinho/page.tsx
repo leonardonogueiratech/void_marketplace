@@ -45,7 +45,7 @@ export default function CartPage() {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-amber-600 mb-0.5">{item.artisanName}</p>
+                <p className="text-xs text-[#e07b2a] mb-0.5">{item.artisanName}</p>
                 <h3 className="font-medium text-neutral-900 truncate">{item.name}</h3>
                 <p className="text-sm font-semibold mt-1">{formatCurrency(item.price)}</p>
 

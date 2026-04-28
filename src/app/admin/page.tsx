@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { formatCurrency } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Store, ShoppingBag, DollarSign, Clock, CheckCircle2, XCircle, MessageSquare } from "lucide-react";
@@ -28,10 +28,10 @@ export default async function AdminPage() {
 
   const stats = [
     { label: "Compradores", value: totalUsers, icon: Users, color: "text-[#1e3a5f]", bg: "bg-[#1e3a5f]/8" },
-    { label: "Artesãos ativos", value: totalArtisans, icon: Store, color: "text-[#4a7c3f]", bg: "bg-[#4a7c3f]/8" },
+    { label: "Artesãos ativos", value: totalArtisans, icon: Store, color: "text-[#27ae60]", bg: "bg-[#27ae60]/8" },
     { label: "Aguardando aprovação", value: pendingArtisans, icon: Clock, color: "text-[#e07b2a]", bg: "bg-[#e07b2a]/8", alert: pendingArtisans > 0 },
-    { label: "Total de pedidos", value: totalOrders, icon: ShoppingBag, color: "text-purple-500", bg: "bg-purple-50" },
-    { label: "Comissões geradas", value: formatCurrency(totalRevenue), icon: DollarSign, color: "text-[#4a7c3f]", bg: "bg-[#4a7c3f]/8" },
+    { label: "Total de pedidos", value: totalOrders, icon: ShoppingBag, color: "text-[#17a2b8]", bg: "bg-[#17a2b8]/8" },
+    { label: "Comissões geradas", value: formatCurrency(totalRevenue), icon: DollarSign, color: "text-[#27ae60]", bg: "bg-[#27ae60]/8" },
     { label: "Mensagens não lidas", value: unreadMessages, icon: MessageSquare, color: "text-[#e07b2a]", bg: "bg-[#e07b2a]/8", alert: unreadMessages > 0 },
   ];
 
@@ -68,11 +68,11 @@ export default async function AdminPage() {
               <span className="ml-2 text-xs bg-[#e07b2a] text-white px-2 py-0.5 rounded-full">{pendingArtisans}</span>
             )}
           </CardTitle>
-          <Link href="/admin/artesaos" className="text-xs text-[#4a7c3f] hover:underline">Ver todos →</Link>
+          <Link href="/admin/artesaos" className="text-xs text-[#27ae60] hover:underline">Ver todos →</Link>
         </CardHeader>
         <CardContent>
           {recentArtisans.length === 0 ? (
-            <div className="flex items-center gap-2 py-4 text-sm text-[#4a7c3f]">
+            <div className="flex items-center gap-2 py-4 text-sm text-[#27ae60]">
               <CheckCircle2 className="size-4" /> Nenhum artesão aguardando aprovação.
             </div>
           ) : (
@@ -87,7 +87,7 @@ export default async function AdminPage() {
                   <div className="flex gap-2 shrink-0">
                     <Link
                       href={`/admin/artesaos?id=${a.id}&action=approve`}
-                      className="inline-flex items-center gap-1 text-xs bg-[#4a7c3f]/10 text-[#4a7c3f] border border-[#4a7c3f]/20 px-3 py-1.5 rounded-full hover:bg-[#4a7c3f]/20 transition-colors font-medium"
+                      className="inline-flex items-center gap-1 text-xs bg-[#27ae60]/10 text-[#27ae60] border border-[#27ae60]/20 px-3 py-1.5 rounded-full hover:bg-[#27ae60]/20 transition-colors font-medium"
                     >
                       <CheckCircle2 className="size-3" /> Aprovar
                     </Link>

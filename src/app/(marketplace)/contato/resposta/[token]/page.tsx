@@ -45,7 +45,7 @@ export default async function ContactReplyPage({
 
           {/* Resposta */}
           {msg.reply ? (
-            <div className="bg-white rounded-2xl border border-[#4a7c3f]/15 ring-1 ring-[#4a7c3f]/10 p-5">
+            <div className="bg-white rounded-2xl border border-[#27ae60]/15 ring-1 ring-[#27ae60]/10 p-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="size-7 rounded-lg bg-[#1e3a5f] flex items-center justify-center">
                   <CheckCircle2 className="size-3.5 text-white" />

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -56,10 +56,10 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-[#1e3a5f]/8 bg-[#f7f3ed]">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="size-4 text-[#4a7c3f]" />
+          <SlidersHorizontal className="size-4 text-[#27ae60]" />
           <span className="text-sm font-semibold text-[#1e3a5f]">Filtros</span>
           {activeCount > 0 && (
-            <span className="size-5 rounded-full bg-[#4a7c3f] text-white text-xs flex items-center justify-center font-medium">
+            <span className="size-5 rounded-full bg-[#27ae60] text-white text-xs flex items-center justify-center font-medium">
               {activeCount}
             </span>
           )}
@@ -67,7 +67,7 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
         {activeCount > 0 && (
           <button
             onClick={clearFilters}
-            className="text-xs text-[#4a7c3f] hover:text-[#3a6230] font-medium flex items-center gap-1 transition-colors"
+            className="text-xs text-[#27ae60] hover:text-[#1e9150] font-medium flex items-center gap-1 transition-colors"
           >
             <X className="size-3" /> Limpar
           </button>
@@ -116,7 +116,7 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
                   onClick={() => updateFilter("categoria", "")}
                   className={`flex items-center justify-between text-left text-sm px-3 py-2 rounded-lg transition-all ${
                     !activeCategory
-                      ? "bg-[#4a7c3f] text-white font-medium"
+                      ? "bg-[#27ae60] text-white font-medium"
                       : "text-neutral-600 hover:bg-[#f7f3ed] hover:text-[#1e3a5f]"
                   }`}
                 >
@@ -131,7 +131,7 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
                       onClick={() => updateFilter("categoria", cat.slug)}
                       className={`flex items-center justify-between text-left text-sm px-3 py-2 rounded-lg transition-all ${
                         isActive
-                          ? "bg-[#4a7c3f] text-white font-medium"
+                          ? "bg-[#27ae60] text-white font-medium"
                           : "text-neutral-600 hover:bg-[#f7f3ed] hover:text-[#1e3a5f]"
                       }`}
                     >
@@ -156,7 +156,7 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
               type="number"
               placeholder="Mín"
               defaultValue={minPrice}
-              className="h-8 text-sm border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="h-8 text-sm border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
               onBlur={(e) => updateFilter("min", e.target.value)}
             />
             <span className="text-[#1e3a5f]/30 text-sm font-medium">—</span>
@@ -164,7 +164,7 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
               type="number"
               placeholder="Máx"
               defaultValue={maxPrice}
-              className="h-8 text-sm border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="h-8 text-sm border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
               onBlur={(e) => updateFilter("max", e.target.value)}
             />
           </div>

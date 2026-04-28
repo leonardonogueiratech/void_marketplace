@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { MessageActions } from "@/components/admin/message-actions";
@@ -48,7 +48,7 @@ export default async function AdminMessagesPage() {
                           <span className="text-xs bg-[#e07b2a] text-white px-1.5 py-0.5 rounded-full font-bold">Nova</span>
                         )}
                         {m.repliedAt && (
-                          <span className="inline-flex items-center gap-1 text-xs bg-[#4a7c3f]/10 text-[#4a7c3f] border border-[#4a7c3f]/20 px-1.5 py-0.5 rounded-full font-semibold">
+                          <span className="inline-flex items-center gap-1 text-xs bg-[#27ae60]/10 text-[#27ae60] border border-[#27ae60]/20 px-1.5 py-0.5 rounded-full font-semibold">
                             <CheckCircle2 className="size-3" /> Respondida
                           </span>
                         )}

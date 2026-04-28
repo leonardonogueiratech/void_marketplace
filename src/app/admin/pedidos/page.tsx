@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
@@ -7,10 +7,10 @@ import type { OrderStatus } from "@/generated/prisma";
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   PENDING:         { label: "Pendente",       color: "bg-neutral-100 text-neutral-500 border-neutral-200" },
   PAYMENT_PENDING: { label: "Aguard. Pgto",  color: "bg-amber-50 text-amber-600 border-amber-200" },
-  PAID:            { label: "Pago",           color: "bg-[#4a7c3f]/10 text-[#4a7c3f] border-[#4a7c3f]/20" },
+  PAID:            { label: "Pago",           color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
   PROCESSING:      { label: "Preparando",    color: "bg-blue-50 text-blue-600 border-blue-200" },
   SHIPPED:         { label: "Enviado",        color: "bg-purple-50 text-purple-600 border-purple-200" },
-  DELIVERED:       { label: "Entregue",       color: "bg-[#4a7c3f]/15 text-[#4a7c3f] border-[#4a7c3f]/25" },
+  DELIVERED:       { label: "Entregue",       color: "bg-[#27ae60]/15 text-[#27ae60] border-[#27ae60]/25" },
   CANCELLED:       { label: "Cancelado",      color: "bg-red-50 text-red-500 border-red-200" },
   REFUNDED:        { label: "Reembolsado",    color: "bg-neutral-100 text-neutral-400 border-neutral-200" },
 };

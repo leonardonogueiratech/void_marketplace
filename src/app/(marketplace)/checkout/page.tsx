@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { formatCurrency } from "@/lib/utils";
-import type { ShippingOption } from "@/lib/shipping";
+import type { ShippingOption } from "@/lib/melhor-envio";
+import type { ShippingBreakdown } from "@/app/api/frete/route";
 import { Loader2, CreditCard, QrCode, FileText, CheckCircle2, Search, Truck } from "lucide-react";
 import { toast } from "sonner";
 
@@ -38,29 +39,31 @@ export default function CheckoutPage() {
 
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
   const [selectedShipping, setSelectedShipping] = useState<ShippingOption | null>(null);
+  const [shippingBreakdown, setShippingBreakdown] = useState<ShippingBreakdown[]>([]);
   const [shippingLoading, setShippingLoading] = useState(false);
 
   const numberRef = useRef<HTMLInputElement>(null);
-  const artisanIds = [...new Set(items.map((i) => i.artisanId))].join(",");
   const productIds = items.map((i) => i.productId).join(",");
 
   const fetchShipping = useCallback(async (cep: string) => {
     if (cep.replace(/\D/g, "").length !== 8) return;
     setShippingLoading(true);
     setSelectedShipping(null);
+    setShippingBreakdown([]);
     try {
-      const res = await fetch(`/api/frete?cep=${cep}&artisanIds=${artisanIds}&productIds=${productIds}`);
+      const res = await fetch(`/api/frete?cep=${cep}&productIds=${productIds}`);
       const data = await res.json();
       if (res.ok && data.options?.length) {
         setShippingOptions(data.options);
-        setSelectedShipping(data.options[0]); // seleciona PAC por padrão
+        setSelectedShipping(data.options[0]);
+        setShippingBreakdown(data.breakdown ?? []);
       }
     } catch {
       // silencioso
     } finally {
       setShippingLoading(false);
     }
-  }, [artisanIds]);
+  }, [productIds]);
 
   const { lookup: lookupCep, loading: cepLoading, format: formatCep } = useCep((data) => {
     setAddress((prev) => ({ ...prev, ...data }));
@@ -71,7 +74,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     const digits = address.zipCode.replace(/\D/g, "");
     if (digits.length === 8) fetchShipping(digits);
-    else { setShippingOptions([]); setSelectedShipping(null); }
+    else { setShippingOptions([]); setSelectedShipping(null); setShippingBreakdown([]); }
   }, [address.zipCode, fetchShipping]);
 
   const [card, setCard] = useState({
@@ -86,7 +89,7 @@ export default function CheckoutPage() {
   const shippingCost = selectedShipping?.price ?? 0;
   const orderTotal = total() + shippingCost;
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!selectedShipping && shippingOptions.length > 0) {
       toast.error("Selecione uma opção de frete.");
@@ -127,7 +130,7 @@ export default function CheckoutPage() {
   if (orderResult) {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center">
-        <CheckCircle2 className="size-16 text-green-500 mx-auto mb-4" />
+        <CheckCircle2 className="size-16 text-[#27ae60] mx-auto mb-4" />
         <h1 className="text-2xl font-bold mb-2">Pedido realizado!</h1>
         <p className="text-muted-foreground mb-8">Pedido #{orderResult.orderId.slice(-8).toUpperCase()}</p>
 
@@ -161,9 +164,9 @@ export default function CheckoutPage() {
         )}
 
         {orderResult.method === "CREDIT_CARD" && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <p className="text-green-700 font-medium">Pagamento aprovado!</p>
-            <p className="text-sm text-green-600 mt-1">Seu pedido está sendo processado.</p>
+          <div className="bg-[#27ae60]/8 border border-[#27ae60]/25 rounded-lg p-4">
+            <p className="text-[#27ae60] font-medium">Pagamento aprovado!</p>
+            <p className="text-sm text-[#27ae60] mt-1">Seu pedido está sendo processado.</p>
           </div>
         )}
 
@@ -272,6 +275,22 @@ export default function CheckoutPage() {
                           </span>
                         </label>
                       ))}
+
+                      {/* Breakdown por artesão quando há mais de um */}
+                      {shippingBreakdown.length > 1 && selectedShipping && (
+                        <div className="mt-3 rounded-xl bg-[#f7f3ed] p-3 space-y-1.5">
+                          <p className="text-xs font-semibold text-[#1e3a5f] mb-2">Detalhamento por loja:</p>
+                          {shippingBreakdown.map((b) => {
+                            const opt = b.options.find((o) => o.id === selectedShipping.id);
+                            return (
+                              <div key={b.artisanId} className="flex justify-between text-xs text-muted-foreground">
+                                <span>{b.storeName} <span className="text-[#1e3a5f]/40">({b.originUf})</span></span>
+                                <span className="font-medium">{opt ? formatCurrency(opt.price) : "—"}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   )}
                 </CardContent>
@@ -297,7 +316,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {method === "PIX" && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-700">
+                  <div className="bg-[#27ae60]/8 border border-[#27ae60]/25 rounded-lg p-4 text-sm text-[#27ae60]">
                     ⚡ PIX tem confirmação instantânea! O QR code será exibido após confirmar o pedido.
                   </div>
                 )}
@@ -369,7 +388,7 @@ export default function CheckoutPage() {
                   {shippingLoading ? (
                     <span className="text-muted-foreground flex items-center gap-1"><Loader2 className="size-3 animate-spin" /> calculando...</span>
                   ) : selectedShipping ? (
-                    <span className="font-medium text-[#4a7c3f]">{formatCurrency(shippingCost)}</span>
+                    <span className="font-medium text-[#27ae60]">{formatCurrency(shippingCost)}</span>
                   ) : (
                     <span className="text-muted-foreground text-xs">informe o CEP</span>
                   )}

@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArtisanActions } from "@/components/admin/artisan-actions";
@@ -7,7 +7,7 @@ import { ExternalLink } from "lucide-react";
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   PENDING:   { label: "Aguardando", color: "bg-amber-100 text-amber-700 border-amber-200" },
-  APPROVED:  { label: "Aprovado",   color: "bg-[#4a7c3f]/10 text-[#4a7c3f] border-[#4a7c3f]/20" },
+  APPROVED:  { label: "Aprovado",   color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
   REJECTED:  { label: "Rejeitado",  color: "bg-red-50 text-red-600 border-red-200" },
   SUSPENDED: { label: "Suspenso",   color: "bg-neutral-100 text-neutral-500 border-neutral-200" },
 };

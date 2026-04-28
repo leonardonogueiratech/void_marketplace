@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -50,8 +50,8 @@ export function ContactForm() {
   if (sent) {
     return (
       <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 p-10 text-center">
-        <div className="size-14 rounded-full bg-[#4a7c3f]/10 flex items-center justify-center mx-auto mb-4">
-          <CheckCircle2 className="size-7 text-[#4a7c3f]" />
+        <div className="size-14 rounded-full bg-[#27ae60]/10 flex items-center justify-center mx-auto mb-4">
+          <CheckCircle2 className="size-7 text-[#27ae60]" />
         </div>
         <h3 className="text-lg font-bold text-[#1e3a5f] mb-2">Mensagem enviada!</h3>
         <p className="text-sm text-neutral-500 mb-6">

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useTransition, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ export const STATUS_OPTIONS = [
   { value: "PAID",            label: "Pago",               color: "bg-blue-100 text-blue-700 border-blue-200" },
   { value: "PROCESSING",      label: "Em preparo",         color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
   { value: "SHIPPED",         label: "Enviado",            color: "bg-purple-100 text-purple-700 border-purple-200" },
-  { value: "DELIVERED",       label: "Entregue",           color: "bg-[#4a7c3f]/10 text-[#4a7c3f] border-[#4a7c3f]/20" },
+  { value: "DELIVERED",       label: "Entregue",           color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
   { value: "CANCELLED",       label: "Cancelado",          color: "bg-red-50 text-red-600 border-red-200" },
   { value: "REFUNDED",        label: "Reembolsado",        color: "bg-neutral-100 text-neutral-500 border-neutral-200" },
 ] as const;
@@ -108,7 +108,7 @@ export function OrderStatusSelect({ orderId, currentStatus, currentTrackingCode 
                   {opt.label}
                   {opt.value === "SHIPPED" && <Truck className="size-3 ml-auto text-purple-400" />}
                   {status === opt.value && opt.value !== "SHIPPED" && (
-                    <span className="ml-auto text-[#4a7c3f]">✓</span>
+                    <span className="ml-auto text-[#27ae60]">✓</span>
                   )}
                 </button>
               ))}

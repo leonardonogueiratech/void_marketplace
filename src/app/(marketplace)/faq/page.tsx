@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,7 +49,7 @@ const categories = [
   },
   {
     icon: Store,
-    color: "#4a7c3f",
+    color: "#27ae60",
     label: "Artesãos",
     id: "artesaos",
     questions: [
@@ -137,7 +137,7 @@ const categories = [
   },
   {
     icon: ShieldCheck,
-    color: "#4a7c3f",
+    color: "#27ae60",
     label: "Segurança e Conta",
     id: "seguranca",
     questions: [
@@ -227,7 +227,7 @@ export default function FAQPage() {
         ))}
 
         {/* ── Ainda com dúvidas? ───────────────────────────────────────── */}
-        <section className="bg-[#4a7c3f] rounded-2xl p-8 text-center relative overflow-hidden">
+        <section className="bg-[#27ae60] rounded-2xl p-8 text-center relative overflow-hidden">
           <div
             className="absolute inset-0 opacity-[0.05] pointer-events-none rounded-2xl"
             style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "20px 20px" }}
@@ -244,7 +244,7 @@ export default function FAQPage() {
                   Falar com o suporte <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="border-[#f7f3ed]/40 text-[#f7f3ed] hover:bg-[#f7f3ed]/10">
+              <Button asChild variant="outline" className="border-[#f7f3ed]/70 text-[#f7f3ed] bg-white/10 hover:bg-white/20 hover:border-white">
                 <Link href="/contato">Enviar e-mail</Link>
               </Button>
             </div>

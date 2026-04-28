@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   AreaChart,
@@ -110,7 +110,7 @@ export function MonthlyBarChart({ data }: { data: MonthlyData[] }) {
           width={52}
         />
         <Tooltip content={<CurrencyTooltip />} />
-        <Bar dataKey="receita" name="receita" fill="#4a7c3f" radius={[6, 6, 0, 0]} maxBarSize={48} />
+        <Bar dataKey="receita" name="receita" fill="#27ae60" radius={[6, 6, 0, 0]} maxBarSize={48} />
       </BarChart>
     </ResponsiveContainer>
   );

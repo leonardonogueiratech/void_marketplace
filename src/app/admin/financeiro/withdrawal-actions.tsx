@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -32,7 +32,7 @@ export function WithdrawalActions({ id }: { id: string }) {
       <button
         onClick={() => update("PROCESSED")}
         disabled={!!loading}
-        className="inline-flex items-center gap-1 text-xs bg-[#4a7c3f]/10 text-[#4a7c3f] border border-[#4a7c3f]/20 px-3 py-1.5 rounded-full hover:bg-[#4a7c3f]/20 transition-colors font-medium disabled:opacity-50"
+        className="inline-flex items-center gap-1 text-xs bg-[#27ae60]/10 text-[#27ae60] border border-[#27ae60]/20 px-3 py-1.5 rounded-full hover:bg-[#27ae60]/20 transition-colors font-medium disabled:opacity-50"
       >
         {loading === "approve" ? <Loader2 className="size-3 animate-spin" /> : <CheckCircle2 className="size-3" />}
         Processar

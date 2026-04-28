@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign, TrendingUp, Clock, CheckCircle2 } from "lucide-react";
@@ -57,8 +57,8 @@ export default async function AdminFinanceiroPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: "Volume total de vendas", value: formatCurrency(totalSales), icon: TrendingUp, color: "text-[#1e3a5f]", bg: "bg-[#1e3a5f]/8" },
-          { label: "Comissões geradas", value: formatCurrency(totalCommissions), icon: DollarSign, color: "text-[#4a7c3f]", bg: "bg-[#4a7c3f]/8" },
-          { label: "Comissões pagas", value: formatCurrency(paidAmount), icon: CheckCircle2, color: "text-[#4a7c3f]", bg: "bg-[#4a7c3f]/8" },
+          { label: "Comissões geradas", value: formatCurrency(totalCommissions), icon: DollarSign, color: "text-[#27ae60]", bg: "bg-[#27ae60]/8" },
+          { label: "Comissões pagas", value: formatCurrency(paidAmount), icon: CheckCircle2, color: "text-[#27ae60]", bg: "bg-[#27ae60]/8" },
           { label: "Saques pendentes", value: pendingWithdrawals.length, icon: Clock, color: "text-[#e07b2a]", bg: "bg-[#e07b2a]/8", alert: pendingWithdrawals.length > 0 },
         ].map(({ label, value, icon: Icon, color, bg, alert }) => (
           <Card key={label} className={`border-[#1e3a5f]/10 ${alert ? "ring-1 ring-[#e07b2a]/30" : ""}`}>
@@ -89,7 +89,7 @@ export default async function AdminFinanceiroPage() {
         </CardHeader>
         <CardContent>
           {pendingWithdrawals.length === 0 ? (
-            <div className="flex items-center gap-2 py-4 text-sm text-[#4a7c3f]">
+            <div className="flex items-center gap-2 py-4 text-sm text-[#27ae60]">
               <CheckCircle2 className="size-4" /> Nenhum saque pendente.
             </div>
           ) : (
@@ -164,7 +164,7 @@ export default async function AdminFinanceiroPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { label: "Total gerado", value: formatCurrency(totalCommissions), color: "text-[#1e3a5f]" },
-              { label: "Já pago aos artesãos", value: formatCurrency(paidAmount), color: "text-[#4a7c3f]" },
+              { label: "Já pago aos artesãos", value: formatCurrency(paidAmount), color: "text-[#27ae60]" },
               { label: "A pagar (pendente)", value: formatCurrency(pendingAmount), color: "text-[#e07b2a]" },
             ].map(({ label, value, color }) => (
               <div key={label} className="bg-[#f7f3ed] rounded-xl p-4">

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -50,7 +50,7 @@ export function ProfileForm({ user }: Props) {
           <div className="flex items-center gap-2 text-sm text-neutral-500">
             <Mail className="size-4 text-[#1e3a5f]/40" />
             <span>{user.email}</span>
-            <span className="ml-auto text-xs bg-[#4a7c3f]/10 text-[#4a7c3f] px-2 py-0.5 rounded-full">verificado</span>
+            <span className="ml-auto text-xs bg-[#27ae60]/10 text-[#27ae60] px-2 py-0.5 rounded-full">verificado</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-neutral-500">
             <Calendar className="size-4 text-[#1e3a5f]/40" />
@@ -72,7 +72,7 @@ export function ProfileForm({ user }: Props) {
                 required
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
               />
             </div>
             <div className="space-y-1.5">
@@ -83,7 +83,7 @@ export function ProfileForm({ user }: Props) {
                 placeholder="11999999999"
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
               />
             </div>
             <div className="pt-1">

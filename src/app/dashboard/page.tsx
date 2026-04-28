@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+﻿import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,9 +73,9 @@ export default async function DashboardPage() {
 
   const stats = [
     { label: "Produtos cadastrados", value: products, icon: Package, color: "text-[#1e3a5f]" },
-    { label: "Total de vendas", value: artisan.totalSales, icon: TrendingUp, color: "text-[#4a7c3f]" },
+    { label: "Total de vendas", value: artisan.totalSales, icon: TrendingUp, color: "text-[#27ae60]" },
     { label: "Receita (30 dias)", value: formatCurrency(revenue30d), icon: DollarSign, color: "text-[#e07b2a]" },
-    { label: "Avaliação média", value: artisan.rating > 0 ? artisan.rating.toFixed(1) : "—", icon: Star, color: "text-purple-500" },
+    { label: "Avaliação média", value: artisan.rating > 0 ? artisan.rating.toFixed(1) : "—", icon: Star, color: "text-[#17a2b8]" },
   ];
 
   const statusLabels: Record<string, { label: string; color: string }> = {
@@ -84,7 +84,7 @@ export default async function DashboardPage() {
     PAID: { label: "Pago", color: "bg-blue-100 text-blue-700" },
     PROCESSING: { label: "Processando", color: "bg-indigo-100 text-indigo-700" },
     SHIPPED: { label: "Enviado", color: "bg-purple-100 text-purple-700" },
-    DELIVERED: { label: "Entregue", color: "bg-[#4a7c3f]/10 text-[#4a7c3f]" },
+    DELIVERED: { label: "Entregue", color: "bg-[#27ae60]/10 text-[#27ae60]" },
     CANCELLED: { label: "Cancelado", color: "bg-red-100 text-red-700" },
   };
 
@@ -141,7 +141,7 @@ export default async function DashboardPage() {
           <CardHeader className="pb-3">
             <CardTitle className="text-base text-[#1e3a5f] flex items-center justify-between">
               Pedidos recentes
-              <Link href="/dashboard/pedidos" className="text-sm font-normal text-[#4a7c3f] hover:underline">
+              <Link href="/dashboard/pedidos" className="text-sm font-normal text-[#27ae60] hover:underline">
                 Ver todos
               </Link>
             </CardTitle>

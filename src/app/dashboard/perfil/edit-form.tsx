@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -219,7 +219,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               required
               value={form.storeName}
               onChange={(e) => setForm({ ...form, storeName: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
@@ -230,7 +230,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               value={form.bio}
               onChange={(e) => setForm({ ...form, bio: e.target.value })}
               placeholder="Conte sobre seu artesanato, materiais e inspiração..."
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
@@ -242,7 +242,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               value={form.story}
               onChange={(e) => setForm({ ...form, story: e.target.value })}
               placeholder="Como tudo começou? Qual é a sua história com o artesanato?"
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
         </CardContent>
@@ -260,7 +260,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               value={form.location}
               onChange={(e) => setForm({ ...form, location: e.target.value })}
               placeholder="Ex: Centro, Vila Mariana..."
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
           <div className="space-y-1.5">
@@ -268,7 +268,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
             <Input
               value={form.city}
               onChange={(e) => setForm({ ...form, city: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
           <div className="space-y-1.5">
@@ -278,7 +278,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               placeholder="SP"
               value={form.state}
               onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
           <div className="space-y-1.5">
@@ -287,7 +287,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               placeholder="11999999999"
               value={form.whatsapp}
               onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
           <div className="space-y-1.5">
@@ -296,7 +296,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               placeholder="seuuser"
               value={form.instagram}
               onChange={(e) => setForm({ ...form, instagram: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
@@ -306,7 +306,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               placeholder="https://www.seusite.com.br"
               value={form.website}
               onChange={(e) => setForm({ ...form, website: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
         </CardContent>
@@ -330,8 +330,8 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
                     onClick={() => toggleCategory(cat.id)}
                     className={`inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full border transition-all ${
                       active
-                        ? "bg-[#4a7c3f] border-[#4a7c3f] text-white"
-                        : "bg-white border-[#1e3a5f]/20 text-neutral-600 hover:border-[#4a7c3f]/50"
+                        ? "bg-[#27ae60] border-[#27ae60] text-white"
+                        : "bg-white border-[#1e3a5f]/20 text-neutral-600 hover:border-[#27ae60]/50"
                     }`}
                   >
                     {active && <Check className="size-3" />}

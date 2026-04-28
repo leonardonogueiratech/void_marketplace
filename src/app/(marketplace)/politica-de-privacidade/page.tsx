@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { ShieldCheck, ChevronRight } from "lucide-react";
 
@@ -225,7 +225,7 @@ export default function PrivacidadePage() {
           {/* Content */}
           <div className="flex-1 min-w-0 space-y-10">
             {/* LGPD badge */}
-            <div className="bg-[#4a7c3f]/8 border border-[#4a7c3f]/20 rounded-2xl p-5 text-sm text-[#1e3a5f] leading-relaxed">
+            <div className="bg-[#27ae60]/8 border border-[#27ae60]/20 rounded-2xl p-5 text-sm text-[#1e3a5f] leading-relaxed">
               <strong>Adequado à LGPD.</strong> Esta política foi elaborada em conformidade com a Lei Geral de
               Proteção de Dados (Lei 13.709/18) e reflete nosso compromisso com a transparência e o respeito
               aos direitos dos titulares de dados.

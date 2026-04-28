@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, X, Info, Zap, Star, Sparkles } from "lucide-react";
@@ -20,7 +20,7 @@ const plans = [
     id: "FREE",
     name: "Grátis",
     icon: Zap,
-    color: "#4a7c3f",
+    color: "#27ae60",
     price: SUBSCRIPTION_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
     productLimit: SUBSCRIPTION_LIMITS.FREE,
@@ -201,7 +201,7 @@ export default function PlansPage() {
                     {plan.features.map((f) => (
                       <li key={f.label} className="flex items-center gap-2.5 text-sm">
                         {f.included ? (
-                          <Check className="size-4 text-[#4a7c3f] shrink-0" strokeWidth={2.5} />
+                          <Check className="size-4 text-[#27ae60] shrink-0" strokeWidth={2.5} />
                         ) : (
                           <X className="size-4 text-neutral-300 shrink-0" />
                         )}
@@ -259,38 +259,38 @@ export default function PlansPage() {
             </div>
 
             {/* Comissão plataforma */}
-            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-rose-50/30">
+            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-[#e07b2a]/5">
               <div className="p-4 text-sm text-neutral-600 flex items-center gap-1.5">
                 Comissão da plataforma
               </div>
               {plans.map((p) => (
-                <div key={p.id} className="p-4 text-center text-sm text-rose-600 font-medium">
+                <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
                   − R$ {nets[p.id as keyof typeof nets].commissionAmt.toFixed(2).replace(".", ",")}
-                  <span className="block text-xs text-rose-400">({(COMMISSION_BY_PLAN[p.id] * 100).toFixed(0)}%)</span>
+                  <span className="block text-xs text-[#e07b2a]/60">({(COMMISSION_BY_PLAN[p.id] * 100).toFixed(0)}%)</span>
                 </div>
               ))}
             </div>
 
             {/* Taxa de processamento */}
-            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-rose-50/30">
+            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-[#e07b2a]/5">
               <div className="p-4 text-sm text-neutral-600 flex items-center gap-1.5">
                 Taxa de pagamento*
               </div>
               {plans.map((p) => (
-                <div key={p.id} className="p-4 text-center text-sm text-rose-600 font-medium">
+                <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
                   − R$ {nets[p.id as keyof typeof nets].processingAmt.toFixed(2).replace(".", ",")}
-                  <span className="block text-xs text-rose-400">(2,99% + R$0,39)</span>
+                  <span className="block text-xs text-[#e07b2a]/60">(2,99% + R$0,39)</span>
                 </div>
               ))}
             </div>
 
             {/* Mensalidade */}
-            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-rose-50/30">
+            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-[#e07b2a]/5">
               <div className="p-4 text-sm text-neutral-600">Mensalidade do plano</div>
               {plans.map((p) => (
-                <div key={p.id} className="p-4 text-center text-sm text-rose-600 font-medium">
+                <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
                   {p.price === 0 ? (
-                    <span className="text-[#4a7c3f]">Grátis</span>
+                    <span className="text-[#27ae60]">Grátis</span>
                   ) : (
                     <>− R$ {p.price.toFixed(2).replace(".", ",")}/mês</>
                   )}
@@ -303,7 +303,7 @@ export default function PlansPage() {
               <div className="p-4 text-sm font-bold text-[#1e3a5f]">Você recebe</div>
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center">
-                  <span className="text-xl font-bold text-[#4a7c3f]">
+                  <span className="text-xl font-bold text-[#27ae60]">
                     R$ {nets[p.id as keyof typeof nets].net.toFixed(2).replace(".", ",")}
                   </span>
                   <span className="block text-xs text-neutral-400 mt-0.5">por venda</span>
@@ -382,7 +382,7 @@ export default function PlansPage() {
         </section>
 
         {/* ── CTA final ────────────────────────────────────────────────── */}
-        <section className="mt-14 bg-[#4a7c3f] rounded-2xl p-10 text-center relative overflow-hidden">
+        <section className="mt-14 bg-[#27ae60] rounded-2xl p-10 text-center relative overflow-hidden">
           <div
             className="absolute inset-0 opacity-[0.05] pointer-events-none rounded-2xl"
             style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "20px 20px" }}

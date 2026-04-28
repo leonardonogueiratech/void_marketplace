@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ const PLANS = [
   {
     id: "FREE",
     name: "Grátis",
-    color: "#4a7c3f",
+    color: "#27ae60",
     price: SUBSCRIPTION_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
     features: [`Até ${SUBSCRIPTION_LIMITS.FREE} produtos`, "Perfil público", "Painel de pedidos"],
@@ -77,8 +77,8 @@ export default function ContaSejaArtesaoPage() {
   if (step === 3) {
     return (
       <div className="max-w-md mx-auto text-center py-12 space-y-5">
-        <div className="size-20 rounded-full bg-[#4a7c3f]/10 flex items-center justify-center mx-auto">
-          <CheckCircle2 className="size-10 text-[#4a7c3f]" />
+        <div className="size-20 rounded-full bg-[#27ae60]/10 flex items-center justify-center mx-auto">
+          <CheckCircle2 className="size-10 text-[#27ae60]" />
         </div>
         <h1 className="text-2xl font-bold text-[#1e3a5f]">Cadastro enviado!</h1>
         <p className="text-neutral-500">
@@ -119,7 +119,7 @@ export default function ContaSejaArtesaoPage() {
           <div key={n} className="flex items-center gap-2">
             <div className={`flex items-center gap-1.5 text-xs font-medium ${step >= n ? "text-[#1e3a5f]" : "text-neutral-400"}`}>
               <div className={`size-6 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
-                step > n ? "bg-[#4a7c3f] border-[#4a7c3f] text-white" :
+                step > n ? "bg-[#27ae60] border-[#27ae60] text-white" :
                 step === n ? "bg-[#1e3a5f] border-[#1e3a5f] text-white" :
                 "bg-white border-neutral-200 text-neutral-400"
               }`}>
@@ -161,7 +161,7 @@ export default function ContaSejaArtesaoPage() {
                 <ul className="space-y-1.5">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-1.5 text-xs text-neutral-500">
-                      <CheckCircle2 className="size-3 text-[#4a7c3f] shrink-0" /> {f}
+                      <CheckCircle2 className="size-3 text-[#27ae60] shrink-0" /> {f}
                     </li>
                   ))}
                 </ul>

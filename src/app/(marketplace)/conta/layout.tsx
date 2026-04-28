@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+﻿import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { ContaSidebar } from "@/components/conta/sidebar";
 

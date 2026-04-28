@@ -95,8 +95,8 @@ export default function ConfirmarRecuperacaoPage({
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <div className="size-10 rounded-xl bg-[#4a7c3f]/10 flex items-center justify-center mb-2">
-          <ShieldCheck className="size-5 text-[#4a7c3f]" />
+        <div className="size-10 rounded-xl bg-[#27ae60]/10 flex items-center justify-center mb-2">
+          <ShieldCheck className="size-5 text-[#27ae60]" />
         </div>
         <CardTitle className="text-xl">Criar nova senha</CardTitle>
         <CardDescription>Escolha uma senha segura com pelo menos 6 caracteres.</CardDescription>

@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/marketplace/product-card";
 import { ProductFilters } from "@/components/marketplace/product-filters";
 import { ActiveFilters } from "@/components/marketplace/active-filters";
@@ -96,7 +96,7 @@ export default async function ProductsPage({
       {/* Page header — creme com acento verde */}
       <div className="bg-[#f7f3ed] border-b border-[#1e3a5f]/8 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#4a7c3f] mb-1">Marketplace</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#27ae60] mb-1">Marketplace</p>
           <h1 className="text-3xl font-bold text-[#1e3a5f]">
             {activeCategory ? activeCategory.name : "Todos os Produtos"}
           </h1>

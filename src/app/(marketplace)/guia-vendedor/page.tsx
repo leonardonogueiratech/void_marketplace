@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,7 +44,7 @@ const steps = [
   {
     number: "03",
     icon: Package,
-    color: "#4a7c3f",
+    color: "#27ae60",
     title: "Cadastre seus produtos",
     description:
       "Adicione título, descrição detalhada, fotos, preço, estoque e dimensões para o cálculo de frete.",
@@ -129,7 +129,7 @@ export default function GuiaVendedorPage() {
         />
         <div className="absolute right-0 top-0 w-1/2 h-full pointer-events-none overflow-hidden">
           <div className="absolute -right-24 -top-24 w-[480px] h-[480px] rounded-full bg-[#e07b2a]/15" />
-          <div className="absolute right-16 bottom-8 w-72 h-72 rounded-full bg-[#4a7c3f]/10" />
+          <div className="absolute right-16 bottom-8 w-72 h-72 rounded-full bg-[#27ae60]/10" />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
@@ -152,7 +152,7 @@ export default function GuiaVendedorPage() {
                 Quero vender agora <ArrowRight className="ml-2 size-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/40 text-[#f7f3ed] hover:bg-[#f7f3ed]/10">
+            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/70 text-[#f7f3ed] bg-white/10 hover:bg-white/20 hover:border-white">
               <Link href="/dashboard">Ir para o painel</Link>
             </Button>
           </div>
@@ -182,7 +182,7 @@ export default function GuiaVendedorPage() {
       <section className="py-20 bg-[#f7f3ed]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#4a7c3f] mb-2">Do zero à primeira venda</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#27ae60] mb-2">Do zero à primeira venda</p>
             <h2 className="text-3xl font-bold text-[#1e3a5f]">Como funciona passo a passo</h2>
           </div>
           <div className="space-y-6">
@@ -231,7 +231,7 @@ export default function GuiaVendedorPage() {
             <div className="hidden md:block absolute left-[18px] top-8 bottom-8 w-px bg-[#1e3a5f]/10" />
             <div className="space-y-4">
               {statusFlow.map(({ status, desc }, i) => {
-                const colors = ["#6b7280", "#1e3a5f", "#e07b2a", "#4a7c3f", "#ef4444"];
+                const colors = ["#6b7280", "#1e3a5f", "#e07b2a", "#27ae60", "#ef4444"];
                 return (
                   <div key={status} className="flex items-start gap-5 group">
                     <div
@@ -261,7 +261,7 @@ export default function GuiaVendedorPage() {
       <section className="py-20 bg-[#f7f3ed]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#4a7c3f] mb-2">Para vender mais</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#27ae60] mb-2">Para vender mais</p>
             <h2 className="text-3xl font-bold text-[#1e3a5f]">Dicas dos melhores vendedores</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -40,8 +40,8 @@ export default function RecuperarSenhaPage() {
     return (
       <Card className="w-full max-w-md">
         <CardContent className="pt-8 pb-8 text-center space-y-4">
-          <div className="size-16 rounded-full bg-[#4a7c3f]/10 flex items-center justify-center mx-auto">
-            <CheckCircle2 className="size-8 text-[#4a7c3f]" />
+          <div className="size-16 rounded-full bg-[#27ae60]/10 flex items-center justify-center mx-auto">
+            <CheckCircle2 className="size-8 text-[#27ae60]" />
           </div>
           <h2 className="text-xl font-bold text-[#1e3a5f]">E-mail enviado!</h2>
           <p className="text-sm text-neutral-500 leading-relaxed">

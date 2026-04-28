@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +31,7 @@ export default async function DashboardProfilePage() {
     SUSPENDED: "Suspenso",
   };
   const statusColors: Record<string, string> = {
-    APPROVED: "bg-[#4a7c3f]/10 text-[#4a7c3f] border-[#4a7c3f]/20",
+    APPROVED: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20",
     PENDING: "bg-amber-50 text-amber-700 border-amber-200",
     REJECTED: "bg-red-50 text-red-600 border-red-200",
     SUSPENDED: "bg-neutral-100 text-neutral-600 border-neutral-200",
@@ -57,7 +57,7 @@ export default async function DashboardProfilePage() {
 
       {/* Preview card */}
       <Card className="overflow-hidden border-[#1e3a5f]/10 shadow-sm">
-        <div className="relative h-36 bg-gradient-to-br from-[#e07b2a]/20 via-[#f7f3ed] to-[#4a7c3f]/15">
+        <div className="relative h-36 bg-gradient-to-br from-[#e07b2a]/20 via-[#f7f3ed] to-[#27ae60]/15">
           {artisan.bannerImage && (
             <img
               src={artisan.bannerImage}
@@ -96,7 +96,7 @@ export default async function DashboardProfilePage() {
                 <p className="text-xs text-neutral-400">avaliações</p>
               </div>
               <div>
-                <p className="text-lg font-bold text-[#4a7c3f]">{artisan.subscription?.plan ?? "FREE"}</p>
+                <p className="text-lg font-bold text-[#27ae60]">{artisan.subscription?.plan ?? "FREE"}</p>
                 <p className="text-xs text-neutral-400">plano</p>
               </div>
             </div>

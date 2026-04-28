@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,7 @@ const PLANS = [
   {
     id: "FREE",
     name: "Grátis",
-    color: "#4a7c3f",
+    color: "#27ae60",
     price: SUBSCRIPTION_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
     description: "Para quem quer testar antes de se comprometer.",
@@ -124,8 +124,8 @@ export default function BeArtisanPage() {
 
       {/* Step indicator */}
       <div className="flex items-center justify-center gap-3 mb-8">
-        <div className={`flex items-center gap-2 text-sm font-medium ${step === 1 ? "text-[#1e3a5f]" : "text-[#4a7c3f]"}`}>
-          <div className={`size-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${step === 1 ? "border-[#1e3a5f] bg-[#1e3a5f] text-white" : "border-[#4a7c3f] bg-[#4a7c3f] text-white"}`}>
+        <div className={`flex items-center gap-2 text-sm font-medium ${step === 1 ? "text-[#1e3a5f]" : "text-[#27ae60]"}`}>
+          <div className={`size-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${step === 1 ? "border-[#1e3a5f] bg-[#1e3a5f] text-white" : "border-[#27ae60] bg-[#27ae60] text-white"}`}>
             {step > 1 ? <CheckCircle2 className="size-4" /> : "1"}
           </div>
           Escolha o plano
@@ -185,7 +185,7 @@ export default function BeArtisanPage() {
                 <ul className="space-y-2">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-neutral-600">
-                      <CheckCircle2 className="size-4 text-[#4a7c3f] shrink-0" />
+                      <CheckCircle2 className="size-4 text-[#27ae60] shrink-0" />
                       {f}
                     </li>
                   ))}
@@ -230,7 +230,7 @@ export default function BeArtisanPage() {
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
@@ -240,7 +240,7 @@ export default function BeArtisanPage() {
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
@@ -251,7 +251,7 @@ export default function BeArtisanPage() {
                     minLength={6}
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
@@ -261,7 +261,7 @@ export default function BeArtisanPage() {
                     value={form.storeName}
                     placeholder="Ex: Ateliê das Mãos de Ouro"
                     onChange={(e) => setForm({ ...form, storeName: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -269,7 +269,7 @@ export default function BeArtisanPage() {
                   <Input
                     value={form.city}
                     onChange={(e) => setForm({ ...form, city: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -279,7 +279,7 @@ export default function BeArtisanPage() {
                     placeholder="SP"
                     value={form.state}
                     onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -288,7 +288,7 @@ export default function BeArtisanPage() {
                     placeholder="11999999999"
                     value={form.whatsapp}
                     onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -297,7 +297,7 @@ export default function BeArtisanPage() {
                     placeholder="seuuser"
                     value={form.instagram}
                     onChange={(e) => setForm({ ...form, instagram: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
@@ -308,7 +308,7 @@ export default function BeArtisanPage() {
                     value={form.bio}
                     onChange={(e) => setForm({ ...form, bio: e.target.value })}
                     placeholder="Conte sobre seu artesanato, materiais que usa, de onde vem sua inspiração..."
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f]"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
               </div>

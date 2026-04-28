@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+﻿import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatCurrency } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -37,9 +37,9 @@ export default async function DashboardOrdersPage() {
 
   const stats = [
     { label: "Total de pedidos", value: orderItems.length, icon: ShoppingBag, color: "text-[#1e3a5f]" },
-    { label: "Receita confirmada", value: formatCurrency(totalRevenue), icon: TrendingUp, color: "text-[#4a7c3f]" },
+    { label: "Receita confirmada", value: formatCurrency(totalRevenue), icon: TrendingUp, color: "text-[#27ae60]" },
     { label: "Aguardando envio", value: pending, icon: Package, color: "text-[#e07b2a]" },
-    { label: "Em trânsito", value: shipped, icon: Clock, color: "text-purple-500" },
+    { label: "Em trânsito", value: shipped, icon: Clock, color: "text-[#17a2b8]" },
   ];
 
   return (

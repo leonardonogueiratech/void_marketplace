@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -10,7 +10,7 @@ export default async function AdminUsersPage() {
 
   const roleColors: Record<string, string> = {
     CUSTOMER: "bg-[#1e3a5f]/8 text-[#1e3a5f] border-[#1e3a5f]/15",
-    ARTISAN:  "bg-[#4a7c3f]/10 text-[#4a7c3f] border-[#4a7c3f]/20",
+    ARTISAN:  "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20",
     ADMIN:    "bg-[#e07b2a]/10 text-[#e07b2a] border-[#e07b2a]/20",
   };
   const roleLabels: Record<string, string> = {

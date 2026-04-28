@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -157,7 +157,7 @@ export function CategoryManager({ initialCategories }: Props) {
               />
             </div>
             <div className="flex gap-2">
-              <Button onClick={handleCreate} disabled={creating || !newName.trim()} className="bg-[#4a7c3f] hover:bg-[#3d6835] text-white">
+              <Button onClick={handleCreate} disabled={creating || !newName.trim()} className="bg-[#27ae60] hover:bg-[#3d6835] text-white">
                 {creating && <Loader2 className="size-4 mr-2 animate-spin" />}
                 Criar
               </Button>
@@ -205,7 +205,7 @@ export function CategoryManager({ initialCategories }: Props) {
                       <button
                         onClick={() => handleSaveEdit(cat.id)}
                         disabled={isSaving}
-                        className="text-[#4a7c3f] hover:text-[#3d6835] shrink-0"
+                        className="text-[#27ae60] hover:text-[#3d6835] shrink-0"
                       >
                         {isSaving ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />}
                       </button>
@@ -243,7 +243,7 @@ export function CategoryManager({ initialCategories }: Props) {
                         {isSaving ? (
                           <Loader2 className="size-4 animate-spin" />
                         ) : cat.active ? (
-                          <ToggleRight className="size-4 text-[#4a7c3f]" />
+                          <ToggleRight className="size-4 text-[#27ae60]" />
                         ) : (
                           <ToggleLeft className="size-4" />
                         )}

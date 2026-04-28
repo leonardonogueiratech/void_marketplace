@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -121,7 +121,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
       )}
 
       {addresses.map((addr) => (
-        <Card key={addr.id} className={`border-[#1e3a5f]/10 ${addr.isDefault ? "ring-1 ring-[#4a7c3f]/30" : ""}`}>
+        <Card key={addr.id} className={`border-[#1e3a5f]/10 ${addr.isDefault ? "ring-1 ring-[#27ae60]/30" : ""}`}>
           <CardContent className="py-4 flex items-start justify-between gap-3">
             <div className="flex items-start gap-3 min-w-0">
               <div className="size-8 rounded-lg bg-[#f7f3ed] flex items-center justify-center shrink-0 mt-0.5">
@@ -133,7 +133,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                     <span className="text-sm font-semibold text-[#1e3a5f]">{addr.label}</span>
                   )}
                   {addr.isDefault && (
-                    <span className="text-xs bg-[#4a7c3f]/10 text-[#4a7c3f] px-2 py-0.5 rounded-full font-medium">
+                    <span className="text-xs bg-[#27ae60]/10 text-[#27ae60] px-2 py-0.5 rounded-full font-medium">
                       Padrão
                     </span>
                   )}
@@ -152,7 +152,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                 <button
                   onClick={() => handleSetDefault(addr.id)}
                   title="Definir como padrão"
-                  className="size-8 rounded-lg flex items-center justify-center text-neutral-300 hover:text-[#4a7c3f] hover:bg-[#4a7c3f]/8 transition-colors"
+                  className="size-8 rounded-lg flex items-center justify-center text-neutral-300 hover:text-[#27ae60] hover:bg-[#27ae60]/8 transition-colors"
                 >
                   <Star className="size-4" />
                 </button>
@@ -191,7 +191,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   placeholder="Casa"
                   value={form.label}
                   onChange={(e) => setForm({ ...form, label: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f] h-9 text-sm"
+                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5 col-span-2">
@@ -207,7 +207,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                       lookupCep(digits);
                     }}
                     maxLength={9}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f] h-9 text-sm pr-8"
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm pr-8"
                   />
                   <div className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400">
                     {cepLoading
@@ -222,7 +222,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   required
                   value={form.street}
                   onChange={(e) => setForm({ ...form, street: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f] h-9 text-sm"
+                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
@@ -232,7 +232,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   required
                   value={form.number}
                   onChange={(e) => setForm({ ...form, number: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f] h-9 text-sm"
+                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
@@ -241,7 +241,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   placeholder="Apto, bloco..."
                   value={form.complement}
                   onChange={(e) => setForm({ ...form, complement: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f] h-9 text-sm"
+                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5 col-span-2">
@@ -250,7 +250,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   required
                   value={form.district}
                   onChange={(e) => setForm({ ...form, district: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f] h-9 text-sm"
+                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
@@ -259,7 +259,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   required
                   value={form.city}
                   onChange={(e) => setForm({ ...form, city: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f] h-9 text-sm"
+                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
@@ -270,7 +270,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   placeholder="SP"
                   value={form.state}
                   onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#4a7c3f] h-9 text-sm"
+                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
                 />
               </div>
               <div className="col-span-2 flex items-center gap-2 pt-1">
@@ -279,7 +279,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   id="isDefault"
                   checked={form.isDefault}
                   onChange={(e) => setForm({ ...form, isDefault: e.target.checked })}
-                  className="accent-[#4a7c3f]"
+                  className="accent-[#27ae60]"
                 />
                 <label htmlFor="isDefault" className="text-sm text-neutral-600 cursor-pointer">
                   Definir como endereço padrão

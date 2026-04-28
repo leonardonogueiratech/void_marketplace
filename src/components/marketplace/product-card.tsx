@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -90,7 +90,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </Badge>
           )}
           {product.featured && !discount && (
-            <Badge className="bg-[#4a7c3f] hover:bg-[#4a7c3f] text-white text-xs px-1.5 py-0.5">
+            <Badge className="bg-[#27ae60] hover:bg-[#27ae60] text-white text-xs px-1.5 py-0.5">
               Destaque
             </Badge>
           )}
@@ -127,7 +127,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="p-3 flex flex-col gap-1">
         <Link
           href={`/artesao/${product.artisan.slug}`}
-          className="text-xs text-[#4a7c3f] font-medium hover:underline truncate"
+          className="text-xs text-[#27ae60] font-medium hover:underline truncate"
           onClick={(e) => e.stopPropagation()}
         >
           {product.artisan.storeName}

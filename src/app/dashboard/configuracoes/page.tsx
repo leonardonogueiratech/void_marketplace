@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+﻿import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,7 +18,7 @@ export default async function DashboardSettingsPage() {
   const sub = artisan.subscription;
 
   const storeStatusLabels: Record<string, { label: string; color: string }> = {
-    APPROVED: { label: "Aprovada", color: "bg-[#4a7c3f]/10 text-[#4a7c3f] border-[#4a7c3f]/20" },
+    APPROVED: { label: "Aprovada", color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
     PENDING:  { label: "Em análise", color: "bg-amber-50 text-amber-700 border-amber-200" },
     REJECTED: { label: "Rejeitada", color: "bg-red-50 text-red-600 border-red-200" },
     SUSPENDED:{ label: "Suspensa", color: "bg-neutral-100 text-neutral-500 border-neutral-200" },

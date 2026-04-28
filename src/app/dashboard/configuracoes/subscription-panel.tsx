@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ const PLANS = [
   {
     id: "FREE",
     name: "Grátis",
-    color: "#4a7c3f",
+    color: "#27ae60",
     price: SUBSCRIPTION_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
     badge: null as string | null,
@@ -98,7 +98,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
   }
 
   const statusColors: Record<string, string> = {
-    ACTIVE: "bg-[#4a7c3f]/10 text-[#4a7c3f] border-[#4a7c3f]/20",
+    ACTIVE: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20",
     PAST_DUE: "bg-red-50 text-red-600 border-red-200",
     CANCELLED: "bg-neutral-100 text-neutral-500 border-neutral-200",
     INACTIVE: "bg-amber-50 text-amber-700 border-amber-200",
@@ -177,7 +177,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
               <ul className="space-y-1.5 mb-4">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-start gap-1.5 text-xs text-neutral-500">
-                    <CheckCircle2 className="size-3.5 text-[#4a7c3f] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="size-3.5 text-[#27ae60] shrink-0 mt-0.5" />
                     {f}
                   </li>
                 ))}

@@ -96,7 +96,7 @@ export default async function ArtisanPage({ params }: Props) {
         <div className="relative -mt-16 mb-8 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
           <Avatar className="size-28 border-4 border-white shadow-lg">
             <AvatarImage src={artisan.logoImage ?? undefined} />
-            <AvatarFallback className="text-2xl bg-amber-100 text-amber-700">
+            <AvatarFallback className="text-2xl bg-[#e07b2a]/15 text-[#e07b2a]">
               {getInitials(artisan.storeName)}
             </AvatarFallback>
           </Avatar>
@@ -104,7 +104,7 @@ export default async function ArtisanPage({ params }: Props) {
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-2xl font-bold text-neutral-900">{artisan.storeName}</h1>
               {artisan.featured && (
-                <Badge className="bg-amber-500 hover:bg-amber-500">✦ Destaque</Badge>
+                <Badge className="bg-[#e07b2a] hover:bg-[#e07b2a]">✦ Destaque</Badge>
               )}
             </div>
             {(artisan.city || artisan.state) && (
@@ -160,9 +160,9 @@ export default async function ArtisanPage({ params }: Props) {
               </div>
             )}
             {artisan.story && (
-              <div className="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-6">
-                <p className="text-xs font-semibold text-amber-700 mb-1">✦ Nossa história</p>
-                <p className="text-sm text-amber-700 leading-relaxed">{artisan.story}</p>
+              <div className="bg-[#f7f3ed] rounded-lg p-4 border border-[#e07b2a]/20 mb-6">
+                <p className="text-xs font-semibold text-[#e07b2a] mb-1">✦ Nossa história</p>
+                <p className="text-sm text-[#1e3a5f]/70 leading-relaxed">{artisan.story}</p>
               </div>
             )}
             {artisan.categories.length > 0 && (

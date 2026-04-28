@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, HeartHandshake, Leaf, Store, Users, Sparkles, Globe, Shield } from "lucide-react";
@@ -25,7 +25,7 @@ const pillars = [
   },
   {
     icon: Leaf,
-    color: "#4a7c3f",
+    color: "#27ae60",
     title: "Consumo que preserva cultura.",
     description:
       "Quando você compra aqui, você não está adquirindo um produto — está preservando uma técnica, apoiando uma família e mantendo viva uma cultura que vem de gerações.",
@@ -46,7 +46,7 @@ const pillars = [
   },
   {
     icon: Shield,
-    color: "#4a7c3f",
+    color: "#27ae60",
     title: "Compra segura. Relação honesta.",
     description:
       "Transparência em cada transação. Artesãos verificados, histórias reais, avaliações verdadeiras. Você sabe exatamente o que está comprando e de quem.",
@@ -58,20 +58,20 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[#f7f3ed]">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="bg-[#1e3a5f] relative overflow-hidden py-20 md:py-28">
+      <section className="bg-gradient-to-r from-[#27ae60] to-[#17a2b8] relative overflow-hidden py-20 md:py-28">
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "28px 28px" }}
         />
         <div className="absolute right-0 top-0 w-1/2 h-full pointer-events-none overflow-hidden">
-          <div className="absolute -right-24 -top-24 w-[480px] h-[480px] rounded-full bg-[#4a7c3f]/15" />
+          <div className="absolute -right-24 -top-24 w-[480px] h-[480px] rounded-full bg-[#27ae60]/15" />
           <div className="absolute right-16 bottom-8 w-72 h-72 rounded-full bg-[#e07b2a]/10" />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-10 bg-[#4a7c3f]/50" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#a8d5a2]">Nossa história</span>
-            <div className="h-px w-10 bg-[#4a7c3f]/50" />
+            <div className="h-px w-10 bg-[#27ae60]/50" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#f7f3ed]/80">Nossa história</span>
+            <div className="h-px w-10 bg-[#27ae60]/50" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-[#f7f3ed] leading-tight mb-6">
             Cada peça carrega
@@ -93,7 +93,7 @@ export default function AboutPage() {
                 Explorar produtos <ArrowRight className="ml-2 size-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/40 text-[#f7f3ed] hover:bg-[#f7f3ed]/10">
+            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/70 text-[#f7f3ed] bg-white/10 hover:bg-white/20 hover:border-white">
               <Link href="/seja-artesao">Quero vender aqui</Link>
             </Button>
           </div>
@@ -107,7 +107,7 @@ export default function AboutPage() {
           <blockquote className="text-2xl md:text-3xl font-bold text-[#1e3a5f] leading-snug">
             "O artesanato brasileiro sempre foi grande.
             <br />
-            <span className="text-[#4a7c3f]">Faltava o palco certo."</span>
+            <span className="text-[#27ae60]">Faltava o palco certo."</span>
           </blockquote>
           <p className="mt-5 text-neutral-500 text-base max-w-lg mx-auto leading-relaxed">
             Não é só uma loja virtual. É infraestrutura para um setor que já existe, já vende,
@@ -120,14 +120,14 @@ export default function AboutPage() {
       <section className="py-20 bg-[#f7f3ed]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#4a7c3f] mb-2">O que nos move</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#27ae60] mb-2">O que nos move</p>
             <h2 className="text-3xl font-bold text-[#1e3a5f]">Por que o Feito de Gente existe</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {pillars.map(({ icon: Icon, color, title, description }) => (
               <div
                 key={title}
-                className="bg-white rounded-2xl p-6 flex flex-col gap-4 border border-transparent hover:shadow-md transition-all"
+                className="bg-white rounded-2xl p-6 flex flex-col gap-4 border border-transparent hover:shadow-md hover:border-[#1e3a5f]/15 transition-all duration-200"
                 style={{ borderTop: `3px solid ${color}` }}
               >
                 <div className="size-11 rounded-xl flex items-center justify-center" style={{ background: `${color}15` }}>
@@ -170,7 +170,7 @@ export default function AboutPage() {
               {[
                 { value: "100%", label: "Artesanato verificado" },
                 { value: "8M+", label: "Artesãos no Brasil" },
-                { value: "0", label: "Produtos iguais" },
+                { value: "0", label: "Peças repetidas" },
                 { value: "∞", label: "Histórias para contar" },
               ].map(({ value, label }) => (
                 <div key={label} className="bg-[#f7f3ed] rounded-2xl p-6 text-center border border-[#1e3a5f]/8">
@@ -184,7 +184,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA final ────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-[#4a7c3f] relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-[#27ae60] to-[#17a2b8] relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "24px 24px" }}
@@ -207,7 +207,7 @@ export default function AboutPage() {
                 Explorar o marketplace <ArrowRight className="ml-2 size-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/40 text-[#f7f3ed] hover:bg-[#f7f3ed]/10">
+            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/70 text-[#f7f3ed] bg-white/10 hover:bg-white/20 hover:border-white">
               <Link href="/seja-artesao">Sou artesão</Link>
             </Button>
           </div>

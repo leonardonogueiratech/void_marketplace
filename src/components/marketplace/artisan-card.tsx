@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { Star, MapPin, Package } from "lucide-react";
 import { getInitials } from "@/lib/utils";
@@ -30,7 +30,7 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
       className="group flex flex-col rounded-2xl overflow-hidden border border-[#1e3a5f]/10 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-250"
     >
       {/* Banner */}
-      <div className="relative h-28 bg-gradient-to-br from-[#4a7c3f]/20 to-[#1e3a5f]/20 overflow-hidden">
+      <div className="relative h-28 bg-gradient-to-br from-[#27ae60]/20 to-[#1e3a5f]/20 overflow-hidden">
         {artisan.bannerImage ? (
           <Image
             src={artisan.bannerImage}
@@ -40,7 +40,7 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
             sizes="(max-width: 640px) 100vw, 33vw"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#4a7c3f]/30 via-[#1e3a5f]/20 to-[#e07b2a]/20" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#27ae60]/30 via-[#1e3a5f]/20 to-[#e07b2a]/20" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         {artisan.featured && (
@@ -54,7 +54,7 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
       <div className="p-4 flex gap-3">
         <Avatar className="size-14 -mt-8 border-2 border-white shadow-md shrink-0 ring-2 ring-[#f7f3ed]">
           <AvatarImage src={artisan.logoImage ?? undefined} />
-          <AvatarFallback className="text-sm bg-[#4a7c3f]/15 text-[#4a7c3f] font-semibold">
+          <AvatarFallback className="text-sm bg-[#27ae60]/15 text-[#27ae60] font-semibold">
             {getInitials(artisan.storeName)}
           </AvatarFallback>
         </Avatar>
@@ -70,7 +70,7 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
       <div className="px-4 pb-4 flex flex-col gap-2">
         {(artisan.city || artisan.state) && (
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <MapPin className="size-3 text-[#4a7c3f]" />
+            <MapPin className="size-3 text-[#27ae60]" />
             <span>{[artisan.city, artisan.state].filter(Boolean).join(", ")}</span>
           </div>
         )}
@@ -94,8 +94,8 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
           )}
           {artisan._count && artisan._count.products > 0 && (
             <div className="flex items-center gap-1 ml-auto">
-              <Package className="size-3 text-[#4a7c3f]" />
-              <span className="text-xs text-[#4a7c3f] font-medium">{artisan._count.products}</span>
+              <Package className="size-3 text-[#27ae60]" />
+              <span className="text-xs text-[#27ae60] font-medium">{artisan._count.products}</span>
             </div>
           )}
         </div>

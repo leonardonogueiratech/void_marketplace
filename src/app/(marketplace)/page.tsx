@@ -1,4 +1,5 @@
-import Link from "next/link";
+﻿import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -40,58 +41,199 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* ── Hero — navy escuro, tom de autoridade e confiança ─────────────── */}
-      <section className="relative bg-[#1e3a5f] py-24 md:py-36 overflow-hidden">
-        {/* Textura de pontos suave */}
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <section className="relative bg-gradient-to-br from-[#27ae60] via-[#1f9e58] to-[#17a2b8] overflow-hidden">
+        {/* Textura de pontos */}
         <div
-          className="absolute inset-0 opacity-[0.05] pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "28px 28px" }}
+          className="absolute inset-0 opacity-[0.045] pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "22px 22px" }}
         />
-        {/* Blobs decorativos */}
-        <div className="absolute right-0 top-0 w-1/2 h-full pointer-events-none overflow-hidden">
-          <div className="absolute -right-24 -top-24 w-[480px] h-[480px] rounded-full bg-[#4a7c3f]/15" />
-          <div className="absolute right-16 bottom-8 w-72 h-72 rounded-full bg-[#e07b2a]/10" />
+        {/* Blobs de fundo */}
+        <div className="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-white/5 pointer-events-none" />
+        <div className="absolute -left-16 bottom-16 w-64 h-64 rounded-full bg-[#1e3a5f]/10 pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-28 pb-28 md:pb-36">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 items-center">
+
+            {/* ── Texto ── */}
+            <div>
+              {/* Eyebrow */}
+              <div className="flex items-center gap-2.5 mb-6">
+                <div className="h-px w-8 bg-[#e07b2a]" />
+                <span className="text-[#f7f3ed]/65 text-xs font-semibold uppercase tracking-[0.14em]">
+                  Marketplace de Artesanato Brasileiro
+                </span>
+              </div>
+
+              {/* Headline com contraste de peso */}
+              <h1 className="mb-6">
+                <span className="block text-5xl md:text-[3.75rem] font-black leading-[1.08] text-[#f7f3ed]">
+                  Cada peça carrega
+                </span>
+                <span className="block text-5xl md:text-[3.75rem] font-black leading-[1.08] text-[#e07b2a]">
+                  uma vida
+                </span>
+                <span className="block text-4xl md:text-[3.25rem] font-light leading-[1.15] text-[#f7f3ed]/80 tracking-wide mt-1">
+                  inteira.
+                </span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-base text-[#f7f3ed]/60 mb-8 leading-relaxed max-w-[420px]">
+                Arte feita à mão, com intenção, por pessoas reais espalhadas pelo Brasil.
+                O que você encontra aqui nenhuma prateleira de shopping tem.
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap gap-3 mb-10">
+                <Button
+                  size="lg"
+                  asChild
+                  className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
+                >
+                  <Link href="/produtos">
+                    Explorar Produtos <ArrowRight className="ml-2 size-4" />
+                  </Link>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  asChild
+                  className="border-[#f7f3ed]/70 text-[#f7f3ed] bg-white/10 hover:bg-white/20 hover:border-white font-semibold transition-all duration-200"
+                >
+                  <Link href="/seja-artesao">Quero Vender Aqui</Link>
+                </Button>
+              </div>
+
+              {/* Social proof */}
+              <div className="flex items-center gap-5 flex-wrap">
+                {artisans.length > 0 && (
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex -space-x-2.5">
+                      {artisans.slice(0, 4).map((a) => (
+                        <div
+                          key={a.id}
+                          className="size-8 rounded-full border-2 border-[#1f9e58] bg-[#1e3a5f] flex items-center justify-center flex-shrink-0 overflow-hidden"
+                        >
+                          {a.logoImage ? (
+                            <Image
+                              src={a.logoImage}
+                              alt={a.storeName}
+                              width={32}
+                              height={32}
+                              className="object-cover w-full h-full"
+                            />
+                          ) : (
+                            <span className="text-white text-[10px] font-bold">
+                              {a.storeName.charAt(0).toUpperCase()}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <span className="text-[#f7f3ed]/65 text-sm">
+                      <strong className="text-[#f7f3ed]">
+                        {totalArtisans > 0 ? `${totalArtisans}+` : "Vários"}
+                      </strong>{" "}
+                      artesãos verificados
+                    </span>
+                  </div>
+                )}
+                <div className="h-4 w-px bg-white/20 hidden sm:block" />
+                <div className="flex items-center gap-1.5">
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star key={i} className="size-3 fill-[#e07b2a] text-[#e07b2a]" />
+                    ))}
+                  </div>
+                  <span className="text-[#f7f3ed]/50 text-xs">Produtos 100% artesanais</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Mosaico editorial ── */}
+            {products.length >= 2 && (
+              <div className="hidden lg:flex gap-3 items-center shrink-0 relative">
+                {/* Card grande — portrait */}
+                <Link
+                  href={`/produto/${products[0].slug}`}
+                  className="group relative w-52 h-[300px] rounded-2xl overflow-hidden shadow-2xl ring-2 ring-white/20 hover:ring-white/45 hover:scale-[1.02] transition-all duration-300 flex-shrink-0 block"
+                >
+                  {products[0].images[0] ? (
+                    <Image
+                      src={products[0].images[0].url}
+                      alt={products[0].name}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      sizes="208px"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-[#1e3a5f] to-[#27ae60]" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
+                  <div className="absolute bottom-0 inset-x-0 p-4">
+                    <p className="text-white text-xs font-semibold leading-snug line-clamp-2">{products[0].name}</p>
+                    <p className="text-white/55 text-[10px] mt-0.5 truncate">{products[0].artisan.storeName}</p>
+                  </div>
+                  <div className="absolute top-3 left-3">
+                    <span className="text-[9px] font-bold uppercase tracking-wider bg-[#e07b2a] text-white px-2 py-0.5 rounded-full shadow">
+                      ✦ Feito à mão
+                    </span>
+                  </div>
+                </Link>
+
+                {/* Coluna com 2 cards menores + floating badge */}
+                <div className="relative flex flex-col gap-3 mt-14">
+                  {[products[1], products[2]].filter(Boolean).map((p, idx) => (
+                    <Link
+                      key={p.id}
+                      href={`/produto/${p.slug}`}
+                      className="group relative w-40 h-[136px] rounded-2xl overflow-hidden shadow-xl ring-2 ring-white/15 hover:ring-white/40 hover:scale-[1.02] transition-all duration-300 flex-shrink-0 block"
+                    >
+                      {p.images[0] ? (
+                        <Image
+                          src={p.images[0].url}
+                          alt={p.name}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-700"
+                          sizes="160px"
+                        />
+                      ) : (
+                        <div className={`w-full h-full bg-gradient-to-br ${idx === 0 ? "from-[#27ae60] to-[#17a2b8]" : "from-[#e07b2a] to-[#1e3a5f]"}`} />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent" />
+                      <div className="absolute bottom-0 inset-x-0 p-2.5">
+                        <p className="text-white text-[10px] font-semibold leading-tight line-clamp-2">{p.name}</p>
+                      </div>
+                    </Link>
+                  ))}
+
+                  {/* Floating trust badge */}
+                  <div className="absolute -left-14 -bottom-4 bg-white rounded-xl shadow-2xl px-3 py-2 flex items-center gap-2 z-10">
+                    <div className="size-7 rounded-lg bg-[#27ae60]/10 flex items-center justify-center flex-shrink-0">
+                      <ShieldCheck className="size-4 text-[#27ae60]" />
+                    </div>
+                    <div className="leading-none">
+                      <p className="text-[10px] font-bold text-[#1e3a5f]">Compra Verificada</p>
+                      <p className="text-[9px] text-neutral-400 mt-0.5">Artesãos autênticos</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <Badge className="mb-5 bg-[#4a7c3f]/25 text-[#a8d5a2] border-[#4a7c3f]/40">
-              Marketplace de Artesanato Brasileiro
-            </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-[#f7f3ed]">
-              Cada peça carrega
-              <br />
-              <span className="text-[#e07b2a]">uma vida inteira.</span>
-            </h1>
-            <p className="text-xl text-[#f7f3ed]/85 font-medium mb-3 leading-snug">
-              Do artesanal para o digital — conectando talento a oportunidades sem fronteiras
-            </p>
-            <p className="text-base text-[#f7f3ed]/55 mb-10 leading-relaxed max-w-lg">
-              Aqui você encontra o que as prateleiras dos shoppings nunca terão: arte feita à mão,
-              com intenção, por pessoas reais espalhadas pelo Brasil.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {/* CTA primário: âmbar — energia, ação */}
-              <Button
-                size="lg"
-                asChild
-                className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
-              >
-                <Link href="/produtos">
-                  Explorar Produtos <ArrowRight className="ml-2 size-4" />
-                </Link>
-              </Button>
-              {/* CTA secundário: outline creme */}
-              <Button
-                size="lg"
-                variant="outline"
-                asChild
-                className="border-[#f7f3ed] text-[#f7f3ed] bg-transparent hover:bg-[#f7f3ed] hover:text-[#1e3a5f] font-semibold transition-all duration-200 hover:scale-105"
-              >
-                <Link href="/seja-artesao">Quero Vender Aqui</Link>
-              </Button>
-            </div>
-          </div>
+        {/* Wave separator — transição suave para a seção de stats */}
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none leading-none">
+          <svg
+            viewBox="0 0 1440 64"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            style={{ display: "block", width: "100%", height: "64px" }}
+          >
+            <path d="M0,64 C480,8 960,8 1440,64 L1440,64 L0,64Z" fill="#f7f3ed" />
+          </svg>
         </div>
       </section>
 
@@ -100,10 +242,10 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { icon: Users,       color: "#4a7c3f", label: "Artesãos ativos",      value: totalArtisans > 0 ? `${totalArtisans}+` : "Em breve" },
+              { icon: Users,       color: "#27ae60", label: "Artesãos ativos",      value: totalArtisans > 0 ? `${totalArtisans}+` : "Em breve" },
               { icon: Package,     color: "#1e3a5f", label: "Produtos disponíveis", value: totalProducts > 0 ? `${totalProducts}+` : "Em breve" },
               { icon: MapPin,      color: "#e07b2a", label: "Estados do Brasil",    value: "Todo BR" },
-              { icon: ShieldCheck, color: "#4a7c3f", label: "Compra garantida",     value: "100%" },
+              { icon: ShieldCheck, color: "#27ae60", label: "Compra garantida",     value: "100%" },
             ].map(({ icon: Icon, color, label, value }) => (
               <div key={label} className="flex flex-col items-center gap-1 py-2">
                 <Icon className="size-5 mb-1" style={{ color }} />
@@ -121,9 +263,9 @@ export default async function HomePage() {
           <div className="text-center mb-12">
             {/* Linha decorativa verde */}
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-px w-12 bg-[#4a7c3f]/40" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-[#4a7c3f]">Nossa essência</span>
-              <div className="h-px w-12 bg-[#4a7c3f]/40" />
+              <div className="h-px w-12 bg-[#27ae60]/40" />
+              <span className="text-xs font-semibold uppercase tracking-widest text-[#27ae60]">Nossa essência</span>
+              <div className="h-px w-12 bg-[#27ae60]/40" />
             </div>
             <h2 className="text-3xl font-bold text-[#1e3a5f]">Quem Somos</h2>
             <p className="text-neutral-500 mt-2 max-w-md mx-auto">
@@ -147,7 +289,7 @@ export default async function HomePage() {
               },
               {
                 icon: Leaf,
-                accent: "#4a7c3f",
+                accent: "#27ae60",
                 title: "Valores",
                 desc: "Autenticidade no que é feito à mão. Sustentabilidade nos materiais e nas práticas. Inclusão para todos os artesãos, independente de região. Transparência em cada transação.",
               },
@@ -173,10 +315,10 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#4a7c3f] mb-1">Navegue</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#27ae60] mb-1">Navegue</p>
               <h2 className="text-2xl font-bold text-[#1e3a5f]">Categorias</h2>
             </div>
-            <Button variant="ghost" asChild className="text-[#4a7c3f] hover:text-[#3a6230] hover:bg-[#4a7c3f]/10">
+            <Button variant="ghost" asChild className="text-[#27ae60] hover:text-[#1e9150] hover:bg-[#27ae60]/10">
               <Link href="/categorias">
                 Ver todas <ArrowRight className="ml-1 size-4" />
               </Link>
@@ -190,8 +332,8 @@ export default async function HomePage() {
               ))}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-[#4a7c3f]/30 bg-white py-14 text-center px-6">
-              <Package className="size-10 text-[#4a7c3f]/30 mx-auto mb-3" />
+            <div className="rounded-2xl border border-dashed border-[#27ae60]/30 bg-white py-14 text-center px-6">
+              <Package className="size-10 text-[#27ae60]/30 mx-auto mb-3" />
               <p className="font-medium text-[#1e3a5f]">Categorias em cadastro</p>
               <p className="text-sm text-neutral-400 mt-1">Em breve você poderá navegar por tema e técnica artesanal.</p>
             </div>
@@ -268,7 +410,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── CTA final — verde, contraste com o navy do hero ──────────────── */}
-      <section className="py-20 bg-[#4a7c3f] relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-[#27ae60] to-[#17a2b8] relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "24px 24px" }}
@@ -292,7 +434,7 @@ export default async function HomePage() {
                 Começar gratuitamente <ArrowRight className="ml-2 size-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/40 text-[#f7f3ed] hover:bg-[#f7f3ed]/10">
+            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/70 text-[#f7f3ed] bg-white/10 hover:bg-white/20 hover:border-white">
               <Link href="/planos">Ver planos</Link>
             </Button>
           </div>
