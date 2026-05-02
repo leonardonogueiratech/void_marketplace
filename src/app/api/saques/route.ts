@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { transferPix } from "@/lib/asaas";
 
 const schema = z.object({
   amount: z.number().min(50),
@@ -22,12 +23,32 @@ export async function POST(req: NextRequest) {
     });
     if (!artisan) return NextResponse.json({ error: "Não autorizado." }, { status: 403 });
 
+    // attempt automatic PIX transfer via Asaas
+    let asaasTransferId: string | undefined;
+    let status: "PENDING" | "PROCESSING" = "PENDING";
+
+    try {
+      const result = await transferPix({
+        value: data.amount,
+        pixKey: data.pixKey,
+        description: `Saque ${artisan.storeName} — Feito de Gente`,
+      });
+      asaasTransferId = result.transferId;
+      status = result.status === "PENDING" || result.status === "BANK_PROCESSING"
+        ? "PROCESSING"
+        : "PENDING";
+    } catch (e) {
+      // Asaas transfer failed — fall back to manual processing
+      console.error("Asaas PIX transfer failed, falling back to manual:", e);
+    }
+
     const withdrawal = await prisma.withdrawal.create({
       data: {
         artisanId: data.artisanId,
         amount: data.amount,
         pixKey: data.pixKey,
-        status: "PENDING",
+        status,
+        asaasTransferId,
       },
     });
 

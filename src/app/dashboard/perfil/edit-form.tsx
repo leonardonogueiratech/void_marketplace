@@ -23,6 +23,7 @@ interface Props {
     location?: string | null;
     city?: string | null;
     state?: string | null;
+    zipCode?: string | null;
     whatsapp?: string | null;
     instagram?: string | null;
     website?: string | null;
@@ -54,6 +55,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
     location: artisan.location ?? "",
     city: artisan.city ?? "",
     state: artisan.state ?? "",
+    zipCode: artisan.zipCode ?? "",
     whatsapp: artisan.whatsapp ?? "",
     instagram: artisan.instagram ?? "",
     website: artisan.website ?? "",
@@ -280,6 +282,16 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })}
               className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-[#1e3a5f] font-medium">CEP de origem</Label>
+            <Input
+              placeholder="00000-000"
+              value={form.zipCode}
+              onChange={(e) => setForm({ ...form, zipCode: e.target.value.replace(/\D/g, "") })}
+              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+            />
+            <p className="text-[11px] text-neutral-400">Usado para calcular frete e gerar etiquetas de envio.</p>
           </div>
           <div className="space-y-1.5">
             <Label className="text-[#1e3a5f] font-medium">WhatsApp</Label>

@@ -73,6 +73,36 @@ export interface AsaasPixQrCode {
   expirationDate: string;
 }
 
+export interface AsaasAccount {
+  id: string;
+  walletId: string;
+  name: string;
+  email: string;
+}
+
+export type AsaasTransferStatus =
+  | "PENDING"
+  | "BANK_PROCESSING"
+  | "DONE"
+  | "CANCELLED"
+  | "FAILED";
+
+export interface AsaasTransfer {
+  id: string;
+  value: number;
+  status: AsaasTransferStatus;
+  transferDate: string;
+  operationType: "PIX";
+}
+
+export type PixKeyType = "CPF" | "CNPJ" | "EMAIL" | "PHONE" | "EVP";
+
+export interface SplitEntry {
+  walletId: string;
+  fixedValue: number;
+  daysToClearAfterPaid?: number; // dias de retenção após pagamento confirmado
+}
+
 // ─── Mock (development without credentials) ───────────────────────────────────
 
 function mockCustomerId() {
@@ -141,6 +171,7 @@ export async function createPixPayment(params: {
   description: string;
   orderId: string;
   dueDate: string;
+  split?: SplitEntry[];
 }): Promise<{ payment: AsaasPayment; pix: AsaasPixQrCode }> {
   if (isMock) {
     const payment = mockPixPayment(params.orderId);
@@ -154,6 +185,7 @@ export async function createPixPayment(params: {
     dueDate: params.dueDate,
     description: params.description,
     externalReference: params.orderId,
+    ...(params.split?.length ? { split: params.split } : {}),
   });
 
   const pix = await get<AsaasPixQrCode>(`/payments/${payment.id}/pixQrCode`);
@@ -167,6 +199,7 @@ export async function createBoletoPayment(params: {
   orderId: string;
   dueDate: string;
   name: string;
+  split?: SplitEntry[];
 }): Promise<AsaasPayment> {
   if (isMock) return mockBoletoPayment(params.orderId);
 
@@ -177,6 +210,7 @@ export async function createBoletoPayment(params: {
     dueDate: params.dueDate,
     description: params.description,
     externalReference: params.orderId,
+    ...(params.split?.length ? { split: params.split } : {}),
   });
 }
 
@@ -187,6 +221,7 @@ export async function createCreditCardPayment(params: {
   orderId: string;
   dueDate: string;
   installmentCount?: number;
+  split?: SplitEntry[];
   card: {
     holderName: string;
     number: string;
@@ -223,6 +258,7 @@ export async function createCreditCardPayment(params: {
       email: params.cardHolderInfo.email,
       cpfCnpj: params.cardHolderInfo.cpfCnpj,
     },
+    ...(params.split?.length ? { split: params.split } : {}),
   });
 }
 
@@ -294,4 +330,64 @@ export async function cancelAsaasSubscription(subscriptionId: string): Promise<v
     const err = await res.text();
     throw new Error(`Asaas cancel subscription → ${res.status}: ${err}`);
   }
+}
+
+// ─── Marketplace: Artisan subconta ────────────────────────────────────────────
+
+export async function createArtisanAccount(params: {
+  name: string;
+  email: string;
+  cpfCnpj: string;
+  mobilePhone?: string;
+}): Promise<{ accountId: string; walletId: string }> {
+  if (isMock) {
+    return {
+      accountId: `mock_acc_${Date.now()}`,
+      walletId: `mock_wallet_${Date.now()}`,
+    };
+  }
+
+  const account = await post<AsaasAccount>("/accounts", {
+    name: params.name,
+    email: params.email,
+    cpfCnpj: params.cpfCnpj,
+    mobilePhone: params.mobilePhone,
+    companyType: params.cpfCnpj.replace(/\D/g, "").length === 14 ? "MEI" : undefined,
+  });
+
+  return { accountId: account.id, walletId: account.walletId };
+}
+
+// ─── PIX Transfer (saque automático) ─────────────────────────────────────────
+
+export function detectPixKeyType(key: string): PixKeyType {
+  const clean = key.trim();
+  if (clean.includes("@")) return "EMAIL";
+  const digits = clean.replace(/\D/g, "");
+  if (digits.length === 11 && (clean.startsWith("+55") || clean.startsWith("55"))) return "PHONE";
+  if (digits.length === 11) return "CPF";
+  if (digits.length === 14) return "CNPJ";
+  // UUID/EVP format
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(clean)) return "EVP";
+  return "EVP";
+}
+
+export async function transferPix(params: {
+  value: number;
+  pixKey: string;
+  description?: string;
+}): Promise<{ transferId: string; status: AsaasTransferStatus }> {
+  if (isMock) {
+    return { transferId: `mock_transfer_${Date.now()}`, status: "PENDING" };
+  }
+
+  const transfer = await post<AsaasTransfer>("/transfers", {
+    value: params.value,
+    operationType: "PIX",
+    pixAddressKey: params.pixKey,
+    pixAddressKeyType: detectPixKeyType(params.pixKey),
+    description: params.description ?? "Saque artesão — Feito de Gente",
+  });
+
+  return { transferId: transfer.id, status: transfer.status };
 }

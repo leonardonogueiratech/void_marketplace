@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ShoppingBag, Search, Menu, X, User, LogOut, LayoutDashboard, ShieldCheck } from "lucide-react";
+import { ShoppingBag, Search, Menu, X, User, LogOut, Store, ShieldCheck, ExternalLink } from "lucide-react";
 import { useState, useRef } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -170,7 +170,7 @@ export function Navbar() {
                   {session.user.role === "ARTISAN" && (
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard">
-                        <LayoutDashboard className="mr-2 size-4 text-[#27ae60]" /> Dashboard
+                        <Store className="mr-2 size-4 text-[#27ae60]" /> Minha Loja
                       </Link>
                     </DropdownMenuItem>
                   )}

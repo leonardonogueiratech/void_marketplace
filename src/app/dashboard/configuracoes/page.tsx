@@ -1,11 +1,14 @@
 ﻿import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { formatDate } from "@/lib/utils";
+import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Store, ExternalLink } from "lucide-react";
+import { User, Store, ExternalLink, Receipt } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SubscriptionPanel } from "./subscription-panel";
+import { COMMISSION_BY_PLAN, SUBSCRIPTION_PRICES } from "@/lib/utils";
+
+const PLAN_LABELS: Record<string, string> = { FREE: "Grátis", BASIC: "Básico", PRO: "Pro" };
 
 export default async function DashboardSettingsPage() {
   const session = await auth();
@@ -16,6 +19,13 @@ export default async function DashboardSettingsPage() {
   if (!artisan) return null;
 
   const sub = artisan.subscription;
+
+  // Saques como proxy de histórico financeiro da conta
+  const recentWithdrawals = await prisma.withdrawal.findMany({
+    where: { artisanId: artisan.id, status: "PAID" },
+    orderBy: { createdAt: "desc" },
+    take: 5,
+  });
 
   const storeStatusLabels: Record<string, { label: string; color: string }> = {
     APPROVED: { label: "Aprovada", color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
@@ -97,6 +107,66 @@ export default async function DashboardSettingsPage() {
             currentStatus={sub?.status ?? "ACTIVE"}
             periodEnd={sub?.currentPeriodEnd ?? null}
           />
+        </CardContent>
+      </Card>
+
+      {/* Resumo do plano atual */}
+      <Card className="border-[#1e3a5f]/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm text-[#1e3a5f] flex items-center gap-2">
+            <Receipt className="size-4" /> Detalhes do plano atual
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              { label: "Plano", value: PLAN_LABELS[sub?.plan ?? "FREE"] },
+              {
+                label: "Mensalidade",
+                value: SUBSCRIPTION_PRICES[sub?.plan as keyof typeof SUBSCRIPTION_PRICES ?? "FREE"] === 0
+                  ? "Grátis"
+                  : formatCurrency(SUBSCRIPTION_PRICES[sub?.plan as keyof typeof SUBSCRIPTION_PRICES ?? "FREE"]),
+              },
+              {
+                label: "Comissão por venda",
+                value: `${((COMMISSION_BY_PLAN[sub?.plan as keyof typeof COMMISSION_BY_PLAN ?? "FREE"] ?? 0) * 100).toFixed(0)}%`,
+              },
+              {
+                label: "Renovação",
+                value: sub?.currentPeriodEnd ? formatDate(sub.currentPeriodEnd) : "—",
+              },
+            ].map(({ label, value }) => (
+              <div key={label}>
+                <p className="text-xs text-neutral-400">{label}</p>
+                <p className="font-semibold text-[#1e3a5f] mt-0.5">{value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Histórico de saques recentes */}
+          {recentWithdrawals.length > 0 && (
+            <div>
+              <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wide mb-2">
+                Últimos saques pagos
+              </p>
+              <div className="space-y-2">
+                {recentWithdrawals.map((w) => (
+                  <div key={w.id} className="flex items-center justify-between py-1.5 border-b border-neutral-100 last:border-0">
+                    <div>
+                      <p className="text-sm text-[#1e3a5f] font-medium">{formatCurrency(w.amount)}</p>
+                      <p className="text-xs text-neutral-400">PIX {w.pixKey} · {formatDate(w.createdAt)}</p>
+                    </div>
+                    <span className="text-xs bg-[#27ae60]/10 text-[#27ae60] px-2 py-0.5 rounded-full">
+                      Pago
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <Button variant="outline" size="sm" asChild className="mt-3 text-xs border-[#1e3a5f]/20 text-[#1e3a5f]">
+                <Link href="/dashboard/financeiro">Ver extrato completo →</Link>
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

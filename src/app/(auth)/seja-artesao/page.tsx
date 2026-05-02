@@ -74,6 +74,7 @@ export default function BeArtisanPage() {
   const [step, setStep] = useState<1 | 2>(1);
   const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("FREE");
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -82,6 +83,7 @@ export default function BeArtisanPage() {
     bio: "",
     city: "",
     state: "",
+    cpfCnpj: "",
     whatsapp: "",
     instagram: "",
   });
@@ -93,15 +95,15 @@ export default function BeArtisanPage() {
       const res = await fetch("/api/artesaos/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, plan: selectedPlan }),
+        body: JSON.stringify({ ...form, plan: selectedPlan, termsAccepted }),
       });
       const data = await res.json();
       if (!res.ok) {
         toast.error(data.error ?? "Erro ao enviar cadastro.");
         return;
       }
-      toast.success("Cadastro enviado! Nossa equipe irá analisar em breve.");
-      router.push("/login");
+      toast.success("Cadastro enviado! Leia o Guia do Vendedor enquanto aguarda a aprovação.");
+      router.push("/guia-do-vendedor");
     } catch {
       toast.error("Erro ao enviar cadastro.");
     } finally {
@@ -282,6 +284,16 @@ export default function BeArtisanPage() {
                     className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>
+                <div className="space-y-1.5 col-span-2">
+                  <Label className="text-[#1e3a5f] font-medium">CPF ou CNPJ</Label>
+                  <Input
+                    placeholder="000.000.000-00 ou 00.000.000/0001-00"
+                    value={form.cpfCnpj}
+                    onChange={(e) => setForm({ ...form, cpfCnpj: e.target.value.replace(/\D/g, "") })}
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                  />
+                  <p className="text-[11px] text-neutral-400">Necessário para criar sua conta de recebimentos no Asaas.</p>
+                </div>
                 <div className="space-y-1.5">
                   <Label className="text-[#1e3a5f] font-medium">WhatsApp</Label>
                   <Input
@@ -313,6 +325,28 @@ export default function BeArtisanPage() {
                 </div>
               </div>
 
+              {/* Termo de adesão */}
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#1e3a5f]/5 border border-[#1e3a5f]/15">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  className="mt-0.5 size-4 accent-[#1e3a5f] cursor-pointer"
+                />
+                <label htmlFor="terms" className="text-sm text-neutral-600 cursor-pointer leading-relaxed">
+                  Li e concordo com os{" "}
+                  <a
+                    href="/termos-do-vendedor"
+                    target="_blank"
+                    className="text-[#1e3a5f] font-medium underline hover:text-[#e07b2a] transition-colors"
+                  >
+                    Termos de Adesão do Vendedor
+                  </a>
+                  , incluindo as políticas de comissão, envio e pagamento via Asaas.
+                </label>
+              </div>
+
               <div className="flex gap-3 pt-2">
                 <Button
                   type="button"
@@ -325,7 +359,7 @@ export default function BeArtisanPage() {
                 <Button
                   type="submit"
                   className="flex-1 bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold"
-                  disabled={loading}
+                  disabled={loading || !termsAccepted}
                 >
                   {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
                   Enviar cadastro

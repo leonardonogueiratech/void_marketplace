@@ -5,6 +5,12 @@ const BASE_URL = process.env.MELHOR_ENVIO_SANDBOX === "true"
 const TOKEN = process.env.MELHOR_ENVIO_TOKEN ?? "";
 const isMock = !TOKEN;
 
+const ME_HEADERS = {
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${TOKEN}`,
+  "User-Agent": "FeitoDeGente/1.0 (contato@feitodegente.com.br)",
+};
+
 // CEP das capitais por estado — usado como origem quando artesão não tem CEP
 const STATE_CEPS: Record<string, string> = {
   SP: "01310100", RJ: "20040020", MG: "30112020", ES: "29010300",
@@ -25,6 +31,12 @@ export interface ShippingOption {
   company: string;
 }
 
+export interface LabelResult {
+  melhorEnvioOrderId: string;
+  labelUrl: string;
+  trackingCode: string | null;
+}
+
 interface MelhorEnvioService {
   id: number;
   name: string;
@@ -34,12 +46,28 @@ interface MelhorEnvioService {
   error?: string;
 }
 
+interface MelhorEnvioCartItem {
+  id: string;
+  protocol?: string;
+  tracking?: string;
+}
+
+interface MelhorEnvioOrder {
+  id: string;
+  protocol?: string;
+  tracking?: string;
+  label?: { url?: string };
+  status?: string;
+}
+
 export function cepByState(uf: string): string {
   return STATE_CEPS[uf.toUpperCase()] ?? "01310100";
 }
 
 // Tabela estática — fallback quando sem token
 import { calcShipping as calcStatic } from "./shipping";
+
+// ─── Cálculo de frete ─────────────────────────────────────────────────────────
 
 export async function calcularFrete(params: {
   originUf: string;
@@ -64,11 +92,7 @@ export async function calcularFrete(params: {
   try {
     const res = await fetch(`${BASE_URL}/me/shipment/calculate`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`,
-        "User-Agent": "FeitoDeGente/1.0 (contato@feitodegente.com.br)",
-      },
+      headers: ME_HEADERS,
       body: JSON.stringify({
         from: { postal_code: fromCep },
         to: { postal_code: toCep },
@@ -86,28 +110,148 @@ export async function calcularFrete(params: {
       .map((s) => {
         const maxDays = s.delivery_range?.max ?? 7;
         const minDays = s.delivery_range?.min ?? 1;
-        const days = maxDays;
         return {
           id: String(s.id),
           label: `${s.name} — ${s.company?.name ?? ""}`.trim().replace(/ —$/, ""),
           description: minDays === maxDays
-            ? `Entrega em ${days} dia${days !== 1 ? "s" : ""} útil`
+            ? `Entrega em ${maxDays} dia${maxDays !== 1 ? "s" : ""} útil`
             : `Entrega em ${minDays}–${maxDays} dias úteis`,
           price: parseFloat(s.price!),
-          days,
+          days: maxDays,
           company: s.company?.name ?? "",
         };
       })
       .sort((a, b) => a.price - b.price);
   } catch {
-    // fallback para tabela estática em caso de erro da API
     return calcStatic(params.originUf, params.destinationCep).map((o) => ({
-      id: o.id,
-      label: o.label,
-      description: o.description,
-      price: o.price,
-      days: o.days,
-      company: "Correios",
+      id: o.id, label: o.label, description: o.description,
+      price: o.price, days: o.days, company: "Correios",
     }));
   }
+}
+
+// ─── Geração de etiqueta ──────────────────────────────────────────────────────
+
+export async function gerarEtiqueta(params: {
+  serviceId: number;
+  from: {
+    name: string;
+    email: string;
+    phone?: string;
+    postalCode: string;
+  };
+  to: {
+    name: string;
+    email: string;
+    phone?: string;
+    street: string;
+    number: string;
+    complement?: string;
+    district: string;
+    city: string;
+    state: string;
+    postalCode: string;
+  };
+  products: Array<{ name: string; quantity: number; unitaryValue: number }>;
+  volume: { height: number; width: number; length: number; weight: number };
+  insuranceValue: number;
+}): Promise<LabelResult> {
+  if (isMock) {
+    return {
+      melhorEnvioOrderId: `mock_me_${Date.now()}`,
+      labelUrl: "https://sandbox.melhorenvio.com.br/etiqueta/mock.pdf",
+      trackingCode: `BR${Date.now().toString().slice(-9)}BR`,
+    };
+  }
+
+  // 1. Add to cart
+  const cartRes = await fetch(`${BASE_URL}/me/cart`, {
+    method: "POST",
+    headers: ME_HEADERS,
+    body: JSON.stringify({
+      service: params.serviceId,
+      from: {
+        name: params.from.name,
+        email: params.from.email,
+        phone: params.from.phone,
+        postal_code: params.from.postalCode.replace(/\D/g, ""),
+      },
+      to: {
+        name: params.to.name,
+        email: params.to.email,
+        phone: params.to.phone,
+        address: params.to.street,
+        number: params.to.number,
+        complement: params.to.complement,
+        district: params.to.district,
+        city: params.to.city,
+        state_abbr: params.to.state,
+        postal_code: params.to.postalCode.replace(/\D/g, ""),
+        country_id: "BR",
+      },
+      products: params.products.map((p) => ({
+        name: p.name,
+        quantity: p.quantity,
+        unitary_value: p.unitaryValue,
+      })),
+      volumes: [{
+        height: params.volume.height,
+        width: params.volume.width,
+        length: params.volume.length,
+        weight: params.volume.weight,
+      }],
+      options: {
+        insurance_value: params.insuranceValue,
+        receipt: false,
+        own_hand: false,
+        reverse: false,
+        non_commercial: false,
+      },
+    }),
+  });
+
+  if (!cartRes.ok) {
+    const err = await cartRes.text();
+    throw new Error(`Melhor Envio cart → ${cartRes.status}: ${err}`);
+  }
+
+  const cartItem = await cartRes.json() as MelhorEnvioCartItem;
+  const meOrderId = cartItem.id;
+
+  // 2. Checkout (pay from wallet)
+  const checkoutRes = await fetch(`${BASE_URL}/me/shipment/checkout`, {
+    method: "POST",
+    headers: ME_HEADERS,
+    body: JSON.stringify({ orders: [meOrderId] }),
+  });
+
+  if (!checkoutRes.ok) {
+    const err = await checkoutRes.text();
+    throw new Error(`Melhor Envio checkout → ${checkoutRes.status}: ${err}`);
+  }
+
+  // 3. Generate label — returns redirect URL to PDF
+  const generateUrl = `${BASE_URL}/me/shipment/generate?orders[]=${meOrderId}`;
+  const generateRes = await fetch(generateUrl, {
+    headers: ME_HEADERS,
+    redirect: "manual",
+  });
+
+  // Melhor Envio returns 302 redirect to PDF URL
+  const labelUrl = generateRes.headers.get("location")
+    ?? `${BASE_URL}/me/shipment/generate?orders[]=${meOrderId}`;
+
+  // 4. Get tracking code from order details
+  let trackingCode: string | null = null;
+  try {
+    const orderRes = await fetch(`${BASE_URL}/me/orders/${meOrderId}`, { headers: ME_HEADERS });
+    if (orderRes.ok) {
+      const order = await orderRes.json() as MelhorEnvioOrder;
+      trackingCode = order.tracking ?? cartItem.tracking ?? null;
+    }
+  } catch {
+    // tracking will be null, updated via webhook later
+  }
+
+  return { melhorEnvioOrderId: meOrderId, labelUrl, trackingCode };
 }

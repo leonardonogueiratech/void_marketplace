@@ -45,12 +45,14 @@ export default function ContaSejaArtesaoPage() {
   const router = useRouter();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [loading, setLoading] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("FREE");
   const [form, setForm] = useState({
     storeName: "",
     bio: "",
     city: "",
     state: "",
+    cpfCnpj: "",
     whatsapp: "",
     instagram: "",
   });
@@ -62,7 +64,7 @@ export default function ContaSejaArtesaoPage() {
       const res = await fetch("/api/conta/seja-artesao", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, plan: selectedPlan }),
+        body: JSON.stringify({ ...form, plan: selectedPlan, termsAccepted }),
       });
       const data = await res.json();
       if (!res.ok) { toast.error(data.error ?? "Erro ao enviar."); return; }
@@ -88,6 +90,18 @@ export default function ContaSejaArtesaoPage() {
         <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-sm text-amber-700 text-left flex gap-3">
           <Clock className="size-4 shrink-0 mt-0.5" />
           <p>Enquanto aguarda, você ainda pode navegar como comprador normalmente. Quando aprovado, o painel de artesão aparecerá automaticamente.</p>
+        </div>
+        <div className="bg-[#1e3a5f]/5 border border-[#1e3a5f]/15 rounded-xl p-4 text-sm text-[#1e3a5f] text-left">
+          <p className="font-semibold mb-1">Use o tempo de espera bem:</p>
+          <a
+            href="/guia-do-vendedor"
+            className="inline-flex items-center gap-1.5 text-[#e07b2a] font-medium underline hover:text-[#c96a1e] transition-colors"
+          >
+            Leia o Guia do Vendedor →
+          </a>
+          <p className="text-neutral-500 text-xs mt-1">
+            Explica como funciona o Asaas, como enviar pelos Correios e tudo mais.
+          </p>
         </div>
         <Button
           onClick={() => router.push("/")}
@@ -201,6 +215,15 @@ export default function ContaSejaArtesaoPage() {
                   <Label>Estado (UF)</Label>
                   <Input maxLength={2} placeholder="SP" value={form.state} onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} />
                 </div>
+                <div className="space-y-1.5 col-span-2">
+                  <Label>CPF ou CNPJ</Label>
+                  <Input
+                    placeholder="000.000.000-00 ou 00.000.000/0001-00"
+                    value={form.cpfCnpj}
+                    onChange={(e) => setForm({ ...form, cpfCnpj: e.target.value.replace(/\D/g, "") })}
+                  />
+                  <p className="text-[11px] text-neutral-400">Necessário para criar sua conta de recebimentos no Asaas.</p>
+                </div>
                 <div className="space-y-1.5">
                   <Label>WhatsApp</Label>
                   <Input placeholder="11999999999" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} />
@@ -220,9 +243,31 @@ export default function ContaSejaArtesaoPage() {
                   />
                 </div>
               </div>
+              {/* Termo de adesão */}
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#1e3a5f]/5 border border-[#1e3a5f]/15">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  className="mt-0.5 size-4 accent-[#1e3a5f] cursor-pointer"
+                />
+                <label htmlFor="terms" className="text-sm text-neutral-600 cursor-pointer leading-relaxed">
+                  Li e concordo com os{" "}
+                  <a
+                    href="/termos-do-vendedor"
+                    target="_blank"
+                    className="text-[#1e3a5f] font-medium underline hover:text-[#e07b2a] transition-colors"
+                  >
+                    Termos de Adesão do Vendedor
+                  </a>
+                  , incluindo as políticas de comissão, envio e pagamento via Asaas.
+                </label>
+              </div>
+
               <div className="flex gap-3 pt-2">
                 <Button type="button" variant="outline" onClick={() => setStep(1)}>← Voltar</Button>
-                <Button type="submit" disabled={loading} className="flex-1 bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold">
+                <Button type="submit" disabled={loading || !termsAccepted} className="flex-1 bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold">
                   {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
                   Enviar cadastro
                 </Button>

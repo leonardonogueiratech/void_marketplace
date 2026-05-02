@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Package, ShoppingBag, DollarSign,
-  User, Settings, LogOut, Menu, X, Star, MessageCircle
+  User, Settings, LogOut, Menu, X, Star, MessageCircle,
+  ExternalLink, Store, ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,65 +16,77 @@ import { getInitials } from "@/lib/utils";
 interface SidebarProps {
   artisan: {
     storeName: string;
+    slug: string;
     logoImage?: string | null;
     status: string;
   };
 }
 
 const navItems = [
-  { href: "/dashboard", label: "Visão Geral", icon: LayoutDashboard, exact: true },
-  { href: "/dashboard/produtos", label: "Produtos", icon: Package },
-  { href: "/dashboard/pedidos", label: "Pedidos", icon: ShoppingBag },
-  { href: "/dashboard/financeiro", label: "Financeiro", icon: DollarSign },
-  { href: "/dashboard/avaliacoes", label: "Avaliações", icon: Star },
-  { href: "/dashboard/perfil", label: "Meu Perfil", icon: User },
-  { href: "/dashboard/configuracoes", label: "Configurações", icon: Settings },
-  { href: "/dashboard/chat", label: "Mensagens", icon: MessageCircle },
+  { href: "/dashboard",               label: "Visão Geral",     icon: LayoutDashboard, exact: true },
+  { href: "/dashboard/produtos",      label: "Produtos",        icon: Package },
+  { href: "/dashboard/pedidos",       label: "Pedidos",         icon: ShoppingBag },
+  { href: "/dashboard/financeiro",    label: "Financeiro",      icon: DollarSign },
+  { href: "/dashboard/avaliacoes",    label: "Avaliações",      icon: Star },
+  { href: "/dashboard/chat",          label: "Mensagens",       icon: MessageCircle },
+  { href: "/dashboard/perfil",        label: "Perfil da Loja",  icon: Store },
+  { href: "/dashboard/configuracoes", label: "Configurações",   icon: Settings },
 ];
+
+const STATUS_COLORS: Record<string, string> = {
+  APPROVED:  "bg-green-100 text-green-700",
+  PENDING:   "bg-amber-100 text-amber-700",
+  REJECTED:  "bg-red-100 text-red-700",
+  SUSPENDED: "bg-neutral-100 text-neutral-600",
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  APPROVED:  "Ativa",
+  PENDING:   "Em análise",
+  REJECTED:  "Rejeitada",
+  SUSPENDED: "Suspensa",
+};
 
 export function DashboardSidebar({ artisan }: SidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const statusColors: Record<string, string> = {
-    APPROVED: "bg-green-100 text-green-700",
-    PENDING: "bg-amber-100 text-amber-700",
-    REJECTED: "bg-red-100 text-red-700",
-    SUSPENDED: "bg-neutral-100 text-neutral-600",
-  };
-
-  const statusLabels: Record<string, string> = {
-    APPROVED: "Ativo",
-    PENDING: "Em análise",
-    REJECTED: "Rejeitado",
-    SUSPENDED: "Suspenso",
-  };
-
   const nav = (
     <nav className="flex flex-col h-full">
       {/* Logo */}
       <div className="px-4 py-4 border-b border-border">
-        <Link href="/">
-          <img src="/logo.svg" alt="Feito de Gente" className="h-8 w-auto" />
+        <Link href="/" className="block">
+          <img src="/logo.svg" alt="Feito de Gente" className="h-8 w-auto brightness-0" />
         </Link>
       </div>
 
-      {/* Profile */}
+      {/* Store profile */}
       <div className="px-4 py-4 border-b border-border">
+        <p className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider mb-2">
+          Minha Loja
+        </p>
         <div className="flex items-center gap-3">
-          <Avatar className="size-10">
+          <Avatar className="size-10 ring-2 ring-[#e07b2a]/20">
             <AvatarImage src={artisan.logoImage ?? undefined} />
-            <AvatarFallback className="text-sm bg-amber-100 text-amber-700">
+            <AvatarFallback className="text-sm bg-[#e07b2a]/10 text-[#e07b2a] font-bold">
               {getInitials(artisan.storeName)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm truncate">{artisan.storeName}</p>
-            <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${statusColors[artisan.status]}`}>
-              {statusLabels[artisan.status]}
+            <p className="font-semibold text-sm truncate text-[#1e3a5f]">{artisan.storeName}</p>
+            <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${STATUS_COLORS[artisan.status]}`}>
+              {STATUS_LABELS[artisan.status]}
             </span>
           </div>
         </div>
+        {/* Ver loja pública */}
+        <Link
+          href={`/artesao/${artisan.slug}`}
+          target="_blank"
+          className="mt-2.5 flex items-center gap-1.5 text-xs text-neutral-400 hover:text-[#e07b2a] transition-colors"
+        >
+          <ExternalLink className="size-3" /> Ver loja pública
+        </Link>
       </div>
 
       {/* Nav items */}
@@ -87,8 +100,8 @@ export function DashboardSidebar({ artisan }: SidebarProps) {
               onClick={() => setOpen(false)}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-neutral-100 hover:text-foreground"
+                  ? "bg-[#1e3a5f] text-white"
+                  : "text-neutral-500 hover:bg-neutral-100 hover:text-[#1e3a5f]"
               }`}
             >
               <Icon className="size-4 shrink-0" />
@@ -98,11 +111,20 @@ export function DashboardSidebar({ artisan }: SidebarProps) {
         })}
       </div>
 
-      {/* Logout */}
-      <div className="px-2 py-3 border-t border-border">
+      {/* Minha Conta + Sair */}
+      <div className="px-2 py-3 border-t border-border space-y-0.5">
+        <Link
+          href="/conta/perfil"
+          onClick={() => setOpen(false)}
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-neutral-500 hover:bg-neutral-100 hover:text-[#1e3a5f] transition-colors"
+        >
+          <User className="size-4" />
+          <span>Minha Conta</span>
+          <ChevronRight className="size-3 ml-auto" />
+        </Link>
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-neutral-100 hover:text-destructive w-full transition-colors"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-neutral-500 hover:bg-red-50 hover:text-red-600 w-full transition-colors"
         >
           <LogOut className="size-4" /> Sair
         </button>

@@ -33,7 +33,6 @@ async function getProduct(slug: string) {
         where: { published: true },
         include: { user: { select: { name: true, image: true } } },
         orderBy: { createdAt: "desc" },
-        take: 10,
       },
     },
   });
@@ -281,8 +280,16 @@ export default async function ProductPage({ params }: Props) {
       {/* Reviews */}
       {product.reviews.length > 0 && (
         <section className="mb-16">
-          <h2 className="text-xl font-bold mb-6">Avaliações</h2>
-          <ReviewList reviews={product.reviews} />
+          <h2 className="text-xl font-bold mb-6">Avaliações dos clientes</h2>
+          <ReviewList
+            reviews={product.reviews}
+            averageRating={product.artisan.rating}
+            artisanName={product.artisan.storeName}
+            distribution={product.reviews.reduce<Record<number, number>>((acc, r) => {
+              acc[r.rating] = (acc[r.rating] ?? 0) + 1;
+              return acc;
+            }, {})}
+          />
         </section>
       )}
 

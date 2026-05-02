@@ -7,8 +7,9 @@ import {
   createBoletoPayment,
   createCreditCardPayment,
   isApproved,
+  type SplitEntry,
 } from "@/lib/asaas";
-import { COMMISSION_RATE } from "@/lib/utils";
+import { COMMISSION_BY_PLAN } from "@/lib/utils";
 import {
   sendOrderConfirmedToCustomer,
   sendNewOrderToArtisan,
@@ -34,6 +35,8 @@ const orderSchema = z.object({
     zipCode: z.string(),
   }),
   paymentMethod: z.enum(["CREDIT_CARD", "PIX", "BOLETO"]),
+  shippingCost: z.number().min(0).default(0),
+  shippingServiceId: z.number().int().optional(),
   cardData: z.object({
     number: z.string(),
     name: z.string(),
@@ -61,7 +64,14 @@ export async function POST(req: NextRequest) {
 
     const products = await prisma.product.findMany({
       where: { id: { in: data.items.map((i) => i.productId) }, status: "ACTIVE" },
-      include: { artisan: { include: { user: { select: { name: true, email: true } } } } },
+      include: {
+        artisan: {
+          include: {
+            user: { select: { name: true, email: true } },
+            subscription: { select: { plan: true } },
+          },
+        },
+      },
     });
 
     if (products.length !== data.items.length) {
@@ -76,6 +86,28 @@ export async function POST(req: NextRequest) {
     }
 
     const subtotal = data.items.reduce((acc, i) => acc + i.unitPrice * i.quantity, 0);
+    const total = subtotal + data.shippingCost;
+
+    // Retenção: artesão só pode sacar 15 dias após pagamento (tempo de entrega + disputa)
+    const DAYS_TO_CLEAR = 15;
+
+    // Build split array: one entry per artisan with their net amount after commission
+    // Shipping stays with platform — split only covers product net amounts
+    const splitMap = new Map<string, number>();
+    for (const item of data.items) {
+      const product = products.find((p) => p.id === item.productId)!;
+      const plan = product.artisan.subscription?.plan ?? "FREE";
+      const commissionRate = COMMISSION_BY_PLAN[plan] ?? COMMISSION_BY_PLAN.FREE;
+      const walletId = product.artisan.asaasWalletId;
+      if (!walletId) continue;
+      const net = Math.round((item.unitPrice * item.quantity * (1 - commissionRate)) * 100) / 100;
+      splitMap.set(walletId, (splitMap.get(walletId) ?? 0) + net);
+    }
+    const split: SplitEntry[] = Array.from(splitMap.entries()).map(([walletId, fixedValue]) => ({
+      walletId,
+      fixedValue,
+      daysToClearAfterPaid: DAYS_TO_CLEAR,
+    }));
 
     const address = await prisma.address.create({
       data: { userId: session.user.id, ...data.address },
@@ -87,7 +119,9 @@ export async function POST(req: NextRequest) {
         addressId: address.id,
         status: "PAYMENT_PENDING",
         subtotal,
-        total: subtotal,
+        shippingCost: data.shippingCost,
+        total,
+        shippingServiceId: data.shippingServiceId,
         items: {
           create: data.items.map((item) => ({
             productId: item.productId,
@@ -118,10 +152,11 @@ export async function POST(req: NextRequest) {
     if (data.paymentMethod === "PIX") {
       const { payment, pix } = await createPixPayment({
         customerId,
-        value: subtotal,
+        value: total,
         description,
         orderId: order.id,
         dueDate,
+        split,
       });
       asaasPaymentId = payment.id;
       pixQrCode = pix.payload;
@@ -130,11 +165,12 @@ export async function POST(req: NextRequest) {
     } else if (data.paymentMethod === "BOLETO") {
       const payment = await createBoletoPayment({
         customerId,
-        value: subtotal,
+        value: total,
         description,
         orderId: order.id,
         dueDate,
         name: payerName,
+        split,
       });
       asaasPaymentId = payment.id;
       boletoUrl = payment.bankSlipUrl ?? payment.invoiceUrl;
@@ -146,11 +182,12 @@ export async function POST(req: NextRequest) {
 
       const payment = await createCreditCardPayment({
         customerId,
-        value: subtotal,
+        value: total,
         description,
         orderId: order.id,
         dueDate,
         installmentCount: installments,
+        split,
         card: {
           holderName: data.cardData?.name ?? payerName,
           number: (data.cardData?.number ?? "").replace(/\s/g, ""),
@@ -170,7 +207,7 @@ export async function POST(req: NextRequest) {
         orderId: order.id,
         method: data.paymentMethod,
         status: approved ? "APPROVED" : "PENDING",
-        amount: subtotal,
+        amount: total,
         asaasPaymentId,
         asaasPaymentLink,
         pixQrCode,
@@ -187,13 +224,16 @@ export async function POST(req: NextRequest) {
       await prisma.order.update({ where: { id: order.id }, data: { status: "PAID" } });
 
       for (const item of order.items) {
+        const product = products.find((p) => p.id === item.productId)!;
+        const plan = product.artisan.subscription?.plan ?? "FREE";
+        const commissionRate = COMMISSION_BY_PLAN[plan] ?? COMMISSION_BY_PLAN.FREE;
         await prisma.commission.create({
           data: {
             artisanId: item.artisanId,
             orderItemId: item.id,
             saleAmount: item.totalPrice,
-            rate: COMMISSION_RATE,
-            amount: item.totalPrice * COMMISSION_RATE,
+            rate: commissionRate,
+            amount: item.totalPrice * commissionRate,
           },
         });
         await prisma.product.update({

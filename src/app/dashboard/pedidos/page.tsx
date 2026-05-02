@@ -1,4 +1,4 @@
-﻿import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatCurrency } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,19 +14,34 @@ export default async function DashboardOrdersPage() {
 
   const orderItems = await prisma.orderItem.findMany({
     where: { artisanId: artisan.id },
-    include: {
+    select: {
+      id: true,
+      quantity: true,
+      totalPrice: true,
+      unitPrice: true,
       product: { select: { name: true, slug: true } },
       order: {
-        include: {
+        select: {
+          id: true,
+          status: true,
+          trackingCode: true,
+          labelUrl: true,
+          melhorEnvioOrderId: true,
+          shippingServiceId: true,
+          createdAt: true,
           user: { select: { name: true, email: true } },
-          customer: true,
+          customer: {
+            select: {
+              street: true, number: true, complement: true,
+              district: true, city: true, state: true, zipCode: true,
+            },
+          },
           payment: { select: { method: true, status: true } },
         },
       },
     },
     orderBy: { order: { createdAt: "desc" } },
   });
-
 
   const totalRevenue = orderItems
     .filter((i) => ["PAID", "PROCESSING", "SHIPPED", "DELIVERED"].includes(i.order.status))

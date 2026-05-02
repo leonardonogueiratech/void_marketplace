@@ -26,16 +26,11 @@ export default async function FinancialPage() {
   });
   if (!artisan) return null;
 
-  const [pendingCommissions, paidCommissions, allCommissions, withdrawals] = await Promise.all([
-    prisma.commission.aggregate({
-      where: { artisanId: artisan.id, paid: false },
-      _sum: { amount: true, saleAmount: true },
-      _count: true,
-    }),
-    prisma.commission.aggregate({
-      where: { artisanId: artisan.id, paid: true },
-      _sum: { amount: true, saleAmount: true },
-    }),
+  // Retenção de 15 dias: dinheiro só disponível após entrega ou decorridos 15 dias
+  const ESCROW_DAYS = 15;
+  const escrowCutoff = new Date(Date.now() - ESCROW_DAYS * 24 * 60 * 60 * 1000);
+
+  const [allCommissions, withdrawals] = await Promise.all([
     prisma.commission.findMany({
       where: { artisanId: artisan.id },
       orderBy: { createdAt: "asc" },
@@ -45,7 +40,12 @@ export default async function FinancialPage() {
         amount: true,
         rate: true,
         paid: true,
-        orderItem: { select: { product: { select: { name: true } } } },
+        orderItem: {
+          select: {
+            product: { select: { name: true } },
+            order: { select: { status: true, deliveredAt: true } },
+          },
+        },
       },
     }),
     prisma.withdrawal.findMany({
@@ -55,17 +55,35 @@ export default async function FinancialPage() {
     }),
   ]);
 
-  const totalSales =
-    (pendingCommissions._sum.saleAmount ?? 0) + (paidCommissions._sum.saleAmount ?? 0);
-  const totalCommissions =
-    (pendingCommissions._sum.amount ?? 0) + (paidCommissions._sum.amount ?? 0);
-  const availableBalance =
-    (pendingCommissions._sum.saleAmount ?? 0) - (pendingCommissions._sum.amount ?? 0);
+  // Classificação de comissões por estado de escrow
+  let releasedBalance = 0;  // disponível para saque
+  let heldBalance = 0;       // retido (aguardando entrega / prazo)
+  let totalSales = 0;
+  let totalCommissions = 0;
+
+  for (const c of allCommissions) {
+    totalSales += c.saleAmount;
+    totalCommissions += c.amount;
+    const net = c.saleAmount - c.amount;
+
+    if (c.paid) continue; // já sacado
+
+    const orderStatus = c.orderItem.order.status;
+    const isDelivered = orderStatus === "DELIVERED";
+    const isPastEscrow = c.createdAt <= escrowCutoff;
+
+    if (isDelivered || isPastEscrow) {
+      releasedBalance += net;
+    } else {
+      heldBalance += net;
+    }
+  }
+
   const pendingWithdrawals = withdrawals.filter(
     (w) => w.status === "PENDING" || w.status === "PROCESSING"
   );
   const lockedAmount = pendingWithdrawals.reduce((a, w) => a + w.amount, 0);
-  const freeBalance = availableBalance - lockedAmount;
+  const freeBalance = releasedBalance - lockedAmount;
 
   const monthlyData = buildMonthlyData(allCommissions);
 
@@ -105,9 +123,9 @@ export default async function FinancialPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: "Total em vendas", value: formatCurrency(totalSales), icon: TrendingUp, color: "text-[#1e3a5f]" },
-          { label: "Saldo disponível", value: formatCurrency(freeBalance), icon: DollarSign, color: "text-[#27ae60]" },
-          { label: "Aguardando saque", value: formatCurrency(lockedAmount), icon: Clock, color: "text-[#e07b2a]" },
-          { label: "Plataforma recebeu", value: formatCurrency(totalCommissions), icon: CheckCircle2, color: "text-[#17a2b8]" },
+          { label: "Disponível p/ saque", value: formatCurrency(freeBalance), icon: DollarSign, color: "text-[#27ae60]" },
+          { label: "Retido (em entrega)", value: formatCurrency(heldBalance), icon: Clock, color: "text-[#e07b2a]" },
+          { label: "Comissão plataforma", value: formatCurrency(totalCommissions), icon: CheckCircle2, color: "text-[#17a2b8]" },
         ].map(({ label, value, icon: Icon, color }) => (
           <Card key={label} className="border-[#1e3a5f]/10">
             <CardContent className="pt-5 pb-4">
@@ -138,10 +156,17 @@ export default async function FinancialPage() {
             <CardTitle className="text-base text-[#1e3a5f]">Solicitar saque</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-neutral-500 mb-4">
-              Saldo disponível:{" "}
-              <strong className="text-[#27ae60]">{formatCurrency(freeBalance)}</strong>
-            </p>
+            <div className="text-sm text-neutral-500 mb-4 space-y-1">
+              <p>
+                Disponível:{" "}
+                <strong className="text-[#27ae60]">{formatCurrency(freeBalance)}</strong>
+              </p>
+              {heldBalance > 0 && (
+                <p className="text-xs text-[#e07b2a]">
+                  {formatCurrency(heldBalance)} retidos — liberados após entrega ou 15 dias
+                </p>
+              )}
+            </div>
             <WithdrawalForm maxAmount={freeBalance} artisanId={artisan.id} />
           </CardContent>
         </Card>
@@ -191,9 +216,9 @@ export default async function FinancialPage() {
           {allCommissions.length === 0 ? (
             <p className="text-sm text-neutral-400 text-center py-8">Nenhuma comissão registrada.</p>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto max-h-[480px] overflow-y-auto">
               <table className="w-full text-sm">
-                <thead>
+                <thead className="sticky top-0 bg-white z-10">
                   <tr className="border-b border-[#1e3a5f]/8">
                     <th className="text-left px-4 py-2.5 text-xs font-semibold text-neutral-400 uppercase tracking-wide">Data</th>
                     <th className="text-left px-4 py-2.5 text-xs font-semibold text-neutral-400 uppercase tracking-wide">Produto</th>
@@ -204,7 +229,7 @@ export default async function FinancialPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#1e3a5f]/6">
-                  {allCommissions.slice(0, 20).map((c, i) => (
+                  {allCommissions.map((c, i) => (
                     <tr key={i} className="hover:bg-[#f7f3ed]/60 transition-colors">
                       <td className="px-4 py-3 text-xs text-neutral-400">{formatDate(c.createdAt)}</td>
                       <td className="px-4 py-3 font-medium text-[#1e3a5f] max-w-[180px] truncate">{c.orderItem.product.name}</td>
@@ -212,9 +237,13 @@ export default async function FinancialPage() {
                       <td className="px-4 py-3 text-right text-red-500 text-xs">−{formatCurrency(c.amount)}</td>
                       <td className="px-4 py-3 text-right font-semibold text-[#27ae60]">{formatCurrency(c.saleAmount - c.amount)}</td>
                       <td className="px-4 py-3 text-center">
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${c.paid ? "bg-[#27ae60]/10 text-[#27ae60]" : "bg-amber-50 text-amber-700"}`}>
-                          {c.paid ? "Pago" : "Pendente"}
-                        </span>
+                        {c.paid ? (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#27ae60]/10 text-[#27ae60]">Sacado</span>
+                        ) : c.orderItem.order.status === "DELIVERED" || c.createdAt <= escrowCutoff ? (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">Disponível</span>
+                        ) : (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700">Retido</span>
+                        )}
                       </td>
                     </tr>
                   ))}

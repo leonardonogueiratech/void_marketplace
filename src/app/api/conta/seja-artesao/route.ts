@@ -9,9 +9,11 @@ const schema = z.object({
   bio: z.string().min(10, "Conte um pouco mais sobre você (mínimo 10 caracteres)."),
   city: z.string().optional(),
   state: z.string().max(2).optional(),
+  cpfCnpj: z.string().min(11, "CPF ou CNPJ inválido.").optional(),
   whatsapp: z.string().optional(),
   instagram: z.string().optional(),
   plan: z.enum(["FREE", "BASIC", "PRO"]).default("FREE"),
+  termsAccepted: z.literal(true, { message: "Você precisa aceitar os Termos de Adesão." }),
 });
 
 export async function POST(req: NextRequest) {
@@ -60,9 +62,11 @@ export async function POST(req: NextRequest) {
           bio: data.bio,
           city: data.city,
           state: data.state,
+          cpfCnpj: data.cpfCnpj,
           whatsapp: data.whatsapp,
           instagram: data.instagram,
           status: "PENDING",
+          termsAcceptedAt: new Date(),
           subscription: {
             create: { plan: data.plan, status: "ACTIVE" },
           },

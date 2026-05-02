@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { sendArtisanApproved, sendArtisanRejected } from "@/lib/email";
+import { createArtisanAccount } from "@/lib/asaas";
 
 const schema = z.object({
   action: z.enum(["approve", "reject", "suspend"]),
@@ -30,6 +31,26 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       },
       include: { user: { select: { name: true, email: true } } },
     });
+
+    // create Asaas subconta on approval (fire-and-forget, non-blocking)
+    if (action === "approve" && artisan.cpfCnpj && !artisan.asaasAccountId) {
+      void (async () => {
+        try {
+          const { accountId, walletId } = await createArtisanAccount({
+            name: artisan.user?.name ?? artisan.storeName,
+            email: artisan.user?.email ?? "",
+            cpfCnpj: artisan.cpfCnpj!,
+            mobilePhone: artisan.whatsapp ?? undefined,
+          });
+          await prisma.artisanProfile.update({
+            where: { id },
+            data: { asaasAccountId: accountId, asaasWalletId: walletId },
+          });
+        } catch (e) {
+          console.error("Asaas subconta creation failed:", e);
+        }
+      })();
+    }
 
     // fire-and-forget email
     const email = artisan.user?.email;
