@@ -1,11 +1,15 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, X, Info, Zap, Star, Sparkles } from "lucide-react";
+import { ArrowRight, Check, X, Info, Zap, Star, Sparkles, BadgeCheck } from "lucide-react";
 import {
   SUBSCRIPTION_PRICES,
+  SUBSCRIPTION_LAUNCH_PRICES,
   SUBSCRIPTION_LIMITS,
   COMMISSION_BY_PLAN,
+  COMMISSION_LAUNCH_BY_PLAN,
+  PHOTO_LIMITS,
+  PLAN_PROFILES,
   PAYMENT_PROCESSING_FEE,
   PAYMENT_PROCESSING_FIXED,
 } from "@/lib/utils";
@@ -18,82 +22,88 @@ export const metadata: Metadata = {
 const plans = [
   {
     id: "FREE",
-    name: "Grátis",
+    name: "Inicial",
     icon: Zap,
     color: "#27ae60",
     price: SUBSCRIPTION_PRICES.FREE,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.FREE,
     productLimit: SUBSCRIPTION_LIMITS.FREE,
+    photoLimit: PHOTO_LIMITS.FREE,
     highlight: false,
-    badge: null,
-    description: "Para quem quer testar a plataforma antes de se comprometer.",
+    badge: null as string | null,
+    description: "Para artesãos que estão começando e querem mostrar seu trabalho com qualidade.",
     features: [
-      { label: `Até ${SUBSCRIPTION_LIMITS.FREE} produtos ativos`, included: true },
-      { label: "Perfil público da loja", included: true },
-      { label: "Painel básico de pedidos", included: true },
+      { label: "Até 5 produtos cadastrados", included: true },
+      { label: "4 fotos por produto", included: true },
+      { label: "Loja básica personalizada", included: true },
+      { label: "Selo Produto Autoral", included: true },
       { label: "Suporte por e-mail", included: true },
-      { label: "Perfil em destaque", included: false },
+      { label: "Destaque na busca", included: false },
       { label: "Chat com clientes", included: false },
       { label: "Analytics de vendas", included: false },
-      { label: "Destaque na página inicial", included: false },
-      { label: "Suporte prioritário", included: false },
     ],
-    cta: "Começar grátis",
+    cta: "Assinar Inicial",
     ctaHref: "/seja-artesao",
   },
   {
     id: "BASIC",
-    name: "Básico",
+    name: "Profissional",
     icon: Star,
     color: "#1e3a5f",
     price: SUBSCRIPTION_PRICES.BASIC,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.BASIC,
     productLimit: SUBSCRIPTION_LIMITS.BASIC,
+    photoLimit: PHOTO_LIMITS.BASIC,
     highlight: true,
-    badge: "Mais popular",
-    description: "Para artesãos que querem crescer com visibilidade e ferramentas reais.",
+    badge: "Recomendado" as string | null,
+    description: "Ideal para MEIs e vendedores ativos com produção regular que querem crescer.",
     features: [
-      { label: `Até ${SUBSCRIPTION_LIMITS.BASIC} produtos ativos`, included: true },
-      { label: "Perfil público da loja", included: true },
-      { label: "Painel completo de pedidos", included: true },
-      { label: "Suporte por e-mail", included: true },
-      { label: "Perfil em destaque nas buscas", included: true },
+      { label: "Até 20 produtos cadastrados", included: true },
+      { label: "6 fotos por produto", included: true },
+      { label: "Loja intermediária personalizada", included: true },
+      { label: "Selo Produto Autoral", included: true },
+      { label: "Suporte por e-mail + chat", included: true },
+      { label: "Destaque ocasional na busca", included: true },
       { label: "Chat com clientes", included: true },
       { label: "Analytics de vendas", included: true },
-      { label: "Destaque na página inicial", included: false },
-      { label: "Suporte prioritário", included: false },
     ],
-    cta: "Assinar Básico",
+    cta: "Assinar Profissional",
     ctaHref: "/seja-artesao",
   },
   {
     id: "PRO",
-    name: "Pro",
+    name: "Ateliê",
     icon: Sparkles,
     color: "#e07b2a",
     price: SUBSCRIPTION_PRICES.PRO,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.PRO,
     productLimit: SUBSCRIPTION_LIMITS.PRO,
+    photoLimit: PHOTO_LIMITS.PRO,
     highlight: false,
-    badge: "Menor comissão",
-    description: "Para quem quer o máximo de exposição, recursos e a menor comissão da plataforma.",
+    badge: "Menor comissão" as string | null,
+    description: "Para pequenas marcas e ateliês com maior volume de produtos e vendas.",
     features: [
-      { label: "Produtos ilimitados", included: true },
-      { label: "Perfil público da loja", included: true },
-      { label: "Painel completo de pedidos", included: true },
-      { label: "Suporte prioritário 24h", included: true },
-      { label: "Perfil em destaque nas buscas", included: true },
+      { label: "Produtos ilimitados (acima de 20)", included: true },
+      { label: "10 fotos por produto", included: true },
+      { label: "Loja completa personalizada", included: true },
+      { label: "Selo Produto Autoral", included: true },
+      { label: "Suporte prioritário", included: true },
+      { label: "Destaque prioritário na busca", included: true },
       { label: "Chat com clientes", included: true },
       { label: "Analytics avançado de vendas", included: true },
-      { label: "Destaque garantido na página inicial", included: true },
-      { label: "Relatórios exportáveis (CSV)", included: true },
     ],
-    cta: "Assinar Pro",
+    cta: "Assinar Ateliê",
     ctaHref: "/seja-artesao",
   },
 ];
 
-/** Simula o valor líquido recebido para um produto de R$ 100 */
+/** Calcula valor líquido usando comissão de lançamento */
 function calcNet(price: number, commission: number) {
   const commissionAmt = price * commission;
   const processingAmt = price * PAYMENT_PROCESSING_FEE + PAYMENT_PROCESSING_FIXED;
@@ -102,23 +112,84 @@ function calcNet(price: number, commission: number) {
 }
 
 const comparisonRows = [
-  { label: "Produtos ativos", free: `Até ${SUBSCRIPTION_LIMITS.FREE}`, basic: `Até ${SUBSCRIPTION_LIMITS.BASIC}`, pro: "Ilimitados" },
-  { label: "Comissão por venda", free: `${(COMMISSION_BY_PLAN.FREE * 100).toFixed(0)}%`, basic: `${(COMMISSION_BY_PLAN.BASIC * 100).toFixed(0)}%`, pro: `${(COMMISSION_BY_PLAN.PRO * 100).toFixed(0)}%` },
-  { label: "Taxa de processamento*", free: `${(PAYMENT_PROCESSING_FEE * 100).toFixed(2)}% + R$${PAYMENT_PROCESSING_FIXED.toFixed(2)}`, basic: `${(PAYMENT_PROCESSING_FEE * 100).toFixed(2)}% + R$${PAYMENT_PROCESSING_FIXED.toFixed(2)}`, pro: `${(PAYMENT_PROCESSING_FEE * 100).toFixed(2)}% + R$${PAYMENT_PROCESSING_FIXED.toFixed(2)}` },
-  { label: "Taxa de listagem", free: "Grátis", basic: "Grátis", pro: "Grátis" },
-  { label: "Perfil em destaque", free: "—", basic: "✓", pro: "✓" },
-  { label: "Chat com clientes", free: "—", basic: "✓", pro: "✓" },
-  { label: "Analytics", free: "—", basic: "Básico", pro: "Avançado" },
-  { label: "Destaque na home", free: "—", basic: "—", pro: "✓" },
-  { label: "Suporte", free: "E-mail", basic: "E-mail", pro: "Prioritário 24h" },
+  {
+    label: "Perfil",
+    free: PLAN_PROFILES.FREE,
+    basic: PLAN_PROFILES.BASIC,
+    pro: PLAN_PROFILES.PRO,
+  },
+  {
+    label: "Mensalidade regular",
+    free: `R$ ${SUBSCRIPTION_PRICES.FREE.toFixed(2).replace(".", ",")}/mês`,
+    basic: `R$ ${SUBSCRIPTION_PRICES.BASIC.toFixed(2).replace(".", ",")}/mês`,
+    pro: `R$ ${SUBSCRIPTION_PRICES.PRO.toFixed(2).replace(".", ",")}/mês`,
+    highlight: false,
+  },
+  {
+    label: "Mensalidade lançamento ★",
+    free: `R$ ${SUBSCRIPTION_LAUNCH_PRICES.FREE.toFixed(2).replace(".", ",")}/mês`,
+    basic: `R$ ${SUBSCRIPTION_LAUNCH_PRICES.BASIC.toFixed(2).replace(".", ",")}/mês`,
+    pro: `R$ ${SUBSCRIPTION_LAUNCH_PRICES.PRO.toFixed(2).replace(".", ",")}/mês`,
+    highlight: true,
+  },
+  {
+    label: "Comissão regular",
+    free: `${(COMMISSION_BY_PLAN.FREE * 100).toFixed(0)}%`,
+    basic: `${(COMMISSION_BY_PLAN.BASIC * 100).toFixed(0)}%`,
+    pro: `${(COMMISSION_BY_PLAN.PRO * 100).toFixed(0)}%`,
+    highlight: false,
+  },
+  {
+    label: "Comissão lançamento ★",
+    free: `${(COMMISSION_LAUNCH_BY_PLAN.FREE * 100).toFixed(0)}%`,
+    basic: `${(COMMISSION_LAUNCH_BY_PLAN.BASIC * 100).toFixed(0)}%`,
+    pro: `${(COMMISSION_LAUNCH_BY_PLAN.PRO * 100).toFixed(0)}%`,
+    highlight: true,
+  },
+  {
+    label: "Produtos cadastrados",
+    free: `Até ${SUBSCRIPTION_LIMITS.FREE}`,
+    basic: `Até ${SUBSCRIPTION_LIMITS.BASIC}`,
+    pro: "Acima de 20",
+  },
+  {
+    label: "Fotos por produto",
+    free: `${PHOTO_LIMITS.FREE} fotos`,
+    basic: `${PHOTO_LIMITS.BASIC} fotos`,
+    pro: `${PHOTO_LIMITS.PRO} fotos`,
+  },
+  {
+    label: "Loja personalizada",
+    free: "Básica",
+    basic: "Intermediária",
+    pro: "Completa",
+  },
+  {
+    label: "Destaque na busca",
+    free: "—",
+    basic: "Ocasional",
+    pro: "Prioritário",
+  },
+  {
+    label: "Selo Produto Autoral",
+    free: "✓",
+    basic: "✓",
+    pro: "✓",
+  },
+  {
+    label: "Suporte",
+    free: "E-mail",
+    basic: "E-mail + Chat",
+    pro: "Prioritário",
+  },
 ];
 
 export default function PlansPage() {
-  const example = 100; // R$ 100 de venda para exemplo
+  const example = 100;
   const nets = {
-    FREE:  calcNet(example, COMMISSION_BY_PLAN.FREE),
-    BASIC: calcNet(example, COMMISSION_BY_PLAN.BASIC),
-    PRO:   calcNet(example, COMMISSION_BY_PLAN.PRO),
+    FREE:  calcNet(example, COMMISSION_LAUNCH_BY_PLAN.FREE),
+    BASIC: calcNet(example, COMMISSION_LAUNCH_BY_PLAN.BASIC),
+    PRO:   calcNet(example, COMMISSION_LAUNCH_BY_PLAN.PRO),
   };
 
   return (
@@ -134,8 +205,19 @@ export default function PlansPage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-[#a8d5a2] mb-3">Para artesãos</p>
           <h1 className="text-4xl font-bold text-[#f7f3ed] mb-4">Planos e Preços</h1>
           <p className="text-[#f7f3ed]/60 text-lg max-w-xl mx-auto">
-            Sem surpresas. Todos os custos são transparentes — mensalidade, comissão e taxa de processamento detalhados abaixo.
+            Mensalidade + comissão por venda. Todos os custos transparentes — sem surpresas.
           </p>
+        </div>
+      </div>
+
+      {/* ── Banner de lançamento ─────────────────────────────────────────── */}
+      <div className="bg-[#e07b2a] py-3 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 text-center">
+          <span className="text-white font-bold text-sm">★ Promoção de Lançamento</span>
+          <span className="text-white/85 text-sm">
+            50% de desconto nos primeiros 3 meses — preços e comissões reduzidos automaticamente.
+            Após o período, os valores regulares entram em vigor.
+          </span>
         </div>
       </div>
 
@@ -164,35 +246,43 @@ export default function PlansPage() {
 
                 <div className="p-7">
                   {/* Icon + name */}
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-3 mb-1">
                     <div className="size-10 rounded-xl flex items-center justify-center" style={{ background: `${plan.color}18` }}>
                       <Icon className="size-5" style={{ color: plan.color }} />
                     </div>
-                    <h2 className="text-xl font-bold text-[#1e3a5f]">{plan.name}</h2>
+                    <div>
+                      <h2 className="text-xl font-bold text-[#1e3a5f]">{plan.name}</h2>
+                      <p className="text-xs text-neutral-400">{PLAN_PROFILES[plan.id]}</p>
+                    </div>
                   </div>
 
-                  {/* Price */}
-                  <div className="mb-2">
-                    {plan.price === 0 ? (
-                      <span className="text-4xl font-bold text-[#1e3a5f]">Grátis</span>
-                    ) : (
-                      <div className="flex items-end gap-1">
-                        <span className="text-sm text-neutral-400 mb-1">R$</span>
-                        <span className="text-4xl font-bold text-[#1e3a5f]">
-                          {plan.price.toFixed(2).replace(".", ",")}
-                        </span>
-                        <span className="text-sm text-neutral-400 mb-1">/mês</span>
-                      </div>
-                    )}
+                  {/* Price — lançamento em destaque */}
+                  <div className="mt-4 mb-1">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-xs text-neutral-400">R$</span>
+                      <span className="text-4xl font-bold text-[#1e3a5f]">
+                        {plan.launchPrice.toFixed(2).replace(".", ",")}
+                      </span>
+                      <span className="text-xs text-neutral-400">/mês</span>
+                    </div>
+                    <p className="text-xs text-neutral-400 mt-0.5">
+                      nos primeiros 3 meses · depois{" "}
+                      <span className="line-through">R$ {plan.price.toFixed(2).replace(".", ",")}</span>/mês
+                    </p>
                   </div>
 
                   {/* Commission highlight */}
-                  <div
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full mb-4"
-                    style={{ background: `${plan.color}15`, color: plan.color }}
-                  >
-                    <span>{(plan.commission * 100).toFixed(0)}% de comissão por venda</span>
+                  <div className="flex flex-wrap gap-2 mb-1">
+                    <div
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full"
+                      style={{ background: `${plan.color}15`, color: plan.color }}
+                    >
+                      {(plan.launchCommission * 100).toFixed(0)}% comissão (lançamento)
+                    </div>
                   </div>
+                  <p className="text-xs text-neutral-400 mb-5">
+                    Após 3 meses: {(plan.commission * 100).toFixed(0)}% de comissão
+                  </p>
 
                   <p className="text-sm text-neutral-500 leading-relaxed mb-6">{plan.description}</p>
 
@@ -231,12 +321,18 @@ export default function PlansPage() {
           })}
         </div>
 
+        {/* Nota do lançamento */}
+        <p className="text-xs text-neutral-400 text-center mt-5 flex items-center justify-center gap-1.5">
+          <Info className="size-3.5 shrink-0" />
+          ★ Promoção de lançamento: 50% de desconto por 3 meses. Após o período, os preços e comissões regulares entram em vigor automaticamente.
+        </p>
+
         {/* ── Simulador de ganhos ──────────────────────────────────────── */}
         <section className="mt-16">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-[#1e3a5f]">O que você recebe por venda de R$ 100</h2>
             <p className="text-neutral-500 mt-1 text-sm">
-              Exemplo com produto de R$ 100,00 — todos os descontos já calculados
+              Exemplo com comissão de lançamento — todos os descontos já calculados
             </p>
           </div>
 
@@ -248,34 +344,27 @@ export default function PlansPage() {
               ))}
             </div>
 
-            {/* Preço de venda */}
             <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6">
-              <div className="p-4 text-sm text-neutral-600 flex items-center gap-1.5">
-                Preço de venda
-              </div>
+              <div className="p-4 text-sm text-neutral-600">Preço de venda</div>
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center text-sm font-medium text-neutral-700">R$ 100,00</div>
               ))}
             </div>
 
-            {/* Comissão plataforma */}
             <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-[#e07b2a]/5">
-              <div className="p-4 text-sm text-neutral-600 flex items-center gap-1.5">
-                Comissão da plataforma
-              </div>
+              <div className="p-4 text-sm text-neutral-600">Comissão da plataforma</div>
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
                   − R$ {nets[p.id as keyof typeof nets].commissionAmt.toFixed(2).replace(".", ",")}
-                  <span className="block text-xs text-[#e07b2a]/60">({(COMMISSION_BY_PLAN[p.id] * 100).toFixed(0)}%)</span>
+                  <span className="block text-xs text-[#e07b2a]/60">
+                    ({(COMMISSION_LAUNCH_BY_PLAN[p.id] * 100).toFixed(0)}% lançamento)
+                  </span>
                 </div>
               ))}
             </div>
 
-            {/* Taxa de processamento */}
             <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-[#e07b2a]/5">
-              <div className="p-4 text-sm text-neutral-600 flex items-center gap-1.5">
-                Taxa de pagamento*
-              </div>
+              <div className="p-4 text-sm text-neutral-600">Taxa de pagamento*</div>
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
                   − R$ {nets[p.id as keyof typeof nets].processingAmt.toFixed(2).replace(".", ",")}
@@ -284,21 +373,6 @@ export default function PlansPage() {
               ))}
             </div>
 
-            {/* Mensalidade */}
-            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-[#e07b2a]/5">
-              <div className="p-4 text-sm text-neutral-600">Mensalidade do plano</div>
-              {plans.map((p) => (
-                <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
-                  {p.price === 0 ? (
-                    <span className="text-[#27ae60]">Grátis</span>
-                  ) : (
-                    <>− R$ {p.price.toFixed(2).replace(".", ",")}/mês</>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Valor líquido */}
             <div className="grid grid-cols-4 bg-[#f7f3ed]">
               <div className="p-4 text-sm font-bold text-[#1e3a5f]">Você recebe</div>
               {plans.map((p) => (
@@ -314,8 +388,7 @@ export default function PlansPage() {
 
           <p className="text-xs text-neutral-400 mt-3 text-center flex items-center justify-center gap-1">
             <Info className="size-3.5 shrink-0" />
-            * Taxa de processamento cobrada pelo gateway de pagamento (igual em todos os planos).
-            Não inclui a mensalidade no cálculo de "você recebe" acima para facilitar a comparação por venda.
+            * Taxa de processamento cobrada pelo gateway (igual em todos os planos). A mensalidade é cobrada separadamente e não entra no cálculo acima.
           </p>
         </section>
 
@@ -326,16 +399,18 @@ export default function PlansPage() {
           </div>
 
           <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 overflow-hidden shadow-sm">
+            {/* Header */}
             <div className="grid grid-cols-4 bg-[#f7f3ed] border-b border-[#1e3a5f]/8">
               <div className="p-4 text-xs font-semibold text-neutral-400 uppercase tracking-wider">Recurso</div>
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center">
                   <span className="text-sm font-bold text-[#1e3a5f]">{p.name}</span>
-                  {p.price > 0 && (
-                    <span className="block text-xs text-neutral-400">
-                      R$ {p.price.toFixed(0)}/mês
-                    </span>
-                  )}
+                  <span className="block text-xs text-[#e07b2a] font-semibold mt-0.5">
+                    R$ {p.launchPrice.toFixed(0)}/mês ★
+                  </span>
+                  <span className="block text-xs text-neutral-400">
+                    (R$ {p.price.toFixed(0)}/mês regular)
+                  </span>
                 </div>
               ))}
             </div>
@@ -343,14 +418,35 @@ export default function PlansPage() {
             {comparisonRows.map((row, i) => (
               <div
                 key={row.label}
-                className={`grid grid-cols-4 border-b border-[#1e3a5f]/6 last:border-0 ${i % 2 === 0 ? "" : "bg-[#f7f3ed]/40"}`}
+                className={`grid grid-cols-4 border-b border-[#1e3a5f]/6 last:border-0 ${
+                  row.highlight
+                    ? "bg-[#e07b2a]/5"
+                    : i % 2 === 0
+                    ? ""
+                    : "bg-[#f7f3ed]/40"
+                }`}
               >
-                <div className="p-4 text-sm text-neutral-600 font-medium">{row.label}</div>
+                <div className="p-4 text-sm text-neutral-600 font-medium">
+                  {row.label.replace(" ★", "")}
+                  {row.highlight && (
+                    <span className="ml-1.5 text-[10px] font-bold text-[#e07b2a] bg-[#e07b2a]/10 px-1.5 py-0.5 rounded-full">
+                      LANÇAMENTO
+                    </span>
+                  )}
+                </div>
                 <div className="p-4 text-center text-sm text-neutral-500">{row.free}</div>
                 <div className="p-4 text-center text-sm text-neutral-700">{row.basic}</div>
                 <div className="p-4 text-center text-sm text-neutral-700 font-medium">{row.pro}</div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-4 bg-[#1e3a5f]/4 border border-[#1e3a5f]/10 rounded-xl p-4 flex items-start gap-3">
+            <BadgeCheck className="size-5 text-[#27ae60] shrink-0 mt-0.5" />
+            <p className="text-sm text-[#1e3a5f]/80 leading-relaxed">
+              <strong>Todos os planos incluem o Selo Produto Autoral</strong>, reforçando o posicionamento de exclusividade
+              da plataforma e certificando que cada peça é criada por um artesão real.
+            </p>
           </div>
         </section>
 
@@ -358,20 +454,28 @@ export default function PlansPage() {
         <section className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-5">
           {[
             {
-              q: "Existe taxa de listagem por produto?",
-              a: "Não. Ao contrário de algumas plataformas internacionais, não cobramos por cada produto cadastrado. Você paga apenas a mensalidade do plano (ou nada, no plano gratuito) e a comissão quando vende.",
+              q: "Como funciona a promoção de lançamento?",
+              a: "Ao assinar qualquer plano durante o período de lançamento, você paga 50% de desconto na mensalidade e na comissão pelos primeiros 3 meses. Após esse período, os preços regulares entram em vigor automaticamente — sem surpresas.",
             },
             {
-              q: "A comissão incide sobre frete também?",
+              q: "Existe taxa de listagem por produto?",
+              a: "Não. Ao contrário de algumas plataformas internacionais, não cobramos por produto cadastrado. Você paga a mensalidade do plano e a comissão apenas quando vende.",
+            },
+            {
+              q: "A comissão incide sobre o frete também?",
               a: "Não. A comissão é calculada apenas sobre o valor do produto, excluindo o frete cobrado do cliente.",
             },
             {
               q: "Posso mudar de plano a qualquer momento?",
-              a: "Sim. Você pode fazer upgrade ou downgrade do seu plano quando quiser. O valor é proporcional aos dias restantes no mês.",
+              a: "Sim. Você pode fazer upgrade ou downgrade quando quiser. O valor é proporcional aos dias restantes no período atual.",
             },
             {
               q: "Quando recebo o pagamento das vendas?",
-              a: "Após a confirmação da entrega pelo cliente, o valor líquido é liberado para saque em até 2 dias úteis. Para PIX o repasse é instantâneo após liberação.",
+              a: "Após a confirmação da entrega, o valor líquido é liberado para saque em até 2 dias úteis. Para PIX, o repasse é feito no mesmo dia após liberação.",
+            },
+            {
+              q: "Qual plano é indicado para quem está começando?",
+              a: "O plano Inicial é ideal para artesãos Pessoa Física que querem estruturar sua loja com até 5 produtos. O plano Profissional é recomendado para MEIs com produção regular. O Ateliê é para marcas maiores.",
             },
           ].map(({ q, a }) => (
             <div key={q} className="bg-white rounded-2xl p-6 border border-[#1e3a5f]/8 hover:shadow-md transition-shadow">
@@ -382,15 +486,16 @@ export default function PlansPage() {
         </section>
 
         {/* ── CTA final ────────────────────────────────────────────────── */}
-        <section className="mt-14 bg-[#27ae60] rounded-2xl p-10 text-center relative overflow-hidden">
+        <section className="mt-14 bg-[#1e3a5f] rounded-2xl p-10 text-center relative overflow-hidden">
           <div
-            className="absolute inset-0 opacity-[0.05] pointer-events-none rounded-2xl"
+            className="absolute inset-0 opacity-[0.04] pointer-events-none rounded-2xl"
             style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "20px 20px" }}
           />
           <div className="relative">
-            <h2 className="text-2xl font-bold text-[#f7f3ed] mb-2">Pronto para abrir sua vitrine?</h2>
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#a8d5a2] mb-3">Oferta de lançamento</p>
+            <h2 className="text-2xl font-bold text-[#f7f3ed] mb-2">Abra sua vitrine com 50% off</h2>
             <p className="text-[#f7f3ed]/65 mb-7 max-w-sm mx-auto">
-              Comece grátis. Sem cartão de crédito. Sem tempo mínimo de contrato.
+              Por tempo limitado: mensalidade e comissão reduzidas por 3 meses completos.
             </p>
             <Button asChild size="lg" className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold shadow-lg hover:scale-105 transition-all">
               <Link href="/seja-artesao">

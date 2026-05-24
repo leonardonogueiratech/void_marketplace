@@ -1,52 +1,69 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, ArrowRight, AlertTriangle } from "lucide-react";
-import { SUBSCRIPTION_PRICES, SUBSCRIPTION_LIMITS, COMMISSION_BY_PLAN, formatDate } from "@/lib/utils";
+import {
+  SUBSCRIPTION_PRICES,
+  SUBSCRIPTION_LAUNCH_PRICES,
+  SUBSCRIPTION_LIMITS,
+  COMMISSION_BY_PLAN,
+  COMMISSION_LAUNCH_BY_PLAN,
+  PHOTO_LIMITS,
+  PLAN_PROFILES,
+  formatDate,
+} from "@/lib/utils";
 
 const PLANS = [
   {
     id: "FREE",
-    name: "Grátis",
+    name: "Inicial",
     color: "#27ae60",
     price: SUBSCRIPTION_PRICES.FREE,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.FREE,
     badge: null as string | null,
     features: [
       `Até ${SUBSCRIPTION_LIMITS.FREE} produtos ativos`,
-      "Perfil público da loja",
-      "Painel básico de pedidos",
+      `${PHOTO_LIMITS.FREE} fotos por produto`,
+      "Loja básica personalizada",
+      "Selo Produto Autoral",
     ],
   },
   {
     id: "BASIC",
-    name: "Básico",
+    name: "Profissional",
     color: "#1e3a5f",
     price: SUBSCRIPTION_PRICES.BASIC,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.BASIC,
+    badge: "Recomendado" as string | null,
     features: [
       `Até ${SUBSCRIPTION_LIMITS.BASIC} produtos ativos`,
-      "Perfil em destaque nas buscas",
+      `${PHOTO_LIMITS.BASIC} fotos por produto`,
+      "Destaque ocasional na busca",
       "Analytics de vendas",
     ],
-    badge: "Mais popular" as string | null,
   },
   {
     id: "PRO",
-    name: "Pro",
+    name: "Ateliê",
     color: "#e07b2a",
     price: SUBSCRIPTION_PRICES.PRO,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.PRO,
+    badge: "Menor comissão" as string | null,
     features: [
       "Produtos ilimitados",
-      "Destaque na página inicial",
-      "Analytics avançado + exportação",
-      "Suporte prioritário 24h",
+      `${PHOTO_LIMITS.PRO} fotos por produto`,
+      "Destaque prioritário na busca",
+      "Suporte prioritário",
     ],
-    badge: "Menor comissão",
   },
 ] as const;
 
@@ -72,7 +89,8 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
       });
       const data = await res.json();
       if (!res.ok) { toast.error(data.error ?? "Erro ao mudar plano."); return; }
-      toast.success(`Plano alterado para ${plan}!`);
+      const planName = PLANS.find((p) => p.id === plan)?.name ?? plan;
+      toast.success(`Plano alterado para ${planName}!`);
       router.refresh();
     } catch {
       toast.error("Erro ao mudar plano.");
@@ -87,7 +105,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
       const res = await fetch("/api/dashboard/assinatura", { method: "DELETE" });
       const data = await res.json();
       if (!res.ok) { toast.error(data.error ?? "Erro ao cancelar."); return; }
-      toast.success("Assinatura cancelada. Seu plano foi revertido para Grátis.");
+      toast.success("Assinatura cancelada. Seu acesso será encerrado no fim do período atual.");
       setConfirmCancel(false);
       router.refresh();
     } catch {
@@ -97,15 +115,19 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
     }
   }
 
+  const currentPlanData = PLANS.find((p) => p.id === currentPlan);
+
   const statusColors: Record<string, string> = {
-    ACTIVE: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20",
+    ACTIVE:   "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20",
     PAST_DUE: "bg-red-50 text-red-600 border-red-200",
-    CANCELLED: "bg-neutral-100 text-neutral-500 border-neutral-200",
+    CANCELLED:"bg-neutral-100 text-neutral-500 border-neutral-200",
     INACTIVE: "bg-amber-50 text-amber-700 border-amber-200",
   };
   const statusLabels: Record<string, string> = {
-    ACTIVE: "Ativa", PAST_DUE: "Pagamento atrasado",
-    CANCELLED: "Cancelada", INACTIVE: "Inativa",
+    ACTIVE:   "Ativa",
+    PAST_DUE: "Pagamento atrasado",
+    CANCELLED:"Cancelada",
+    INACTIVE: "Inativa",
   };
 
   return (
@@ -115,7 +137,10 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
         <div className="flex-1">
           <p className="text-xs text-neutral-400 uppercase tracking-wide mb-0.5">Plano atual</p>
           <p className="text-lg font-bold text-[#1e3a5f]">
-            {PLANS.find((p) => p.id === currentPlan)?.name ?? currentPlan}
+            {currentPlanData?.name ?? currentPlan}
+          </p>
+          <p className="text-xs text-neutral-400">
+            {PLAN_PROFILES[currentPlan] ?? ""}
           </p>
           {periodEnd && (
             <p className="text-xs text-neutral-400 mt-0.5">
@@ -123,8 +148,24 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
             </p>
           )}
         </div>
-        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${statusColors[currentStatus] ?? statusColors.ACTIVE}`}>
-          {statusLabels[currentStatus] ?? currentStatus}
+        <div className="flex flex-col items-end gap-1.5">
+          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${statusColors[currentStatus] ?? statusColors.ACTIVE}`}>
+            {statusLabels[currentStatus] ?? currentStatus}
+          </span>
+          {currentPlanData && (
+            <span className="text-xs text-neutral-400">
+              R$ {currentPlanData.launchPrice.toFixed(2).replace(".", ",")}/mês ★ lançamento
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Launch promo notice */}
+      <div className="bg-[#e07b2a]/8 border border-[#e07b2a]/20 rounded-xl px-4 py-3 text-sm text-[#e07b2a] font-medium flex items-start gap-2">
+        <span className="shrink-0">★</span>
+        <span>
+          Preços e comissões de lançamento válidos pelos primeiros 3 meses. Após o período,
+          os valores regulares entram em vigor automaticamente.
         </span>
       </div>
 
@@ -159,19 +200,26 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
               )}
 
               <p className="font-bold text-[#1e3a5f] mb-0.5">{plan.name}</p>
-              <p className="text-xl font-bold text-[#1e3a5f] mb-1">
-                {plan.price === 0 ? "Grátis" : (
-                  <>R$ {plan.price.toFixed(2).replace(".", ",")}
-                    <span className="text-xs font-normal text-neutral-400">/mês</span>
-                  </>
-                )}
+
+              {/* Launch price prominent */}
+              <p className="text-xl font-bold text-[#1e3a5f] mb-0.5">
+                R$ {plan.launchPrice.toFixed(2).replace(".", ",")}
+                <span className="text-xs font-normal text-neutral-400">/mês ★</span>
+              </p>
+              <p className="text-xs text-neutral-400 mb-1">
+                depois R$ {plan.price.toFixed(2).replace(".", ",")}/mês
               </p>
 
-              <div
-                className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full mb-3"
-                style={{ background: `${plan.color}15`, color: plan.color }}
-              >
-                {(plan.commission * 100).toFixed(0)}% de comissão
+              <div className="flex gap-1.5 mb-3">
+                <div
+                  className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full"
+                  style={{ background: `${plan.color}15`, color: plan.color }}
+                >
+                  {(plan.launchCommission * 100).toFixed(0)}% comis. ★
+                </div>
+                <div className="inline-flex items-center text-xs text-neutral-400 px-2 py-0.5 rounded-full bg-neutral-100">
+                  depois {(plan.commission * 100).toFixed(0)}%
+                </div>
               </div>
 
               <ul className="space-y-1.5 mb-4">
@@ -205,11 +253,11 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
       </div>
 
       {/* Cancel subscription */}
-      {currentPlan !== "FREE" && (
+      {currentStatus === "ACTIVE" && (
         <div className="border border-red-100 rounded-xl p-4">
           <p className="text-sm font-semibold text-red-600 mb-1">Cancelar assinatura</p>
           <p className="text-xs text-neutral-500 mb-3">
-            Seu plano será revertido para Grátis imediatamente. Você não será cobrado novamente.
+            Seu acesso será encerrado no fim do período atual. Você não será cobrado novamente.
           </p>
 
           {!confirmCancel ? (

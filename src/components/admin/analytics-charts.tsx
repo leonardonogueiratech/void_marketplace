@@ -3,7 +3,7 @@
 import {
   AreaChart, Area,
   BarChart, Bar,
-  PieChart, Pie, Cell,
+  PieChart, Pie,
   XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend,
 } from "recharts";
@@ -106,7 +106,9 @@ const STATUS_COLORS: Record<string, string> = {
 export interface StatusData { status: string; label: string; count: number }
 
 export function OrderStatusChart({ data }: { data: StatusData[] }) {
-  const filtered = data.filter(d => d.count > 0);
+  const filtered = data
+    .filter(d => d.count > 0)
+    .map(d => ({ ...d, fill: STATUS_COLORS[d.status] ?? "#ccc" }));
   if (!filtered.length) return <EmptyChart message="Nenhum pedido ainda." />;
   return (
     <ResponsiveContainer width="100%" height={240}>
@@ -120,11 +122,7 @@ export function OrderStatusChart({ data }: { data: StatusData[] }) {
           dataKey="count"
           nameKey="label"
           paddingAngle={2}
-        >
-          {filtered.map((entry) => (
-            <Cell key={entry.status} fill={STATUS_COLORS[entry.status] ?? "#ccc"} />
-          ))}
-        </Pie>
+        />
         <Tooltip formatter={(v, name) => [v, name]} />
         <Legend iconType="circle" iconSize={7} wrapperStyle={{ fontSize: "10px" }} />
       </PieChart>
@@ -162,15 +160,19 @@ const PLAN_COLORS: Record<string, string> = {
 };
 
 const PLAN_LABELS: Record<string, string> = {
-  FREE: "Gratuito",
-  BASIC: "Básico",
-  PRO: "Pro",
+  FREE: "Inicial",
+  BASIC: "Profissional",
+  PRO: "Ateliê",
 };
 
 export interface PlanData { plan: string; count: number }
 
 export function PlanChart({ data }: { data: PlanData[] }) {
-  const formatted = data.map(d => ({ ...d, label: PLAN_LABELS[d.plan] ?? d.plan }));
+  const formatted = data.map(d => ({
+    ...d,
+    label: PLAN_LABELS[d.plan] ?? d.plan,
+    fill: PLAN_COLORS[d.plan] ?? "#ccc",
+  }));
   if (!formatted.length) return <EmptyChart />;
   return (
     <ResponsiveContainer width="100%" height={160}>
@@ -178,11 +180,7 @@ export function PlanChart({ data }: { data: PlanData[] }) {
         <XAxis type="number" tick={{ fontSize: 10, fill: "#bbb" }} tickLine={false} axisLine={false} allowDecimals={false} />
         <YAxis type="category" dataKey="label" tick={{ fontSize: 11, fill: "#555" }} tickLine={false} axisLine={false} width={56} />
         <Tooltip formatter={(v) => [v, "Artesãos"]} />
-        <Bar dataKey="count" name="Artesãos" radius={[0, 5, 5, 0]} maxBarSize={28}>
-          {formatted.map((entry) => (
-            <Cell key={entry.plan} fill={PLAN_COLORS[entry.plan] ?? "#ccc"} />
-          ))}
-        </Bar>
+        <Bar dataKey="count" name="Artesãos" radius={[0, 5, 5, 0]} maxBarSize={28} />
       </BarChart>
     </ResponsiveContainer>
   );
