@@ -9,37 +9,47 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Loader2, CheckCircle2, Store, Clock, ArrowRight } from "lucide-react";
-import { SUBSCRIPTION_PRICES, SUBSCRIPTION_LIMITS, COMMISSION_BY_PLAN } from "@/lib/utils";
+import {
+  SUBSCRIPTION_PRICES, SUBSCRIPTION_LAUNCH_PRICES,
+  SUBSCRIPTION_LIMITS, COMMISSION_BY_PLAN, COMMISSION_LAUNCH_BY_PLAN,
+  PHOTO_LIMITS,
+} from "@/lib/utils";
 
 const PLANS = [
   {
     id: "FREE",
-    name: "Grátis",
+    name: "Inicial",
     color: "#27ae60",
     price: SUBSCRIPTION_PRICES.FREE,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
-    features: [`Até ${SUBSCRIPTION_LIMITS.FREE} produtos`, "Perfil público", "Painel de pedidos"],
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.FREE,
+    features: [`Até ${SUBSCRIPTION_LIMITS.FREE} produtos`, `${PHOTO_LIMITS.FREE} fotos/produto`, "Loja básica"],
     badge: null as string | null,
   },
   {
     id: "BASIC",
-    name: "Básico",
+    name: "Profissional",
     color: "#1e3a5f",
     price: SUBSCRIPTION_PRICES.BASIC,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
-    features: [`Até ${SUBSCRIPTION_LIMITS.BASIC} produtos`, "Destaque nas buscas", "Analytics"],
-    badge: "Mais popular" as string | null,
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.BASIC,
+    features: [`Até ${SUBSCRIPTION_LIMITS.BASIC} produtos`, `${PHOTO_LIMITS.BASIC} fotos/produto`, "Destaque na busca"],
+    badge: "Recomendado" as string | null,
   },
   {
     id: "PRO",
-    name: "Pro",
+    name: "Ateliê",
     color: "#e07b2a",
     price: SUBSCRIPTION_PRICES.PRO,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
-    features: ["Produtos ilimitados", "Destaque na home", "Suporte prioritário"],
-    badge: "Menor comissão",
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.PRO,
+    features: ["Produtos ilimitados", `${PHOTO_LIMITS.PRO} fotos/produto`, "Suporte prioritário"],
+    badge: "Menor comissão" as string | null,
   },
-] as const;
+];
 
 export default function ContaSejaArtesaoPage() {
   const router = useRouter();
@@ -166,11 +176,16 @@ export default function ContaSejaArtesaoPage() {
                   </span>
                 )}
                 <p className="font-bold text-[#1e3a5f] mb-0.5">{plan.name}</p>
-                <p className="text-xl font-bold text-[#1e3a5f] mb-1">
-                  {plan.price === 0 ? "Grátis" : <>R$ {plan.price.toFixed(2).replace(".", ",")}<span className="text-xs font-normal text-neutral-400">/mês</span></>}
-                </p>
+                <div className="mb-1">
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-[11px] text-neutral-400">R$</span>
+                    <span className="text-xl font-bold text-[#1e3a5f]">{plan.launchPrice.toFixed(2).replace(".", ",")}</span>
+                    <span className="text-[11px] text-neutral-400">/mês ★</span>
+                  </div>
+                  <p className="text-[10px] text-neutral-400">depois <span className="line-through">R$ {plan.price.toFixed(2).replace(".", ",")}</span>/mês</p>
+                </div>
                 <div className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full mb-3" style={{ background: `${plan.color}15`, color: plan.color }}>
-                  {(plan.commission * 100).toFixed(0)}% comissão
+                  {(plan.launchCommission * 100).toFixed(0)}% comissão ★
                 </div>
                 <ul className="space-y-1.5">
                   {plan.features.map((f) => (
