@@ -60,9 +60,9 @@ export default function TermosDoVendedorPage() {
           assinatura do artesão:
         </p>
         <ul className="list-disc pl-5 mt-2 space-y-1 text-neutral-600">
-          <li><strong>Plano Grátis:</strong> 15% de comissão por venda</li>
-          <li><strong>Plano Básico:</strong> 10% de comissão por venda</li>
-          <li><strong>Plano Pro:</strong> 7% de comissão por venda</li>
+          <li><strong>Plano Inicial:</strong> 12% de comissão por venda (10% no período de lançamento)</li>
+          <li><strong>Plano Profissional:</strong> 8% de comissão por venda (6% no período de lançamento)</li>
+          <li><strong>Plano Ateliê:</strong> 5% de comissão por venda (3% no período de lançamento)</li>
         </ul>
         <p className="mt-3">
           Os pagamentos são processados pela plataforma Asaas. O saldo líquido (valor da venda
@@ -137,8 +137,8 @@ export default function TermosDoVendedorPage() {
 
       <Section title="8. Planos de assinatura">
         <p>
-          O artesão pode optar pelos planos Grátis, Básico ou Pro. Os planos pagos são cobrados
-          mensalmente via cartão de crédito ou boleto. O cancelamento pode ser feito a qualquer
+          O artesão pode optar pelos planos Inicial, Profissional ou Ateliê. Todos os planos são
+          cobrados mensalmente via cartão de crédito, boleto ou PIX. O cancelamento pode ser feito a qualquer
           momento pelo painel, sem multa, com vigência até o final do período já pago.
         </p>
         <p className="mt-3">

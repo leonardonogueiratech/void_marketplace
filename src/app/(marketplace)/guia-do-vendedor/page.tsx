@@ -82,7 +82,7 @@ export default function GuiaDoVendedorPage() {
           ))}
         </div>
         <InfoBox>
-          A plataforma retém uma comissão sobre cada venda (7% a 15% dependendo do seu plano)
+          A plataforma retém uma comissão sobre cada venda (3% a 12% conforme plano e período)
           e repassa o restante para você em até 7 dias úteis após confirmação da entrega.
         </InfoBox>
       </Section>
@@ -234,7 +234,7 @@ export default function GuiaDoVendedorPage() {
             },
             {
               title: "Plataforma desconta a comissão",
-              desc: "A comissão (7%, 10% ou 15% conforme seu plano) é descontada automaticamente.",
+              desc: "A comissão (3%, 6% ou 10% no lançamento / 5%, 8% ou 12% regular) é descontada automaticamente.",
             },
             {
               title: "Saldo fica retido",
@@ -319,7 +319,7 @@ export default function GuiaDoVendedorPage() {
       {/* CTA */}
       <div className="bg-[#1e3a5f] rounded-2xl p-6 text-center space-y-3">
         <h2 className="text-white font-bold text-lg">Pronto para começar?</h2>
-        <p className="text-white/70 text-sm">Cadastre-se gratuitamente e comece a vender em minutos.</p>
+        <p className="text-white/70 text-sm">50% off nos 3 primeiros meses. Comece a vender hoje.</p>
         <Link
           href="/seja-artesao"
           className="inline-flex items-center gap-2 bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold px-6 py-2.5 rounded-full text-sm transition-colors"

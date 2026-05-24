@@ -65,7 +65,7 @@ const steps = [
     color: "#e07b2a",
     title: "Receba seus pagamentos",
     description:
-      "Os valores são liberados após a confirmação de entrega. A plataforma retém uma comissão de 10% por venda realizada.",
+      "Os valores são liberados após a confirmação de entrega. A plataforma retém uma comissão de 3% a 12% por venda conforme o plano.",
     tips: ["Mantenha seus dados bancários atualizados", "Solicitações de saque são processadas em 3 dias úteis", "Acompanhe seu saldo no painel financeiro"],
   },
 ];
@@ -164,7 +164,7 @@ export default function GuiaVendedorPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { value: "10%", label: "Comissão por venda" },
+              { value: "3%–12%", label: "Comissão por venda" },
               { value: "48h", label: "Aprovação de cadastro" },
               { value: "3 dias", label: "Para receber o saque" },
               { value: "0", label: "Taxa de cadastro" },
@@ -335,7 +335,7 @@ export default function GuiaVendedorPage() {
             <br />sua loja?
           </h2>
           <p className="text-white/70 text-lg mb-10 leading-relaxed">
-            Cadastro gratuito, sem mensalidade. Você só paga quando vende.
+            50% off nos 3 primeiros meses. Mensalidade + comissão reduzidas no lançamento.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <Button size="lg" asChild className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white font-semibold shadow-lg hover:scale-105 transition-all">

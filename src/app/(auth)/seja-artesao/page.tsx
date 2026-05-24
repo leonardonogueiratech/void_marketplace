@@ -11,61 +11,70 @@ import { Loader2, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import {
   SUBSCRIPTION_PRICES,
+  SUBSCRIPTION_LAUNCH_PRICES,
   SUBSCRIPTION_LIMITS,
   COMMISSION_BY_PLAN,
+  COMMISSION_LAUNCH_BY_PLAN,
+  PHOTO_LIMITS,
 } from "@/lib/utils";
 
 const PLANS = [
   {
     id: "FREE",
-    name: "Grátis",
+    name: "Inicial",
     color: "#27ae60",
     price: SUBSCRIPTION_PRICES.FREE,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
-    description: "Para quem quer testar antes de se comprometer.",
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.FREE,
+    description: "Para artesãos que estão começando e querem estruturar sua loja.",
     features: [
       `Até ${SUBSCRIPTION_LIMITS.FREE} produtos ativos`,
-      "Perfil público da loja",
-      "Painel básico de pedidos",
+      `${PHOTO_LIMITS.FREE} fotos por produto`,
+      "Loja básica personalizada",
       "Suporte por e-mail",
     ],
     highlight: false,
-    badge: null,
-    cta: "Começar grátis",
+    badge: null as string | null,
+    cta: "Assinar Inicial",
   },
   {
     id: "BASIC",
-    name: "Básico",
+    name: "Profissional",
     color: "#1e3a5f",
     price: SUBSCRIPTION_PRICES.BASIC,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
-    description: "Para artesãos que querem crescer com visibilidade e ferramentas reais.",
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.BASIC,
+    description: "Ideal para MEIs com produção regular que querem crescer com visibilidade.",
     features: [
       `Até ${SUBSCRIPTION_LIMITS.BASIC} produtos ativos`,
-      "Perfil em destaque nas buscas",
-      "Chat com clientes",
+      `${PHOTO_LIMITS.BASIC} fotos por produto`,
+      "Destaque ocasional na busca",
       "Analytics de vendas",
     ],
     highlight: true,
-    badge: "Mais popular",
-    cta: "Assinar Básico",
+    badge: "Recomendado" as string | null,
+    cta: "Assinar Profissional",
   },
   {
     id: "PRO",
-    name: "Pro",
+    name: "Ateliê",
     color: "#e07b2a",
     price: SUBSCRIPTION_PRICES.PRO,
+    launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
-    description: "Máxima exposição, recursos completos e menor comissão da plataforma.",
+    launchCommission: COMMISSION_LAUNCH_BY_PLAN.PRO,
+    description: "Para pequenas marcas com maior volume de produtos e vendas.",
     features: [
       "Produtos ilimitados",
-      "Destaque garantido na página inicial",
-      "Analytics avançado + exportação",
-      "Suporte prioritário 24h",
+      `${PHOTO_LIMITS.PRO} fotos por produto`,
+      "Destaque prioritário na busca",
+      "Suporte prioritário",
     ],
     highlight: false,
-    badge: "Menor comissão",
-    cta: "Assinar Pro",
+    badge: "Menor comissão" as string | null,
+    cta: "Assinar Ateliê",
   },
 ];
 
@@ -165,23 +174,32 @@ export default function BeArtisanPage() {
                 )}
 
                 <div className="font-bold text-lg text-[#1e3a5f] mb-0.5">{plan.name}</div>
-                <div className="text-2xl font-bold text-[#1e3a5f] mb-1">
-                  {plan.price === 0 ? (
-                    <span>Grátis</span>
-                  ) : (
-                    <>R$ {plan.price.toFixed(2).replace(".", ",")}
-                      <span className="text-sm font-normal text-neutral-400">/mês</span>
-                    </>
-                  )}
+
+                {/* Preço de lançamento em destaque */}
+                <div className="mb-1">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-xs text-neutral-400">R$</span>
+                    <span className="text-2xl font-bold text-[#1e3a5f]">
+                      {plan.launchPrice.toFixed(2).replace(".", ",")}
+                    </span>
+                    <span className="text-xs text-neutral-400">/mês ★</span>
+                  </div>
+                  <p className="text-[11px] text-neutral-400">
+                    depois{" "}
+                    <span className="line-through">R$ {plan.price.toFixed(2).replace(".", ",")}</span>/mês
+                  </p>
                 </div>
 
                 {/* Comissão em destaque */}
                 <div
-                  className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full mb-3"
+                  className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full mb-0.5"
                   style={{ background: `${plan.color}15`, color: plan.color }}
                 >
-                  {(plan.commission * 100).toFixed(0)}% de comissão por venda
+                  {(plan.launchCommission * 100).toFixed(0)}% comissão ★
                 </div>
+                <p className="text-[11px] text-neutral-400 mb-3">
+                  depois {(plan.commission * 100).toFixed(0)}%
+                </p>
 
                 <p className="text-xs text-neutral-400 mb-4 leading-relaxed">{plan.description}</p>
                 <ul className="space-y-2">
@@ -204,7 +222,7 @@ export default function BeArtisanPage() {
               {PLANS.find((p) => p.id === selectedPlan)?.cta} <ArrowRight className="ml-2 size-4" />
             </Button>
             <p className="text-xs text-neutral-400 mt-3">
-              Sem cartão de crédito. Cancele quando quiser.{" "}
+              ★ Oferta de lançamento: 50% off nos 3 primeiros meses.{" "}
               <a href="/planos" className="underline hover:text-[#1e3a5f] transition-colors">
                 Ver comparativo completo →
               </a>
