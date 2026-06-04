@@ -2,15 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtDecrypt } from "jose";
 import { hkdf } from "@panva/hkdf";
 
-const COOKIE_NAME = "authjs.session-token";
 const SECURE_COOKIE_NAME = "__Secure-authjs.session-token";
+const COOKIE_NAME = "authjs.session-token";
 
-async function getDerivedKey(secret: string): Promise<Uint8Array> {
+async function getDerivedKey(secret: string, salt: string): Promise<Uint8Array> {
   return hkdf(
     "sha256",
     secret,
-    "",
-    "Auth.js Generated Encryption Key",
+    salt,
+    `Auth.js Generated Encryption Key (${salt})`,
     64
   );
 }
@@ -19,19 +19,27 @@ async function getSession(req: NextRequest): Promise<{ role?: string } | null> {
   const secret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
   if (!secret) return null;
 
-  const token =
-    req.cookies.get(SECURE_COOKIE_NAME)?.value ??
-    req.cookies.get(COOKIE_NAME)?.value;
+  const isSecure = req.url.startsWith("https");
+  const cookieName = isSecure ? SECURE_COOKIE_NAME : COOKIE_NAME;
+  const token = req.cookies.get(cookieName)?.value ?? req.cookies.get(COOKIE_NAME)?.value;
   if (!token) return null;
 
   try {
-    const key = await getDerivedKey(secret);
+    const key = await getDerivedKey(secret, cookieName);
     const { payload } = await jwtDecrypt(token, key, {
       contentEncryptionAlgorithms: ["A256CBC-HS512", "A256GCM"],
     });
     return payload as { role?: string };
   } catch {
-    return null;
+    try {
+      const key = await getDerivedKey(secret, COOKIE_NAME);
+      const { payload } = await jwtDecrypt(token, key, {
+        contentEncryptionAlgorithms: ["A256CBC-HS512", "A256GCM"],
+      });
+      return payload as { role?: string };
+    } catch {
+      return null;
+    }
   }
 }
 
