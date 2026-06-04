@@ -5,12 +5,12 @@ import { hkdf } from "@panva/hkdf";
 const COOKIE_NAME = "authjs.session-token";
 const SECURE_COOKIE_NAME = "__Secure-authjs.session-token";
 
-async function getDerivedKey(secret: string, salt: string): Promise<Uint8Array> {
+async function getDerivedKey(secret: string): Promise<Uint8Array> {
   return hkdf(
     "sha256",
     secret,
-    salt,
-    `Auth.js Generated Encryption Key (${salt})`,
+    "",
+    "Auth.js Generated Encryption Key",
     64
   );
 }
@@ -25,7 +25,7 @@ async function getSession(req: NextRequest): Promise<{ role?: string } | null> {
   if (!token) return null;
 
   try {
-    const key = await getDerivedKey(secret, COOKIE_NAME);
+    const key = await getDerivedKey(secret);
     const { payload } = await jwtDecrypt(token, key, {
       contentEncryptionAlgorithms: ["A256CBC-HS512", "A256GCM"],
     });
