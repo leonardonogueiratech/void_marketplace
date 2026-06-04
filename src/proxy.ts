@@ -46,7 +46,7 @@ export default async function proxy(req: NextRequest) {
   const isDashboard = pathname.startsWith("/dashboard");
   const isAdmin = pathname.startsWith("/admin");
   const isCheckout = pathname.startsWith("/checkout");
-  const isConta = pathname.startsWith("/conta");
+  const isConta = pathname === "/conta" || pathname.startsWith("/conta/");
 
   if (isAuthPage && isLoggedIn) {
     if (role === "ADMIN") return NextResponse.redirect(new URL("/admin", req.nextUrl));
