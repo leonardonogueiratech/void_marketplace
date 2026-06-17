@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
-import { sendAdminNewArtisanApplication } from "@/lib/email";
+import { sendAdminNewArtisanApplication, sendArtisanApplicationReceived } from "@/lib/email";
 import { z } from "zod";
 
 const schema = z.object({
@@ -74,6 +74,12 @@ export async function POST(req: NextRequest) {
         },
       }),
     ]);
+
+    void sendArtisanApplicationReceived({
+      to: session.user.email ?? "",
+      artisanName: session.user.name ?? "",
+      storeName: data.storeName,
+    });
 
     void sendAdminNewArtisanApplication({
       artisanName: session.user.name ?? "",

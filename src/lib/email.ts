@@ -393,6 +393,50 @@ export async function sendArtisanRejected(opts: {
   });
 }
 
+export async function sendArtisanApplicationReceived(opts: {
+  to: string;
+  artisanName: string;
+  storeName: string;
+}) {
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Cadastro recebido", "#1e3a5f")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Recebemos seu cadastro, ${opts.artisanName}! ✦
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        O cadastro de <strong>${opts.storeName}</strong> está em análise pela nossa equipe.
+      </p>
+    </div>
+
+    <div style="background:#f7f3ed;border-radius:12px;padding:20px 24px;margin-bottom:24px">
+      <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#1e3a5f">O que acontece agora:</p>
+      <ul style="margin:0;padding:0 0 0 18px;color:#666;font-size:13px;line-height:2.2">
+        <li>Nossa equipe irá analisar seu perfil em até <strong>2 dias úteis</strong></li>
+        <li>Você receberá um e-mail assim que for aprovado</li>
+        <li>Enquanto aguarda, pode navegar normalmente como comprador</li>
+      </ul>
+    </div>
+
+    <div style="background:#fff8f0;border:1px solid #fde8d0;border-radius:12px;padding:18px 22px;margin-bottom:24px">
+      <p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#c96a1e">Use o tempo de espera bem:</p>
+      <p style="margin:0;font-size:13px;color:#888;line-height:1.6">
+        Leia o <a href="${BASE_URL}/guia-do-vendedor" style="color:#e07b2a;font-weight:600;text-decoration:none">Guia do Vendedor</a>
+        e descubra como funciona o Asaas, como enviar pelos Correios e dicas para vender mais.
+      </p>
+    </div>
+
+    ${ctaButton(`${BASE_URL}/guia-do-vendedor`, "Ler o Guia do Vendedor →", "#e07b2a")}
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.artisanName,
+    subject: `Cadastro de "${opts.storeName}" recebido — Feito de Gente`,
+    html: baseTemplate(content),
+  });
+}
+
 export async function sendAdminNewArtisanApplication(opts: {
   artisanName: string;
   storeName: string;
