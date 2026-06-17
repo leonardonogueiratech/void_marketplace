@@ -2,7 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, ShoppingBag, DollarSign, Star, TrendingUp, AlertCircle } from "lucide-react";
+import { Package, ShoppingBag, DollarSign, Star, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { RevenueChart } from "@/components/dashboard/charts";
 
@@ -95,17 +95,7 @@ export default async function DashboardPage() {
         <p className="text-neutral-500 mt-1 text-sm">Aqui está um resumo da sua loja.</p>
       </div>
 
-      {artisan.status === "PENDING" && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
-          <AlertCircle className="size-5 text-amber-600 shrink-0 mt-0.5" />
-          <div>
-            <p className="font-medium text-amber-800 text-sm">Cadastro em análise</p>
-            <p className="text-sm text-amber-700 mt-0.5">
-              Nossa equipe irá aprovar seu perfil em até 2 dias úteis.
-            </p>
-          </div>
-        </div>
-      )}
+      {/* approval banner removed — auto-approve on registration */}
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

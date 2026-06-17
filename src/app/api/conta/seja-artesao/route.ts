@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
           cpfCnpj: data.cpfCnpj,
           whatsapp: data.whatsapp,
           instagram: data.instagram,
-          status: "PENDING",
+          status: "APPROVED",
           termsAcceptedAt: new Date(),
           subscription: {
             create: { plan: data.plan, status: "ACTIVE" },
