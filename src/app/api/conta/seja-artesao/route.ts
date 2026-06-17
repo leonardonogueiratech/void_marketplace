@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
+import { sendAdminNewArtisanApplication } from "@/lib/email";
 import { z } from "zod";
 
 const schema = z.object({
@@ -65,7 +66,7 @@ export async function POST(req: NextRequest) {
           cpfCnpj: data.cpfCnpj,
           whatsapp: data.whatsapp,
           instagram: data.instagram,
-          status: "APPROVED",
+          status: "PENDING",
           termsAcceptedAt: new Date(),
           subscription: {
             create: { plan: data.plan, status: "ACTIVE" },
@@ -73,6 +74,15 @@ export async function POST(req: NextRequest) {
         },
       }),
     ]);
+
+    void sendAdminNewArtisanApplication({
+      artisanName: session.user.name ?? "",
+      storeName: data.storeName,
+      email: session.user.email ?? "",
+      plan: data.plan,
+      city: data.city,
+      state: data.state,
+    });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

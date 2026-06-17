@@ -393,6 +393,62 @@ export async function sendArtisanRejected(opts: {
   });
 }
 
+export async function sendAdminNewArtisanApplication(opts: {
+  artisanName: string;
+  storeName: string;
+  email: string;
+  plan: string;
+  city?: string | null;
+  state?: string | null;
+}) {
+  const adminEmail = process.env.ADMIN_EMAIL ?? "administracao@feitodegente.com.br";
+  const location = [opts.city, opts.state].filter(Boolean).join("/");
+  const planLabel: Record<string, string> = { FREE: "Inicial", BASIC: "Profissional", PRO: "Ateliê" };
+
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Novo cadastro de artesão", "#e07b2a")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Novo artesão aguardando aprovação
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">Um vendedor acabou de se cadastrar e está aguardando sua análise.</p>
+    </div>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f3ed;border-radius:12px;padding:20px;margin-bottom:24px">
+      <tr>
+        <td style="padding:5px 0;width:80px;color:#999;font-size:13px;vertical-align:top">Nome</td>
+        <td style="padding:5px 0;font-weight:600;color:#1e3a5f;font-size:13px">${opts.artisanName}</td>
+      </tr>
+      <tr>
+        <td style="padding:5px 0;color:#999;font-size:13px;vertical-align:top">Loja</td>
+        <td style="padding:5px 0;color:#444;font-size:13px">${opts.storeName}</td>
+      </tr>
+      <tr>
+        <td style="padding:5px 0;color:#999;font-size:13px;vertical-align:top">E-mail</td>
+        <td style="padding:5px 0;font-size:13px">
+          <a href="mailto:${opts.email}" style="color:#e07b2a;text-decoration:none">${opts.email}</a>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:5px 0;color:#999;font-size:13px;vertical-align:top">Plano</td>
+        <td style="padding:5px 0;color:#444;font-size:13px">${planLabel[opts.plan] ?? opts.plan}</td>
+      </tr>
+      ${location ? `<tr>
+        <td style="padding:5px 0;color:#999;font-size:13px;vertical-align:top">Cidade</td>
+        <td style="padding:5px 0;color:#444;font-size:13px">${location}</td>
+      </tr>` : ""}
+    </table>
+
+    ${ctaButton(`${BASE_URL}/admin/artesaos?status=pending`, "Revisar no painel →")}
+  `;
+
+  await send({
+    to: adminEmail,
+    subject: `[Artesão] Novo cadastro pendente: ${opts.storeName}`,
+    html: baseTemplate(content),
+  });
+}
+
 // ─── password reset ────────────────────────────────────────────────────────────
 
 export async function sendPasswordReset(opts: {
