@@ -3,15 +3,10 @@
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
 function createTransport() {
-  if (!process.env.BREVO_SMTP_PASS) return null;
   return nodemailer.createTransport({
-    host: process.env.BREVO_SMTP_HOST ?? "smtp-relay.brevo.com",
-    port: Number(process.env.BREVO_SMTP_PORT ?? 587),
+    host: process.env.SMTP_HOST ?? "127.0.0.1",
+    port: Number(process.env.SMTP_PORT ?? 25),
     secure: false,
-    auth: {
-      user: process.env.BREVO_SMTP_USER,
-      pass: process.env.BREVO_SMTP_PASS,
-    },
   });
 }
 
@@ -23,7 +18,6 @@ async function send(opts: {
   html: string;
 }) {
   const transport = createTransport();
-  if (!transport) return;
   await transport.sendMail({
     from: '"Feito de Gente" <contato@feitodegente.com.br>',
     to: opts.toName ? `"${opts.toName}" <${opts.to}>` : opts.to,
