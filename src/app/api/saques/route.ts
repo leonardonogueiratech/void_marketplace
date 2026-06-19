@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { transferPix } from "@/lib/asaas";
+import { getArtisanBalance } from "@/lib/balance";
 
 const schema = z.object({
   amount: z.number().min(50),
@@ -22,6 +23,11 @@ export async function POST(req: NextRequest) {
       where: { id: data.artisanId, userId: session.user.id },
     });
     if (!artisan) return NextResponse.json({ error: "Não autorizado." }, { status: 403 });
+
+    const { freeBalance } = await getArtisanBalance(artisan.id);
+    if (data.amount > freeBalance) {
+      return NextResponse.json({ error: "Saldo insuficiente." }, { status: 400 });
+    }
 
     // attempt automatic PIX transfer via Asaas
     let asaasTransferId: string | undefined;

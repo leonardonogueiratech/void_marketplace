@@ -9,8 +9,8 @@ export function WithdrawalActions({ id }: { id: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState<"approve" | "reject" | null>(null);
 
-  async function update(status: "PROCESSED" | "REJECTED") {
-    setLoading(status === "PROCESSED" ? "approve" : "reject");
+  async function update(status: "PAID" | "REJECTED") {
+    setLoading(status === "PAID" ? "approve" : "reject");
     try {
       const res = await fetch(`/api/admin/saques/${id}`, {
         method: "PATCH",
@@ -18,7 +18,7 @@ export function WithdrawalActions({ id }: { id: string }) {
         body: JSON.stringify({ status }),
       });
       if (!res.ok) throw new Error();
-      toast.success(status === "PROCESSED" ? "Saque marcado como processado." : "Saque rejeitado.");
+      toast.success(status === "PAID" ? "Saque marcado como pago." : "Saque rejeitado.");
       router.refresh();
     } catch {
       toast.error("Erro ao atualizar saque.");
@@ -30,12 +30,12 @@ export function WithdrawalActions({ id }: { id: string }) {
   return (
     <div className="flex gap-2">
       <button
-        onClick={() => update("PROCESSED")}
+        onClick={() => update("PAID")}
         disabled={!!loading}
         className="inline-flex items-center gap-1 text-xs bg-[#27ae60]/10 text-[#27ae60] border border-[#27ae60]/20 px-3 py-1.5 rounded-full hover:bg-[#27ae60]/20 transition-colors font-medium disabled:opacity-50"
       >
         {loading === "approve" ? <Loader2 className="size-3 animate-spin" /> : <CheckCircle2 className="size-3" />}
-        Processar
+        Marcar como pago
       </button>
       <button
         onClick={() => update("REJECTED")}

@@ -6,6 +6,7 @@ import { DollarSign, TrendingUp, Clock, CheckCircle2 } from "lucide-react";
 import { WithdrawalForm } from "@/components/dashboard/withdrawal-form";
 import { MonthlyBarChart } from "@/components/dashboard/charts";
 import { ExportButton } from "@/components/dashboard/export-button";
+import { getArtisanBalance } from "@/lib/balance";
 
 function buildMonthlyData(commissions: { createdAt: Date; saleAmount: number }[]) {
   const map = new Map<string, number>();
@@ -30,7 +31,7 @@ export default async function FinancialPage() {
   const ESCROW_DAYS = 15;
   const escrowCutoff = new Date(Date.now() - ESCROW_DAYS * 24 * 60 * 60 * 1000);
 
-  const [allCommissions, withdrawals] = await Promise.all([
+  const [allCommissions, withdrawals, balance] = await Promise.all([
     prisma.commission.findMany({
       where: { artisanId: artisan.id },
       orderBy: { createdAt: "asc" },
@@ -53,37 +54,10 @@ export default async function FinancialPage() {
       orderBy: { createdAt: "desc" },
       take: 10,
     }),
+    getArtisanBalance(artisan.id),
   ]);
 
-  // Classificação de comissões por estado de escrow
-  let releasedBalance = 0;  // disponível para saque
-  let heldBalance = 0;       // retido (aguardando entrega / prazo)
-  let totalSales = 0;
-  let totalCommissions = 0;
-
-  for (const c of allCommissions) {
-    totalSales += c.saleAmount;
-    totalCommissions += c.amount;
-    const net = c.saleAmount - c.amount;
-
-    if (c.paid) continue; // já sacado
-
-    const orderStatus = c.orderItem.order.status;
-    const isDelivered = orderStatus === "DELIVERED";
-    const isPastEscrow = c.createdAt <= escrowCutoff;
-
-    if (isDelivered || isPastEscrow) {
-      releasedBalance += net;
-    } else {
-      heldBalance += net;
-    }
-  }
-
-  const pendingWithdrawals = withdrawals.filter(
-    (w) => w.status === "PENDING" || w.status === "PROCESSING"
-  );
-  const lockedAmount = pendingWithdrawals.reduce((a, w) => a + w.amount, 0);
-  const freeBalance = releasedBalance - lockedAmount;
+  const { heldBalance, totalSales, totalCommissions, freeBalance } = balance;
 
   const monthlyData = buildMonthlyData(allCommissions);
 

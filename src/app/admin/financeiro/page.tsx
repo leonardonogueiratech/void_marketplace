@@ -35,15 +35,15 @@ export default async function AdminFinanceiroPage() {
   const totalSales = commissionStats._sum.saleAmount ?? 0;
 
   const statusColors: Record<string, string> = {
-    PENDING:   "bg-amber-50 text-amber-700 border-amber-200",
-    APPROVED:  "bg-blue-50 text-blue-700 border-blue-200",
-    PROCESSED: "bg-green-50 text-green-700 border-green-200",
-    REJECTED:  "bg-red-50 text-red-600 border-red-200",
+    PENDING:    "bg-amber-50 text-amber-700 border-amber-200",
+    PROCESSING: "bg-blue-50 text-blue-700 border-blue-200",
+    PAID:       "bg-green-50 text-green-700 border-green-200",
+    REJECTED:   "bg-red-50 text-red-600 border-red-200",
   };
 
   const statusLabels: Record<string, string> = {
-    PENDING: "Pendente", APPROVED: "Aprovado",
-    PROCESSED: "Processado", REJECTED: "Rejeitado",
+    PENDING: "Pendente", PROCESSING: "Processando",
+    PAID: "Pago", REJECTED: "Rejeitado",
   };
 
   return (
