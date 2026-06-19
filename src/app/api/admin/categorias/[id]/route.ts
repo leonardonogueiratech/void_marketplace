@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+
+function revalidateCategoryPaths() {
+  revalidatePath("/categorias");
+  revalidatePath("/produtos");
+  revalidatePath("/");
+}
 
 async function requireAdmin() {
   const session = await auth();
@@ -25,6 +32,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     const body = await req.json();
     const data = updateSchema.parse(body);
     const category = await prisma.category.update({ where: { id }, data });
+    revalidateCategoryPaths();
     return NextResponse.json(category);
   } catch (err) {
     if (err instanceof z.ZodError) return NextResponse.json({ error: err.issues[0]?.message }, { status: 400 });
@@ -46,5 +54,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   }
 
   await prisma.category.delete({ where: { id } });
+  revalidateCategoryPaths();
   return NextResponse.json({ ok: true });
 }

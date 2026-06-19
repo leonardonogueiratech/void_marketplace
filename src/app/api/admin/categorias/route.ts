@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
@@ -43,6 +44,10 @@ export async function POST(req: NextRequest) {
     const category = await prisma.category.create({
       data: { name: data.name, slug, description: data.description, order: data.order, active: true },
     });
+
+    revalidatePath("/categorias");
+    revalidatePath("/produtos");
+    revalidatePath("/");
 
     return NextResponse.json(category, { status: 201 });
   } catch (err) {
