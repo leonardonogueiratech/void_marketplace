@@ -1,12 +1,15 @@
-﻿"use client";
+"use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Users, Store, ShoppingBag,
   MessageSquare, LogOut, ShieldCheck, Tag, Wallet, BarChart2, ArrowLeftCircle,
+  Menu, X,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/admin", label: "Visão Geral", icon: LayoutDashboard, exact: true },
@@ -21,9 +24,10 @@ const navItems = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
-  return (
-    <aside className="w-56 shrink-0 hidden lg:flex flex-col bg-[#1e3a5f] min-h-screen">
+  const nav = (
+    <div className="flex flex-col h-full">
       {/* Logo area */}
       <div className="px-5 py-6 border-b border-white/10">
         <div className="flex items-center gap-2">
@@ -38,13 +42,14 @@ export function AdminSidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
+      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
         {navItems.map(({ href, label, icon: Icon, exact }) => {
           const active = exact ? pathname === href : pathname.startsWith(href);
           return (
             <Link
               key={href}
               href={href}
+              onClick={() => setOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 active
                   ? "bg-white/15 text-white"
@@ -63,6 +68,7 @@ export function AdminSidebar() {
       <div className="px-3 py-4 border-t border-white/10 space-y-0.5">
         <Link
           href="/"
+          onClick={() => setOpen(false)}
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/55 hover:text-white hover:bg-white/8 transition-all"
         >
           <ArrowLeftCircle className="size-4" />
@@ -76,6 +82,43 @@ export function AdminSidebar() {
           Sair
         </button>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="w-56 shrink-0 hidden lg:flex flex-col bg-[#1e3a5f] min-h-screen">
+        {nav}
+      </aside>
+
+      {/* Mobile toggle */}
+      <Button
+        variant="outline"
+        size="icon"
+        className="lg:hidden fixed top-4 left-4 z-40"
+        onClick={() => setOpen(true)}
+      >
+        <Menu className="size-5" />
+      </Button>
+
+      {/* Mobile drawer */}
+      {open && (
+        <>
+          <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setOpen(false)} />
+          <aside className="fixed inset-y-0 left-0 w-64 bg-[#1e3a5f] z-50 flex flex-col lg:hidden shadow-xl">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-3 right-3 text-white/70 hover:text-white hover:bg-white/10"
+              onClick={() => setOpen(false)}
+            >
+              <X className="size-5" />
+            </Button>
+            {nav}
+          </aside>
+        </>
+      )}
+    </>
   );
 }

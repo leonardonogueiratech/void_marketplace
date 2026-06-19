@@ -38,7 +38,7 @@ export function ChatShell({ currentUserId, initialConversationId }: ChatShellPro
   const selectedConversation = conversations.find((c) => c.id === selectedId);
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] bg-white rounded-2xl border border-[#1e3a5f]/10 overflow-hidden">
+    <div className="flex h-[70vh] md:h-[calc(100vh-8rem)] bg-white rounded-2xl border border-[#1e3a5f]/10 overflow-hidden">
       {/* Sidebar */}
       <div className={`w-full md:w-72 shrink-0 border-r border-[#1e3a5f]/8 flex flex-col ${selectedId ? "hidden md:flex" : "flex"}`}>
         <div className="px-5 py-4 border-b border-[#1e3a5f]/8">
