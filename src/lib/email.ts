@@ -444,6 +444,7 @@ export async function sendAdminNewArtisanApplication(opts: {
   plan: string;
   city?: string | null;
   state?: string | null;
+  approveUrl: string;
 }) {
   const adminEmail = process.env.ADMIN_EMAIL ?? "administracao@feitodegente.com.br";
   const location = [opts.city, opts.state].filter(Boolean).join("/");
@@ -483,7 +484,12 @@ export async function sendAdminNewArtisanApplication(opts: {
       </tr>` : ""}
     </table>
 
-    ${ctaButton(`${BASE_URL}/admin/artesaos?status=pending`, "Revisar no painel →")}
+    ${ctaButton(opts.approveUrl, "Analisar e aprovar →")}
+    <p style="text-align:center;margin-top:14px">
+      <a href="${BASE_URL}/admin/artesaos?status=pending" style="font-size:12px;color:#bbb;text-decoration:underline">
+        ou revisar no painel completo
+      </a>
+    </p>
   `;
 
   await send({

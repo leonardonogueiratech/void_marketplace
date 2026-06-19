@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomBytes } from "crypto";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
 import { sendAdminNewArtisanApplication, sendArtisanApplicationReceived } from "@/lib/email";
 import { z } from "zod";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
 const schema = z.object({
   storeName: z.string().min(2, "Nome da loja deve ter pelo menos 2 caracteres."),
@@ -50,6 +53,8 @@ export async function POST(req: NextRequest) {
       slug = `${baseSlug}-${count}`;
     }
 
+    const approvalToken = randomBytes(32).toString("hex");
+
     await prisma.$transaction([
       prisma.user.update({
         where: { id: session.user.id },
@@ -68,6 +73,7 @@ export async function POST(req: NextRequest) {
           instagram: data.instagram,
           status: "PENDING",
           termsAcceptedAt: new Date(),
+          approvalToken,
           subscription: {
             create: { plan: data.plan, status: "ACTIVE" },
           },
@@ -88,6 +94,7 @@ export async function POST(req: NextRequest) {
       plan: data.plan,
       city: data.city,
       state: data.state,
+      approveUrl: `${BASE_URL}/aprovar-artesao/${approvalToken}`,
     });
 
     return NextResponse.json({ ok: true });

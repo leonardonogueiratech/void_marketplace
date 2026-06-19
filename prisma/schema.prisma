@@ -196,6 +196,7 @@ model ArtisanProfile {
   asaasWalletId    String?
   status           ArtisanStatus @default(PENDING)
   rejectedNote     String?
+  approvalToken    String?       @unique
   featured         Boolean       @default(false)
   rating           Float         @default(0)
   totalSales       Int           @default(0)
