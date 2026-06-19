@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getInitials } from "@/lib/utils";
+import { useUnreadChat } from "@/hooks/use-unread-chat";
 
 interface SidebarProps {
   artisan: {
@@ -50,6 +51,7 @@ const STATUS_LABELS: Record<string, string> = {
 export function DashboardSidebar({ artisan }: SidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const hasUnreadChat = useUnreadChat();
 
   const nav = (
     <nav className="flex flex-col h-full">
@@ -106,6 +108,12 @@ export function DashboardSidebar({ artisan }: SidebarProps) {
             >
               <Icon className="size-4 shrink-0" />
               {label}
+              {href === "/dashboard/chat" && hasUnreadChat && (
+                <span
+                  title="Você tem mensagens não lidas"
+                  className="ml-auto size-2 rounded-full bg-[#e07b2a]"
+                />
+              )}
             </Link>
           );
         })}

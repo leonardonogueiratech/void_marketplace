@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingBag, Search, Menu, X, User, LogOut, Store, ShieldCheck, ExternalLink } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { signOut, useSession } from "next-auth/react";
+import { useUnreadChat } from "@/hooks/use-unread-chat";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -33,23 +34,7 @@ export function Navbar() {
   const router = useRouter();
   const { data: session } = useSession();
   const itemCount = useCartStore((s) => s.items.reduce((a, i) => a + i.quantity, 0));
-  const [hasUnreadChat, setHasUnreadChat] = useState(false);
-
-  useEffect(() => {
-    if (!session?.user) return;
-    async function checkUnread() {
-      try {
-        const res = await fetch("/api/chat/unread-count");
-        const data = await res.json();
-        setHasUnreadChat((data.count ?? 0) > 0);
-      } catch {
-        // ignore
-      }
-    }
-    checkUnread();
-    const interval = setInterval(checkUnread, 30000);
-    return () => clearInterval(interval);
-  }, [session?.user]);
+  const hasUnreadChat = useUnreadChat();
 
   function handleSearch(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -173,7 +158,10 @@ export function Navbar() {
                       </AvatarFallback>
                     </Avatar>
                     {hasUnreadChat && (
-                      <span className="absolute top-0 right-0 size-2.5 rounded-full bg-[#e07b2a] ring-2 ring-[#1e3a5f]" />
+                      <span
+                        title="Você tem mensagens não lidas"
+                        className="absolute top-0 right-0 size-2.5 rounded-full bg-[#e07b2a] ring-2 ring-[#1e3a5f]"
+                      />
                     )}
                   </Button>
                 </DropdownMenuTrigger>
@@ -191,6 +179,12 @@ export function Navbar() {
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard">
                         <Store className="mr-2 size-4 text-[#27ae60]" /> Minha Loja
+                        {hasUnreadChat && (
+                          <span
+                            title="Você tem mensagens não lidas"
+                            className="ml-auto size-2 rounded-full bg-[#e07b2a]"
+                          />
+                        )}
                       </Link>
                     </DropdownMenuItem>
                   )}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingBag, User, MapPin, MessageCircle, Store } from "lucide-react";
 import { getInitials } from "@/lib/utils";
+import { useUnreadChat } from "@/hooks/use-unread-chat";
 
 interface Props {
   user: { name?: string | null; email?: string | null; image?: string | null };
@@ -19,6 +20,7 @@ const navItems = [
 
 export function ContaSidebar({ user, role }: Props) {
   const pathname = usePathname();
+  const hasUnreadChat = useUnreadChat();
 
   return (
     <aside className="lg:w-56 shrink-0">
@@ -51,6 +53,12 @@ export function ContaSidebar({ user, role }: Props) {
             >
               <Icon className="size-4 shrink-0" />
               {label}
+              {href === "/conta/chat" && hasUnreadChat && !active && (
+                <span
+                  title="Você tem mensagens não lidas"
+                  className="ml-auto size-2 rounded-full bg-[#e07b2a]"
+                />
+              )}
               {active && <span className="ml-auto w-1 h-4 rounded-full bg-[#e07b2a]" />}
             </Link>
           );
