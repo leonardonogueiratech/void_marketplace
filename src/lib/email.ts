@@ -7,6 +7,7 @@ function createTransport() {
     host: process.env.SMTP_HOST ?? "127.0.0.1",
     port: Number(process.env.SMTP_PORT ?? 25),
     secure: false,
+    tls: { rejectUnauthorized: false },
   });
 }
 
