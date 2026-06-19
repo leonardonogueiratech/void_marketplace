@@ -96,6 +96,7 @@ export function AdminSidebar() {
       <Button
         variant="outline"
         size="icon"
+        aria-label="Abrir menu"
         className="lg:hidden fixed top-4 left-4 z-40"
         onClick={() => setOpen(true)}
       >
