@@ -14,7 +14,7 @@ export default async function AdminUsersPage() {
     ADMIN:    "bg-[#e07b2a]/10 text-[#e07b2a] border-[#e07b2a]/20",
   };
   const roleLabels: Record<string, string> = {
-    CUSTOMER: "Comprador", ARTISAN: "Artesão", ADMIN: "Admin",
+    CUSTOMER: "Comprador", ARTISAN: "Artesão", ADMIN: "Administrador",
   };
 
   return (

@@ -31,7 +31,7 @@ export function AdminSidebar() {
             <ShieldCheck className="size-4 text-white" />
           </div>
           <div>
-            <p className="text-white text-sm font-bold">Admin</p>
+            <p className="text-white text-sm font-bold">Administrador</p>
             <p className="text-white/40 text-xs">Feito de Gente</p>
           </div>
         </div>
