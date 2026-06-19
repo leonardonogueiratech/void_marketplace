@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Users, Store, ShoppingBag,
-  MessageSquare, LogOut, ShieldCheck, Tag, Wallet, BarChart2,
+  MessageSquare, LogOut, ShieldCheck, Tag, Wallet, BarChart2, ArrowLeftCircle,
 } from "lucide-react";
 
 const navItems = [
@@ -59,8 +59,15 @@ export function AdminSidebar() {
         })}
       </nav>
 
-      {/* Logout */}
-      <div className="px-3 py-4 border-t border-white/10">
+      {/* Voltar ao site / Logout */}
+      <div className="px-3 py-4 border-t border-white/10 space-y-0.5">
+        <Link
+          href="/"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/55 hover:text-white hover:bg-white/8 transition-all"
+        >
+          <ArrowLeftCircle className="size-4" />
+          Voltar ao site
+        </Link>
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/55 hover:text-white hover:bg-white/8 transition-all w-full"
