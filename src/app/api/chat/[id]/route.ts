@@ -1,6 +1,9 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { sendNewChatMessage } from "@/lib/email";
 import { NextResponse } from "next/server";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
 // GET /api/chat/[id] — messages in a conversation
 export async function GET(
@@ -71,6 +74,25 @@ export async function POST(
       data: { updatedAt: new Date() },
     }),
   ]);
+
+  const recipients = await prisma.conversationParticipant.findMany({
+    where: { conversationId: id, userId: { not: userId } },
+    include: { user: { select: { name: true, email: true, role: true } } },
+  });
+
+  for (const r of recipients) {
+    if (!r.user.email) continue;
+    const chatUrl = r.user.role === "ARTISAN"
+      ? `${BASE_URL}/dashboard/chat?conv=${id}`
+      : `${BASE_URL}/conta/chat?conv=${id}`;
+    void sendNewChatMessage({
+      to: r.user.email,
+      recipientName: r.user.name ?? "usuário",
+      senderName: message.sender.name ?? "Alguém",
+      preview: content.trim(),
+      chatUrl,
+    });
+  }
 
   return NextResponse.json(message, { status: 201 });
 }

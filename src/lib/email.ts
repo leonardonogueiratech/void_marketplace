@@ -542,6 +542,39 @@ export async function sendPasswordReset(opts: {
   });
 }
 
+// ─── chat ──────────────────────────────────────────────────────────────────────
+
+export async function sendNewChatMessage(opts: {
+  to: string;
+  recipientName: string;
+  senderName: string;
+  preview: string;
+  chatUrl: string;
+}) {
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Nova mensagem", "#1e3a5f")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        ${opts.senderName} te enviou uma mensagem
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">Olá, ${opts.recipientName}!</p>
+    </div>
+
+    <div style="border-left:3px solid #1e3a5f;padding:14px 18px;background:#f7f3ed;border-radius:0 10px 10px 0;margin-bottom:28px">
+      <p style="margin:0;color:#444;font-size:14px;line-height:1.7;white-space:pre-wrap">${opts.preview}</p>
+    </div>
+
+    ${ctaButton(opts.chatUrl, "Ver e responder →")}
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.recipientName,
+    subject: `${opts.senderName} te enviou uma mensagem — Feito de Gente`,
+    html: baseTemplate(content),
+  });
+}
+
 // ─── contact emails ────────────────────────────────────────────────────────────
 
 export async function sendContactNotification(msg: {

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingBag, Search, Menu, X, User, LogOut, Store, ShieldCheck, ExternalLink } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +33,23 @@ export function Navbar() {
   const router = useRouter();
   const { data: session } = useSession();
   const itemCount = useCartStore((s) => s.items.reduce((a, i) => a + i.quantity, 0));
+  const [hasUnreadChat, setHasUnreadChat] = useState(false);
+
+  useEffect(() => {
+    if (!session?.user) return;
+    async function checkUnread() {
+      try {
+        const res = await fetch("/api/chat/unread-count");
+        const data = await res.json();
+        setHasUnreadChat((data.count ?? 0) > 0);
+      } catch {
+        // ignore
+      }
+    }
+    checkUnread();
+    const interval = setInterval(checkUnread, 30000);
+    return () => clearInterval(interval);
+  }, [session?.user]);
 
   function handleSearch(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -148,13 +165,16 @@ export function Navbar() {
             {session ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/10">
+                  <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-white/10">
                     <Avatar className="size-8 ring-2 ring-white/30">
                       <AvatarImage src={session.user.image ?? undefined} />
                       <AvatarFallback className="text-xs bg-white/20 text-white">
                         {getInitials(session.user.name ?? "U")}
                       </AvatarFallback>
                     </Avatar>
+                    {hasUnreadChat && (
+                      <span className="absolute top-0 right-0 size-2.5 rounded-full bg-[#e07b2a] ring-2 ring-[#1e3a5f]" />
+                    )}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-lg">
