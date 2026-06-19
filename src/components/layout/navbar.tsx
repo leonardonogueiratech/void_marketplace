@@ -177,7 +177,7 @@ export function Navbar() {
                   {session.user.role === "ADMIN" && (
                     <DropdownMenuItem asChild>
                       <Link href="/admin">
-                        <ShieldCheck className="mr-2 size-4 text-[#27ae60]" /> Admin
+                        <ShieldCheck className="mr-2 size-4 text-[#27ae60]" /> Administrador
                       </Link>
                     </DropdownMenuItem>
                   )}
