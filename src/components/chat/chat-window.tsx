@@ -44,7 +44,7 @@ export function ChatWindow({ conversationId, currentUserId, otherName }: ChatWin
   }, [fetchMessages]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [messages]);
 
   async function send() {
