@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isApproved, isCancelled, type AsaasPaymentStatus } from "@/lib/asaas";
-import { COMMISSION_RATE } from "@/lib/utils";
+import { COMMISSION_RATE, COMMISSION_BY_PLAN } from "@/lib/utils";
 
 interface AsaasWebhookPayload {
   event: string;
@@ -82,16 +82,25 @@ export async function POST(req: NextRequest) {
 
       await prisma.order.update({ where: { id: orderId }, data: { status: "PAID" } });
 
+      const artisanIds = [...new Set(order.items.map((i) => i.artisanId))];
+      const subscriptions = await prisma.subscription.findMany({
+        where: { artisanId: { in: artisanIds } },
+        select: { artisanId: true, plan: true },
+      });
+      const planByArtisan = new Map(subscriptions.map((s) => [s.artisanId, s.plan]));
+
       for (const item of order.items) {
         const existing = await prisma.commission.findUnique({ where: { orderItemId: item.id } });
         if (!existing) {
+          const plan = planByArtisan.get(item.artisanId);
+          const rate = (plan && COMMISSION_BY_PLAN[plan]) ?? COMMISSION_RATE;
           await prisma.commission.create({
             data: {
               artisanId: item.artisanId,
               orderItemId: item.id,
               saleAmount: item.totalPrice,
-              rate: COMMISSION_RATE,
-              amount: item.totalPrice * COMMISSION_RATE,
+              rate,
+              amount: item.totalPrice * rate,
             },
           });
         }
