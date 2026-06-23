@@ -25,6 +25,19 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+async function put<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${ASAAS_BASE}${path}`, {
+    method: "PUT",
+    headers: headers(),
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Asaas ${path} → ${res.status}: ${err}`);
+  }
+  return res.json() as Promise<T>;
+}
+
 async function get<T>(path: string): Promise<T> {
   const res = await fetch(`${ASAAS_BASE}${path}`, { headers: headers() });
   if (!res.ok) {
@@ -337,6 +350,11 @@ export async function createAsaasSubscription(params: {
     description: params.description,
     externalReference: `sub_${params.artisanId}`,
   });
+}
+
+export async function updateAsaasSubscriptionValue(subscriptionId: string, value: number): Promise<void> {
+  if (isMock) return;
+  await put(`/subscriptions/${subscriptionId}`, { value });
 }
 
 export async function cancelAsaasSubscription(subscriptionId: string): Promise<void> {

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { sendArtisanApproved, sendArtisanRejected } from "@/lib/email";
 import { createArtisanAccount } from "@/lib/asaas";
+import { activatePaidSubscriptionOnApproval } from "@/lib/subscriptions";
 
 const schema = z.object({
   action: z.enum(["approve", "reject", "suspend"]),
@@ -50,6 +51,13 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
           console.error("Asaas subconta creation failed:", e);
         }
       })();
+    }
+
+    // ativa cobrança real da assinatura paga (fire-and-forget, non-blocking)
+    if (action === "approve") {
+      activatePaidSubscriptionOnApproval(id).catch((e) =>
+        console.error("Asaas subscription activation failed:", e)
+      );
     }
 
     // fire-and-forget email

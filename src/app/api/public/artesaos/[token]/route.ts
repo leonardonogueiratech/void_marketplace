@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendArtisanApproved, sendArtisanRejected } from "@/lib/email";
 import { createArtisanAccount } from "@/lib/asaas";
+import { activatePaidSubscriptionOnApproval } from "@/lib/subscriptions";
 import { z } from "zod";
 
 const schema = z.object({
@@ -50,6 +51,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
           console.error("Asaas subconta creation failed:", e);
         }
       })();
+    }
+
+    if (action === "approve") {
+      activatePaidSubscriptionOnApproval(artisan.id).catch((e) =>
+        console.error("Asaas subscription activation failed:", e)
+      );
     }
 
     const email = artisan.user?.email;

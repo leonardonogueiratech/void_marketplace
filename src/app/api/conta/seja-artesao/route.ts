@@ -75,7 +75,8 @@ export async function POST(req: NextRequest) {
           termsAcceptedAt: new Date(),
           approvalToken,
           subscription: {
-            create: { plan: data.plan, status: "ACTIVE" },
+            // Plano pago só é cobrado de fato na aprovação (activatePaidSubscriptionOnApproval)
+            create: { plan: data.plan, status: data.plan === "FREE" ? "ACTIVE" : "INACTIVE" },
           },
         },
       }),
