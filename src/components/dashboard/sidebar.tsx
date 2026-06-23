@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Package, ShoppingBag, DollarSign,
   User, Settings, LogOut, Menu, X, Star, MessageCircle,
-  ExternalLink, Store, ChevronRight,
+  ExternalLink, Store, ChevronRight, RotateCcw,
 } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -27,6 +27,7 @@ const navItems = [
   { href: "/dashboard",               label: "Visão Geral",     icon: LayoutDashboard, exact: true },
   { href: "/dashboard/produtos",      label: "Produtos",        icon: Package },
   { href: "/dashboard/pedidos",       label: "Pedidos",         icon: ShoppingBag },
+  { href: "/dashboard/devolucoes",    label: "Devoluções",      icon: RotateCcw },
   { href: "/dashboard/financeiro",    label: "Financeiro",      icon: DollarSign },
   { href: "/dashboard/avaliacoes",    label: "Avaliações",      icon: Star },
   { href: "/dashboard/chat",          label: "Mensagens",       icon: MessageCircle },

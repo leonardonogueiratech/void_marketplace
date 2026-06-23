@@ -103,6 +103,7 @@ model User {
   conversations   ConversationParticipant[]
   addresses       Address[]
   passwordResets  PasswordResetToken[]
+  returnRequests  ReturnRequest[]
 }
 
 // ─── AUTH (NextAuth) ──────────────────────────────────────────────────────────
@@ -204,13 +205,14 @@ model ArtisanProfile {
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 
-  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products     Product[]
-  subscription Subscription?
-  commissions  Commission[]
-  withdrawals  Withdrawal[]
-  reviews      Review[]
-  categories   ArtisanCategory[]
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products       Product[]
+  subscription   Subscription?
+  commissions    Commission[]
+  withdrawals    Withdrawal[]
+  reviews        Review[]
+  categories     ArtisanCategory[]
+  returnRequests ReturnRequest[]
 }
 
 // ─── CATEGORY ─────────────────────────────────────────────────────────────────
@@ -332,9 +334,51 @@ model OrderItem {
   unitPrice  Float
   totalPrice Float
 
-  order      Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product    Product        @relation(fields: [productId], references: [id])
-  commission Commission?
+  order         Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product       Product        @relation(fields: [productId], references: [id])
+  commission    Commission?
+  returnRequest ReturnRequest?
+}
+
+// ─── RETURN REQUEST ───────────────────────────────────────────────────────────
+
+enum ReturnReason {
+  NOT_LIKED
+  DEFECTIVE
+  DAMAGED
+  WRONG_ITEM
+  OTHER
+}
+
+enum ReturnStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SHIPPED_BACK
+  RECEIVED
+  REFUNDED
+}
+
+model ReturnRequest {
+  id                 String       @id @default(cuid())
+  orderItemId        String       @unique
+  customerId         String
+  artisanId          String
+  reason             ReturnReason
+  description        String?
+  photos             String       @default("[]")
+  status             ReturnStatus @default(PENDING)
+  artisanNote        String?
+  returnTrackingCode String?
+  shippedBackAt      DateTime?
+  receivedAt         DateTime?
+  refundedAt         DateTime?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  orderItem OrderItem      @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  customer  User           @relation(fields: [customerId], references: [id])
+  artisan   ArtisanProfile @relation(fields: [artisanId], references: [id])
 }
 
 // ─── PAYMENT ──────────────────────────────────────────────────────────────────

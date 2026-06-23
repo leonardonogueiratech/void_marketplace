@@ -10,7 +10,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CancelOrderButton } from "@/components/conta/cancel-order-button";
 import { ReviewButton } from "@/components/conta/review-button";
+import { ReturnRequestPanel } from "@/components/conta/return-request-panel";
 import { Truck, Star } from "lucide-react";
+
+// Janela máxima de elegibilidade (7 dias p/ "não gostei", 30 p/ defeito/dano — validado de fato na API)
+const DEFECT_WINDOW_DAYS = 30;
+
+function isReturnEligible(deliveredAt: Date | null): boolean {
+  if (!deliveredAt) return false;
+  const deadline = new Date(deliveredAt);
+  deadline.setDate(deadline.getDate() + DEFECT_WINDOW_DAYS);
+  return new Date() <= deadline;
+}
 
 export const metadata: Metadata = { title: "Meus Pedidos" };
 
@@ -47,6 +58,9 @@ export default async function AccountOrdersPage() {
               images: { take: 1, orderBy: { order: "asc" } },
               artisan: { select: { storeName: true } },
             },
+          },
+          returnRequest: {
+            select: { id: true, status: true, artisanNote: true, returnTrackingCode: true },
           },
         },
       },
@@ -115,7 +129,7 @@ export default async function AccountOrdersPage() {
                     {order.items.map((item) => {
                       const image = item.product.images[0]?.url ?? "/placeholder-product.jpg";
                       return (
-                        <div key={item.id} className="flex items-center gap-4">
+                        <div key={item.id} className="flex flex-wrap items-center gap-4">
                           <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-[#f7f3ed]">
                             <Image src={image} alt={item.product.name} fill sizes="64px" className="object-cover" />
                           </div>
@@ -129,6 +143,15 @@ export default async function AccountOrdersPage() {
                             <p className="font-semibold text-[#1e3a5f] text-sm">{formatCurrency(item.totalPrice)}</p>
                             <p className="text-xs text-neutral-400">{formatCurrency(item.unitPrice)} un.</p>
                           </div>
+                          {order.status === "DELIVERED" && (
+                            <div className="w-full sm:w-auto sm:ml-20">
+                              <ReturnRequestPanel
+                                orderItemId={item.id}
+                                eligible={isReturnEligible(order.deliveredAt)}
+                                returnRequest={item.returnRequest}
+                              />
+                            </div>
+                          )}
                         </div>
                       );
                     })}

@@ -7,7 +7,7 @@ import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Users, Store, ShoppingBag,
   MessageSquare, LogOut, ShieldCheck, Tag, Wallet, BarChart2, ArrowLeftCircle,
-  Menu, X,
+  Menu, X, RotateCcw,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -17,6 +17,7 @@ const navItems = [
   { href: "/admin/categorias", label: "Categorias", icon: Tag },
   { href: "/admin/usuarios", label: "Usuários", icon: Users },
   { href: "/admin/pedidos", label: "Pedidos", icon: ShoppingBag },
+  { href: "/admin/devolucoes", label: "Devoluções", icon: RotateCcw },
   { href: "/admin/financeiro", label: "Financeiro", icon: Wallet },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart2 },
   { href: "/admin/mensagens", label: "Mensagens", icon: MessageSquare },

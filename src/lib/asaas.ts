@@ -284,11 +284,17 @@ export interface AsaasRefundResult {
   status: string;
 }
 
-export async function refundPayment(asaasPaymentId: string, description?: string): Promise<AsaasRefundResult> {
+export async function refundPayment(
+  asaasPaymentId: string,
+  opts?: { value?: number; description?: string }
+): Promise<AsaasRefundResult> {
   if (isMock) {
     return { id: asaasPaymentId, status: "REFUNDED" };
   }
-  return post<AsaasRefundResult>(`/payments/${asaasPaymentId}/refund`, description ? { description } : {});
+  const body: Record<string, unknown> = {};
+  if (opts?.value) body.value = opts.value;
+  if (opts?.description) body.description = opts.description;
+  return post<AsaasRefundResult>(`/payments/${asaasPaymentId}/refund`, body);
 }
 
 // ─── Subscriptions ────────────────────────────────────────────────────────────

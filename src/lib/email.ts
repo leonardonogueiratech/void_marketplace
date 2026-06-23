@@ -19,13 +19,17 @@ async function send(opts: {
   html: string;
 }) {
   const transport = createTransport();
-  await transport.sendMail({
-    from: '"Feito de Gente" <contato@feitodegente.com.br>',
-    to: opts.toName ? `"${opts.toName}" <${opts.to}>` : opts.to,
-    replyTo: opts.replyTo,
-    subject: opts.subject,
-    html: opts.html,
-  });
+  try {
+    await transport.sendMail({
+      from: '"Feito de Gente" <contato@feitodegente.com.br>',
+      to: opts.toName ? `"${opts.toName}" <${opts.to}>` : opts.to,
+      replyTo: opts.replyTo,
+      subject: opts.subject,
+      html: opts.html,
+    });
+  } catch (err) {
+    console.error("Erro ao enviar e-mail:", err);
+  }
 }
 
 function baseTemplate(content: string) {
@@ -330,6 +334,211 @@ export async function sendOrderRefunded(opts: {
     to: opts.to,
     toName: opts.customerName,
     subject: `Pedido #${shortId} reembolsado — Feito de Gente`,
+    html: baseTemplate(content),
+  });
+}
+
+// ─── return requests ────────────────────────────────────────────────────────────
+
+const RETURN_REASON_LABELS: Record<string, string> = {
+  NOT_LIKED: "Não gostei do produto",
+  DEFECTIVE: "Produto com defeito",
+  DAMAGED: "Chegou danificado",
+  WRONG_ITEM: "Produto errado",
+  OTHER: "Outro motivo",
+};
+
+export async function sendReturnRequestToArtisan(opts: {
+  to: string;
+  artisanName: string;
+  customerName: string;
+  productName: string;
+  reason: string;
+  description?: string | null;
+  orderId: string;
+}) {
+  const shortId = opts.orderId.slice(-8).toUpperCase();
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Solicitação de devolução", "#e07b2a")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        ${opts.customerName} solicitou a devolução de um produto
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Pedido <span style="font-family:monospace;font-weight:700">#${shortId}</span> · ${opts.productName}
+      </p>
+    </div>
+
+    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+      <p style="margin:0 0 6px;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Motivo</p>
+      <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1e3a5f">${RETURN_REASON_LABELS[opts.reason] ?? opts.reason}</p>
+      ${opts.description ? `
+      <p style="margin:0 0 6px;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Detalhes</p>
+      <p style="margin:0;font-size:14px;color:#444;line-height:1.6">${opts.description}</p>` : ""}
+    </div>
+
+    <p style="font-size:13px;color:#888;line-height:1.6">
+      Acesse seu painel para aprovar ou recusar a solicitação.
+    </p>
+
+    ${ctaButton(`${BASE_URL}/dashboard/devolucoes`, "Analisar solicitação →")}
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.artisanName,
+    subject: `Devolução solicitada — Pedido #${shortId}`,
+    html: baseTemplate(content),
+  });
+}
+
+export async function sendReturnDecisionToCustomer(opts: {
+  to: string;
+  customerName: string;
+  productName: string;
+  approved: boolean;
+  artisanNote?: string | null;
+}) {
+  const content = opts.approved ? `
+    <div style="margin-bottom:24px">
+      ${badge("Devolução aprovada", "#27ae60")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Sua devolução foi aprovada ✦
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.customerName}</strong>! O artesão aprovou a devolução de <strong>${opts.productName}</strong>.
+      </p>
+    </div>
+
+    <div style="background:#f0f7ee;border:1px solid #c8e0c0;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+      <p style="margin:0;font-size:13px;color:#2a5a1a;line-height:1.6">
+        Agora envie o produto de volta para o artesão e informe o código de rastreio na página
+        do seu pedido. O reembolso é processado depois que o artesão confirmar o recebimento.
+      </p>
+    </div>
+
+    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Ver meus pedidos →", "#27ae60")}
+  ` : `
+    <div style="margin-bottom:24px">
+      ${badge("Devolução recusada", "#e07b2a")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Sua solicitação não foi aprovada
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.customerName}</strong>! O artesão não aprovou a devolução de <strong>${opts.productName}</strong>.
+      </p>
+    </div>
+
+    ${opts.artisanNote ? `
+    <div style="border-left:3px solid #e07b2a;padding:14px 18px;background:#fffbf7;border-radius:0 10px 10px 0;margin-bottom:20px">
+      <p style="margin:0 0 6px;font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:.06em">Motivo</p>
+      <p style="margin:0;color:#444;font-size:14px;line-height:1.7">${opts.artisanNote}</p>
+    </div>` : ""}
+
+    <p style="font-size:13px;color:#888;line-height:1.6">
+      Se não concordar com a decisão, entre em contato com nossa equipe.
+    </p>
+    ${ctaButton(`${BASE_URL}/contato`, "Falar com a equipe →", "#1e3a5f")}
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.customerName,
+    subject: opts.approved ? "Devolução aprovada — Feito de Gente" : "Atualização sobre sua devolução — Feito de Gente",
+    html: baseTemplate(content),
+  });
+}
+
+export async function sendReturnReceivedToCustomer(opts: {
+  to: string;
+  customerName: string;
+  productName: string;
+}) {
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Produto recebido", "#1e3a5f")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        O artesão recebeu sua devolução
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.customerName}</strong>! O artesão confirmou o recebimento de <strong>${opts.productName}</strong>.
+        Seu reembolso será processado em breve.
+      </p>
+    </div>
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.customerName,
+    subject: "Devolução recebida, reembolso em processamento — Feito de Gente",
+    html: baseTemplate(content),
+  });
+}
+
+export async function sendReturnRefundedToCustomer(opts: {
+  to: string;
+  customerName: string;
+  productName: string;
+}) {
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Reembolso processado", "#27ae60")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Seu reembolso foi processado ✦
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.customerName}</strong>! O valor de <strong>${opts.productName}</strong> foi estornado.
+      </p>
+    </div>
+
+    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:8px">
+      <p style="margin:0;font-size:13px;color:#666;line-height:1.6">
+        O valor será devolvido pelo mesmo meio de pagamento utilizado na compra.
+        O prazo para aparecer no seu extrato/fatura depende da sua instituição financeira.
+      </p>
+    </div>
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.customerName,
+    subject: "Reembolso processado — Feito de Gente",
+    html: baseTemplate(content),
+  });
+}
+
+export async function sendReturnShippedBackToArtisan(opts: {
+  to: string;
+  artisanName: string;
+  productName: string;
+  trackingCode: string;
+}) {
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Produto a caminho", "#1e3a5f")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        O cliente enviou o produto de volta
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.artisanName}</strong>! O produto <strong>${opts.productName}</strong> está a caminho de volta.
+      </p>
+    </div>
+
+    <div style="background:#edf2f8;border:1px solid #dce6f0;border-radius:14px;padding:20px 24px;margin-bottom:20px;text-align:center">
+      <p style="margin:0 0 6px;font-size:12px;color:#2c4f7b;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Código de rastreio</p>
+      <p style="margin:0;font-size:22px;font-weight:800;color:#1e3a5f;letter-spacing:2px;font-family:monospace">${opts.trackingCode}</p>
+    </div>
+
+    <p style="font-size:13px;color:#888;line-height:1.6">
+      Quando o produto chegar, confirme o recebimento no seu painel para liberar o reembolso ao cliente.
+    </p>
+    ${ctaButton(`${BASE_URL}/dashboard/devolucoes`, "Ver devolução →")}
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.artisanName,
+    subject: `Produto a caminho — devolução`,
     html: baseTemplate(content),
   });
 }
