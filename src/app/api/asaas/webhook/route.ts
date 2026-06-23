@@ -91,19 +91,19 @@ export async function POST(req: NextRequest) {
 
       for (const item of order.items) {
         const existing = await prisma.commission.findUnique({ where: { orderItemId: item.id } });
-        if (!existing) {
-          const plan = planByArtisan.get(item.artisanId);
-          const rate = (plan && COMMISSION_BY_PLAN[plan]) ?? COMMISSION_RATE;
-          await prisma.commission.create({
-            data: {
-              artisanId: item.artisanId,
-              orderItemId: item.id,
-              saleAmount: item.totalPrice,
-              rate,
-              amount: item.totalPrice * rate,
-            },
-          });
-        }
+        if (existing) continue; // já processado (webhook duplicado ou aprovação síncrona anterior)
+
+        const plan = planByArtisan.get(item.artisanId);
+        const rate = (plan && COMMISSION_BY_PLAN[plan]) ?? COMMISSION_RATE;
+        await prisma.commission.create({
+          data: {
+            artisanId: item.artisanId,
+            orderItemId: item.id,
+            saleAmount: item.totalPrice,
+            rate,
+            amount: item.totalPrice * rate,
+          },
+        });
         await prisma.product.update({
           where: { id: item.productId },
           data: { stock: { decrement: item.quantity }, salesCount: { increment: item.quantity } },
