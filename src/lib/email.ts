@@ -8,6 +8,9 @@ function createTransport() {
     port: Number(process.env.SMTP_PORT ?? 25),
     secure: false,
     tls: { rejectUnauthorized: false },
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 10_000,
   });
 }
 
