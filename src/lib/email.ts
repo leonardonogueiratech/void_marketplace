@@ -300,6 +300,40 @@ export async function sendOrderDeliveredToCustomer(opts: {
   });
 }
 
+export async function sendOrderRefunded(opts: {
+  to: string;
+  customerName: string;
+  orderId: string;
+}) {
+  const shortId = opts.orderId.slice(-8).toUpperCase();
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Pedido reembolsado", "#1e3a5f")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Seu reembolso foi processado
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.customerName}</strong>! O pedido <span style="font-family:monospace;font-weight:700">#${shortId}</span> foi estornado.
+      </p>
+    </div>
+
+    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:8px">
+      <p style="margin:0;font-size:13px;color:#666;line-height:1.6">
+        O valor será devolvido pelo mesmo meio de pagamento utilizado na compra.
+        O prazo para o valor aparecer no seu extrato/fatura depende da sua instituição financeira,
+        podendo levar alguns dias úteis.
+      </p>
+    </div>
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.customerName,
+    subject: `Pedido #${shortId} reembolsado — Feito de Gente`,
+    html: baseTemplate(content),
+  });
+}
+
 // ─── artisan status emails ─────────────────────────────────────────────────────
 
 export async function sendArtisanApproved(opts: {

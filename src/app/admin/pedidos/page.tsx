@@ -3,6 +3,7 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import type { OrderStatus } from "@/generated/prisma";
+import { RefundButton } from "./refund-button";
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   PENDING:         { label: "Pendente",       color: "bg-neutral-100 text-neutral-500 border-neutral-200" },
@@ -36,7 +37,7 @@ export default async function AdminOrdersPage({
       include: {
         user: { select: { name: true, email: true } },
         items: true,
-        payment: { select: { method: true, status: true } },
+        payment: { select: { method: true, status: true, asaasPaymentId: true } },
       },
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * perPage,
@@ -95,7 +96,7 @@ export default async function AdminOrdersPage({
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-[#1e3a5f]/8">
-                    {["Pedido", "Comprador", "Itens", "Total", "Pagamento", "Status", "Data"].map((h) => (
+                    {["Pedido", "Comprador", "Itens", "Total", "Pagamento", "Status", "Data", "Ações"].map((h) => (
                       <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-neutral-400 uppercase tracking-wide whitespace-nowrap">{h}</th>
                     ))}
                   </tr>
@@ -103,6 +104,8 @@ export default async function AdminOrdersPage({
                 <tbody className="divide-y divide-[#1e3a5f]/6">
                   {orders.map((o) => {
                     const st = STATUS_CONFIG[o.status] ?? STATUS_CONFIG.PENDING;
+                    const canRefund = !!o.payment?.asaasPaymentId
+                      && !["REFUNDED", "CANCELLED", "PENDING", "PAYMENT_PENDING"].includes(o.status);
                     return (
                       <tr key={o.id} className="hover:bg-[#f7f3ed]/40 transition-colors">
                         <td className="px-5 py-3">
@@ -130,6 +133,9 @@ export default async function AdminOrdersPage({
                         </td>
                         <td className="px-5 py-3 text-xs text-neutral-400 whitespace-nowrap">
                           {formatDate(o.createdAt)}
+                        </td>
+                        <td className="px-5 py-3">
+                          {canRefund && <RefundButton orderId={o.id} />}
                         </td>
                       </tr>
                     );

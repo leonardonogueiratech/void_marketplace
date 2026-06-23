@@ -277,6 +277,20 @@ export function isCancelled(status: AsaasPaymentStatus): boolean {
   return status === "REFUNDED" || status === "CHARGEBACK_REQUESTED";
 }
 
+// ─── Refund ───────────────────────────────────────────────────────────────────
+
+export interface AsaasRefundResult {
+  id: string;
+  status: string;
+}
+
+export async function refundPayment(asaasPaymentId: string, description?: string): Promise<AsaasRefundResult> {
+  if (isMock) {
+    return { id: asaasPaymentId, status: "REFUNDED" };
+  }
+  return post<AsaasRefundResult>(`/payments/${asaasPaymentId}/refund`, description ? { description } : {});
+}
+
 // ─── Subscriptions ────────────────────────────────────────────────────────────
 
 export interface AsaasSubscription {
