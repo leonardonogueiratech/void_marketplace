@@ -13,7 +13,7 @@ export default async function CategoriesPage() {
       _count: {
         select: {
           products: {
-            where: { status: "ACTIVE" },
+            where: { status: "ACTIVE", artisan: { status: "APPROVED" } },
           },
         },
       },

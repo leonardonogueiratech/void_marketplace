@@ -15,7 +15,7 @@ const schema = z.object({
   sku: z.string().optional(),
   weight: z.coerce.number().optional().nullable(),
   categoryId: z.string().optional().nullable(),
-  status: z.enum(["DRAFT", "ACTIVE", "INACTIVE"]).default("DRAFT"),
+  status: z.enum(["DRAFT", "ACTIVE", "INACTIVE"]).default("ACTIVE"),
   tags: z.string().optional(),
   materials: z.string().optional(),
   imageUrls: z.array(z.string().url()).default([]),

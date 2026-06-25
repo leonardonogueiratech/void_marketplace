@@ -63,7 +63,7 @@ export function ProductForm({ artisanId, categories, product }: ProductFormProps
     sku: product?.sku ?? "",
     weight: product?.weight?.toString() ?? "",
     categoryId: product?.categoryId ?? "",
-    status: product?.status ?? "DRAFT",
+    status: product?.status ?? "ACTIVE",
     tags: (product?.tags ?? []).join(", "),
     materials: (product?.materials ?? []).join(", "),
   });

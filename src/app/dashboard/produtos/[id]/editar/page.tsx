@@ -27,6 +27,9 @@ export default async function EditProductPage({ params }: Props) {
         id,
         artisanId: artisan.id,
       },
+      include: {
+        images: { orderBy: { order: "asc" } },
+      },
     }),
   ]);
 
