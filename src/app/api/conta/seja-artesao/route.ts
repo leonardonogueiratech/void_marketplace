@@ -4,9 +4,18 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify } from "@/lib/utils";
 import { sendAdminNewArtisanApplication, sendArtisanApplicationReceived } from "@/lib/email";
+import { findOrCreateCustomer, tokenizeCreditCard } from "@/lib/asaas";
 import { z } from "zod";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+
+const cardSchema = z.object({
+  holderName: z.string().min(2),
+  number: z.string().min(13),
+  expiryMonth: z.string().min(1).max(2),
+  expiryYear: z.string().min(4).max(4),
+  ccv: z.string().min(3).max(4),
+});
 
 const schema = z.object({
   storeName: z.string().min(2, "Nome da loja deve ter pelo menos 2 caracteres."),
@@ -18,6 +27,10 @@ const schema = z.object({
   instagram: z.string().optional(),
   plan: z.enum(["FREE", "BASIC", "PRO"]).default("FREE"),
   termsAccepted: z.literal(true, { message: "Você precisa aceitar os Termos de Adesão." }),
+  card: cardSchema.optional(),
+}).refine((data) => data.plan === "FREE" || !!data.card, {
+  message: "Dados do cartão são obrigatórios para planos pagos.",
+  path: ["card"],
 });
 
 export async function POST(req: NextRequest) {
@@ -55,6 +68,35 @@ export async function POST(req: NextRequest) {
 
     const approvalToken = randomBytes(32).toString("hex");
 
+    // Tokeniza o cartão antes de criar qualquer coisa — se o cartão for inválido,
+    // o cadastro nem chega a ser criado.
+    let cardToken: { token: string; last4: string; brand: string } | null = null;
+    if (data.plan !== "FREE" && data.card) {
+      try {
+        const customerId = await findOrCreateCustomer({
+          name: session.user.name ?? data.storeName,
+          email: session.user.email ?? "",
+        });
+        const tokenized = await tokenizeCreditCard({
+          customerId,
+          card: data.card,
+          holderInfo: {
+            name: session.user.name ?? data.storeName,
+            email: session.user.email ?? "",
+            cpfCnpj: data.cpfCnpj,
+          },
+        });
+        cardToken = {
+          token: tokenized.creditCardToken,
+          last4: tokenized.creditCardNumber,
+          brand: tokenized.creditCardBrand,
+        };
+      } catch (e) {
+        console.error("Erro ao tokenizar cartão:", e);
+        return NextResponse.json({ error: "Não foi possível validar o cartão. Verifique os dados e tente novamente." }, { status: 400 });
+      }
+    }
+
     await prisma.$transaction([
       prisma.user.update({
         where: { id: session.user.id },
@@ -76,7 +118,13 @@ export async function POST(req: NextRequest) {
           approvalToken,
           subscription: {
             // Plano pago só é cobrado de fato na aprovação (activatePaidSubscriptionOnApproval)
-            create: { plan: data.plan, status: data.plan === "FREE" ? "ACTIVE" : "INACTIVE" },
+            create: {
+              plan: data.plan,
+              status: data.plan === "FREE" ? "ACTIVE" : "INACTIVE",
+              creditCardToken: cardToken?.token,
+              creditCardLast4: cardToken?.last4,
+              creditCardBrand: cardToken?.brand,
+            },
           },
         },
       }),

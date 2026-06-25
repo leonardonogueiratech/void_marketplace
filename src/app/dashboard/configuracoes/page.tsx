@@ -106,6 +106,8 @@ export default async function DashboardSettingsPage() {
             currentPlan={sub?.plan ?? "FREE"}
             currentStatus={sub?.status ?? "ACTIVE"}
             periodEnd={sub?.currentPeriodEnd ?? null}
+            hasCardOnFile={!!sub?.creditCardToken}
+            cardLast4={sub?.creditCardLast4 ?? null}
           />
         </CardContent>
       </Card>

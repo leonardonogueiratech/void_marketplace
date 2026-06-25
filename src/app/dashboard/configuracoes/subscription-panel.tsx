@@ -4,7 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Loader2, CheckCircle2, ArrowRight, AlertTriangle } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Loader2, CheckCircle2, ArrowRight, AlertTriangle, CreditCard } from "lucide-react";
 import {
   SUBSCRIPTION_PRICES,
   SUBSCRIPTION_LAUNCH_PRICES,
@@ -71,32 +79,49 @@ interface Props {
   currentPlan: string;
   currentStatus: string;
   periodEnd: Date | null;
+  hasCardOnFile: boolean;
+  cardLast4: string | null;
 }
 
-export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Props) {
+const emptyCard = { holderName: "", number: "", expiryMonth: "", expiryYear: "", ccv: "" };
+
+export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCardOnFile, cardLast4 }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
   const [cancelling, setCancelling] = useState(false);
   const [confirmCancel, setConfirmCancel] = useState(false);
+  const [cardDialogPlan, setCardDialogPlan] = useState<string | null>(null);
+  const [card, setCard] = useState(emptyCard);
 
-  async function handleChangePlan(plan: string) {
+  async function handleChangePlan(plan: string, cardData?: typeof emptyCard) {
     setLoading(plan);
     try {
       const res = await fetch("/api/dashboard/assinatura", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan }),
+        body: JSON.stringify({ plan, card: cardData }),
       });
       const data = await res.json();
       if (!res.ok) { toast.error(data.error ?? "Erro ao mudar plano."); return; }
       const planName = PLANS.find((p) => p.id === plan)?.name ?? plan;
       toast.success(`Plano alterado para ${planName}!`);
+      setCardDialogPlan(null);
+      setCard(emptyCard);
       router.refresh();
     } catch {
       toast.error("Erro ao mudar plano.");
     } finally {
       setLoading(null);
     }
+  }
+
+  function startChangePlan(plan: string) {
+    if (plan !== "FREE" && !hasCardOnFile) {
+      setCard(emptyCard);
+      setCardDialogPlan(plan);
+      return;
+    }
+    handleChangePlan(plan);
   }
 
   async function handleCancel() {
@@ -145,6 +170,11 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
           {periodEnd && (
             <p className="text-xs text-neutral-400 mt-0.5">
               Próxima cobrança: {formatDate(periodEnd)}
+            </p>
+          )}
+          {hasCardOnFile && (
+            <p className="text-xs text-neutral-400 mt-0.5 flex items-center gap-1">
+              <CreditCard className="size-3" /> Cartão final {cardLast4}
             </p>
           )}
         </div>
@@ -234,7 +264,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
               {!isCurrent && (
                 <Button
                   size="sm"
-                  onClick={() => handleChangePlan(plan.id)}
+                  onClick={() => startChangePlan(plan.id)}
                   disabled={isLoading || loading !== null}
                   className={`w-full text-xs font-semibold ${
                     isUpgrade
@@ -293,6 +323,60 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd }: Pro
           )}
         </div>
       )}
+
+      {/* Card capture dialog — obrigatório pra ativar plano pago */}
+      <Dialog open={!!cardDialogPlan} onOpenChange={(open) => !open && setCardDialogPlan(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-[#1e3a5f] flex items-center gap-2">
+              <CreditCard className="size-4" /> Dados do cartão
+            </DialogTitle>
+          </DialogHeader>
+          <p className="text-xs text-neutral-500 -mt-2">
+            Necessário pra ativar o plano pago. A cobrança é mensal e recorrente.
+          </p>
+          <form
+            onSubmit={(e) => { e.preventDefault(); if (cardDialogPlan) handleChangePlan(cardDialogPlan, card); }}
+            className="space-y-3"
+          >
+            <div className="space-y-1.5">
+              <Label>Nome impresso no cartão *</Label>
+              <Input required value={card.holderName} onChange={(e) => setCard({ ...card, holderName: e.target.value })} />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Número do cartão *</Label>
+              <Input
+                required
+                placeholder="0000 0000 0000 0000"
+                value={card.number}
+                onChange={(e) => setCard({ ...card, number: e.target.value.replace(/\D/g, "") })}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label>Validade (MM/AAAA) *</Label>
+                <div className="flex gap-2">
+                  <Input required placeholder="MM" maxLength={2} value={card.expiryMonth} onChange={(e) => setCard({ ...card, expiryMonth: e.target.value.replace(/\D/g, "") })} />
+                  <Input required placeholder="AAAA" maxLength={4} value={card.expiryYear} onChange={(e) => setCard({ ...card, expiryYear: e.target.value.replace(/\D/g, "") })} />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <Label>CVV *</Label>
+                <Input required placeholder="000" maxLength={4} value={card.ccv} onChange={(e) => setCard({ ...card, ccv: e.target.value.replace(/\D/g, "") })} />
+              </div>
+            </div>
+            <div className="flex gap-3 pt-1">
+              <Button type="button" variant="outline" className="flex-1" onClick={() => setCardDialogPlan(null)}>
+                Cancelar
+              </Button>
+              <Button type="submit" disabled={loading !== null} className="flex-1 bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+                {loading !== null && <Loader2 className="mr-2 size-4 animate-spin" />}
+                Confirmar e assinar
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -322,12 +322,59 @@ export interface AsaasSubscription {
   externalReference?: string;
 }
 
+export interface AsaasCardTokenResult {
+  creditCardNumber: string;
+  creditCardBrand: string;
+  creditCardToken: string;
+}
+
+export async function tokenizeCreditCard(params: {
+  customerId: string;
+  card: {
+    holderName: string;
+    number: string;
+    expiryMonth: string;
+    expiryYear: string;
+    ccv: string;
+  };
+  holderInfo: {
+    name: string;
+    email: string;
+    cpfCnpj?: string;
+  };
+}): Promise<AsaasCardTokenResult> {
+  if (isMock) {
+    return {
+      creditCardNumber: params.card.number.replace(/\D/g, "").slice(-4),
+      creditCardBrand: "MASTERCARD",
+      creditCardToken: `mock_card_token_${Date.now()}`,
+    };
+  }
+
+  return post<AsaasCardTokenResult>("/creditCard/tokenize", {
+    customer: params.customerId,
+    creditCard: {
+      holderName: params.card.holderName,
+      number: params.card.number,
+      expiryMonth: params.card.expiryMonth,
+      expiryYear: params.card.expiryYear,
+      ccv: params.card.ccv,
+    },
+    creditCardHolderInfo: {
+      name: params.holderInfo.name,
+      email: params.holderInfo.email,
+      cpfCnpj: params.holderInfo.cpfCnpj,
+    },
+  });
+}
+
 export async function createAsaasSubscription(params: {
   customerId: string;
   value: number;
   description: string;
   artisanId: string;
   nextDueDate: string;
+  creditCardToken: string;
 }): Promise<AsaasSubscription> {
   if (isMock) {
     return {
@@ -343,7 +390,8 @@ export async function createAsaasSubscription(params: {
 
   return post<AsaasSubscription>("/subscriptions", {
     customer: params.customerId,
-    billingType: "BOLETO",
+    billingType: "CREDIT_CARD",
+    creditCardToken: params.creditCardToken,
     value: params.value,
     nextDueDate: params.nextDueDate,
     cycle: "MONTHLY",

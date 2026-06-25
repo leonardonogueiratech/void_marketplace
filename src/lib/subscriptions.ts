@@ -29,6 +29,11 @@ export async function activatePaidSubscriptionOnApproval(artisanId: string): Pro
   const price = SUBSCRIPTION_LAUNCH_PRICES[sub.plan] ?? 0;
   if (price <= 0) return;
 
+  if (!sub.creditCardToken) {
+    console.error(`Artesão ${artisanId}: sem cartão tokenizado, não foi possível ativar assinatura.`);
+    return;
+  }
+
   const customerId = await findOrCreateCustomer({
     name: artisan.user?.name ?? artisan.storeName,
     email: artisan.user?.email ?? "",
@@ -40,6 +45,7 @@ export async function activatePaidSubscriptionOnApproval(artisanId: string): Pro
     description: `Plano ${sub.plan} (lançamento) — Feito de Gente`,
     artisanId: artisan.id,
     nextDueDate: nextMonthDate(),
+    creditCardToken: sub.creditCardToken,
   });
 
   const now = new Date();

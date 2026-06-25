@@ -6,11 +6,21 @@ import {
   findOrCreateCustomer,
   createAsaasSubscription,
   cancelAsaasSubscription,
+  tokenizeCreditCard,
 } from "@/lib/asaas";
 import { SUBSCRIPTION_PRICES } from "@/lib/utils";
 
+const cardSchema = z.object({
+  holderName: z.string().min(2),
+  number: z.string().min(13),
+  expiryMonth: z.string().min(1).max(2),
+  expiryYear: z.string().min(4).max(4),
+  ccv: z.string().min(3).max(4),
+});
+
 const schema = z.object({
   plan: z.enum(["FREE", "BASIC", "PRO"]),
+  card: cardSchema.optional(),
 });
 
 function nextMonthDate(): string {
@@ -49,7 +59,7 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { plan } = schema.parse(body);
+    const { plan, card } = schema.parse(body);
 
     const artisan = await prisma.artisanProfile.findUnique({
       where: { userId: session.user.id },
@@ -71,13 +81,40 @@ export async function PATCH(req: NextRequest) {
     let asaasSubscriptionId: string | null = current?.asaasSubscriptionId ?? null;
     let currentPeriodStart: Date | null = null;
     let currentPeriodEnd: Date | null = null;
+    let cardToken = current?.creditCardToken ?? null;
+    let cardLast4 = current?.creditCardLast4 ?? null;
+    let cardBrand = current?.creditCardBrand ?? null;
 
     if (plan !== "FREE") {
+      if (!card && !cardToken) {
+        return NextResponse.json({ error: "Dados do cartão são obrigatórios para planos pagos." }, { status: 400 });
+      }
+
       const price = SUBSCRIPTION_PRICES[plan] ?? 0;
       const customerId = await findOrCreateCustomer({
         name: session.user.name ?? artisan.storeName,
         email: session.user.email ?? "",
       });
+
+      if (card) {
+        try {
+          const tokenized = await tokenizeCreditCard({
+            customerId,
+            card,
+            holderInfo: {
+              name: session.user.name ?? artisan.storeName,
+              email: session.user.email ?? "",
+              cpfCnpj: artisan.cpfCnpj ?? undefined,
+            },
+          });
+          cardToken = tokenized.creditCardToken;
+          cardLast4 = tokenized.creditCardNumber;
+          cardBrand = tokenized.creditCardBrand;
+        } catch (e) {
+          console.error("Erro ao tokenizar cartão:", e);
+          return NextResponse.json({ error: "Não foi possível validar o cartão." }, { status: 400 });
+        }
+      }
 
       const sub = await createAsaasSubscription({
         customerId,
@@ -85,6 +122,7 @@ export async function PATCH(req: NextRequest) {
         description: `Plano ${plan} — Feito de Gente`,
         artisanId: artisan.id,
         nextDueDate: nextMonthDate(),
+        creditCardToken: cardToken!,
       });
 
       asaasSubscriptionId = sub.id;
@@ -101,6 +139,9 @@ export async function PATCH(req: NextRequest) {
         asaasSubscriptionId,
         currentPeriodStart,
         currentPeriodEnd,
+        creditCardToken: cardToken,
+        creditCardLast4: cardLast4,
+        creditCardBrand: cardBrand,
       },
       update: {
         plan,
@@ -108,6 +149,9 @@ export async function PATCH(req: NextRequest) {
         asaasSubscriptionId: plan === "FREE" ? null : asaasSubscriptionId,
         currentPeriodStart: plan === "FREE" ? null : currentPeriodStart,
         currentPeriodEnd: plan === "FREE" ? null : currentPeriodEnd,
+        creditCardToken: plan === "FREE" ? null : cardToken,
+        creditCardLast4: plan === "FREE" ? null : cardLast4,
+        creditCardBrand: plan === "FREE" ? null : cardBrand,
         canceledAt: null,
       },
     });

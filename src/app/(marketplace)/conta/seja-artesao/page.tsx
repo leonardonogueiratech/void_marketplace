@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, CheckCircle2, Store, Clock, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, Store, Clock, ArrowRight, CreditCard } from "lucide-react";
 import {
   SUBSCRIPTION_PRICES, SUBSCRIPTION_LAUNCH_PRICES,
   SUBSCRIPTION_LIMITS, COMMISSION_BY_PLAN, COMMISSION_LAUNCH_BY_PLAN,
@@ -66,6 +66,15 @@ export default function ContaSejaArtesaoPage() {
     whatsapp: "",
     instagram: "",
   });
+  const [card, setCard] = useState({
+    holderName: "",
+    number: "",
+    expiryMonth: "",
+    expiryYear: "",
+    ccv: "",
+  });
+
+  const isPaidPlan = selectedPlan !== "FREE";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -74,7 +83,12 @@ export default function ContaSejaArtesaoPage() {
       const res = await fetch("/api/conta/seja-artesao", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, plan: selectedPlan, termsAccepted }),
+        body: JSON.stringify({
+          ...form,
+          plan: selectedPlan,
+          termsAccepted,
+          card: isPaidPlan ? card : undefined,
+        }),
       });
       const data = await res.json();
       if (!res.ok) { toast.error(data.error ?? "Erro ao enviar."); return; }
@@ -258,6 +272,69 @@ export default function ContaSejaArtesaoPage() {
                   />
                 </div>
               </div>
+
+              {/* Cartão de crédito — obrigatório pra planos pagos */}
+              {isPaidPlan && (
+                <div className="space-y-3 p-4 rounded-xl bg-[#1e3a5f]/4 border border-[#1e3a5f]/15">
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="size-4 text-[#1e3a5f]" />
+                    <p className="text-sm font-semibold text-[#1e3a5f]">Dados do cartão de crédito</p>
+                  </div>
+                  <p className="text-xs text-neutral-500 -mt-1">
+                    A cobrança da mensalidade começa só depois da aprovação do seu cadastro.
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5 col-span-2">
+                      <Label>Nome impresso no cartão *</Label>
+                      <Input
+                        required
+                        placeholder="Como está no cartão"
+                        value={card.holderName}
+                        onChange={(e) => setCard({ ...card, holderName: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-1.5 col-span-2">
+                      <Label>Número do cartão *</Label>
+                      <Input
+                        required
+                        placeholder="0000 0000 0000 0000"
+                        value={card.number}
+                        onChange={(e) => setCard({ ...card, number: e.target.value.replace(/\D/g, "") })}
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>Validade (MM/AAAA) *</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          required
+                          placeholder="MM"
+                          maxLength={2}
+                          value={card.expiryMonth}
+                          onChange={(e) => setCard({ ...card, expiryMonth: e.target.value.replace(/\D/g, "") })}
+                        />
+                        <Input
+                          required
+                          placeholder="AAAA"
+                          maxLength={4}
+                          value={card.expiryYear}
+                          onChange={(e) => setCard({ ...card, expiryYear: e.target.value.replace(/\D/g, "") })}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>CVV *</Label>
+                      <Input
+                        required
+                        placeholder="000"
+                        maxLength={4}
+                        value={card.ccv}
+                        onChange={(e) => setCard({ ...card, ccv: e.target.value.replace(/\D/g, "") })}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Termo de adesão */}
               <div className="flex items-start gap-3 p-3 rounded-xl bg-[#1e3a5f]/5 border border-[#1e3a5f]/15">
                 <input
