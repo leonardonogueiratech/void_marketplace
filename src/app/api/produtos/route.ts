@@ -14,7 +14,7 @@ const schema = z.object({
   stock: z.coerce.number().int().min(0),
   sku: z.string().optional(),
   weight: z.coerce.number().optional().nullable(),
-  categoryId: z.string().optional().nullable(),
+  categoryId: z.string().optional().nullable().transform((v) => v || null),
   status: z.enum(["DRAFT", "ACTIVE", "INACTIVE"]).default("ACTIVE"),
   tags: z.string().optional(),
   materials: z.string().optional(),
