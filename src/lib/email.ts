@@ -821,6 +821,50 @@ export async function sendNewChatMessage(opts: {
   });
 }
 
+// ─── admin alerts ─────────────────────────────────────────────────────────────
+
+export async function sendAdminMelhorEnvioSaldoBaixo(opts: { saldo: number }) {
+  const adminEmail = process.env.ADMIN_EMAIL ?? "administracao@feitodegente.com.br";
+  const saldoFmt = `R$ ${opts.saldo.toFixed(2).replace(".", ",")}`;
+
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Alerta de saldo", "#e07b2a")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Saldo baixo no Melhor Envio
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        O saldo da carteira Melhor Envio está abaixo de R$ 50,00.
+      </p>
+    </div>
+
+    <div style="background:#fff8f0;border:2px solid #fde8d0;border-radius:14px;padding:24px;margin-bottom:24px;text-align:center">
+      <p style="margin:0 0 6px;font-size:12px;color:#c96a1e;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Saldo atual</p>
+      <p style="margin:0;font-size:36px;font-weight:800;color:#e07b2a">${saldoFmt}</p>
+      <p style="margin:8px 0 0;font-size:12px;color:#c96a1e">
+        Artesãos podem ter problemas ao gerar etiquetas.
+      </p>
+    </div>
+
+    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:24px">
+      <p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#1e3a5f">Como recarregar:</p>
+      <ol style="margin:0;padding:0 0 0 18px;color:#666;font-size:13px;line-height:2">
+        <li>Acesse <strong>melhorenvio.com.br</strong> → Carteira</li>
+        <li>Escolha PIX ou boleto para depositar</li>
+        <li>PIX cai na hora; boleto em até 1 dia útil</li>
+      </ol>
+    </div>
+
+    ${ctaButton("https://melhorenvio.com.br/painel/financeiro/carteira", "Recarregar agora →", "#e07b2a")}
+  `;
+
+  await send({
+    to: adminEmail,
+    subject: `[Alerta] Saldo Melhor Envio baixo: ${saldoFmt}`,
+    html: baseTemplate(content),
+  });
+}
+
 // ─── contact emails ────────────────────────────────────────────────────────────
 
 export async function sendContactNotification(msg: {
