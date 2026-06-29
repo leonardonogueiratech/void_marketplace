@@ -41,28 +41,30 @@ export async function PUT(req: NextRequest, { params }: Params) {
     const tags = data.tags ? data.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
     const materials = data.materials ? data.materials.split(",").map((m) => m.trim()).filter(Boolean) : [];
 
-    // Replace all images with the new set
-    await prisma.productImage.deleteMany({ where: { productId: id } });
-    const updated = await prisma.product.update({
-      where: { id },
-      data: {
-        name: data.name,
-        description: data.description || null,
-        story: data.story || null,
-        price: data.price,
-        comparePrice: data.comparePrice ?? null,
-        stock: data.stock,
-        sku: data.sku || null,
-        weight: data.weight ?? null,
-        categoryId: data.categoryId ?? null,
-        status: data.status,
-        tags,
-        materials,
-        images: {
-          create: data.imageUrls.map((url, i) => ({ url, order: i })),
+    // Replace all images with the new set — atômico, se algo falhar nada é perdido
+    const [, updated] = await prisma.$transaction([
+      prisma.productImage.deleteMany({ where: { productId: id } }),
+      prisma.product.update({
+        where: { id },
+        data: {
+          name: data.name,
+          description: data.description || null,
+          story: data.story || null,
+          price: data.price,
+          comparePrice: data.comparePrice ?? null,
+          stock: data.stock,
+          sku: data.sku || null,
+          weight: data.weight ?? null,
+          categoryId: data.categoryId,
+          status: data.status,
+          tags,
+          materials,
+          images: {
+            create: data.imageUrls.map((url, i) => ({ url, order: i })),
+          },
         },
-      },
-    });
+      }),
+    ]);
 
     return NextResponse.json(updated);
   } catch (err) {
