@@ -37,7 +37,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
     if (action === "approve" && artisan.cpfCnpj && !artisan.asaasAccountId) {
       void (async () => {
         try {
-          const { accountId, walletId } = await createArtisanAccount({
+          const { accountId, walletId, apiKey } = await createArtisanAccount({
             name: artisan.user?.name ?? artisan.storeName,
             email: artisan.user?.email ?? "",
             cpfCnpj: artisan.cpfCnpj!,
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
           });
           await prisma.artisanProfile.update({
             where: { id: artisan.id },
-            data: { asaasAccountId: accountId, asaasWalletId: walletId },
+            data: { asaasAccountId: accountId, asaasWalletId: walletId, asaasApiKey: apiKey },
           });
         } catch (e) {
           console.error("Asaas subconta creation failed:", e);

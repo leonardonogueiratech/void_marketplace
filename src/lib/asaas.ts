@@ -5,17 +5,17 @@ const ASAAS_BASE = process.env.ASAAS_SANDBOX === "true"
 const API_KEY = process.env.ASAAS_API_KEY ?? "";
 const isMock = !API_KEY;
 
-function headers() {
+function headers(apiKey?: string) {
   return {
     "Content-Type": "application/json",
-    access_token: API_KEY,
+    access_token: apiKey ?? API_KEY,
   };
 }
 
-async function post<T>(path: string, body: unknown): Promise<T> {
+async function post<T>(path: string, body: unknown, apiKey?: string): Promise<T> {
   const res = await fetch(`${ASAAS_BASE}${path}`, {
     method: "POST",
-    headers: headers(),
+    headers: headers(apiKey),
     body: JSON.stringify(body),
   });
   if (!res.ok) {
@@ -91,6 +91,7 @@ export interface AsaasAccount {
   walletId: string;
   name: string;
   email: string;
+  apiKey: string;
 }
 
 export type AsaasTransferStatus =
@@ -429,11 +430,12 @@ export async function createArtisanAccount(params: {
   postalCode?: string;
   addressNumber?: string;
   incomeValue?: number;
-}): Promise<{ accountId: string; walletId: string }> {
+}): Promise<{ accountId: string; walletId: string; apiKey: string }> {
   if (isMock) {
     return {
       accountId: `mock_acc_${Date.now()}`,
       walletId: `mock_wallet_${Date.now()}`,
+      apiKey: `mock_key_${Date.now()}`,
     };
   }
 
@@ -449,7 +451,7 @@ export async function createArtisanAccount(params: {
     companyType: params.cpfCnpj.replace(/\D/g, "").length === 14 ? "MEI" : undefined,
   });
 
-  return { accountId: account.id, walletId: account.walletId };
+  return { accountId: account.id, walletId: account.walletId, apiKey: account.apiKey };
 }
 
 // ─── PIX Transfer (saque automático) ─────────────────────────────────────────
@@ -470,8 +472,10 @@ export async function transferPix(params: {
   value: number;
   pixKey: string;
   description?: string;
+  /** API key da subconta do artesão — o saque sai do saldo dela, não da conta master. */
+  apiKey: string;
 }): Promise<{ transferId: string; status: AsaasTransferStatus }> {
-  if (isMock) {
+  if (isMock || params.apiKey.startsWith("mock_key_")) {
     return { transferId: `mock_transfer_${Date.now()}`, status: "PENDING" };
   }
 
@@ -481,7 +485,7 @@ export async function transferPix(params: {
     pixAddressKey: params.pixKey,
     pixAddressKeyType: detectPixKeyType(params.pixKey),
     description: params.description ?? "Saque artesão — Feito de Gente",
-  });
+  }, params.apiKey);
 
   return { transferId: transfer.id, status: transfer.status };
 }

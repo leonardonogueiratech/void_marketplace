@@ -29,23 +29,28 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Saldo insuficiente." }, { status: 400 });
     }
 
-    // attempt automatic PIX transfer via Asaas
+    // attempt automatic PIX transfer via Asaas — sai do saldo da subconta do artesão, não da master
     let asaasTransferId: string | undefined;
     let status: "PENDING" | "PROCESSING" = "PENDING";
 
-    try {
-      const result = await transferPix({
-        value: data.amount,
-        pixKey: data.pixKey,
-        description: `Saque ${artisan.storeName} — Feito de Gente`,
-      });
-      asaasTransferId = result.transferId;
-      status = result.status === "PENDING" || result.status === "BANK_PROCESSING"
-        ? "PROCESSING"
-        : "PENDING";
-    } catch (e) {
-      // Asaas transfer failed — fall back to manual processing
-      console.error("Asaas PIX transfer failed, falling back to manual:", e);
+    if (artisan.asaasApiKey) {
+      try {
+        const result = await transferPix({
+          value: data.amount,
+          pixKey: data.pixKey,
+          description: `Saque ${artisan.storeName} — Feito de Gente`,
+          apiKey: artisan.asaasApiKey,
+        });
+        asaasTransferId = result.transferId;
+        status = result.status === "PENDING" || result.status === "BANK_PROCESSING"
+          ? "PROCESSING"
+          : "PENDING";
+      } catch (e) {
+        // Asaas transfer failed — fall back to manual processing
+        console.error("Asaas PIX transfer failed, falling back to manual:", e);
+      }
+    } else {
+      console.error(`Withdrawal requested but artisan ${artisan.id} has no asaasApiKey — falling back to manual.`);
     }
 
     const withdrawal = await prisma.withdrawal.create({

@@ -199,6 +199,7 @@ model ArtisanProfile {
   incomeValue      Float?
   asaasAccountId   String?
   asaasWalletId    String?
+  asaasApiKey      String?
   status           ArtisanStatus @default(PENDING)
   rejectedNote     String?
   approvalToken    String?       @unique
