@@ -12,18 +12,13 @@ export const authConfig = {
     error: "/login",
   },
   callbacks: {
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string }).role;
-        // Admin session expires in 8 hours; everyone else in 30 days
+        // Set exp at login time — admin 8h, todos os outros 30 dias
         const isAdmin = (user as { role?: string }).role === "ADMIN";
-        token.maxAge = isAdmin ? EIGHT_HOURS : THIRTY_DAYS;
-      }
-      // Enforce per-role expiry on every JWT refresh
-      if (trigger === "update" || !trigger) {
-        const isAdmin = token.role === "ADMIN";
-        token.maxAge = isAdmin ? EIGHT_HOURS : THIRTY_DAYS;
+        token.exp = Math.floor(Date.now() / 1000) + (isAdmin ? EIGHT_HOURS : THIRTY_DAYS);
       }
       return token;
     },
@@ -31,10 +26,6 @@ export const authConfig = {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
-      }
-      // Apply the per-role maxAge to the session expiry
-      if (token.maxAge) {
-        session.expires = new Date(Date.now() + (token.maxAge as number) * 1000).toISOString();
       }
       return session;
     },
