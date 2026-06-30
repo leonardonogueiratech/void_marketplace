@@ -425,6 +425,9 @@ export async function createArtisanAccount(params: {
   email: string;
   cpfCnpj: string;
   mobilePhone?: string;
+  birthDate?: string;
+  postalCode?: string;
+  addressNumber?: string;
 }): Promise<{ accountId: string; walletId: string }> {
   if (isMock) {
     return {
@@ -438,6 +441,9 @@ export async function createArtisanAccount(params: {
     email: params.email,
     cpfCnpj: params.cpfCnpj,
     mobilePhone: params.mobilePhone,
+    birthDate: params.birthDate,
+    postalCode: params.postalCode,
+    addressNumber: params.addressNumber,
     companyType: params.cpfCnpj.replace(/\D/g, "").length === 14 ? "MEI" : undefined,
   });
 

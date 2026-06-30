@@ -12,7 +12,13 @@ const schema = z.object({
   bio: z.string().min(10),
   city: z.string().optional(),
   state: z.string().max(2).optional(),
-  cpfCnpj: z.string().min(11, "CPF ou CNPJ inválido.").optional(),
+  cpfCnpj: z.string().refine((v) => {
+    const digits = v.replace(/\D/g, "");
+    return digits.length === 11 || digits.length === 14;
+  }, "CPF ou CNPJ inválido."),
+  birthDate: z.string().min(1, "Data de nascimento é obrigatória."),
+  zipCode: z.string().min(8, "CEP inválido."),
+  addressNumber: z.string().optional(),
   whatsapp: z.string().optional(),
   instagram: z.string().optional(),
   plan: z.enum(["FREE", "BASIC", "PRO"]).default("FREE"),
@@ -54,6 +60,9 @@ export async function POST(req: NextRequest) {
             city: data.city,
             state: data.state,
             cpfCnpj: data.cpfCnpj,
+            birthDate: new Date(data.birthDate),
+            zipCode: data.zipCode.replace(/\D/g, ""),
+            addressNumber: data.addressNumber,
             whatsapp: data.whatsapp,
             instagram: data.instagram,
             status: "PENDING",

@@ -42,6 +42,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
             email: artisan.user?.email ?? "",
             cpfCnpj: artisan.cpfCnpj!,
             mobilePhone: artisan.whatsapp ?? undefined,
+            birthDate: artisan.birthDate ? artisan.birthDate.toISOString().split("T")[0] : undefined,
+            postalCode: artisan.zipCode ?? undefined,
+            addressNumber: artisan.addressNumber ?? undefined,
           });
           await prisma.artisanProfile.update({
             where: { id: artisan.id },

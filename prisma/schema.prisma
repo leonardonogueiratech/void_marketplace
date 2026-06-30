@@ -193,6 +193,7 @@ model ArtisanProfile {
   instagram    String?
   website      String?
   cpfCnpj          String?
+  birthDate        DateTime?
   zipCode          String?
   addressNumber    String?
   asaasAccountId   String?

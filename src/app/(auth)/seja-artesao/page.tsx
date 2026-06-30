@@ -93,6 +93,9 @@ export default function BeArtisanPage() {
     city: "",
     state: "",
     cpfCnpj: "",
+    birthDate: "",
+    zipCode: "",
+    addressNumber: "",
     whatsapp: "",
     instagram: "",
   });
@@ -305,12 +308,42 @@ export default function BeArtisanPage() {
                 <div className="space-y-1.5 col-span-2">
                   <Label className="text-[#1e3a5f] font-medium">CPF ou CNPJ</Label>
                   <Input
+                    required
                     placeholder="000.000.000-00 ou 00.000.000/0001-00"
                     value={form.cpfCnpj}
                     onChange={(e) => setForm({ ...form, cpfCnpj: e.target.value.replace(/\D/g, "") })}
                     className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                   <p className="text-[11px] text-neutral-400">Necessário para criar sua conta de recebimentos no Asaas.</p>
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-[#1e3a5f] font-medium">Data de nascimento</Label>
+                  <Input
+                    required
+                    type="date"
+                    value={form.birthDate}
+                    onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-[#1e3a5f] font-medium">CEP</Label>
+                  <Input
+                    required
+                    placeholder="00000-000"
+                    value={form.zipCode}
+                    onChange={(e) => setForm({ ...form, zipCode: e.target.value.replace(/\D/g, "") })}
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-[#1e3a5f] font-medium">Número do endereço</Label>
+                  <Input
+                    placeholder="123"
+                    value={form.addressNumber}
+                    onChange={(e) => setForm({ ...form, addressNumber: e.target.value })}
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                  />
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-[#1e3a5f] font-medium">WhatsApp</Label>
