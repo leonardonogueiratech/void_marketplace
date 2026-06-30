@@ -9,7 +9,7 @@ export default async function ContaPerfilPage() {
   const session = await auth();
   const user = await prisma.user.findUnique({
     where: { id: session!.user.id },
-    select: { id: true, name: true, email: true, phone: true, createdAt: true },
+    select: { id: true, name: true, email: true, phone: true, cpfCnpj: true, createdAt: true },
   });
   if (!user) return null;
 

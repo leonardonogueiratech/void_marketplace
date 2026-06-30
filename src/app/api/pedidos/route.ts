@@ -34,6 +34,10 @@ const orderSchema = z.object({
     state: z.string().length(2),
     zipCode: z.string(),
   }),
+  cpfCnpj: z.string().refine((v) => {
+    const digits = v.replace(/\D/g, "");
+    return digits.length === 11 || digits.length === 14;
+  }, "CPF ou CNPJ inválido."),
   paymentMethod: z.enum(["CREDIT_CARD", "PIX", "BOLETO"]),
   shippingCost: z.number().min(0).default(0),
   shippingServiceId: z.number().int().optional(),
@@ -61,6 +65,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const data = orderSchema.parse(body);
+    const cpfCnpj = data.cpfCnpj.replace(/\D/g, "");
 
     const products = await prisma.product.findMany({
       where: { id: { in: data.items.map((i) => i.productId) }, status: "ACTIVE" },
@@ -145,7 +150,12 @@ export async function POST(req: NextRequest) {
     const description = `Pedido #${order.id.slice(-8)} – Feito de Gente`;
     const dueDate = todayPlusDays(data.paymentMethod === "BOLETO" ? 3 : 1);
 
-    const customerId = await findOrCreateCustomer({ name: payerName, email: payerEmail });
+    const customerId = await findOrCreateCustomer({ name: payerName, email: payerEmail, cpfCnpj });
+
+    void prisma.user.update({
+      where: { id: session.user.id },
+      data: { cpfCnpj },
+    }).catch(() => {});
 
     let asaasPaymentId = "";
     let asaasPaymentLink: string | undefined;
@@ -200,7 +210,7 @@ export async function POST(req: NextRequest) {
           expiryYear: expiryYear ?? "2099",
           ccv: data.cardData?.cvv ?? "",
         },
-        cardHolderInfo: { name: payerName, email: payerEmail },
+        cardHolderInfo: { name: payerName, email: payerEmail, cpfCnpj },
       });
       asaasPaymentId = payment.id;
       asaasPaymentLink = payment.invoiceUrl;

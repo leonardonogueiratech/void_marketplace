@@ -11,7 +11,7 @@ import { Loader2, Mail, Calendar } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
 interface Props {
-  user: { name: string | null; email: string; phone: string | null; createdAt: Date };
+  user: { name: string | null; email: string; phone: string | null; cpfCnpj: string | null; createdAt: Date };
 }
 
 export function ProfileForm({ user }: Props) {
@@ -20,6 +20,7 @@ export function ProfileForm({ user }: Props) {
   const [form, setForm] = useState({
     name: user.name ?? "",
     phone: user.phone ?? "",
+    cpfCnpj: user.cpfCnpj ?? "",
   });
 
   async function handleSubmit(e: React.FormEvent) {
@@ -85,6 +86,16 @@ export function ProfileForm({ user }: Props) {
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
               />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-[#1e3a5f] font-medium">CPF ou CNPJ</Label>
+              <Input
+                placeholder="000.000.000-00 ou 00.000.000/0001-00"
+                value={form.cpfCnpj}
+                onChange={(e) => setForm({ ...form, cpfCnpj: e.target.value.replace(/\D/g, "") })}
+                className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              />
+              <p className="text-[11px] text-neutral-400">Necessário para concluir pagamentos via PIX, boleto ou cartão.</p>
             </div>
             <div className="pt-1">
               <Button

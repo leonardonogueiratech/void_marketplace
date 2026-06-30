@@ -36,6 +36,16 @@ export default function CheckoutPage() {
   const [address, setAddress] = useState({
     street: "", number: "", complement: "", district: "", city: "", state: "", zipCode: "",
   });
+  const [cpfCnpj, setCpfCnpj] = useState("");
+
+  useEffect(() => {
+    fetch("/api/conta/perfil")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data?.user?.cpfCnpj) setCpfCnpj(data.user.cpfCnpj);
+      })
+      .catch(() => {});
+  }, []);
 
   const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
   const [selectedShipping, setSelectedShipping] = useState<ShippingOption | null>(null);
@@ -95,6 +105,11 @@ export default function CheckoutPage() {
       toast.error("Selecione uma opção de frete.");
       return;
     }
+    const cpfCnpjDigits = cpfCnpj.replace(/\D/g, "");
+    if (cpfCnpjDigits.length !== 11 && cpfCnpjDigits.length !== 14) {
+      toast.error("Informe um CPF ou CNPJ válido.");
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/pedidos", {
@@ -108,6 +123,7 @@ export default function CheckoutPage() {
             unitPrice: i.price,
           })),
           address,
+          cpfCnpj: cpfCnpjDigits,
           paymentMethod: method,
           shippingCost,
           shippingMethod: selectedShipping?.id,
@@ -181,6 +197,23 @@ export default function CheckoutPage() {
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 space-y-6">
+
+            {/* CPF/CNPJ */}
+            <Card>
+              <CardHeader><CardTitle>Dados do comprador</CardTitle></CardHeader>
+              <CardContent>
+                <div className="space-y-1.5">
+                  <Label>CPF ou CNPJ</Label>
+                  <Input
+                    required
+                    placeholder="000.000.000-00 ou 00.000.000/0001-00"
+                    value={cpfCnpj}
+                    onChange={(e) => setCpfCnpj(e.target.value.replace(/\D/g, ""))}
+                  />
+                  <p className="text-[11px] text-muted-foreground">Necessário para emitir a cobrança via PIX, boleto ou cartão.</p>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Endereço */}
             <Card>
