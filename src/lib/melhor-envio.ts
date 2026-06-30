@@ -72,7 +72,7 @@ export async function getSaldoMelhorEnvio(): Promise<number | null> {
     const res = await fetch(`${BASE_URL}/me`, { headers: ME_HEADERS });
     if (!res.ok) return null;
     const data = await res.json();
-    const raw = data?.wallet?.balance ?? data?.balance ?? null;
+    const raw = data?.accounts?.[0]?.balance ?? data?.wallet?.balance ?? data?.balance ?? null;
     if (raw === null) return null;
     const val = typeof raw === "number" ? raw : parseFloat(raw);
     return isNaN(val) ? null : val;
