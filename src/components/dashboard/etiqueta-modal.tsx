@@ -5,15 +5,15 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Package, Download, ExternalLink, X, Printer } from "lucide-react";
+import { Loader2, Package, Download, ExternalLink, X, Printer, MapPin } from "lucide-react";
 
 const SERVICES = [
-  { id: 1,  label: "PAC — Correios",       days: "8–15 dias úteis" },
-  { id: 2,  label: "Sedex — Correios",      days: "1–5 dias úteis" },
-  { id: 3,  label: "Sedex 10 — Correios",   days: "1 dia útil" },
-  { id: 4,  label: "Sedex Hoje — Correios", days: "Mesmo dia" },
-  { id: 7,  label: ".Package — Jadlog",     days: "3–10 dias úteis" },
-  { id: 8,  label: ".Com — Jadlog",         days: "2–8 dias úteis" },
+  { id: 1,  label: "PAC — Correios",       days: "8–15 dias úteis", agencyUrl: "https://localiza.correios.com.br/",              agencyLabel: "Agências dos Correios" },
+  { id: 2,  label: "Sedex — Correios",      days: "1–5 dias úteis",  agencyUrl: "https://localiza.correios.com.br/",              agencyLabel: "Agências dos Correios" },
+  { id: 3,  label: "Sedex 10 — Correios",   days: "1 dia útil",      agencyUrl: "https://localiza.correios.com.br/",              agencyLabel: "Agências dos Correios" },
+  { id: 4,  label: "Sedex Hoje — Correios", days: "Mesmo dia",       agencyUrl: "https://localiza.correios.com.br/",              agencyLabel: "Agências dos Correios" },
+  { id: 7,  label: ".Package — Jadlog",     days: "3–10 dias úteis", agencyUrl: "https://www.jadlog.com.br/jadlog/findUnit.jad",   agencyLabel: "Pontos Jadlog" },
+  { id: 8,  label: ".Com — Jadlog",         days: "2–8 dias úteis",  agencyUrl: "https://www.jadlog.com.br/jadlog/findUnit.jad",   agencyLabel: "Pontos Jadlog" },
 ];
 
 interface Props {
@@ -37,6 +37,7 @@ export function EtiquetaModal({
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [serviceId, setServiceId] = useState<number>(defaultServiceId ?? 1);
+  const activeService = SERVICES.find((s) => s.id === serviceId) ?? SERVICES[0]!;
   const [weight, setWeight] = useState("0.5");
   const [height, setHeight] = useState("10");
   const [width, setWidth] = useState("15");
@@ -121,8 +122,18 @@ export function EtiquetaModal({
                 </Button>
               </div>
 
+              <a
+                href={activeService.agencyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full text-xs font-medium text-[#e07b2a] border border-[#e07b2a]/30 rounded-xl py-2.5 hover:bg-[#e07b2a]/5 transition-colors"
+              >
+                <MapPin className="size-3.5" />
+                Encontrar {activeService.agencyLabel} →
+              </a>
+
               <p className="text-xs text-neutral-400 text-center">
-                Imprima, embale e poste nos Correios ou ponto parceiro.
+                Imprima a etiqueta, embale o produto e leve ao ponto de postagem.
               </p>
             </div>
           ) : (
@@ -197,9 +208,17 @@ export function EtiquetaModal({
                 </div>
               </div>
 
-              <div className="bg-[#f7f3ed] rounded-xl p-3 text-xs text-neutral-500 space-y-1">
-                <p>• O custo da etiqueta é descontado do seu saldo no Melhor Envio.</p>
+              <div className="bg-[#f7f3ed] rounded-xl p-3 text-xs text-neutral-500 space-y-1.5">
+                <p>• O custo da etiqueta é descontado do saldo no Melhor Envio.</p>
                 <p>• O código de rastreio é gerado automaticamente e enviado ao comprador.</p>
+                <a
+                  href={activeService.agencyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-[#e07b2a] font-medium hover:underline pt-0.5"
+                >
+                  <MapPin className="size-3" /> Encontrar {activeService.agencyLabel} →
+                </a>
               </div>
 
               <Button
