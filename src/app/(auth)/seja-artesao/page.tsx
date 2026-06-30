@@ -96,6 +96,7 @@ export default function BeArtisanPage() {
     birthDate: "",
     zipCode: "",
     addressNumber: "",
+    incomeValue: "",
     whatsapp: "",
     instagram: "",
   });
@@ -107,7 +108,12 @@ export default function BeArtisanPage() {
       const res = await fetch("/api/artesaos/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, plan: selectedPlan, termsAccepted }),
+        body: JSON.stringify({
+          ...form,
+          incomeValue: parseFloat(form.incomeValue.replace(",", ".")),
+          plan: selectedPlan,
+          termsAccepted,
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -342,6 +348,19 @@ export default function BeArtisanPage() {
                     placeholder="123"
                     value={form.addressNumber}
                     onChange={(e) => setForm({ ...form, addressNumber: e.target.value })}
+                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-[#1e3a5f] font-medium">Renda/faturamento mensal (R$)</Label>
+                  <Input
+                    required
+                    type="number"
+                    min="1"
+                    step="0.01"
+                    placeholder="2000"
+                    value={form.incomeValue}
+                    onChange={(e) => setForm({ ...form, incomeValue: e.target.value })}
                     className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
                   />
                 </div>

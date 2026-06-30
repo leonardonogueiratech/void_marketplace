@@ -196,6 +196,7 @@ model ArtisanProfile {
   birthDate        DateTime?
   zipCode          String?
   addressNumber    String?
+  incomeValue      Float?
   asaasAccountId   String?
   asaasWalletId    String?
   status           ArtisanStatus @default(PENDING)

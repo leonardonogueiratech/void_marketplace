@@ -45,6 +45,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
             birthDate: artisan.birthDate ? artisan.birthDate.toISOString().split("T")[0] : undefined,
             postalCode: artisan.zipCode ?? undefined,
             addressNumber: artisan.addressNumber ?? undefined,
+            incomeValue: artisan.incomeValue ?? undefined,
           });
           await prisma.artisanProfile.update({
             where: { id },

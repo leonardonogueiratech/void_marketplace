@@ -45,6 +45,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ tok
             birthDate: artisan.birthDate ? artisan.birthDate.toISOString().split("T")[0] : undefined,
             postalCode: artisan.zipCode ?? undefined,
             addressNumber: artisan.addressNumber ?? undefined,
+            incomeValue: artisan.incomeValue ?? undefined,
           });
           await prisma.artisanProfile.update({
             where: { id: artisan.id },
