@@ -11,7 +11,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CancelOrderButton } from "@/components/conta/cancel-order-button";
 import { ReviewButton } from "@/components/conta/review-button";
 import { ReturnRequestPanel } from "@/components/conta/return-request-panel";
-import { Truck, Star } from "lucide-react";
+import { PixPaymentPanel } from "@/components/conta/pix-payment-panel";
+import { Truck, Star, FileText } from "lucide-react";
 
 // Janela máxima de elegibilidade (7 dias p/ "não gostei", 30 p/ defeito/dano — validado de fato na API)
 const DEFECT_WINDOW_DAYS = 30;
@@ -156,6 +157,24 @@ export default async function AccountOrdersPage() {
                       );
                     })}
                   </div>
+
+                  {/* PIX/Boleto pendentes de pagamento */}
+                  {order.status === "PAYMENT_PENDING" && order.payment?.method === "PIX" && order.payment.pixQrCode && (
+                    <PixPaymentPanel
+                      pixQrCode={order.payment.pixQrCode}
+                      pixQrCodeBase64={order.payment.pixQrCodeBase64}
+                    />
+                  )}
+                  {order.status === "PAYMENT_PENDING" && order.payment?.method === "BOLETO" && order.payment.boletoUrl && (
+                    <div className="bg-[#f7f3ed] border border-[#1e3a5f]/10 rounded-xl p-4 flex items-center justify-between gap-3">
+                      <p className="flex items-center gap-1.5 text-sm font-semibold text-[#1e3a5f]">
+                        <FileText className="size-4" /> Boleto aguardando pagamento
+                      </p>
+                      <Button asChild size="sm" className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+                        <a href={order.payment.boletoUrl} target="_blank" rel="noopener noreferrer">Visualizar boleto</a>
+                      </Button>
+                    </div>
+                  )}
 
                   {/* Tracking code */}
                   {order.trackingCode && (
