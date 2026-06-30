@@ -184,7 +184,10 @@ export default async function ProductPage({ params }: Props) {
           </div>
 
           {/* Add to cart */}
-          <AddToCartButton product={product} />
+          <AddToCartButton
+            product={product}
+            isOwner={session?.user?.id === product.artisan.user.id}
+          />
 
           {/* Chat with artisan */}
           <ContactArtisanButton

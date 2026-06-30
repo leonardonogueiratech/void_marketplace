@@ -78,6 +78,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Um ou mais produtos não estão disponíveis." }, { status: 400 });
     }
 
+    const ownsProduct = products.some((p) => p.artisan.userId === session.user.id);
+    if (ownsProduct) {
+      return NextResponse.json({ error: "Você não pode comprar produtos da sua própria loja." }, { status: 400 });
+    }
+
     for (const item of data.items) {
       const product = products.find((p) => p.id === item.productId)!;
       if (product.stock < item.quantity) {

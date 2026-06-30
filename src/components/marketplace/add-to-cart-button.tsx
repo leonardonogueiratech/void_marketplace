@@ -17,9 +17,10 @@ interface AddToCartButtonProps {
     images: { url: string }[];
     artisan: { storeName: string };
   };
+  isOwner?: boolean;
 }
 
-export function AddToCartButton({ product }: AddToCartButtonProps) {
+export function AddToCartButton({ product, isOwner }: AddToCartButtonProps) {
   const [qty, setQty] = useState(1);
   const { addItem, items } = useCartStore();
   const cartItem = items.find((i) => i.productId === product.id);
@@ -39,6 +40,14 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
     toast.success("Adicionado ao carrinho!", {
       action: { label: "Ver carrinho", onClick: () => (window.location.href = "/carrinho") },
     });
+  }
+
+  if (isOwner) {
+    return (
+      <Button disabled className="w-full" size="lg" variant="outline">
+        Este produto é da sua loja
+      </Button>
+    );
   }
 
   if (product.stock === 0) {
