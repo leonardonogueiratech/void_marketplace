@@ -11,7 +11,7 @@ export default async function DashboardLayout({
 }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  if (session.user.role !== "ARTISAN") redirect("/");
+  if (session.user.role !== "ARTISAN" && session.user.role !== "ADMIN") redirect("/");
 
   const artisan = await prisma.artisanProfile.findUnique({
     where: { userId: session.user.id },
