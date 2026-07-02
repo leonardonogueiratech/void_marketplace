@@ -175,7 +175,7 @@ export function Navbar() {
                       <User className="mr-2 size-4 text-[#27ae60]" /> Minha Conta
                     </Link>
                   </DropdownMenuItem>
-                  {session.user.role === "ARTISAN" && (
+                  {(session.user.role === "ARTISAN" || session.user.role === "ADMIN") && (
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard">
                         <Store className="mr-2 size-4 text-[#27ae60]" /> Minha Loja
