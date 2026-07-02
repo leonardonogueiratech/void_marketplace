@@ -197,10 +197,11 @@ model ArtisanProfile {
   zipCode          String?
   addressNumber    String?
   incomeValue      Float?
-  asaasAccountId   String?
-  asaasWalletId    String?
-  asaasApiKey      String?
-  status           ArtisanStatus @default(PENDING)
+  asaasAccountId      String?
+  asaasWalletId       String?
+  asaasApiKey         String?
+  subscriptionExempt  Boolean   @default(false)
+  status              ArtisanStatus @default(PENDING)
   rejectedNote     String?
   approvalToken    String?       @unique
   featured         Boolean       @default(false)

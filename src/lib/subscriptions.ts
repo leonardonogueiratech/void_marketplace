@@ -23,7 +23,7 @@ export async function activatePaidSubscriptionOnApproval(artisanId: string): Pro
 
   const sub = artisan?.subscription;
   if (!artisan || !sub) return;
-  if (sub.plan === "FREE") return;
+  if (artisan.subscriptionExempt) return;
   if (sub.asaasSubscriptionId) return; // já ativada
 
   const price = SUBSCRIPTION_LAUNCH_PRICES[sub.plan] ?? 0;
