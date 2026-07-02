@@ -2,8 +2,9 @@
 import { prisma } from "@/lib/prisma";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, TrendingUp, Clock, CheckCircle2 } from "lucide-react";
+import { DollarSign, TrendingUp, Clock, CheckCircle2, Landmark } from "lucide-react";
 import { WithdrawalForm } from "@/components/dashboard/withdrawal-form";
+import { PixKeyForm } from "@/components/dashboard/pix-key-form";
 import { MonthlyBarChart } from "@/components/dashboard/charts";
 import { ExportButton } from "@/components/dashboard/export-button";
 import { getArtisanBalance } from "@/lib/balance";
@@ -124,6 +125,18 @@ export default async function FinancialPage() {
       </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Dados bancários */}
+        <Card className="border-[#1e3a5f]/10">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base text-[#1e3a5f] flex items-center gap-2">
+              <Landmark className="size-4" /> Dados bancários
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <PixKeyForm savedPixKey={artisan.pixKey} />
+          </CardContent>
+        </Card>
+
         {/* Withdrawal form */}
         <Card className="border-[#1e3a5f]/10">
           <CardHeader>
@@ -141,7 +154,7 @@ export default async function FinancialPage() {
                 </p>
               )}
             </div>
-            <WithdrawalForm maxAmount={freeBalance} artisanId={artisan.id} />
+            <WithdrawalForm maxAmount={freeBalance} artisanId={artisan.id} savedPixKey={artisan.pixKey} />
           </CardContent>
         </Card>
 

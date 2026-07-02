@@ -8,10 +8,16 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export function WithdrawalForm({ maxAmount, artisanId }: { maxAmount: number; artisanId: string }) {
+interface Props {
+  maxAmount: number;
+  artisanId: string;
+  savedPixKey?: string | null;
+}
+
+export function WithdrawalForm({ maxAmount, artisanId, savedPixKey }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ amount: "", pixKey: "" });
+  const [form, setForm] = useState({ amount: "", pixKey: savedPixKey ?? "" });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -29,7 +35,7 @@ export function WithdrawalForm({ maxAmount, artisanId }: { maxAmount: number; ar
       const data = await res.json();
       if (!res.ok) { toast.error(data.error ?? "Erro ao solicitar saque."); return; }
       toast.success("Saque solicitado com sucesso!");
-      setForm({ amount: "", pixKey: "" });
+      setForm({ amount: "", pixKey: savedPixKey ?? "" });
       router.refresh();
     } catch {
       toast.error("Erro ao solicitar saque.");
@@ -61,6 +67,11 @@ export function WithdrawalForm({ maxAmount, artisanId }: { maxAmount: number; ar
           value={form.pixKey}
           onChange={(e) => setForm({ ...form, pixKey: e.target.value })}
         />
+        {savedPixKey && (
+          <p className="text-[11px] text-neutral-400">
+            Pré-preenchida com sua chave cadastrada. Altere acima se necessário.
+          </p>
+        )}
       </div>
       <Button type="submit" className="w-full" disabled={loading || maxAmount < 50}>
         {loading && <Loader2 className="mr-2 size-4 animate-spin" />}

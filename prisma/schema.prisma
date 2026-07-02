@@ -197,6 +197,7 @@ model ArtisanProfile {
   zipCode          String?
   addressNumber    String?
   incomeValue      Float?
+  pixKey              String?
   asaasAccountId      String?
   asaasWalletId       String?
   asaasApiKey         String?
