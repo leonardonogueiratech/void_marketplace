@@ -181,6 +181,14 @@ export async function gerarEtiqueta(params: {
     };
   }
 
+  // Fail fast if wallet balance is zero or negative
+  const saldo = await getSaldoMelhorEnvio();
+  if (saldo !== null && saldo <= 0) {
+    throw new Error(
+      `Saldo insuficiente na carteira Melhor Envio (R$ ${saldo.toFixed(2)}). Recarregue em melhorenvio.com.br para continuar gerando etiquetas.`
+    );
+  }
+
   // 1. Add to cart
   const cartRes = await fetch(`${BASE_URL}/me/cart`, {
     method: "POST",
@@ -244,6 +252,9 @@ export async function gerarEtiqueta(params: {
 
   if (!checkoutRes.ok) {
     const err = await checkoutRes.text();
+    if (/saldo|insuficiente|balance|insufficient/i.test(err)) {
+      throw new Error("Saldo insuficiente na carteira Melhor Envio. Recarregue em melhorenvio.com.br.");
+    }
     throw new Error(`Melhor Envio checkout → ${checkoutRes.status}: ${err}`);
   }
 
