@@ -32,6 +32,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [method, setMethod] = useState<PaymentMethod>("PIX");
   const [orderResult, setOrderResult] = useState<OrderResult | null>(null);
+  const [pixConfirmed, setPixConfirmed] = useState(false);
 
   const [address, setAddress] = useState({
     street: "", number: "", complement: "", district: "", city: "", state: "", zipCode: "",
@@ -126,7 +127,7 @@ export default function CheckoutPage() {
           cpfCnpj: cpfCnpjDigits,
           paymentMethod: method,
           shippingCost,
-          shippingMethod: selectedShipping?.id,
+          shippingServiceId: selectedShipping ? Number(selectedShipping.id) : undefined,
           cardData: method === "CREDIT_CARD" ? card : undefined,
         }),
       });
@@ -143,6 +144,29 @@ export default function CheckoutPage() {
     }
   }
 
+  // Poll for PIX/Boleto confirmation every 5s until PAID
+  useEffect(() => {
+    if (!orderResult || pixConfirmed) return;
+    if (orderResult.method !== "PIX" && orderResult.method !== "BOLETO") return;
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch("/api/pedidos");
+        if (!res.ok) return;
+        const orders: { id: string; status: string }[] = await res.json();
+        const match = orders.find((o) => o.id === orderResult.orderId);
+        if (match && (match.status === "PAID" || match.status === "PROCESSING" || match.status === "SHIPPED" || match.status === "DELIVERED")) {
+          setPixConfirmed(true);
+          clearInterval(interval);
+        }
+      } catch {
+        // silencioso
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [orderResult, pixConfirmed]);
+
   if (orderResult) {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center">
@@ -151,23 +175,33 @@ export default function CheckoutPage() {
         <p className="text-muted-foreground mb-8">Pedido #{orderResult.orderId.slice(-8).toUpperCase()}</p>
 
         {orderResult.method === "PIX" && orderResult.pixQrCode && (
-          <Card className="text-left">
-            <CardHeader><CardTitle className="flex items-center gap-2"><QrCode className="size-5" /> Pagar com PIX</CardTitle></CardHeader>
-            <CardContent className="space-y-4">
-              {orderResult.pixQrCodeBase64 && (
-                <div className="flex justify-center">
-                  <Image src={`data:image/png;base64,${orderResult.pixQrCodeBase64}`} alt="QR Code PIX" width={192} height={192} unoptimized className="size-48" />
+          pixConfirmed ? (
+            <div className="bg-[#27ae60]/8 border border-[#27ae60]/25 rounded-lg p-4 mb-4">
+              <p className="text-[#27ae60] font-semibold text-lg">✅ Pagamento confirmado!</p>
+              <p className="text-sm text-[#27ae60] mt-1">Seu pedido já está sendo preparado.</p>
+            </div>
+          ) : (
+            <Card className="text-left">
+              <CardHeader><CardTitle className="flex items-center gap-2"><QrCode className="size-5" /> Pagar com PIX</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                {orderResult.pixQrCodeBase64 && (
+                  <div className="flex justify-center">
+                    <Image src={`data:image/png;base64,${orderResult.pixQrCodeBase64}`} alt="QR Code PIX" width={192} height={192} unoptimized className="size-48" />
+                  </div>
+                )}
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Código copia e cola:</p>
+                  <div className="bg-neutral-50 rounded p-3 text-xs font-mono break-all border">{orderResult.pixQrCode}</div>
+                  <Button variant="outline" size="sm" className="mt-2 w-full" onClick={() => { navigator.clipboard.writeText(orderResult.pixQrCode!); toast.success("Código copiado!"); }}>
+                    Copiar código
+                  </Button>
                 </div>
-              )}
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Código copia e cola:</p>
-                <div className="bg-neutral-50 rounded p-3 text-xs font-mono break-all border">{orderResult.pixQrCode}</div>
-                <Button variant="outline" size="sm" className="mt-2 w-full" onClick={() => { navigator.clipboard.writeText(orderResult.pixQrCode!); toast.success("Código copiado!"); }}>
-                  Copiar código
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Loader2 className="size-3 animate-spin" /> Aguardando confirmação do pagamento...
+                </div>
+              </CardContent>
+            </Card>
+          )
         )}
 
         {orderResult.method === "BOLETO" && orderResult.boletoUrl && (
