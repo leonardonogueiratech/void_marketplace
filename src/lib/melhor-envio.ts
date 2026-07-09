@@ -309,18 +309,41 @@ export async function gerarEtiqueta(params: {
     throw new Error(`Melhor Envio checkout → ${checkoutRes.status}: ${err}`);
   }
 
-  // 3. Generate label — returns redirect URL to PDF
-  const generateUrl = `${BASE_URL}/me/shipment/generate?orders[]=${meOrderId}`;
-  const generateRes = await fetch(generateUrl, {
+  // 3. Generate label (async job on Melhor Envio's side)
+  const generateRes = await fetch(`${BASE_URL}/me/shipment/generate`, {
+    method: "POST",
     headers: ME_HEADERS,
-    redirect: "manual",
+    body: JSON.stringify({ orders: [meOrderId] }),
   });
 
-  // Melhor Envio returns 302 redirect to PDF URL
-  const labelUrl = generateRes.headers.get("location")
-    ?? `${BASE_URL}/me/shipment/generate?orders[]=${meOrderId}`;
+  if (!generateRes.ok) {
+    const err = await generateRes.text();
+    throw new Error(`Melhor Envio generate → ${generateRes.status}: ${err}`);
+  }
 
-  // 4. Get tracking code from order details
+  // 4. Print — returns the actual downloadable PDF URL. "generate" is processed
+  // async on their side, so retry once if the label isn't ready yet.
+  async function requestPrint() {
+    const res = await fetch(`${BASE_URL}/me/shipment/print`, {
+      method: "POST",
+      headers: ME_HEADERS,
+      body: JSON.stringify({ orders: [meOrderId], mode: "private" }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json() as { url: string };
+    return data.url;
+  }
+
+  let labelUrl = await requestPrint();
+  if (!labelUrl) {
+    await new Promise((r) => setTimeout(r, 2000));
+    labelUrl = await requestPrint();
+  }
+  if (!labelUrl) {
+    throw new Error("Etiqueta gerada, mas ainda não está pronta para impressão. Tente baixar novamente em alguns instantes.");
+  }
+
+  // 5. Get tracking code from order details
   let trackingCode: string | null = null;
   try {
     const orderRes = await fetch(`${BASE_URL}/me/orders/${meOrderId}`, { headers: ME_HEADERS });
