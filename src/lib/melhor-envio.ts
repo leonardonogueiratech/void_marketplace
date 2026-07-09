@@ -7,6 +7,7 @@ const isMock = !TOKEN;
 
 const ME_HEADERS = {
   "Content-Type": "application/json",
+  Accept: "application/json",
   Authorization: `Bearer ${TOKEN}`,
   "User-Agent": "FeitoDeGente/1.0 (contato@feitodegente.com.br)",
 };
@@ -62,6 +63,32 @@ interface MelhorEnvioOrder {
 
 export function cepByState(uf: string): string {
   return STATE_CEPS[uf.toUpperCase()] ?? "01310100";
+}
+
+interface CepAddress {
+  street: string;
+  district: string;
+  city: string;
+  state: string;
+}
+
+// Resolve rua/bairro/cidade/UF a partir do CEP — o Melhor Envio exige endereço completo
+// na origem, mas o perfil do artesão só guarda CEP (sem campo de rua/bairro).
+async function resolveAddressFromCep(cep: string): Promise<CepAddress | null> {
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data.erro) return null;
+    return {
+      street: data.logradouro ?? "",
+      district: data.bairro ?? "",
+      city: data.localidade ?? "",
+      state: data.uf ?? "",
+    };
+  } catch {
+    return null;
+  }
 }
 
 // ─── Saldo da carteira ────────────────────────────────────────────────────────
@@ -155,12 +182,14 @@ export async function gerarEtiqueta(params: {
     name: string;
     email: string;
     phone?: string;
+    number: string;
     postalCode: string;
   };
   to: {
     name: string;
     email: string;
     phone?: string;
+    document: string;
     street: string;
     number: string;
     complement?: string;
@@ -189,6 +218,16 @@ export async function gerarEtiqueta(params: {
     );
   }
 
+  // Melhor Envio exige endereço completo na origem (rua/bairro/cidade/UF), mas o
+  // perfil do artesão só guarda o CEP — resolve o resto via ViaCEP.
+  const fromCep = params.from.postalCode.replace(/\D/g, "");
+  const fromAddress = await resolveAddressFromCep(fromCep);
+  if (!fromAddress) {
+    throw new Error(
+      `Não foi possível identificar o endereço de origem a partir do CEP ${params.from.postalCode}. Verifique o CEP cadastrado no perfil do artesão.`
+    );
+  }
+
   // 1. Add to cart
   const cartRes = await fetch(`${BASE_URL}/me/cart`, {
     method: "POST",
@@ -199,12 +238,19 @@ export async function gerarEtiqueta(params: {
         name: params.from.name,
         email: params.from.email,
         phone: params.from.phone,
-        postal_code: params.from.postalCode.replace(/\D/g, ""),
+        address: fromAddress.street || "Endereço não informado",
+        number: params.from.number,
+        district: fromAddress.district || "Centro",
+        city: fromAddress.city,
+        state_abbr: fromAddress.state,
+        postal_code: fromCep,
+        country_id: "BR",
       },
       to: {
         name: params.to.name,
         email: params.to.email,
         phone: params.to.phone,
+        document: params.to.document.replace(/\D/g, ""),
         address: params.to.street,
         number: params.to.number,
         complement: params.to.complement,
@@ -238,6 +284,11 @@ export async function gerarEtiqueta(params: {
   if (!cartRes.ok) {
     const err = await cartRes.text();
     throw new Error(`Melhor Envio cart → ${cartRes.status}: ${err}`);
+  }
+  if (!(cartRes.headers.get("content-type") ?? "").includes("application/json")) {
+    throw new Error(
+      `Melhor Envio cart retornou uma resposta inesperada (status ${cartRes.status}, não é JSON). Tente novamente ou verifique os dados do pedido.`
+    );
   }
 
   const cartItem = await cartRes.json() as MelhorEnvioCartItem;

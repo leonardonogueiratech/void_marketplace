@@ -48,7 +48,7 @@ export async function POST(
     const order = await prisma.order.findUnique({
       where: { id: orderId },
       include: {
-        user: { select: { name: true, email: true, phone: true } },
+        user: { select: { name: true, email: true, phone: true, cpfCnpj: true } },
         customer: true,
         items: {
           where: { artisanId: artisan.id },
@@ -65,6 +65,10 @@ export async function POST(
       return NextResponse.json({ error: "Endereço de entrega não encontrado no pedido." }, { status: 400 });
     }
 
+    if (!order.user.cpfCnpj) {
+      return NextResponse.json({ error: "Cliente não possui CPF/CNPJ cadastrado, exigido pelo Melhor Envio para gerar a etiqueta." }, { status: 400 });
+    }
+
     // Resolve origin CEP
     const fromPostalCode = artisan.zipCode
       ? artisan.zipCode.replace(/\D/g, "")
@@ -78,12 +82,14 @@ export async function POST(
         name: artisan.user?.name ?? artisan.storeName,
         email: artisan.user?.email ?? "",
         phone: artisan.whatsapp ?? undefined,
+        number: artisan.addressNumber || "S/N",
         postalCode: fromPostalCode,
       },
       to: {
         name: order.user.name ?? "Cliente",
         email: order.user.email,
         phone: order.user.phone ?? undefined,
+        document: order.user.cpfCnpj,
         street: order.customer.street,
         number: order.customer.number,
         complement: order.customer.complement ?? undefined,
