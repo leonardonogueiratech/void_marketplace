@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { gerarEtiqueta } from "@/lib/melhor-envio";
+import { gerarEtiqueta, getLabelDownloadUrl } from "@/lib/melhor-envio";
 import { cepByState } from "@/lib/melhor-envio";
 
 const schema = z.object({
@@ -137,4 +137,42 @@ export async function POST(
       { status: 500 }
     );
   }
+}
+
+// O PDF da etiqueta vem de um link assinado da AWS que expira em ~30min — busca um
+// link novo a cada download em vez de reaproveitar o salvo em Order.labelUrl.
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
+  }
+
+  const { id: orderId } = await params;
+
+  const artisan = await prisma.artisanProfile.findUnique({ where: { userId: session.user.id } });
+  if (!artisan) {
+    return NextResponse.json({ error: "Perfil de artesão não encontrado." }, { status: 404 });
+  }
+
+  const orderItem = await prisma.orderItem.findFirst({ where: { artisanId: artisan.id, orderId } });
+  if (!orderItem) {
+    return NextResponse.json({ error: "Pedido não encontrado." }, { status: 404 });
+  }
+
+  const order = await prisma.order.findUnique({ where: { id: orderId } });
+  if (!order?.melhorEnvioOrderId) {
+    return NextResponse.json({ error: "Etiqueta ainda não foi gerada para este pedido." }, { status: 404 });
+  }
+
+  const result = await getLabelDownloadUrl(order.melhorEnvioOrderId);
+  if (!result) {
+    return NextResponse.json({ error: "Não foi possível obter o link da etiqueta. Tente novamente." }, { status: 502 });
+  }
+
+  await prisma.order.update({ where: { id: orderId }, data: { labelUrl: result.url } });
+
+  return NextResponse.json({ ok: true, labelUrl: result.url });
 }

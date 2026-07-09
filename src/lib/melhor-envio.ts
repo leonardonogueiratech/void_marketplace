@@ -59,6 +59,22 @@ interface MelhorEnvioOrder {
   tracking?: string;
   label?: { url?: string };
   status?: string;
+  files?: Record<string, { pdf?: string }>;
+}
+
+// URLs de PDF vêm pré-assinadas da AWS e expiram em ~30min — sempre buscar uma nova
+// na hora do download em vez de reutilizar um link salvo.
+export async function getLabelDownloadUrl(meOrderId: string): Promise<{ url: string; tracking: string | null } | null> {
+  try {
+    const res = await fetch(`${BASE_URL}/me/orders/${meOrderId}`, { headers: ME_HEADERS });
+    if (!res.ok) return null;
+    const order = await res.json() as MelhorEnvioOrder;
+    const url = order.files?.["1"]?.pdf;
+    if (!url) return null;
+    return { url, tracking: order.tracking ?? null };
+  } catch {
+    return null;
+  }
 }
 
 export function cepByState(uf: string): string {
@@ -321,39 +337,22 @@ export async function gerarEtiqueta(params: {
     throw new Error(`Melhor Envio generate → ${generateRes.status}: ${err}`);
   }
 
-  // 4. Print — returns the actual downloadable PDF URL. "generate" is processed
-  // async on their side, so retry once if the label isn't ready yet.
-  async function requestPrint() {
-    const res = await fetch(`${BASE_URL}/me/shipment/print`, {
-      method: "POST",
-      headers: ME_HEADERS,
-      body: JSON.stringify({ orders: [meOrderId], mode: "private" }),
-    });
-    if (!res.ok) return null;
-    const data = await res.json() as { url: string };
-    return data.url;
+  // 4. "generate" is processed async on their side — poll order details until the
+  // PDF is ready. The PDF URL (files["1"].pdf) is a presigned AWS link that expires
+  // in ~30min; getLabelDownloadUrl() should be called again for later downloads
+  // instead of reusing the one returned here.
+  let labelResult: { url: string; tracking: string | null } | null = null;
+  for (let attempt = 0; attempt < 3 && !labelResult; attempt++) {
+    if (attempt > 0) await new Promise((r) => setTimeout(r, 2000));
+    labelResult = await getLabelDownloadUrl(meOrderId);
+  }
+  if (!labelResult) {
+    throw new Error("Etiqueta gerada, mas o PDF ainda não está pronto. Tente baixar novamente em alguns instantes.");
   }
 
-  let labelUrl = await requestPrint();
-  if (!labelUrl) {
-    await new Promise((r) => setTimeout(r, 2000));
-    labelUrl = await requestPrint();
-  }
-  if (!labelUrl) {
-    throw new Error("Etiqueta gerada, mas ainda não está pronta para impressão. Tente baixar novamente em alguns instantes.");
-  }
-
-  // 5. Get tracking code from order details
-  let trackingCode: string | null = null;
-  try {
-    const orderRes = await fetch(`${BASE_URL}/me/orders/${meOrderId}`, { headers: ME_HEADERS });
-    if (orderRes.ok) {
-      const order = await orderRes.json() as MelhorEnvioOrder;
-      trackingCode = order.tracking ?? cartItem.tracking ?? null;
-    }
-  } catch {
-    // tracking will be null, updated via webhook later
-  }
-
-  return { melhorEnvioOrderId: meOrderId, labelUrl, trackingCode };
+  return {
+    melhorEnvioOrderId: meOrderId,
+    labelUrl: labelResult.url,
+    trackingCode: labelResult.tracking ?? cartItem.tracking ?? null,
+  };
 }

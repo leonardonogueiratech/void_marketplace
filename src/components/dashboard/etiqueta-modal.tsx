@@ -44,6 +44,25 @@ export function EtiquetaModal({
   const [length, setLength] = useState("20");
   const [labelUrl, setLabelUrl] = useState<string | null>(existingLabelUrl ?? null);
   const [trackingCode, setTrackingCode] = useState<string | null>(existingTrackingCode ?? null);
+  const [downloading, setDownloading] = useState(false);
+
+  // O link do PDF expira em ~30min — sempre busca um novo antes de abrir.
+  async function handleDownload() {
+    setDownloading(true);
+    try {
+      const res = await fetch(`/api/pedidos/${orderId}/etiqueta`);
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error ?? "Erro ao obter link da etiqueta.");
+        return;
+      }
+      window.open(data.labelUrl, "_blank", "noopener,noreferrer");
+    } catch {
+      toast.error("Erro ao obter link da etiqueta.");
+    } finally {
+      setDownloading(false);
+    }
+  }
 
   async function handleGenerate() {
     setLoading(true);
@@ -108,10 +127,15 @@ export function EtiquetaModal({
               </div>
 
               <div className="flex gap-3">
-                <Button asChild className="flex-1 bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
-                  <a href={labelUrl} target="_blank" rel="noopener noreferrer">
-                    <Download className="mr-2 size-4" /> Baixar PDF
-                  </a>
+                <Button
+                  onClick={handleDownload}
+                  disabled={downloading}
+                  className="flex-1 bg-[#1e3a5f] hover:bg-[#162d4a] text-white"
+                >
+                  {downloading
+                    ? <Loader2 className="mr-2 size-4 animate-spin" />
+                    : <Download className="mr-2 size-4" />}
+                  Baixar PDF
                 </Button>
                 <Button
                   variant="outline"
