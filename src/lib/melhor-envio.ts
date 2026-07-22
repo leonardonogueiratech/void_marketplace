@@ -166,7 +166,7 @@ export async function calcularFrete(params: {
     const services: MelhorEnvioService[] = await res.json();
 
     return services
-      .filter((s) => s.price && !s.error)
+      .filter((s) => s.price && !s.error && s.company?.name?.toLowerCase() === "correios")
       .map((s) => {
         const maxDays = s.delivery_range?.max ?? 7;
         const minDays = s.delivery_range?.min ?? 1;
