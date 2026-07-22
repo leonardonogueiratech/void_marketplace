@@ -13,6 +13,7 @@ import { COMMISSION_BY_PLAN } from "@/lib/utils";
 import {
   sendOrderConfirmedToCustomer,
   sendNewOrderToArtisan,
+  sendPaymentInAnalysis,
 } from "@/lib/email";
 import { z } from "zod";
 
@@ -295,6 +296,13 @@ export async function POST(req: NextRequest) {
           customerState: data.address.state,
         });
       }
+    } else if (data.paymentMethod === "CREDIT_CARD") {
+      // pagamento no cartão ainda não aprovado (ex.: em análise de risco) — avisa o cliente
+      void sendPaymentInAnalysis({
+        to: payerEmail,
+        customerName: payerName,
+        orderId: order.id,
+      });
     }
 
     return NextResponse.json({ orderId: order.id, pixQrCode, pixQrCodeBase64, boletoUrl }, { status: 201 });

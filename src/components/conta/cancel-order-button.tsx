@@ -29,12 +29,15 @@ export function CancelOrderButton({ orderId }: { orderId: string }) {
 
   if (!confirming) {
     return (
-      <button
-        onClick={() => setConfirming(true)}
-        className="text-xs text-red-400 hover:text-red-600 underline underline-offset-2 transition-colors"
-      >
-        Cancelar pedido
-      </button>
+      <div className="flex flex-col items-end gap-0.5">
+        <button
+          onClick={() => setConfirming(true)}
+          className="text-xs text-red-400 hover:text-red-600 underline underline-offset-2 transition-colors"
+        >
+          Cancelar pedido
+        </button>
+        <span className="text-[11px] text-neutral-400">Sem custo — pagamento ainda não foi confirmado</span>
+      </div>
     );
   }
 

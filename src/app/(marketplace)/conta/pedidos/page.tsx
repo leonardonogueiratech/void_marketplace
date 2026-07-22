@@ -77,6 +77,13 @@ export default async function AccountOrdersPage() {
         <div>
           <h1 className="text-3xl font-bold text-[#1e3a5f]">Meus pedidos</h1>
           <p className="mt-2 text-neutral-500 text-sm">Acompanhe pagamentos, status e entregas.</p>
+          <p className="mt-1 text-xs text-neutral-400">
+            Precisa cancelar ou devolver um pedido?{" "}
+            <Link href="/termos#cancelamento-devolucao" className="underline underline-offset-2 hover:text-neutral-600">
+              Veja a política de cancelamento e devolução
+            </Link>
+            .
+          </p>
         </div>
         <Button variant="outline" asChild className="self-start sm:self-auto">
           <Link href="/produtos">Continuar comprando</Link>

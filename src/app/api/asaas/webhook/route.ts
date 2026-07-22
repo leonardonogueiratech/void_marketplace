@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isApproved, isCancelled, type AsaasPaymentStatus } from "@/lib/asaas";
 import { COMMISSION_RATE, COMMISSION_BY_PLAN } from "@/lib/utils";
+import { sendOrderConfirmedToCustomer, sendNewOrderToArtisan } from "@/lib/email";
 
 interface AsaasWebhookPayload {
   event: string;
@@ -71,9 +72,25 @@ export async function POST(req: NextRequest) {
     if (isApproved(payment.status)) {
       const order = await prisma.order.findUnique({
         where: { id: orderId },
-        include: { items: true },
+        include: {
+          items: {
+            include: {
+              product: {
+                select: {
+                  name: true,
+                  artisan: { select: { storeName: true, user: { select: { name: true, email: true } } } },
+                },
+              },
+            },
+          },
+          user: { select: { name: true, email: true } },
+        },
       });
       if (!order) return NextResponse.json({ ok: true });
+
+      // aprovação síncrona (ex.: cartão aprovado na hora) já mandou os e-mails na criação do pedido —
+      // só disparar aqui na transição assíncrona (PIX pago depois, cartão saindo de análise, boleto pago)
+      const alreadyNotified = order.status === "PAID";
 
       await prisma.payment.update({
         where: { orderId },
@@ -112,6 +129,42 @@ export async function POST(req: NextRequest) {
           where: { id: item.artisanId },
           data: { totalSales: { increment: item.quantity } },
         });
+      }
+
+      if (!alreadyNotified) {
+        const customerEmail = order.user?.email;
+        if (customerEmail) {
+          const itemSummary = order.items.map((i) => ({
+            name: i.product.name,
+            quantity: i.quantity,
+            totalPrice: i.totalPrice,
+          }));
+          void sendOrderConfirmedToCustomer({
+            to: customerEmail,
+            customerName: order.user?.name ?? "Cliente",
+            orderId: order.id,
+            items: itemSummary,
+            total: order.subtotal,
+            storeName: order.items[0]?.product.artisan.storeName ?? "Artesão",
+          });
+        }
+
+        const artisanMap = new Map<string, (typeof order.items)[number]["product"]["artisan"]>();
+        for (const item of order.items) artisanMap.set(item.artisanId, item.product.artisan);
+        for (const [artisanId, artisan] of artisanMap) {
+          if (!artisan?.user?.email) continue;
+          const artisanItems = order.items
+            .filter((i) => i.artisanId === artisanId)
+            .map((i) => ({ name: i.product.name, quantity: i.quantity, totalPrice: i.totalPrice }));
+          void sendNewOrderToArtisan({
+            to: artisan.user.email,
+            artisanName: artisan.user.name ?? artisan.storeName,
+            storeName: artisan.storeName,
+            orderId: order.id,
+            items: artisanItems,
+            subtotal: artisanItems.reduce((s, i) => s + i.totalPrice, 0),
+          });
+        }
       }
     } else if (isCancelled(payment.status) || event === "PAYMENT_OVERDUE") {
       await prisma.payment.update({

@@ -125,12 +125,12 @@ export async function sendOrderConfirmedToCustomer(opts: {
   const shortId = opts.orderId.slice(-8).toUpperCase();
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Pedido confirmado", "#27ae60")}
+      ${badge("Pagamento confirmado", "#27ae60")}
       <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
-        Seu pedido foi confirmado! ✦
+        Pagamento confirmado! Seu pedido está sendo preparado ✦
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
-        Olá, <strong>${opts.customerName}</strong>! Recebemos seu pedido e o artesão já foi notificado.
+        Olá, <strong>${opts.customerName}</strong>! Recebemos a confirmação do pagamento e o artesão já foi notificado para preparar o seu pedido.
       </p>
     </div>
 
@@ -153,12 +153,57 @@ export async function sendOrderConfirmedToCustomer(opts: {
     </p>
 
     ${ctaButton(`${BASE_URL}/conta/pedidos`, "Acompanhar pedido →", "#e07b2a")}
+
+    <p style="font-size:12px;color:#bbb;line-height:1.6;margin-top:20px;text-align:center">
+      Mudou de ideia? Pedidos ainda não confirmados pelo artesão podem ser cancelados direto no site,
+      e você tem até 7 dias após a entrega para desistir da compra sem justificativa (art. 49 do CDC).
+      <a href="${BASE_URL}/termos#cancelamento-devolucao" style="color:#e07b2a;text-decoration:underline">Ver política de cancelamento →</a>
+    </p>
   `;
 
   await send({
     to: opts.to,
     toName: opts.customerName,
-    subject: `Pedido #${shortId} confirmado — Feito de Gente`,
+    subject: `Pagamento confirmado — Pedido #${shortId} — Feito de Gente`,
+    html: baseTemplate(content),
+  });
+}
+
+export async function sendPaymentInAnalysis(opts: {
+  to: string;
+  customerName: string;
+  orderId: string;
+}) {
+  const shortId = opts.orderId.slice(-8).toUpperCase();
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Pagamento em análise", "#e07b2a")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Recebemos seu pedido — pagamento em análise
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.customerName}</strong>! Seu pagamento no cartão está sendo analisado.
+        Assim que for aprovado, seu pedido será liberado para o artesão preparar.
+      </p>
+    </div>
+
+    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+      <p style="margin:0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Pedido</p>
+      <p style="margin:4px 0 0;font-size:16px;font-weight:700;color:#1e3a5f;font-family:monospace">#${shortId}</p>
+    </div>
+
+    <p style="font-size:13px;color:#888;line-height:1.6">
+      Essa análise costuma ser rápida. Você receberá um novo e-mail assim que o pagamento for confirmado.
+      Se for recusado, avisaremos também.
+    </p>
+
+    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Acompanhar pedido →", "#e07b2a")}
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.customerName,
+    subject: `Pedido #${shortId} recebido — pagamento em análise`,
     html: baseTemplate(content),
   });
 }
@@ -740,6 +785,45 @@ export async function sendAdminNewArtisanApplication(opts: {
   });
 }
 
+// ─── welcome ───────────────────────────────────────────────────────────────────
+
+export async function sendWelcomeEmail(opts: { to: string; name: string }) {
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Cadastro confirmado", "#27ae60")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Bem-vindo(a), ${opts.name}! ✦
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Seu cadastro na Feito de Gente foi realizado com sucesso.
+      </p>
+    </div>
+
+    <div style="background:#f7f3ed;border-radius:12px;padding:20px 24px;margin-bottom:24px">
+      <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#1e3a5f">Agora você pode:</p>
+      <ul style="margin:0;padding:0 0 0 18px;color:#666;font-size:13px;line-height:2.2">
+        <li>Explorar produtos artesanais de todo o Brasil</li>
+        <li>Acompanhar seus pedidos e entregas pela sua conta</li>
+        <li>Conversar direto com os artesãos</li>
+      </ul>
+    </div>
+
+    ${ctaButton(`${BASE_URL}/produtos`, "Explorar produtos →", "#e07b2a")}
+
+    <p style="font-size:12px;color:#bbb;line-height:1.6;margin-top:24px;text-align:center">
+      Antes de comprar, vale conhecer nossa
+      <a href="${BASE_URL}/termos#cancelamento-devolucao" style="color:#e07b2a;text-decoration:underline">política de cancelamento e devolução</a>.
+    </p>
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.name,
+    subject: "Cadastro confirmado — Feito de Gente",
+    html: baseTemplate(content),
+  });
+}
+
 // ─── password reset ────────────────────────────────────────────────────────────
 
 export async function sendPasswordReset(opts: {
@@ -861,6 +945,54 @@ export async function sendAdminMelhorEnvioSaldoBaixo(opts: { saldo: number }) {
   await send({
     to: adminEmail,
     subject: `[Alerta] Saldo Melhor Envio baixo: ${saldoFmt}`,
+    html: baseTemplate(content),
+  });
+}
+
+export async function sendAdminEntregasAtrasadas(opts: {
+  orders: { id: string; storeName: string; customerName: string; shippedAt: Date; daysSinceShipped: number }[];
+}) {
+  const adminEmail = process.env.ADMIN_EMAIL ?? "administracao@feitodegente.com.br";
+
+  const rows = opts.orders
+    .map(
+      (o) => `
+    <tr>
+      <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#1e3a5f;font-family:monospace">#${o.id.slice(-8).toUpperCase()}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#444">${o.storeName}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#444">${o.customerName}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#e07b2a;font-weight:700;text-align:right">${o.daysSinceShipped}d</td>
+    </tr>`
+    )
+    .join("");
+
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Entregas paradas", "#e07b2a")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        ${opts.orders.length} pedido(s) enviados há muito tempo sem confirmação de entrega
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Pode valer a pena checar o rastreio e avisar os clientes proativamente.
+      </p>
+    </div>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px">
+      <tr>
+        <th style="padding:6px 0;font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:.06em;text-align:left">Pedido</th>
+        <th style="padding:6px 0;font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:.06em;text-align:left">Loja</th>
+        <th style="padding:6px 0;font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:.06em;text-align:left">Cliente</th>
+        <th style="padding:6px 0;font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:.06em;text-align:right">Enviado há</th>
+      </tr>
+      ${rows}
+    </table>
+
+    ${ctaButton(`${BASE_URL}/admin/pedidos`, "Ver pedidos no painel →")}
+  `;
+
+  await send({
+    to: adminEmail,
+    subject: `[Alerta] ${opts.orders.length} entrega(s) sem confirmação — Feito de Gente`,
     html: baseTemplate(content),
   });
 }

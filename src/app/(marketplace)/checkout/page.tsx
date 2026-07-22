@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useCep } from "@/hooks/use-cep";
 import Image from "next/image";
+import Link from "next/link";
 import { useCartStore } from "@/store/cart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -479,6 +480,14 @@ export default function CheckoutPage() {
                   {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
                   Confirmar pedido
                 </Button>
+
+                <p className="text-center text-xs text-muted-foreground">
+                  Ao confirmar, você concorda com nossos{" "}
+                  <Link href="/termos#cancelamento-devolucao" className="underline underline-offset-2 hover:text-foreground">
+                    termos de cancelamento e devolução
+                  </Link>
+                  . Você pode cancelar pedidos ainda não confirmados pelo artesão, ou desistir da compra em até 7 dias após a entrega.
+                </p>
               </CardContent>
             </Card>
           </div>
