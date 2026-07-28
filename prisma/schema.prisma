@@ -201,6 +201,7 @@ model ArtisanProfile {
   asaasAccountId      String?
   asaasWalletId       String?
   asaasApiKey         String?
+  enabledCarriers     String[] @default(["Correios"])
   subscriptionExempt  Boolean   @default(false)
   status              ArtisanStatus @default(PENDING)
   rejectedNote     String?

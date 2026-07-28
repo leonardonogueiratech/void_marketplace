@@ -44,7 +44,7 @@ export async function GET(req: Request) {
   // Busca dados dos artesãos
   const artisans = await prisma.artisanProfile.findMany({
     where: { id: { in: [...grouped.keys()] } },
-    select: { id: true, state: true, storeName: true },
+    select: { id: true, state: true, storeName: true, enabledCarriers: true },
   });
   const artisanMap = new Map(artisans.map((a) => [a.id, a]));
 
@@ -53,7 +53,12 @@ export async function GET(req: Request) {
   for (const [artisanId, weight] of grouped.entries()) {
     const artisan  = artisanMap.get(artisanId);
     const originUf = artisan?.state ?? "SP";
-    const options  = await calcularFrete({ originUf, destinationCep: cep, weight });
+    const options  = await calcularFrete({
+      originUf,
+      destinationCep: cep,
+      weight,
+      allowedCarriers: artisan?.enabledCarriers,
+    });
     breakdown.push({
       artisanId,
       storeName: artisan?.storeName ?? "Artesão",

@@ -8,12 +8,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, Upload, Check } from "lucide-react";
+import { Loader2, Upload, Check, Truck } from "lucide-react";
 
 interface Category {
   id: string;
   name: string;
 }
+
+const OPTIONAL_CARRIERS = [
+  { id: "Jadlog", label: "Jadlog", hint: "Tem unidade em boa parte das capitais e regiões metropolitanas." },
+  { id: "Loggi", label: "Loggi", hint: "Funciona bem em capitais (Loggi Ponto ou coleta em casa)." },
+  { id: "JeT", label: "JeT (J&T Express)", hint: "Cobertura ainda concentrada em grandes cidades." },
+] as const;
 
 interface Props {
   artisan: {
@@ -29,6 +35,7 @@ interface Props {
     website?: string | null;
     logoImage?: string | null;
     bannerImage?: string | null;
+    enabledCarriers?: string[];
     categories: { category: { id: string; name: string } }[];
   };
   allCategories: Category[];
@@ -64,6 +71,16 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     artisan.categories.map((c) => c.category.id)
   );
+
+  const [selectedCarriers, setSelectedCarriers] = useState<string[]>(
+    (artisan.enabledCarriers ?? ["Correios"]).filter((c) => c !== "Correios")
+  );
+
+  function toggleCarrier(id: string) {
+    setSelectedCarriers((prev) =>
+      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]
+    );
+  }
 
   const [logoUrl, setLogoUrl] = useState<string | null>(artisan.logoImage ?? null);
   const [bannerUrl, setBannerUrl] = useState<string | null>(artisan.bannerImage ?? null);
@@ -116,6 +133,8 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
       selectedCategories.forEach((id) => fd.append("categoryIds", id));
+      fd.append("enabledCarriers", "Correios");
+      selectedCarriers.forEach((id) => fd.append("enabledCarriers", id));
       if (logoUrl) fd.append("logoUrl", logoUrl);
       if (bannerUrl) fd.append("bannerUrl", bannerUrl);
 
@@ -321,6 +340,50 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
             />
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Transportadoras */}
+      <Card className="border-[#1e3a5f]/10">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-[#1e3a5f] text-base flex items-center gap-2">
+            <Truck className="size-4" /> Transportadoras
+          </CardTitle>
+          <CardDescription>
+            Os Correios ficam sempre disponíveis. Marque só as demais que você consegue despachar de fato —
+            elas só aparecem pro comprador nas rotas em que a transportadora realmente atua.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex items-center gap-2.5 bg-[#f7f3ed] rounded-lg px-3 py-2.5 text-sm text-neutral-500">
+            <Check className="size-4 text-[#27ae60]" />
+            Correios (sempre ativo)
+          </div>
+          {OPTIONAL_CARRIERS.map((carrier) => {
+            const active = selectedCarriers.includes(carrier.id);
+            return (
+              <button
+                key={carrier.id}
+                type="button"
+                onClick={() => toggleCarrier(carrier.id)}
+                className={`w-full flex items-start gap-2.5 text-left rounded-lg border px-3 py-2.5 transition-colors ${
+                  active ? "border-[#27ae60] bg-[#27ae60]/5" : "border-[#1e3a5f]/15 hover:border-[#1e3a5f]/30"
+                }`}
+              >
+                <div
+                  className={`mt-0.5 size-4 shrink-0 rounded border flex items-center justify-center ${
+                    active ? "bg-[#27ae60] border-[#27ae60]" : "border-neutral-300"
+                  }`}
+                >
+                  {active && <Check className="size-3 text-white" />}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-[#1e3a5f]">{carrier.label}</p>
+                  <p className="text-xs text-neutral-400">{carrier.hint}</p>
+                </div>
+              </button>
+            );
+          })}
         </CardContent>
       </Card>
 

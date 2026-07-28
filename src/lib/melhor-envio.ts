@@ -133,7 +133,12 @@ export async function calcularFrete(params: {
   originUf: string;
   destinationCep: string;
   weight: number;
+  allowedCarriers?: string[];
 }): Promise<ShippingOption[]> {
+  const allowed = new Set(
+    (params.allowedCarriers?.length ? params.allowedCarriers : ["Correios"]).map((c) => c.toLowerCase())
+  );
+
   if (isMock) {
     return calcStatic(params.originUf, params.destinationCep).map((o) => ({
       id: o.id,
@@ -166,7 +171,7 @@ export async function calcularFrete(params: {
     const services: MelhorEnvioService[] = await res.json();
 
     return services
-      .filter((s) => s.price && !s.error && s.company?.name?.toLowerCase() === "correios")
+      .filter((s) => s.price && !s.error && allowed.has(s.company?.name?.toLowerCase() ?? ""))
       .map((s) => {
         const maxDays = s.delivery_range?.max ?? 7;
         const minDays = s.delivery_range?.min ?? 1;

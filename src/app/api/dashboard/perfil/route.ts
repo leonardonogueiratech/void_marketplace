@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { uploadImage } from "@/lib/cloudinary";
 import { z } from "zod";
 
+const CARRIERS = ["Correios", "Jadlog", "Loggi", "JeT"] as const;
+
 const schema = z.object({
   storeName: z.string().min(2, "Nome da loja deve ter ao menos 2 caracteres."),
   bio: z.string().min(10, "Bio deve ter ao menos 10 caracteres."),
@@ -16,6 +18,7 @@ const schema = z.object({
   instagram: z.string().optional(),
   website: z.string().url("URL inválida.").optional().or(z.literal("")),
   categoryIds: z.array(z.string()).optional(),
+  enabledCarriers: z.array(z.enum(CARRIERS)).optional(),
 });
 
 export async function PUT(req: NextRequest) {
@@ -48,9 +51,12 @@ export async function PUT(req: NextRequest) {
       instagram: (formData.get("instagram") as string) || undefined,
       website: (formData.get("website") as string) || undefined,
       categoryIds: formData.getAll("categoryIds") as string[],
+      enabledCarriers: formData.getAll("enabledCarriers") as string[],
     };
 
     const data = schema.parse(raw);
+    // Correios é sempre garantido, independente do que veio marcado no formulário
+    const enabledCarriers = Array.from(new Set(["Correios", ...(data.enabledCarriers ?? [])]));
 
     // Accept pre-uploaded URLs or fall back to existing values
     const logoUrl = formData.get("logoUrl") as string | null;
@@ -74,6 +80,7 @@ export async function PUT(req: NextRequest) {
         website: data.website || null,
         logoImage,
         bannerImage,
+        enabledCarriers,
       },
     });
 
