@@ -3,6 +3,7 @@ import { ArtisanCard } from "@/components/marketplace/artisan-card";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Artesãos" };
+export const revalidate = 300;
 
 export default async function ArtisansPage() {
   const artisans = await prisma.artisanProfile.findMany({

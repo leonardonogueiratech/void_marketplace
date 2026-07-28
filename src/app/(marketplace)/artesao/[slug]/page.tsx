@@ -13,6 +13,8 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const revalidate = 300;
+
 async function getArtisan(slug: string) {
   return prisma.artisanProfile.findUnique({
     where: { slug, status: "APPROVED" },

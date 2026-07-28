@@ -10,6 +10,8 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const revalidate = 300;
+
 async function getCategory(slug: string) {
   return prisma.category.findFirst({
     where: { slug, active: true },

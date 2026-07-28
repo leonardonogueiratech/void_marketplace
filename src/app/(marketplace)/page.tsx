@@ -36,6 +36,11 @@ async function getHomeData() {
   return { products, artisans, categories, totalArtisans, totalProducts };
 }
 
+// Sem isso, a página fica com cache estático indefinido (gerada uma vez no
+// build) e nunca reflete mudanças de "featured" — plano do artesão, novos
+// produtos aprovados, etc.
+export const revalidate = 300;
+
 export default async function HomePage() {
   const { products, artisans, categories, totalArtisans, totalProducts } = await getHomeData();
 
