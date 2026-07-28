@@ -4,7 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { uploadImage } from "@/lib/cloudinary";
 import { z } from "zod";
 
-const CARRIERS = ["Correios", "Jadlog", "Loggi", "JeT"] as const;
+const CARRIERS = [
+  "Correios", "Jadlog", "Loggi", "JeT",
+  "Azul Cargo Express", "LATAM Cargo", "Buslog", "Total Express",
+] as const;
 
 const schema = z.object({
   storeName: z.string().min(2, "Nome da loja deve ter ao menos 2 caracteres."),

@@ -19,6 +19,10 @@ const OPTIONAL_CARRIERS = [
   { id: "Jadlog", label: "Jadlog", hint: "Tem unidade em boa parte das capitais e regiões metropolitanas." },
   { id: "Loggi", label: "Loggi", hint: "Funciona bem em capitais (Loggi Ponto ou coleta em casa)." },
   { id: "JeT", label: "JeT (J&T Express)", hint: "Cobertura ainda concentrada em grandes cidades." },
+  { id: "Azul Cargo Express", label: "Azul Cargo Express", hint: "Costuma exigir despacho num guichê de aeroporto." },
+  { id: "LATAM Cargo", label: "LATAM Cargo", hint: "Também baseado em aeroporto, pouco prático sem essa estrutura por perto." },
+  { id: "Buslog", label: "Buslog", hint: "Despacho em guichê de rodoviária; não atende toda rota." },
+  { id: "Total Express", label: "Total Express", hint: "Voltado pra quem já tem contrato/volume, não pra remetente avulso." },
 ] as const;
 
 interface Props {
