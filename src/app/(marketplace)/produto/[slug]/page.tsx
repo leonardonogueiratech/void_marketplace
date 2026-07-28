@@ -10,6 +10,7 @@ import { ProductGallery } from "@/components/marketplace/product-gallery";
 import { ReviewList } from "@/components/marketplace/review-list";
 import { ProductCard } from "@/components/marketplace/product-card";
 import { ContactArtisanButton } from "@/components/marketplace/contact-artisan-button";
+import { ShippingEstimator } from "@/components/marketplace/shipping-estimator";
 import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 
@@ -188,6 +189,9 @@ export default async function ProductPage({ params }: Props) {
             product={product}
             isOwner={session?.user?.id === product.artisan.user.id}
           />
+
+          {/* Shipping estimator */}
+          <ShippingEstimator productId={product.id} />
 
           {/* Chat with artisan */}
           <ContactArtisanButton
