@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { updateAsaasSubscriptionValue } from "@/lib/asaas";
 import { SUBSCRIPTION_PRICES } from "@/lib/utils";
+import { activateSubscriptionAfterFreePeriod } from "@/lib/subscriptions";
 
 export async function POST(req: NextRequest) {
   const secret = process.env.CRON_SECRET;
@@ -9,7 +10,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
   }
 
-  const due = await prisma.subscription.findMany({
+  // Fase 1 → Fase 2: fim do período gratuito de lançamento — começa a cobrar
+  // (preço promocional, com 50% de desconto pelos próximos 3 meses).
+  const freeEnded = await prisma.subscription.findMany({
+    where: {
+      freePriceEndsAt: { lte: new Date() },
+      asaasSubscriptionId: null,
+    },
+  });
+
+  let activated = 0;
+  for (const sub of freeEnded) {
+    try {
+      await activateSubscriptionAfterFreePeriod(sub.artisanId);
+      activated++;
+    } catch (e) {
+      console.error(`Falha ao ativar assinatura ${sub.id} após período gratuito:`, e);
+    }
+  }
+
+  // Fim do preço de lançamento — reajusta para o preço regular.
+  const launchEnded = await prisma.subscription.findMany({
     where: {
       launchPriceEndsAt: { lte: new Date() },
       asaasSubscriptionId: { not: null },
@@ -17,7 +38,7 @@ export async function POST(req: NextRequest) {
   });
 
   let upgraded = 0;
-  for (const sub of due) {
+  for (const sub of launchEnded) {
     const regularPrice = SUBSCRIPTION_PRICES[sub.plan] ?? 0;
     try {
       if (sub.asaasSubscriptionId) {
@@ -33,5 +54,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ ok: true, checked: due.length, upgraded });
+  return NextResponse.json({
+    ok: true,
+    freePeriodChecked: freeEnded.length,
+    activated,
+    launchChecked: launchEnded.length,
+    upgraded,
+  });
 }

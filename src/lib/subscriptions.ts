@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { findOrCreateCustomer, createAsaasSubscription } from "@/lib/asaas";
 import { SUBSCRIPTION_LAUNCH_PRICES } from "@/lib/utils";
 
+const FREE_PERIOD_MONTHS = 3;
 const LAUNCH_PERIOD_MONTHS = 3;
 
 function nextMonthDate(): string {
@@ -11,11 +12,36 @@ function nextMonthDate(): string {
 }
 
 /**
- * Cria a cobrança recorrente real na Asaas pro plano escolhido no cadastro,
- * usando o preço de lançamento. Chamado só quando o artesão é aprovado —
- * nunca antes, pra não cobrar quem ainda pode ser rejeitado.
+ * Chamado na aprovação do artesão. Não cobra nada ainda — apenas marca o fim do
+ * período gratuito de lançamento (3 meses, só comissão sobre vendas, sem mensalidade).
+ * A cobrança de fato começa depois, via activateSubscriptionAfterFreePeriod (cron).
  */
-export async function activatePaidSubscriptionOnApproval(artisanId: string): Promise<void> {
+export async function scheduleSubscriptionOnApproval(artisanId: string): Promise<void> {
+  const artisan = await prisma.artisanProfile.findUnique({
+    where: { id: artisanId },
+    include: { subscription: true },
+  });
+
+  const sub = artisan?.subscription;
+  if (!artisan || !sub) return;
+  if (artisan.subscriptionExempt) return;
+  if (sub.asaasSubscriptionId || sub.freePriceEndsAt) return; // já agendada/ativada
+
+  const freePriceEndsAt = new Date();
+  freePriceEndsAt.setMonth(freePriceEndsAt.getMonth() + FREE_PERIOD_MONTHS);
+
+  await prisma.subscription.update({
+    where: { artisanId: artisan.id },
+    data: { freePriceEndsAt },
+  });
+}
+
+/**
+ * Cria a cobrança recorrente real na Asaas pro plano escolhido no cadastro, usando o
+ * preço de lançamento (50% off por mais 3 meses). Chamado pelo cron diário quando o
+ * período gratuito de um artesão termina.
+ */
+export async function activateSubscriptionAfterFreePeriod(artisanId: string): Promise<void> {
   const artisan = await prisma.artisanProfile.findUnique({
     where: { id: artisanId },
     include: { subscription: true, user: { select: { name: true, email: true } } },

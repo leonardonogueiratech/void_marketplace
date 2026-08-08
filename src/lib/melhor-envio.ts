@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 const BASE_URL = process.env.MELHOR_ENVIO_SANDBOX === "true"
   ? "https://sandbox.melhorenvio.com.br/api/v2"
   : "https://melhorenvio.com.br/api/v2";
@@ -197,31 +199,44 @@ export async function calcularFrete(params: {
 
 // ─── Geração de etiqueta ──────────────────────────────────────────────────────
 
+interface EtiquetaParty {
+  name: string;
+  email: string;
+  phone?: string;
+  document?: string;
+  number: string;
+  postalCode: string;
+  // Endereço completo — quando informado é usado direto (ex.: endereço do cliente,
+  // já salvo com rua/bairro/cidade/UF). Quando ausente, resolve via ViaCEP a partir
+  // do postalCode (ex.: perfil do artesão, que só guarda o CEP).
+  street?: string;
+  district?: string;
+  city?: string;
+  state?: string;
+  complement?: string;
+}
+
+async function resolveParty(party: EtiquetaParty): Promise<CepAddress> {
+  if (party.street && party.city && party.state) {
+    return { street: party.street, district: party.district || "Centro", city: party.city, state: party.state };
+  }
+  const cep = party.postalCode.replace(/\D/g, "");
+  const resolved = await resolveAddressFromCep(cep);
+  if (!resolved) {
+    throw new Error(`Não foi possível identificar o endereço a partir do CEP ${party.postalCode}.`);
+  }
+  return resolved;
+}
+
 export async function gerarEtiqueta(params: {
   serviceId: number;
-  from: {
-    name: string;
-    email: string;
-    phone?: string;
-    number: string;
-    postalCode: string;
-  };
-  to: {
-    name: string;
-    email: string;
-    phone?: string;
-    document: string;
-    street: string;
-    number: string;
-    complement?: string;
-    district: string;
-    city: string;
-    state: string;
-    postalCode: string;
-  };
+  from: EtiquetaParty;
+  to: EtiquetaParty;
   products: Array<{ name: string; quantity: number; unitaryValue: number }>;
   volume: { height: number; width: number; length: number; weight: number };
   insuranceValue: number;
+  // Etiqueta de devolução (cliente → artesão) em vez de envio normal (artesão → cliente).
+  reverse?: boolean;
 }): Promise<LabelResult> {
   if (isMock) {
     return {
@@ -239,15 +254,11 @@ export async function gerarEtiqueta(params: {
     );
   }
 
-  // Melhor Envio exige endereço completo na origem (rua/bairro/cidade/UF), mas o
-  // perfil do artesão só guarda o CEP — resolve o resto via ViaCEP.
+  // Melhor Envio exige endereço completo dos dois lados (rua/bairro/cidade/UF) —
+  // resolve via ViaCEP quando o chamador só tem o CEP (ex.: perfil do artesão).
   const fromCep = params.from.postalCode.replace(/\D/g, "");
-  const fromAddress = await resolveAddressFromCep(fromCep);
-  if (!fromAddress) {
-    throw new Error(
-      `Não foi possível identificar o endereço de origem a partir do CEP ${params.from.postalCode}. Verifique o CEP cadastrado no perfil do artesão.`
-    );
-  }
+  const fromAddress = await resolveParty(params.from);
+  const toAddress = await resolveParty(params.to);
 
   // 1. Add to cart
   const cartRes = await fetch(`${BASE_URL}/me/cart`, {
@@ -271,13 +282,13 @@ export async function gerarEtiqueta(params: {
         name: params.to.name,
         email: params.to.email,
         phone: params.to.phone,
-        document: params.to.document.replace(/\D/g, ""),
-        address: params.to.street,
+        document: (params.to.document ?? "").replace(/\D/g, ""),
+        address: toAddress.street || "Endereço não informado",
         number: params.to.number,
         complement: params.to.complement,
-        district: params.to.district,
-        city: params.to.city,
-        state_abbr: params.to.state,
+        district: toAddress.district || "Centro",
+        city: toAddress.city,
+        state_abbr: toAddress.state,
         postal_code: params.to.postalCode.replace(/\D/g, ""),
         country_id: "BR",
       },
@@ -296,7 +307,7 @@ export async function gerarEtiqueta(params: {
         insurance_value: params.insuranceValue,
         receipt: false,
         own_hand: false,
-        reverse: false,
+        reverse: params.reverse ?? false,
         non_commercial: false,
       },
     }),
@@ -360,4 +371,34 @@ export async function gerarEtiqueta(params: {
     labelUrl: labelResult.url,
     trackingCode: labelResult.tracking ?? cartItem.tracking ?? null,
   };
+}
+
+// ─── Webhook de rastreio ───────────────────────────────────────────────────────
+
+// Eventos do ciclo de vida da etiqueta enviados pelo webhook do Melhor Envio.
+// `orderStatus` indica para qual OrderStatus local o evento deve empurrar o
+// pedido automaticamente (somente para frente — nunca regride um status manual).
+export const TRACKING_EVENT_INFO: Record<string, { description: string; orderStatus?: "SHIPPED" | "DELIVERED" }> = {
+  "order.created": { description: "Etiqueta criada" },
+  "order.pending": { description: "Etiqueta aguardando pagamento" },
+  "order.released": { description: "Pagamento da etiqueta confirmado" },
+  "order.generated": { description: "Etiqueta gerada" },
+  "order.received": { description: "Objeto recebido no ponto de distribuição" },
+  "order.posted": { description: "Objeto postado", orderStatus: "SHIPPED" },
+  "order.delivered": { description: "Objeto entregue", orderStatus: "DELIVERED" },
+  "order.cancelled": { description: "Envio cancelado" },
+  "order.undelivered": { description: "Tentativa de entrega sem sucesso" },
+  "order.paused": { description: "Envio aguardando ação do destinatário" },
+  "order.suspended": { description: "Envio suspenso" },
+};
+
+// Assinatura vem no header X-ME-Signature: HMAC-SHA256(corpo bruto, segredo do app).
+export function verifyMelhorEnvioSignature(rawBody: string, signature: string | null): boolean {
+  const secret = process.env.MELHOR_ENVIO_WEBHOOK_SECRET;
+  if (!secret || !signature) return false;
+  const expected = crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
+  const a = Buffer.from(signature);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
 }

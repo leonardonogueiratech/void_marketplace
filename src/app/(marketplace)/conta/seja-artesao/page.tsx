@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Loader2, CheckCircle2, Store, Clock, ArrowRight, CreditCard } from "lucide-react";
 import {
   SUBSCRIPTION_PRICES, SUBSCRIPTION_LAUNCH_PRICES,
-  SUBSCRIPTION_LIMITS, COMMISSION_BY_PLAN, COMMISSION_LAUNCH_BY_PLAN,
+  SUBSCRIPTION_LIMITS, COMMISSION_BY_PLAN,
   PHOTO_LIMITS,
 } from "@/lib/utils";
 
@@ -23,7 +23,6 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.FREE,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.FREE,
     features: [`Até ${SUBSCRIPTION_LIMITS.FREE} produtos`, `${PHOTO_LIMITS.FREE} fotos/produto`, "Loja básica"],
     badge: null as string | null,
   },
@@ -34,7 +33,6 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.BASIC,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.BASIC,
     features: [`Até ${SUBSCRIPTION_LIMITS.BASIC} produtos`, `${PHOTO_LIMITS.BASIC} fotos/produto`, "Destaque na busca"],
     badge: "Recomendado" as string | null,
   },
@@ -45,9 +43,8 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.PRO,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.PRO,
     features: ["Produtos ilimitados", `${PHOTO_LIMITS.PRO} fotos/produto`, "Suporte prioritário"],
-    badge: "Menor comissão" as string | null,
+    badge: null as string | null,
   },
 ];
 
@@ -192,14 +189,16 @@ export default function ContaSejaArtesaoPage() {
                 <p className="font-bold text-[#1e3a5f] mb-0.5">{plan.name}</p>
                 <div className="mb-1">
                   <div className="flex items-baseline gap-0.5">
-                    <span className="text-[11px] text-neutral-400">R$</span>
-                    <span className="text-xl font-bold text-[#1e3a5f]">{plan.launchPrice.toFixed(2).replace(".", ",")}</span>
-                    <span className="text-[11px] text-neutral-400">/mês ★</span>
+                    <span className="text-xl font-bold text-[#27ae60]">Grátis</span>
+                    <span className="text-[11px] text-neutral-400">3 meses ★</span>
                   </div>
-                  <p className="text-[10px] text-neutral-400">depois <span className="line-through">R$ {plan.price.toFixed(2).replace(".", ",")}</span>/mês</p>
+                  <p className="text-[10px] text-neutral-400">
+                    depois R$ {plan.launchPrice.toFixed(2).replace(".", ",")}/mês · depois{" "}
+                    <span className="line-through">R$ {plan.price.toFixed(2).replace(".", ",")}</span>/mês
+                  </p>
                 </div>
                 <div className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full mb-3" style={{ background: `${plan.color}15`, color: plan.color }}>
-                  {(plan.launchCommission * 100).toFixed(0)}% comissão ★
+                  {(plan.commission * 100).toFixed(0)}% de comissão sempre
                 </div>
                 <ul className="space-y-1.5">
                   {plan.features.map((f) => (

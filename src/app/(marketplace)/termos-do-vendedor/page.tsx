@@ -56,14 +56,10 @@ export default function TermosDoVendedorPage() {
 
       <Section title="3. Comissões e pagamentos">
         <p>
-          A plataforma retém uma comissão sobre cada venda concluída, conforme o plano de
-          assinatura do artesão:
+          A plataforma retém uma comissão única de <strong>15% sobre cada venda concluída</strong>,
+          igual para todos os planos de assinatura, em todas as fases (inclusive durante o período
+          gratuito de lançamento).
         </p>
-        <ul className="list-disc pl-5 mt-2 space-y-1 text-neutral-600">
-          <li><strong>Plano Inicial:</strong> 12% de comissão por venda (10% no período de lançamento)</li>
-          <li><strong>Plano Profissional:</strong> 8% de comissão por venda (6% no período de lançamento)</li>
-          <li><strong>Plano Ateliê:</strong> 5% de comissão por venda (3% no período de lançamento)</li>
-        </ul>
         <p className="mt-3">
           Os pagamentos são processados pela plataforma Asaas. O saldo líquido (valor da venda
           menos comissão e frete) fica disponível para saque em até <strong>7 dias úteis</strong>{" "}
@@ -140,6 +136,11 @@ export default function TermosDoVendedorPage() {
           O artesão pode optar pelos planos Inicial, Profissional ou Ateliê. Todos os planos são
           cobrados mensalmente via cartão de crédito, boleto ou PIX. O cancelamento pode ser feito a qualquer
           momento pelo painel, sem multa, com vigência até o final do período já pago.
+        </p>
+        <p className="mt-3">
+          Promoção de lançamento: os 3 primeiros meses após a aprovação do cadastro são isentos de
+          mensalidade (cobra-se apenas a comissão sobre vendas). Nos 3 meses seguintes, a mensalidade
+          é cobrada com 50% de desconto. Após esse período, o valor integral do plano passa a valer.
         </p>
         <p className="mt-3">
           A plataforma pode alterar os preços dos planos com aviso prévio de <strong>30 dias</strong>.

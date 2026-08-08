@@ -56,8 +56,8 @@ export function getInitials(name: string): string {
     .toUpperCase();
 }
 
-/** Comissão padrão (fallback) */
-export const COMMISSION_RATE = 0.12;
+/** Comissão padrão (fallback) — 15% único para todos os planos */
+export const COMMISSION_RATE = 0.15;
 
 /** Nomes de exibição dos planos */
 export const PLAN_NAMES: Record<string, string> = {
@@ -73,18 +73,18 @@ export const PLAN_PROFILES: Record<string, string> = {
   PRO:   "Pequena Marca / Ateliê",
 };
 
-/** Comissão regular por plano (após período de lançamento) */
+/** Comissão única de 15% para todos os planos (decisão de 2026-08-07) */
 export const COMMISSION_BY_PLAN: Record<string, number> = {
-  FREE:  0.12,   // 12%
-  BASIC: 0.08,   // 8%
-  PRO:   0.05,   // 5%
+  FREE:  0.15,
+  BASIC: 0.15,
+  PRO:   0.15,
 };
 
-/** Comissão promocional de lançamento (primeiros 3 meses) */
+/** Mesma comissão de 15% também durante o período de lançamento — só a mensalidade tem desconto */
 export const COMMISSION_LAUNCH_BY_PLAN: Record<string, number> = {
-  FREE:  0.10,   // 10%
-  BASIC: 0.06,   // 6%
-  PRO:   0.03,   // 3%
+  FREE:  0.15,
+  BASIC: 0.15,
+  PRO:   0.15,
 };
 
 /** Taxa de processamento de pagamento (cobrada pelo gateway, igual para todos) */
@@ -107,8 +107,8 @@ export const SUBSCRIPTION_LAUNCH_PRICES: Record<string, number> = {
 
 /** Limite de produtos ativos por plano */
 export const SUBSCRIPTION_LIMITS: Record<string, number> = {
-  FREE:  5,
-  BASIC: 20,
+  FREE:  20,
+  BASIC: 50,
   PRO:   999,
 };
 

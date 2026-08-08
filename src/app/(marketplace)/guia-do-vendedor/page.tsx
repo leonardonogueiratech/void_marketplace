@@ -82,7 +82,7 @@ export default function GuiaDoVendedorPage() {
           ))}
         </div>
         <InfoBox>
-          A plataforma retém uma comissão sobre cada venda (3% a 12% conforme plano e período)
+          A plataforma retém uma comissão única de 15% sobre cada venda, igual para todos os planos,
           e repassa o restante para você em até 7 dias úteis após confirmação da entrega.
         </InfoBox>
       </Section>
@@ -234,7 +234,7 @@ export default function GuiaDoVendedorPage() {
             },
             {
               title: "Plataforma desconta a comissão",
-              desc: "A comissão (3%, 6% ou 10% no lançamento / 5%, 8% ou 12% regular) é descontada automaticamente.",
+              desc: "A comissão de 15%, igual em todos os planos, é descontada automaticamente.",
             },
             {
               title: "Saldo fica retido",

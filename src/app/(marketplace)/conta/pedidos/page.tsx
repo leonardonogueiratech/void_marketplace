@@ -12,7 +12,8 @@ import { CancelOrderButton } from "@/components/conta/cancel-order-button";
 import { ReviewButton } from "@/components/conta/review-button";
 import { ReturnRequestPanel } from "@/components/conta/return-request-panel";
 import { PixPaymentPanel } from "@/components/conta/pix-payment-panel";
-import { Truck, Star, FileText } from "lucide-react";
+import { TrackingTimeline } from "@/components/conta/tracking-timeline";
+import { Star, FileText } from "lucide-react";
 
 // Janela máxima de elegibilidade (7 dias p/ "não gostei", 30 p/ defeito/dano — validado de fato na API)
 const DEFECT_WINDOW_DAYS = 30;
@@ -61,12 +62,13 @@ export default async function AccountOrdersPage() {
             },
           },
           returnRequest: {
-            select: { id: true, status: true, artisanNote: true, returnTrackingCode: true },
+            select: { id: true, status: true, artisanNote: true, returnTrackingCode: true, returnLabelUrl: true },
           },
         },
       },
       payment: true,
       reviews: { select: { id: true, rating: true, comment: true } },
+      trackingEvents: { orderBy: { occurredAt: "asc" } },
     },
     orderBy: { createdAt: "desc" },
   });
@@ -183,23 +185,9 @@ export default async function AccountOrdersPage() {
                     </div>
                   )}
 
-                  {/* Tracking code */}
+                  {/* Tracking */}
                   {order.trackingCode && (
-                    <div className="flex items-center gap-2.5 bg-purple-50 border border-purple-100 rounded-xl px-4 py-3">
-                      <Truck className="size-4 text-purple-500 shrink-0" />
-                      <div>
-                        <p className="text-xs font-semibold text-purple-700">Código de rastreio</p>
-                        <p className="font-mono text-sm font-bold text-purple-800 mt-0.5">{order.trackingCode}</p>
-                      </div>
-                      <a
-                        href="https://rastreamento.correios.com.br/app/index.php"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ml-auto text-xs text-purple-600 hover:text-purple-800 underline underline-offset-2"
-                      >
-                        Rastrear →
-                      </a>
-                    </div>
+                    <TrackingTimeline trackingCode={order.trackingCode} events={order.trackingEvents} />
                   )}
 
                   {/* Review — already submitted */}

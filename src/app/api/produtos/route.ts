@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { slugify } from "@/lib/utils";
+import { slugify, SUBSCRIPTION_LIMITS, PHOTO_LIMITS, PLAN_NAMES } from "@/lib/utils";
 import { z } from "zod";
 
 const schema = z.object({
@@ -34,6 +34,25 @@ export async function POST(req: NextRequest) {
       include: { subscription: true },
     });
     if (!artisan) return NextResponse.json({ error: "Não autorizado." }, { status: 403 });
+
+    const plan = artisan.subscription?.plan ?? "FREE";
+    const productLimit = SUBSCRIPTION_LIMITS[plan] ?? SUBSCRIPTION_LIMITS.FREE!;
+    const photoLimit = PHOTO_LIMITS[plan] ?? PHOTO_LIMITS.FREE!;
+
+    if (data.imageUrls.length > photoLimit) {
+      return NextResponse.json(
+        { error: `O plano ${PLAN_NAMES[plan]} permite até ${photoLimit} fotos por produto.` },
+        { status: 400 }
+      );
+    }
+
+    const productCount = await prisma.product.count({ where: { artisanId: data.artisanId } });
+    if (productCount >= productLimit) {
+      return NextResponse.json(
+        { error: `O plano ${PLAN_NAMES[plan]} permite até ${productLimit} produtos. Faça upgrade do plano para cadastrar mais.` },
+        { status: 400 }
+      );
+    }
 
     const tags = data.tags ? data.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
     const materials = data.materials ? data.materials.split(",").map((m) => m.trim()).filter(Boolean) : [];

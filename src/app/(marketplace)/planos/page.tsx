@@ -7,7 +7,6 @@ import {
   SUBSCRIPTION_LAUNCH_PRICES,
   SUBSCRIPTION_LIMITS,
   COMMISSION_BY_PLAN,
-  COMMISSION_LAUNCH_BY_PLAN,
   PHOTO_LIMITS,
   PLAN_PROFILES,
   PAYMENT_PROCESSING_FEE,
@@ -28,14 +27,13 @@ const plans = [
     price: SUBSCRIPTION_PRICES.FREE,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.FREE,
     productLimit: SUBSCRIPTION_LIMITS.FREE,
     photoLimit: PHOTO_LIMITS.FREE,
     highlight: false,
     badge: null as string | null,
     description: "Para artesãos que estão começando e querem mostrar seu trabalho com qualidade.",
     features: [
-      { label: "Até 5 produtos cadastrados", included: true },
+      { label: "Até 20 produtos cadastrados", included: true },
       { label: "4 fotos por produto", included: true },
       { label: "Loja básica personalizada", included: true },
       { label: "Selo Produto Autoral", included: true },
@@ -55,14 +53,13 @@ const plans = [
     price: SUBSCRIPTION_PRICES.BASIC,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.BASIC,
     productLimit: SUBSCRIPTION_LIMITS.BASIC,
     photoLimit: PHOTO_LIMITS.BASIC,
     highlight: true,
     badge: "Recomendado" as string | null,
     description: "Ideal para MEIs e vendedores ativos com produção regular que querem crescer.",
     features: [
-      { label: "Até 20 produtos cadastrados", included: true },
+      { label: "Até 50 produtos cadastrados", included: true },
       { label: "6 fotos por produto", included: true },
       { label: "Loja intermediária personalizada", included: true },
       { label: "Selo Produto Autoral", included: true },
@@ -82,14 +79,13 @@ const plans = [
     price: SUBSCRIPTION_PRICES.PRO,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.PRO,
     productLimit: SUBSCRIPTION_LIMITS.PRO,
     photoLimit: PHOTO_LIMITS.PRO,
     highlight: false,
-    badge: "Menor comissão" as string | null,
+    badge: null as string | null,
     description: "Para pequenas marcas e ateliês com maior volume de produtos e vendas.",
     features: [
-      { label: "Produtos ilimitados (acima de 20)", included: true },
+      { label: "Produtos ilimitados (acima de 50)", included: true },
       { label: "10 fotos por produto", included: true },
       { label: "Loja completa personalizada", included: true },
       { label: "Selo Produto Autoral", included: true },
@@ -103,7 +99,7 @@ const plans = [
   },
 ];
 
-/** Calcula valor líquido usando comissão de lançamento */
+/** Calcula valor líquido descontando comissão e taxa de pagamento */
 function calcNet(price: number, commission: number) {
   const commissionAmt = price * commission;
   const processingAmt = price * PAYMENT_PROCESSING_FEE + PAYMENT_PROCESSING_FIXED;
@@ -119,38 +115,38 @@ const comparisonRows = [
     pro: PLAN_PROFILES.PRO,
   },
   {
-    label: "Mensalidade regular",
-    free: `R$ ${SUBSCRIPTION_PRICES.FREE.toFixed(2).replace(".", ",")}/mês`,
-    basic: `R$ ${SUBSCRIPTION_PRICES.BASIC.toFixed(2).replace(".", ",")}/mês`,
-    pro: `R$ ${SUBSCRIPTION_PRICES.PRO.toFixed(2).replace(".", ",")}/mês`,
-    highlight: false,
+    label: "Mensalidade primeiros 3 meses ★",
+    free: "Grátis",
+    basic: "Grátis",
+    pro: "Grátis",
+    highlight: true,
   },
   {
-    label: "Mensalidade lançamento ★",
+    label: "Mensalidade lançamento ★ (meses 4–6)",
     free: `R$ ${SUBSCRIPTION_LAUNCH_PRICES.FREE.toFixed(2).replace(".", ",")}/mês`,
     basic: `R$ ${SUBSCRIPTION_LAUNCH_PRICES.BASIC.toFixed(2).replace(".", ",")}/mês`,
     pro: `R$ ${SUBSCRIPTION_LAUNCH_PRICES.PRO.toFixed(2).replace(".", ",")}/mês`,
     highlight: true,
   },
   {
-    label: "Comissão regular",
+    label: "Mensalidade regular (a partir do mês 7)",
+    free: `R$ ${SUBSCRIPTION_PRICES.FREE.toFixed(2).replace(".", ",")}/mês`,
+    basic: `R$ ${SUBSCRIPTION_PRICES.BASIC.toFixed(2).replace(".", ",")}/mês`,
+    pro: `R$ ${SUBSCRIPTION_PRICES.PRO.toFixed(2).replace(".", ",")}/mês`,
+    highlight: false,
+  },
+  {
+    label: "Comissão sobre vendas",
     free: `${(COMMISSION_BY_PLAN.FREE * 100).toFixed(0)}%`,
     basic: `${(COMMISSION_BY_PLAN.BASIC * 100).toFixed(0)}%`,
     pro: `${(COMMISSION_BY_PLAN.PRO * 100).toFixed(0)}%`,
     highlight: false,
   },
   {
-    label: "Comissão lançamento ★",
-    free: `${(COMMISSION_LAUNCH_BY_PLAN.FREE * 100).toFixed(0)}%`,
-    basic: `${(COMMISSION_LAUNCH_BY_PLAN.BASIC * 100).toFixed(0)}%`,
-    pro: `${(COMMISSION_LAUNCH_BY_PLAN.PRO * 100).toFixed(0)}%`,
-    highlight: true,
-  },
-  {
     label: "Produtos cadastrados",
     free: `Até ${SUBSCRIPTION_LIMITS.FREE}`,
     basic: `Até ${SUBSCRIPTION_LIMITS.BASIC}`,
-    pro: "Acima de 20",
+    pro: "Acima de 50",
   },
   {
     label: "Fotos por produto",
@@ -187,9 +183,9 @@ const comparisonRows = [
 export default function PlansPage() {
   const example = 100;
   const nets = {
-    FREE:  calcNet(example, COMMISSION_LAUNCH_BY_PLAN.FREE),
-    BASIC: calcNet(example, COMMISSION_LAUNCH_BY_PLAN.BASIC),
-    PRO:   calcNet(example, COMMISSION_LAUNCH_BY_PLAN.PRO),
+    FREE:  calcNet(example, COMMISSION_BY_PLAN.FREE),
+    BASIC: calcNet(example, COMMISSION_BY_PLAN.BASIC),
+    PRO:   calcNet(example, COMMISSION_BY_PLAN.PRO),
   };
 
   return (
@@ -215,8 +211,8 @@ export default function PlansPage() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 text-center">
           <span className="text-white font-bold text-sm">★ Promoção de Lançamento</span>
           <span className="text-white/85 text-sm">
-            50% de desconto nos primeiros 3 meses — preços e comissões reduzidos automaticamente.
-            Após o período, os valores regulares entram em vigor.
+            3 primeiros meses grátis (só comissão sobre vendas) + mais 3 meses com 50% de desconto na mensalidade.
+            Após esse período, o valor regular entra em vigor.
           </span>
         </div>
       </div>
@@ -256,18 +252,14 @@ export default function PlansPage() {
                     </div>
                   </div>
 
-                  {/* Price — lançamento em destaque */}
+                  {/* Price — período gratuito em destaque */}
                   <div className="mt-4 mb-1">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-xs text-neutral-400">R$</span>
-                      <span className="text-4xl font-bold text-[#1e3a5f]">
-                        {plan.launchPrice.toFixed(2).replace(".", ",")}
-                      </span>
-                      <span className="text-xs text-neutral-400">/mês</span>
+                      <span className="text-2xl font-bold text-[#27ae60]">Grátis</span>
                     </div>
                     <p className="text-xs text-neutral-400 mt-0.5">
-                      nos primeiros 3 meses · depois{" "}
-                      <span className="line-through">R$ {plan.price.toFixed(2).replace(".", ",")}</span>/mês
+                      nos primeiros 3 meses · depois R$ {plan.launchPrice.toFixed(2).replace(".", ",")}/mês por mais 3 meses
+                      · depois <span className="line-through">R$ {plan.price.toFixed(2).replace(".", ",")}</span>/mês
                     </p>
                   </div>
 
@@ -277,11 +269,11 @@ export default function PlansPage() {
                       className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full"
                       style={{ background: `${plan.color}15`, color: plan.color }}
                     >
-                      {(plan.launchCommission * 100).toFixed(0)}% comissão (lançamento)
+                      {(plan.commission * 100).toFixed(0)}% de comissão sobre vendas
                     </div>
                   </div>
                   <p className="text-xs text-neutral-400 mb-5">
-                    Após 3 meses: {(plan.commission * 100).toFixed(0)}% de comissão
+                    Mesma comissão sempre — sem surpresa quando a mensalidade começar a valer
                   </p>
 
                   <p className="text-sm text-neutral-500 leading-relaxed mb-6">{plan.description}</p>
@@ -324,7 +316,7 @@ export default function PlansPage() {
         {/* Nota do lançamento */}
         <p className="text-xs text-neutral-400 text-center mt-5 flex items-center justify-center gap-1.5">
           <Info className="size-3.5 shrink-0" />
-          ★ Promoção de lançamento: 50% de desconto por 3 meses. Após o período, os preços e comissões regulares entram em vigor automaticamente.
+          ★ Promoção de lançamento: 3 meses grátis, depois mais 3 meses com 50% de desconto na mensalidade. Após o período, o preço regular entra em vigor automaticamente. A comissão de 15% não muda em nenhuma fase.
         </p>
 
         {/* ── Simulador de ganhos ──────────────────────────────────────── */}
@@ -332,7 +324,7 @@ export default function PlansPage() {
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-[#1e3a5f]">O que você recebe por venda de R$ 100</h2>
             <p className="text-neutral-500 mt-1 text-sm">
-              Exemplo com comissão de lançamento — todos os descontos já calculados
+              Comissão única de 15% sobre vendas — igual para todos os planos, sempre
             </p>
           </div>
 
@@ -357,7 +349,7 @@ export default function PlansPage() {
                 <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
                   − R$ {nets[p.id as keyof typeof nets].commissionAmt.toFixed(2).replace(".", ",")}
                   <span className="block text-xs text-[#e07b2a]/60">
-                    ({(COMMISSION_LAUNCH_BY_PLAN[p.id] * 100).toFixed(0)}% lançamento)
+                    ({(COMMISSION_BY_PLAN[p.id] * 100).toFixed(0)}%)
                   </span>
                 </div>
               ))}
@@ -405,11 +397,11 @@ export default function PlansPage() {
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center">
                   <span className="text-sm font-bold text-[#1e3a5f]">{p.name}</span>
-                  <span className="block text-xs text-[#e07b2a] font-semibold mt-0.5">
-                    R$ {p.launchPrice.toFixed(0)}/mês ★
+                  <span className="block text-xs text-[#27ae60] font-semibold mt-0.5">
+                    Grátis 3 meses ★
                   </span>
                   <span className="block text-xs text-neutral-400">
-                    (R$ {p.price.toFixed(0)}/mês regular)
+                    depois R$ {p.launchPrice.toFixed(0)}/mês · R$ {p.price.toFixed(0)}/mês regular
                   </span>
                 </div>
               ))}
@@ -455,7 +447,7 @@ export default function PlansPage() {
           {[
             {
               q: "Como funciona a promoção de lançamento?",
-              a: "Ao assinar qualquer plano durante o período de lançamento, você paga 50% de desconto na mensalidade e na comissão pelos primeiros 3 meses. Após esse período, os preços regulares entram em vigor automaticamente — sem surpresas.",
+              a: "Nos primeiros 3 meses após a aprovação da sua loja, você não paga mensalidade — só a comissão sobre as vendas. Nos 3 meses seguintes, a mensalidade passa a valer com 50% de desconto. Depois disso, o preço regular entra em vigor automaticamente. A comissão de 15% é a mesma em todas as fases.",
             },
             {
               q: "Existe taxa de listagem por produto?",
@@ -475,7 +467,7 @@ export default function PlansPage() {
             },
             {
               q: "Qual plano é indicado para quem está começando?",
-              a: "O plano Inicial é ideal para artesãos Pessoa Física que querem estruturar sua loja com até 5 produtos. O plano Profissional é recomendado para MEIs com produção regular. O Ateliê é para marcas maiores.",
+              a: "O plano Inicial é ideal para artesãos Pessoa Física que querem estruturar sua loja com até 20 produtos. O plano Profissional é recomendado para MEIs com produção regular, com até 50 produtos. O Ateliê é para marcas maiores, com produtos ilimitados.",
             },
           ].map(({ q, a }) => (
             <div key={q} className="bg-white rounded-2xl p-6 border border-[#1e3a5f]/8 hover:shadow-md transition-shadow">

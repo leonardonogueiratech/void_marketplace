@@ -26,6 +26,7 @@ interface OrderItem {
       city: string; state: string; zipCode: string;
     } | null;
     payment: { method: string; status: string } | null;
+    trackingEvents: { description: string; occurredAt: Date }[];
   };
 }
 
@@ -154,6 +155,11 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
                           <div className="inline-flex items-center gap-1.5 bg-[#1e3a5f]/5 border border-[#1e3a5f]/10 rounded-lg px-2.5 py-1.5">
                             <Package className="size-3 text-[#1e3a5f]" />
                             <span className="text-xs font-mono font-semibold text-[#1e3a5f]">{trackingCode}</span>
+                            {item.order.trackingEvents[0] && (
+                              <span className="text-xs text-neutral-400 border-l border-[#1e3a5f]/10 pl-1.5 ml-0.5">
+                                {item.order.trackingEvents[0].description} · {formatDate(item.order.trackingEvents[0].occurredAt)}
+                              </span>
+                            )}
                           </div>
                         )}
 

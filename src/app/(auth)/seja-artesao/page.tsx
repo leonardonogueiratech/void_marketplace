@@ -14,7 +14,6 @@ import {
   SUBSCRIPTION_LAUNCH_PRICES,
   SUBSCRIPTION_LIMITS,
   COMMISSION_BY_PLAN,
-  COMMISSION_LAUNCH_BY_PLAN,
   PHOTO_LIMITS,
 } from "@/lib/utils";
 
@@ -26,7 +25,6 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.FREE,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.FREE,
     description: "Para artesãos que estão começando e querem estruturar sua loja.",
     features: [
       `Até ${SUBSCRIPTION_LIMITS.FREE} produtos ativos`,
@@ -45,7 +43,6 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.BASIC,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.BASIC,
     description: "Ideal para MEIs com produção regular que querem crescer com visibilidade.",
     features: [
       `Até ${SUBSCRIPTION_LIMITS.BASIC} produtos ativos`,
@@ -64,7 +61,6 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.PRO,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.PRO,
     description: "Para pequenas marcas com maior volume de produtos e vendas.",
     features: [
       "Produtos ilimitados",
@@ -73,7 +69,7 @@ const PLANS = [
       "Suporte prioritário",
     ],
     highlight: false,
-    badge: "Menor comissão" as string | null,
+    badge: null as string | null,
     cta: "Assinar Ateliê",
   },
 ];
@@ -184,17 +180,14 @@ export default function BeArtisanPage() {
 
                 <div className="font-bold text-lg text-[#1e3a5f] mb-0.5">{plan.name}</div>
 
-                {/* Preço de lançamento em destaque */}
+                {/* Período gratuito em destaque */}
                 <div className="mb-1">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-xs text-neutral-400">R$</span>
-                    <span className="text-2xl font-bold text-[#1e3a5f]">
-                      {plan.launchPrice.toFixed(2).replace(".", ",")}
-                    </span>
-                    <span className="text-xs text-neutral-400">/mês ★</span>
+                    <span className="text-2xl font-bold text-[#27ae60]">Grátis</span>
+                    <span className="text-xs text-neutral-400">3 meses ★</span>
                   </div>
                   <p className="text-[11px] text-neutral-400">
-                    depois{" "}
+                    depois R$ {plan.launchPrice.toFixed(2).replace(".", ",")}/mês por 3 meses · depois{" "}
                     <span className="line-through">R$ {plan.price.toFixed(2).replace(".", ",")}</span>/mês
                   </p>
                 </div>
@@ -204,10 +197,10 @@ export default function BeArtisanPage() {
                   className="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full mb-0.5"
                   style={{ background: `${plan.color}15`, color: plan.color }}
                 >
-                  {(plan.launchCommission * 100).toFixed(0)}% comissão ★
+                  {(plan.commission * 100).toFixed(0)}% de comissão sempre
                 </div>
                 <p className="text-[11px] text-neutral-400 mb-3">
-                  depois {(plan.commission * 100).toFixed(0)}%
+                  sem mensalidade nos 3 primeiros meses
                 </p>
 
                 <p className="text-xs text-neutral-400 mb-4 leading-relaxed">{plan.description}</p>
@@ -231,7 +224,7 @@ export default function BeArtisanPage() {
               {PLANS.find((p) => p.id === selectedPlan)?.cta} <ArrowRight className="ml-2 size-4" />
             </Button>
             <p className="text-xs text-neutral-400 mt-3">
-              ★ Oferta de lançamento: 50% off nos 3 primeiros meses.{" "}
+              ★ Oferta de lançamento: 3 meses grátis, depois mais 3 meses com 50% off.{" "}
               <a href="/planos" className="underline hover:text-[#1e3a5f] transition-colors">
                 Ver comparativo completo →
               </a>

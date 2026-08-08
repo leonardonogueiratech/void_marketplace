@@ -323,14 +323,31 @@ model Order {
   labelUrl           String?
   estimatedAt        DateTime?
   deliveredAt        DateTime?
+  trackingStatus     String?
+  trackingUpdatedAt  DateTime?
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
 
-  customer Address? @relation(fields: [addressId], references: [id])
-  user     User     @relation(fields: [customerId], references: [id])
-  items    OrderItem[]
-  payment  Payment?
-  reviews  Review[]
+  customer       Address?        @relation(fields: [addressId], references: [id])
+  user           User            @relation(fields: [customerId], references: [id])
+  items          OrderItem[]
+  payment        Payment?
+  reviews        Review[]
+  trackingEvents TrackingEvent[]
+}
+
+// Histórico de eventos de rastreio recebidos via webhook do Melhor Envio —
+// alimenta a linha do tempo exibida ao cliente e ao artesão.
+model TrackingEvent {
+  id          String   @id @default(cuid())
+  orderId     String
+  status      String
+  description String
+  occurredAt  DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
 }
 
 model OrderItem {
@@ -378,6 +395,8 @@ model ReturnRequest {
   status             ReturnStatus @default(PENDING)
   artisanNote        String?
   returnTrackingCode String?
+  returnLabelUrl           String?
+  returnMelhorEnvioOrderId String?
   shippedBackAt      DateTime?
   receivedAt         DateTime?
   refundedAt         DateTime?
@@ -438,6 +457,7 @@ model Subscription {
   asaasSubscriptionId String?
   currentPeriodStart DateTime?
   currentPeriodEnd   DateTime?
+  freePriceEndsAt    DateTime?
   launchPriceEndsAt  DateTime?
   creditCardToken    String?
   creditCardLast4    String?

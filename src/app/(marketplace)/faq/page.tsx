@@ -59,11 +59,11 @@ const categories = [
       },
       {
         q: "Quanto custa vender no Feito de Gente?",
-        a: "Temos um plano gratuito para começar, com até 5 produtos. Os planos pagos oferecem mais recursos, maior visibilidade e comissão reduzida. Consulte a página de planos para comparar as opções.",
+        a: "Nos primeiros 3 meses após a aprovação da sua loja, não cobramos mensalidade — só a comissão sobre as vendas. Depois, a mensalidade do plano escolhido passa a valer (com 50% de desconto nos 3 meses seguintes). Os planos variam pela quantidade de produtos e fotos, não pela comissão. Consulte a página de planos para comparar as opções.",
       },
       {
         q: "Qual é a comissão cobrada por venda?",
-        a: "A comissão varia de acordo com o plano escolhido. No plano gratuito ela é maior; nos planos pagos ela é progressivamente menor. Os valores exatos estão detalhados na página de planos e preços.",
+        a: "A comissão é única: 15% sobre o valor do produto, igual para todos os planos, em todas as fases. Os valores exatos estão detalhados na página de planos e preços.",
       },
       {
         q: "Como recebo o pagamento pelas minhas vendas?",

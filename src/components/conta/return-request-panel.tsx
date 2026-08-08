@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Loader2, RotateCcw, Truck, Clock, CheckCircle2, XCircle, PackageCheck } from "lucide-react";
+import { Loader2, RotateCcw, Truck, Clock, CheckCircle2, XCircle, PackageCheck, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,6 +28,7 @@ interface ReturnRequestData {
   status: "PENDING" | "APPROVED" | "REJECTED" | "SHIPPED_BACK" | "RECEIVED" | "REFUNDED";
   artisanNote: string | null;
   returnTrackingCode: string | null;
+  returnLabelUrl: string | null;
 }
 
 interface Props {
@@ -45,6 +46,8 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
   const [loading, setLoading] = useState(false);
   const [trackingCode, setTrackingCode] = useState("");
   const [sendingTracking, setSendingTracking] = useState(false);
+  const [generatingLabel, setGeneratingLabel] = useState(false);
+  const [labelUrl, setLabelUrl] = useState(returnRequest?.returnLabelUrl ?? null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -74,6 +77,24 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
       toast.error("Erro ao solicitar devolução.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleGenerateLabel() {
+    if (!returnRequest) return;
+    setGeneratingLabel(true);
+    try {
+      const res = await fetch(`/api/devolucoes/${returnRequest.id}/etiqueta`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) { toast.error(data.error ?? "Erro ao gerar etiqueta."); return; }
+      setLabelUrl(data.labelUrl);
+      if (data.trackingCode) setTrackingCode(data.trackingCode);
+      toast.success("Etiqueta de devolução gerada!");
+      router.refresh();
+    } catch {
+      toast.error("Erro ao gerar etiqueta de devolução.");
+    } finally {
+      setGeneratingLabel(false);
     }
   }
 
@@ -119,6 +140,29 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
           <span className="flex items-center gap-1.5 text-xs font-medium text-[#27ae60]">
             <CheckCircle2 className="size-3.5" /> Devolução aprovada — envie o produto
           </span>
+
+          {labelUrl ? (
+            <a
+              href={labelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs font-medium text-[#1e3a5f] bg-white border border-[#27ae60]/30 rounded-lg px-2.5 py-1.5 hover:bg-[#27ae60]/5"
+            >
+              <Tag className="size-3.5" /> Baixar etiqueta de devolução (PDF)
+            </a>
+          ) : (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleGenerateLabel}
+              disabled={generatingLabel}
+              className="h-7 text-xs w-fit border-[#27ae60]/40 text-[#27ae60] hover:bg-[#27ae60]/10"
+            >
+              {generatingLabel ? <Loader2 className="mr-1.5 size-3 animate-spin" /> : <Tag className="mr-1.5 size-3" />}
+              Gerar etiqueta de devolução grátis
+            </Button>
+          )}
+
           <div className="flex gap-1.5">
             <Input
               placeholder="Código de rastreio"
@@ -135,6 +179,9 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
               {sendingTracking ? <Loader2 className="size-3 animate-spin" /> : "Enviei"}
             </Button>
           </div>
+          <span className="text-[10px] text-neutral-400">
+            Já tem sua própria etiqueta? Só informe o código de rastreio acima.
+          </span>
         </div>
       );
     }

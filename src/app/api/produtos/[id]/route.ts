@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { PHOTO_LIMITS, PLAN_NAMES } from "@/lib/utils";
 
 interface Params { params: Promise<{ id: string }> }
 
@@ -29,7 +30,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
   try {
     const product = await prisma.product.findUnique({
       where: { id },
-      include: { artisan: true },
+      include: { artisan: { include: { subscription: true } } },
     });
     if (!product || product.artisan.userId !== session.user.id) {
       return NextResponse.json({ error: "Não autorizado." }, { status: 403 });
@@ -37,6 +38,15 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
     const body = await req.json();
     const data = schema.parse(body);
+
+    const plan = product.artisan.subscription?.plan ?? "FREE";
+    const photoLimit = PHOTO_LIMITS[plan] ?? PHOTO_LIMITS.FREE!;
+    if (data.imageUrls.length > photoLimit) {
+      return NextResponse.json(
+        { error: `O plano ${PLAN_NAMES[plan]} permite até ${photoLimit} fotos por produto.` },
+        { status: 400 }
+      );
+    }
 
     const tags = data.tags ? data.tags.split(",").map((t) => t.trim()).filter(Boolean) : [];
     const materials = data.materials ? data.materials.split(",").map((m) => m.trim()).filter(Boolean) : [];

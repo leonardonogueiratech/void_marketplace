@@ -247,7 +247,7 @@ export default async function FinancialPage() {
           <CardTitle className="text-base text-[#1e3a5f]">Como funciona a comissão</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-neutral-500 space-y-1.5">
-          <p>• A comissão varia conforme o plano: FREE 12%, Básico 8%, Pro 5%.</p>
+          <p>• Comissão única de 15% sobre vendas, igual para todos os planos.</p>
           <p>• O saldo fica disponível para saque após confirmação do pagamento.</p>
           <p>• Saques são processados via PIX em até 2 dias úteis.</p>
           <p>• Valor mínimo para saque: <strong>R$ 50,00</strong>.</p>

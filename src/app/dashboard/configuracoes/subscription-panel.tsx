@@ -18,7 +18,6 @@ import {
   SUBSCRIPTION_LAUNCH_PRICES,
   SUBSCRIPTION_LIMITS,
   COMMISSION_BY_PLAN,
-  COMMISSION_LAUNCH_BY_PLAN,
   PHOTO_LIMITS,
   PLAN_PROFILES,
   formatDate,
@@ -32,7 +31,6 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.FREE,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.FREE,
     badge: null as string | null,
     features: [
       `Até ${SUBSCRIPTION_LIMITS.FREE} produtos ativos`,
@@ -48,7 +46,6 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.BASIC,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.BASIC,
     badge: "Recomendado" as string | null,
     features: [
       `Até ${SUBSCRIPTION_LIMITS.BASIC} produtos ativos`,
@@ -64,8 +61,7 @@ const PLANS = [
     price: SUBSCRIPTION_PRICES.PRO,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
-    launchCommission: COMMISSION_LAUNCH_BY_PLAN.PRO,
-    badge: "Menor comissão" as string | null,
+    badge: null as string | null,
     features: [
       "Produtos ilimitados",
       `${PHOTO_LIMITS.PRO} fotos por produto`,
@@ -232,12 +228,11 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
               <p className="font-bold text-[#1e3a5f] mb-0.5">{plan.name}</p>
 
               {/* Launch price prominent */}
-              <p className="text-xl font-bold text-[#1e3a5f] mb-0.5">
-                R$ {plan.launchPrice.toFixed(2).replace(".", ",")}
-                <span className="text-xs font-normal text-neutral-400">/mês ★</span>
+              <p className="text-xl font-bold text-[#27ae60] mb-0.5">
+                Grátis <span className="text-xs font-normal text-neutral-400">3 meses ★</span>
               </p>
               <p className="text-xs text-neutral-400 mb-1">
-                depois R$ {plan.price.toFixed(2).replace(".", ",")}/mês
+                depois R$ {plan.launchPrice.toFixed(2).replace(".", ",")}/mês por 3 meses · depois R$ {plan.price.toFixed(2).replace(".", ",")}/mês
               </p>
 
               <div className="flex gap-1.5 mb-3">
@@ -245,10 +240,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
                   className="inline-flex items-center text-xs font-semibold px-2 py-0.5 rounded-full"
                   style={{ background: `${plan.color}15`, color: plan.color }}
                 >
-                  {(plan.launchCommission * 100).toFixed(0)}% comis. ★
-                </div>
-                <div className="inline-flex items-center text-xs text-neutral-400 px-2 py-0.5 rounded-full bg-neutral-100">
-                  depois {(plan.commission * 100).toFixed(0)}%
+                  {(plan.commission * 100).toFixed(0)}% de comissão sempre
                 </div>
               </div>
 

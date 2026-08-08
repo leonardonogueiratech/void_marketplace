@@ -37,6 +37,7 @@ export default async function DashboardOrdersPage() {
             },
           },
           payment: { select: { method: true, status: true } },
+          trackingEvents: { select: { description: true, occurredAt: true }, orderBy: { occurredAt: "desc" }, take: 1 },
         },
       },
     },

@@ -386,6 +386,66 @@ export async function sendOrderRefunded(opts: {
   });
 }
 
+export async function sendOrderCancelledToCustomer(opts: {
+  to: string;
+  customerName: string;
+  orderId: string;
+}) {
+  const shortId = opts.orderId.slice(-8).toUpperCase();
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Pedido cancelado", "#999")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Seu pedido foi cancelado
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.customerName}</strong>! O pedido <span style="font-family:monospace;font-weight:700">#${shortId}</span> foi cancelado conforme sua solicitação.
+      </p>
+    </div>
+
+    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:8px">
+      <p style="margin:0;font-size:13px;color:#666;line-height:1.6">
+        Como o pagamento ainda não havia sido confirmado, nenhum valor foi cobrado.
+      </p>
+    </div>
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.customerName,
+    subject: `Pedido #${shortId} cancelado — Feito de Gente`,
+    html: baseTemplate(content),
+  });
+}
+
+export async function sendOrderCancelledToArtisan(opts: {
+  to: string;
+  artisanName: string;
+  orderId: string;
+}) {
+  const shortId = opts.orderId.slice(-8).toUpperCase();
+  const content = `
+    <div style="margin-bottom:24px">
+      ${badge("Pedido cancelado", "#999")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+        Um pedido foi cancelado pelo cliente
+      </h1>
+      <p style="margin:0;color:#888;font-size:14px">
+        Olá, <strong>${opts.artisanName}</strong>! O pedido <span style="font-family:monospace;font-weight:700">#${shortId}</span> foi cancelado pelo cliente antes da confirmação do pagamento. Não é necessário preparar ou enviar este pedido.
+      </p>
+    </div>
+
+    ${ctaButton(`${BASE_URL}/dashboard/pedidos`, "Ver pedidos no painel →")}
+  `;
+
+  await send({
+    to: opts.to,
+    toName: opts.artisanName,
+    subject: `Pedido #${shortId} cancelado pelo cliente — Feito de Gente`,
+    html: baseTemplate(content),
+  });
+}
+
 // ─── return requests ────────────────────────────────────────────────────────────
 
 const RETURN_REASON_LABELS: Record<string, string> = {
