@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { randomBytes } from "crypto";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { slugify } from "@/lib/utils";
+import { sendAdminNewArtisanApplication, sendArtisanApplicationReceived } from "@/lib/email";
 import { z } from "zod";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -47,6 +51,8 @@ export async function POST(req: NextRequest) {
       slug = `${baseSlug}-${count}`;
     }
 
+    const approvalToken = randomBytes(32).toString("hex");
+
     const user = await prisma.user.create({
       data: {
         name: data.name,
@@ -69,12 +75,29 @@ export async function POST(req: NextRequest) {
             instagram: data.instagram,
             status: "PENDING",
             termsAcceptedAt: new Date(),
+            approvalToken,
             subscription: {
               create: { plan: data.plan, status: "ACTIVE" },
             },
           },
         },
       },
+    });
+
+    void sendArtisanApplicationReceived({
+      to: data.email,
+      artisanName: data.name,
+      storeName: data.storeName,
+    });
+
+    void sendAdminNewArtisanApplication({
+      artisanName: data.name,
+      storeName: data.storeName,
+      email: data.email,
+      plan: data.plan,
+      city: data.city,
+      state: data.state,
+      approveUrl: `${BASE_URL}/aprovar-artesao/${approvalToken}`,
     });
 
     return NextResponse.json({ ok: true, userId: user.id }, { status: 201 });
