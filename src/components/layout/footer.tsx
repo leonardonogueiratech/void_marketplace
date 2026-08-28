@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Share2, MessageCircle } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { Logo } from "@/components/layout/logo";
 
 export function Footer() {
   const { data: session } = useSession();
@@ -15,7 +16,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="mb-4">
-              <img src="/logo.svg" alt="Feito de Gente" className="h-10 w-auto sm:h-11 md:h-12 brightness-0 invert" />
+              <Logo variant="white" className="text-[16px]" />
             </div>
             <p className="text-sm leading-relaxed text-[#f2ede0]/70">
               Conectamos artesãos e clientes que valorizam o feito à mão,

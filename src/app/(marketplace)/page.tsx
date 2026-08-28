@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/marketplace/product-card";
 import { ArtisanCard } from "@/components/marketplace/artisan-card";
 import { CategoryCard } from "@/components/marketplace/category-card";
-import { ArrowRight, Hand, BookHeart, MapPinned, Users2, Star, Package } from "lucide-react";
+import { ArrowRight, Hand, BookHeart, MapPinned, Users2, Star, Package, Leaf } from "lucide-react";
 
 async function getHomeData() {
   const [products, artisans, categories, totalArtisans] = await Promise.all([
@@ -68,7 +68,6 @@ export default async function HomePage() {
 
             {/* ── Texto ── */}
             <div>
-              <p className="font-hand text-2xl text-brand-terracota mb-1 -rotate-1">Feito de Gente</p>
               <div className="flex items-center gap-2.5 mb-6">
                 <span className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-navy/50">
                   Marketplace de Artesanato Brasileiro
@@ -115,6 +114,9 @@ export default async function HomePage() {
               <div className="flex items-center gap-5 flex-wrap">
                 {artisans.length > 0 && (
                   <div className="flex items-center gap-2.5">
+                    <div className="size-6 rounded-full bg-brand-green/12 flex items-center justify-center shrink-0">
+                      <Leaf className="size-3.5 text-brand-green" />
+                    </div>
                     <div className="flex -space-x-2.5">
                       {artisans.slice(0, 4).map((a) => (
                         <div

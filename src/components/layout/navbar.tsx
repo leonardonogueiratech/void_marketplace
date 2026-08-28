@@ -18,6 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
 import { Badge } from "@/components/ui/badge";
+import { Logo } from "@/components/layout/logo";
 
 const navLinks = [
   { href: "/produtos", label: "Produtos" },
@@ -58,17 +59,9 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="shrink-0 flex items-center" onClick={() => setMobileOpen(false)}>
             {/* Ícone apenas no mobile */}
-            <img
-              src="/logo-icon.svg"
-              alt="Feito de Gente"
-              className="h-11 w-auto sm:hidden"
-            />
-            {/* Logo completo a partir de sm */}
-            <img
-              src="/logo.svg"
-              alt="Feito de Gente"
-              className="hidden sm:block h-10 md:h-11 lg:h-12 w-auto"
-            />
+            <Logo iconOnly className="w-9 h-9 sm:hidden" />
+            {/* Selo completo a partir de sm */}
+            <Logo variant="navy" className="hidden sm:flex text-[15px] md:text-[17px]" />
           </Link>
 
           {/* Desktop nav */}
