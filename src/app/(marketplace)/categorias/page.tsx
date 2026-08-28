@@ -23,11 +23,11 @@ export default async function CategoriesPage() {
 
   return (
     <div className="min-h-screen bg-[#f2ede0]">
-      {/* Header — âmbar quente, convite à exploração */}
-      <div className="bg-[#f2ede0] border-b border-[#c1652e]/20 py-10">
+      {/* Header — creme com acento verde, alinhado ao padrão de /produtos */}
+      <div className="bg-[#f2ede0] border-b border-[#071a33]/8 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#c1652e] mb-1">Navegue</p>
-          <h1 className="text-3xl font-bold text-[#071a33]">Categorias</h1>
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#7c9f61] mb-1">Navegue</p>
+          <h1 className="text-3xl font-bold uppercase text-[#071a33]">Categorias</h1>
           <p className="mt-2 text-neutral-500 text-sm">
             Explore o marketplace por tipo de produto, estilo e técnica artesanal.
           </p>

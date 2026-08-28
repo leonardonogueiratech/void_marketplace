@@ -7,7 +7,7 @@ export default function ContactPage() {
       {/* Hero */}
       <section className="bg-[#071a33] py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold uppercase text-white mb-4">
             Fale com a gente
           </h1>
           <p className="text-white/70 text-lg">

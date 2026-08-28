@@ -15,7 +15,7 @@ export default function CartPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <ShoppingBag className="size-16 text-muted-foreground mx-auto mb-4" />
-        <h1 className="text-2xl font-bold mb-2">Seu carrinho está vazio</h1>
+        <h1 className="text-2xl font-bold uppercase text-[#071a33] mb-2">Seu carrinho está vazio</h1>
         <p className="text-muted-foreground mb-6">
           Explore nossos produtos artesanais e adicione o que gostar!
         </p>
@@ -28,7 +28,7 @@ export default function CartPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl font-bold mb-8">Carrinho ({items.length})</h1>
+      <h1 className="text-2xl font-bold uppercase text-[#071a33] mb-8">Carrinho ({items.length})</h1>
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Items */}
@@ -88,7 +88,7 @@ export default function CartPage() {
         {/* Summary */}
         <div className="lg:w-80">
           <div className="border border-border rounded-xl p-6 bg-white sticky top-24">
-            <h2 className="font-semibold text-lg mb-4">Resumo do pedido</h2>
+            <h2 className="font-semibold text-lg text-[#071a33] mb-4">Resumo do pedido</h2>
 
             <div className="space-y-2 text-sm">
               {items.map((item) => (

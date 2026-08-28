@@ -37,7 +37,7 @@ function Stars({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" | "
         <Star
           key={i}
           className={`${sizes[size]} ${
-            i < Math.round(rating) ? "fill-amber-400 text-amber-400" : "fill-neutral-200 text-neutral-200"
+            i < Math.round(rating) ? "fill-[#d9b84c] text-[#d9b84c]" : "fill-neutral-200 text-neutral-200"
           }`}
         />
       ))}
@@ -77,10 +77,10 @@ export function ReviewList({ reviews, averageRating, artisanName, distribution }
             return (
               <div key={star} className="flex items-center gap-2 text-xs text-neutral-600">
                 <span className="w-3 text-right shrink-0">{star}</span>
-                <Star className="size-3 fill-amber-400 text-amber-400 shrink-0" />
+                <Star className="size-3 fill-[#d9b84c] text-[#d9b84c] shrink-0" />
                 <div className="flex-1 bg-neutral-200 rounded-full h-2 overflow-hidden">
                   <div
-                    className="h-full bg-amber-400 rounded-full transition-all duration-500"
+                    className="h-full bg-[#d9b84c] rounded-full transition-all duration-500"
                     style={{ width: `${pct}%` }}
                   />
                 </div>

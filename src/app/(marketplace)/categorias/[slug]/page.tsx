@@ -75,7 +75,7 @@ export default async function CategoryDetailsPage({ params }: Props) {
           <Badge variant="secondary" className="mb-3">
             Categoria
           </Badge>
-          <h1 className="text-3xl font-bold text-neutral-900">{category.name}</h1>
+          <h1 className="text-3xl font-bold uppercase text-[#071a33]">{category.name}</h1>
           <p className="mt-2 text-muted-foreground">
             {category.description || "Uma curadoria especial de peças feitas à mão por artesãos independentes."}
           </p>
@@ -89,7 +89,7 @@ export default async function CategoryDetailsPage({ params }: Props) {
 
       {artisans.length > 0 && (
         <section className="mb-10 rounded-2xl border border-border bg-neutral-50 p-5">
-          <h2 className="text-lg font-semibold text-neutral-900">Artesãos desta categoria</h2>
+          <h2 className="text-lg font-semibold text-[#071a33]">Artesãos desta categoria</h2>
           <div className="mt-4 flex flex-wrap gap-2">
             {artisans.map((artisan) => (
               <Link
@@ -111,7 +111,7 @@ export default async function CategoryDetailsPage({ params }: Props) {
       ) : (
         <section>
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-neutral-900">Produtos</h2>
+            <h2 className="text-xl font-bold text-[#071a33]">Produtos</h2>
             <p className="text-sm text-muted-foreground">
               {category.products.length} produto(s) encontrados
             </p>

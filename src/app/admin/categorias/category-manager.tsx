@@ -170,9 +170,9 @@ export function CategoryManager({ initialCategories }: Props) {
       )}
 
       {/* Categories list */}
-      <Card>
+      <Card className="border-[#071a33]/10">
         <CardContent className="p-0">
-          <div className="divide-y divide-neutral-100">
+          <div className="divide-y divide-[#071a33]/6">
             {categories.length === 0 && (
               <div className="py-12 text-center text-neutral-400 text-sm">
                 Nenhuma categoria encontrada.
@@ -216,7 +216,7 @@ export function CategoryManager({ initialCategories }: Props) {
                   ) : (
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className={`text-sm font-medium ${cat.active ? "text-neutral-900" : "text-neutral-400 line-through"}`}>
+                        <p className={`text-sm font-medium ${cat.active ? "text-[#071a33]" : "text-neutral-400 line-through"}`}>
                           {cat.name}
                         </p>
                         {!cat.active && (

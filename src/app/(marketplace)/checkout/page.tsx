@@ -172,7 +172,7 @@ export default function CheckoutPage() {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center">
         <CheckCircle2 className="size-16 text-[#7c9f61] mx-auto mb-4" />
-        <h1 className="text-2xl font-bold mb-2">Pedido realizado!</h1>
+        <h1 className="text-2xl font-bold uppercase text-[#071a33] mb-2">Pedido realizado!</h1>
         <p className="text-muted-foreground mb-8">Pedido #{orderResult.orderId.slice(-8).toUpperCase()}</p>
 
         {orderResult.method === "PIX" && orderResult.pixQrCode && (
@@ -228,7 +228,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl font-bold mb-8">Checkout</h1>
+      <h1 className="text-2xl font-bold uppercase text-[#071a33] mb-8">Checkout</h1>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 space-y-6">

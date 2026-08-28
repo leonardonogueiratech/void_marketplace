@@ -97,7 +97,7 @@ export default async function ProductsPage({
       <div className="bg-[#f2ede0] border-b border-[#071a33]/8 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-widest text-[#7c9f61] mb-1">Marketplace</p>
-          <h1 className="text-3xl font-bold text-[#071a33]">
+          <h1 className="text-3xl font-bold uppercase text-[#071a33]">
             {activeCategory ? activeCategory.name : "Todos os Produtos"}
           </h1>
           <p className="text-neutral-500 mt-1 text-sm">

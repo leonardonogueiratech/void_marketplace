@@ -22,7 +22,7 @@ export default async function ContactReplyPage({
           <div className="size-14 rounded-full bg-[#071a33]/8 flex items-center justify-center mx-auto mb-4">
             <Mail className="size-6 text-[#071a33]" />
           </div>
-          <h1 className="text-xl font-bold text-[#071a33]">Sua mensagem de contato</h1>
+          <h1 className="text-xl font-bold uppercase text-[#071a33]">Sua mensagem de contato</h1>
           <p className="text-sm text-neutral-500 mt-1">Enviada em {formatDate(msg.createdAt)}</p>
         </div>
 

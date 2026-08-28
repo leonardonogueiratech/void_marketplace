@@ -101,7 +101,7 @@ export function ProfileForm({ user }: Props) {
               <Button
                 type="submit"
                 disabled={loading}
-                className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold hover:scale-105 transition-all"
+                className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold"
               >
                 {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
                 Salvar alterações

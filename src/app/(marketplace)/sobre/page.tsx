@@ -58,7 +58,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[#f2ede0]">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="bg-gradient-to-r from-[#7c9f61] to-[#17a2b8] relative overflow-hidden py-20 md:py-28">
+      <section className="bg-gradient-to-r from-[#7c9f61] to-[#071a33] relative overflow-hidden py-20 md:py-28">
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle, #f2ede0 1px, transparent 1px)", backgroundSize: "28px 28px" }}
@@ -73,7 +73,7 @@ export default function AboutPage() {
             <span className="text-xs font-semibold uppercase tracking-widest text-[#f2ede0]/80">Nossa história</span>
             <div className="h-px w-10 bg-[#7c9f61]/50" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-[#f2ede0] leading-tight mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold uppercase text-[#f2ede0] leading-tight mb-6">
             Cada peça carrega
             <br />
             <span className="text-[#c1652e]">uma vida inteira.</span>
@@ -184,7 +184,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA final ────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-gradient-to-r from-[#7c9f61] to-[#17a2b8] relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-[#7c9f61] to-[#071a33] relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle, #f2ede0 1px, transparent 1px)", backgroundSize: "24px 24px" }}

@@ -191,7 +191,7 @@ export default function PrivacidadePage() {
               <ShieldCheck className="size-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold">Política de Privacidade</h1>
+              <h1 className="text-3xl font-bold uppercase">Política de Privacidade</h1>
               <p className="text-white/60 text-sm mt-1">Última atualização: {lastUpdate}</p>
             </div>
           </div>

@@ -197,7 +197,7 @@ export default function TermosPage() {
               <FileText className="size-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold">Termos de Uso</h1>
+              <h1 className="text-3xl font-bold uppercase">Termos de Uso</h1>
               <p className="text-white/60 text-sm mt-1">Última atualização: {lastUpdate}</p>
             </div>
           </div>

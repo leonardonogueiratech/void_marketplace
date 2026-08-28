@@ -134,7 +134,7 @@ export default async function ProductPage({ params }: Props) {
             >
               {product.artisan.storeName}
             </Link>
-            <h1 className="text-2xl font-bold text-neutral-900 mt-1">{product.name}</h1>
+            <h1 className="text-2xl font-bold uppercase text-[#071a33] mt-1">{product.name}</h1>
           </div>
 
           {/* Rating */}
@@ -146,7 +146,7 @@ export default async function ProductPage({ params }: Props) {
                     key={i}
                     className={`size-4 ${
                       i < Math.round(product.rating)
-                        ? "fill-amber-400 text-amber-400"
+                        ? "fill-[#d9b84c] text-[#d9b84c]"
                         : "text-neutral-200"
                     }`}
                   />
@@ -160,7 +160,7 @@ export default async function ProductPage({ params }: Props) {
 
           {/* Price */}
           <div className="flex items-center gap-3">
-            <span className="text-3xl font-bold text-neutral-900">
+            <span className="text-3xl font-bold text-[#071a33]">
               {formatCurrency(product.price)}
             </span>
             {product.comparePrice && (
@@ -287,7 +287,7 @@ export default async function ProductPage({ params }: Props) {
       {/* Reviews */}
       {product.reviews.length > 0 && (
         <section className="mb-16">
-          <h2 className="text-xl font-bold mb-6">Avaliações dos clientes</h2>
+          <h2 className="text-xl font-bold text-[#071a33] mb-6">Avaliações dos clientes</h2>
           <ReviewList
             reviews={product.reviews}
             averageRating={product.artisan.rating}
@@ -303,7 +303,7 @@ export default async function ProductPage({ params }: Props) {
       {/* Related */}
       {related.length > 0 && (
         <section>
-          <h2 className="text-xl font-bold mb-6">Você também pode gostar</h2>
+          <h2 className="text-xl font-bold text-[#071a33] mb-6">Você também pode gostar</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} />

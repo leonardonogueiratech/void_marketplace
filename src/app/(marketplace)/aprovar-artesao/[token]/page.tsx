@@ -28,7 +28,7 @@ export default async function AprovarArtesaoPage({
           <div className="size-14 rounded-full bg-[#071a33]/8 flex items-center justify-center mx-auto mb-4">
             <Store className="size-6 text-[#071a33]" />
           </div>
-          <h1 className="text-xl font-bold text-[#071a33]">Cadastro de artesão</h1>
+          <h1 className="text-xl font-bold uppercase text-[#071a33]">Cadastro de artesão</h1>
           <p className="text-sm text-neutral-500 mt-1">Enviado em {formatDate(artisan.createdAt)}</p>
         </div>
 

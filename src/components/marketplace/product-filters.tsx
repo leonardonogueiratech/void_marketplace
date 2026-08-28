@@ -67,7 +67,7 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
         {activeCount > 0 && (
           <button
             onClick={clearFilters}
-            className="text-xs text-[#7c9f61] hover:text-[#1e9150] font-medium flex items-center gap-1 transition-colors"
+            className="text-xs text-[#7c9f61] hover:text-[#071a33] font-medium flex items-center gap-1 transition-colors"
           >
             <X className="size-3" /> Limpar
           </button>

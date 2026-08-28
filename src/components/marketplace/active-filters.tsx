@@ -71,7 +71,7 @@ export function ActiveFilters({ params, categories, total }: ActiveFiltersProps)
       ))}
       <button
         onClick={() => router.push("/produtos")}
-        className="text-xs text-[#7c9f61] hover:text-[#1e9150] font-medium underline underline-offset-2 transition-colors"
+        className="text-xs text-[#7c9f61] hover:text-[#071a33] font-medium underline underline-offset-2 transition-colors"
       >
         Limpar tudo
       </button>

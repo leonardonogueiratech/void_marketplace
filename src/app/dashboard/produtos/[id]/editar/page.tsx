@@ -37,7 +37,7 @@ export default async function EditProductPage({ params }: Props) {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="mb-6 text-2xl font-bold">Editar produto</h1>
+      <h1 className="mb-6 text-2xl font-bold text-[#071a33]">Editar produto</h1>
       <ProductForm artisanId={artisan.id} categories={categories} product={product} />
     </div>
   );

@@ -80,7 +80,7 @@ export default async function ArtisanPage({ params }: Props) {
   return (
     <div>
       {/* Banner */}
-      <div className="relative h-48 md:h-64 bg-gradient-to-br from-amber-100 to-orange-100 overflow-hidden">
+      <div className="relative h-48 md:h-64 bg-gradient-to-br from-[#f2ede0] to-[#c1652e]/20 overflow-hidden">
         {artisan.bannerImage && (
           <Image
             src={artisan.bannerImage}
@@ -104,7 +104,7 @@ export default async function ArtisanPage({ params }: Props) {
           </Avatar>
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-2xl font-bold text-neutral-900">{artisan.storeName}</h1>
+              <h1 className="text-2xl font-bold uppercase text-[#071a33]">{artisan.storeName}</h1>
               {artisan.featured && (
                 <Badge className="bg-[#c1652e] hover:bg-[#c1652e]">✦ Destaque</Badge>
               )}
@@ -118,7 +118,7 @@ export default async function ArtisanPage({ params }: Props) {
             <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
               {artisan.rating > 0 && (
                 <div className="flex items-center gap-1">
-                  <Star className="size-4 fill-amber-400 text-amber-400" />
+                  <Star className="size-4 fill-[#d9b84c] text-[#d9b84c]" />
                   <span>{artisan.rating.toFixed(1)}</span>
                 </div>
               )}
@@ -157,7 +157,7 @@ export default async function ArtisanPage({ params }: Props) {
           <aside className="lg:col-span-1">
             {artisan.bio && (
               <div className="mb-6">
-                <h3 className="font-semibold text-neutral-900 mb-2">Sobre</h3>
+                <h3 className="font-semibold text-[#071a33] mb-2">Sobre</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{artisan.bio}</p>
               </div>
             )}
@@ -169,7 +169,7 @@ export default async function ArtisanPage({ params }: Props) {
             )}
             {artisan.categories.length > 0 && (
               <div>
-                <h3 className="font-semibold text-neutral-900 mb-2">Categorias</h3>
+                <h3 className="font-semibold text-[#071a33] mb-2">Categorias</h3>
                 <div className="flex flex-wrap gap-1.5">
                   {artisan.categories.map(({ category }) => (
                     <Badge key={category.id} variant="secondary">{category.name}</Badge>
@@ -180,7 +180,7 @@ export default async function ArtisanPage({ params }: Props) {
           </aside>
 
           <main className="lg:col-span-3">
-            <h2 className="text-xl font-bold mb-6">
+            <h2 className="text-xl font-bold text-[#071a33] mb-6">
               Produtos ({artisan.products.length})
             </h2>
             {artisan.products.length === 0 ? (
