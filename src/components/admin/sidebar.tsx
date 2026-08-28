@@ -32,7 +32,7 @@ export function AdminSidebar() {
       {/* Logo area */}
       <div className="px-5 py-6 border-b border-white/10">
         <div className="flex items-center gap-2">
-          <div className="size-8 rounded-lg bg-[#e07b2a] flex items-center justify-center">
+          <div className="size-8 rounded-lg bg-[#c1652e] flex items-center justify-center">
             <ShieldCheck className="size-4 text-white" />
           </div>
           <div>
@@ -59,7 +59,7 @@ export function AdminSidebar() {
             >
               <Icon className="size-4 shrink-0" />
               {label}
-              {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#e07b2a]" />}
+              {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#c1652e]" />}
             </Link>
           );
         })}
@@ -89,7 +89,7 @@ export function AdminSidebar() {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="w-56 shrink-0 hidden lg:flex flex-col bg-[#1e3a5f] min-h-screen">
+      <aside className="w-56 shrink-0 hidden lg:flex flex-col bg-[#071a33] min-h-screen">
         {nav}
       </aside>
 
@@ -108,7 +108,7 @@ export function AdminSidebar() {
       {open && (
         <>
           <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setOpen(false)} />
-          <aside className="fixed inset-y-0 left-0 w-64 bg-[#1e3a5f] z-50 flex flex-col lg:hidden shadow-xl">
+          <aside className="fixed inset-y-0 left-0 w-64 bg-[#071a33] z-50 flex flex-col lg:hidden shadow-xl">
             <Button
               variant="ghost"
               size="icon"

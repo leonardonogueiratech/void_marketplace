@@ -171,15 +171,15 @@ export default function CheckoutPage() {
   if (orderResult) {
     return (
       <div className="max-w-lg mx-auto px-4 py-16 text-center">
-        <CheckCircle2 className="size-16 text-[#27ae60] mx-auto mb-4" />
+        <CheckCircle2 className="size-16 text-[#7c9f61] mx-auto mb-4" />
         <h1 className="text-2xl font-bold mb-2">Pedido realizado!</h1>
         <p className="text-muted-foreground mb-8">Pedido #{orderResult.orderId.slice(-8).toUpperCase()}</p>
 
         {orderResult.method === "PIX" && orderResult.pixQrCode && (
           pixConfirmed ? (
-            <div className="bg-[#27ae60]/8 border border-[#27ae60]/25 rounded-lg p-4 mb-4">
-              <p className="text-[#27ae60] font-semibold text-lg">✅ Pagamento confirmado!</p>
-              <p className="text-sm text-[#27ae60] mt-1">Seu pedido já está sendo preparado.</p>
+            <div className="bg-[#7c9f61]/8 border border-[#7c9f61]/25 rounded-lg p-4 mb-4">
+              <p className="text-[#7c9f61] font-semibold text-lg">✅ Pagamento confirmado!</p>
+              <p className="text-sm text-[#7c9f61] mt-1">Seu pedido já está sendo preparado.</p>
             </div>
           ) : (
             <Card className="text-left">
@@ -215,9 +215,9 @@ export default function CheckoutPage() {
         )}
 
         {orderResult.method === "CREDIT_CARD" && (
-          <div className="bg-[#27ae60]/8 border border-[#27ae60]/25 rounded-lg p-4">
-            <p className="text-[#27ae60] font-medium">Pagamento aprovado!</p>
-            <p className="text-sm text-[#27ae60] mt-1">Seu pedido está sendo processado.</p>
+          <div className="bg-[#7c9f61]/8 border border-[#7c9f61]/25 rounded-lg p-4">
+            <p className="text-[#7c9f61] font-medium">Pagamento aprovado!</p>
+            <p className="text-sm text-[#7c9f61] mt-1">Seu pedido está sendo processado.</p>
           </div>
         )}
 
@@ -321,7 +321,7 @@ export default function CheckoutPage() {
                           key={opt.id}
                           className={`flex items-center justify-between gap-3 p-3.5 rounded-xl border-2 cursor-pointer transition-all ${
                             selectedShipping?.id === opt.id
-                              ? "border-[#1e3a5f] bg-[#1e3a5f]/4"
+                              ? "border-[#071a33] bg-[#071a33]/4"
                               : "border-border hover:border-neutral-300"
                           }`}
                         >
@@ -329,16 +329,16 @@ export default function CheckoutPage() {
                             <input
                               type="radio"
                               name="shipping"
-                              className="accent-[#1e3a5f]"
+                              className="accent-[#071a33]"
                               checked={selectedShipping?.id === opt.id}
                               onChange={() => setSelectedShipping(opt)}
                             />
                             <div>
-                              <p className="text-sm font-semibold text-[#1e3a5f]">{opt.label}</p>
+                              <p className="text-sm font-semibold text-[#071a33]">{opt.label}</p>
                               <p className="text-xs text-muted-foreground">{opt.description}</p>
                             </div>
                           </div>
-                          <span className="text-sm font-bold text-[#1e3a5f] whitespace-nowrap">
+                          <span className="text-sm font-bold text-[#071a33] whitespace-nowrap">
                             {formatCurrency(opt.price)}
                           </span>
                         </label>
@@ -346,13 +346,13 @@ export default function CheckoutPage() {
 
                       {/* Breakdown por artesão quando há mais de um */}
                       {shippingBreakdown.length > 1 && selectedShipping && (
-                        <div className="mt-3 rounded-xl bg-[#f7f3ed] p-3 space-y-1.5">
-                          <p className="text-xs font-semibold text-[#1e3a5f] mb-2">Detalhamento por loja:</p>
+                        <div className="mt-3 rounded-xl bg-[#f2ede0] p-3 space-y-1.5">
+                          <p className="text-xs font-semibold text-[#071a33] mb-2">Detalhamento por loja:</p>
                           {shippingBreakdown.map((b) => {
                             const opt = b.options.find((o) => o.id === selectedShipping.id);
                             return (
                               <div key={b.artisanId} className="flex justify-between text-xs text-muted-foreground">
-                                <span>{b.storeName} <span className="text-[#1e3a5f]/40">({b.originUf})</span></span>
+                                <span>{b.storeName} <span className="text-[#071a33]/40">({b.originUf})</span></span>
                                 <span className="font-medium">{opt ? formatCurrency(opt.price) : "—"}</span>
                               </div>
                             );
@@ -384,7 +384,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {method === "PIX" && (
-                  <div className="bg-[#27ae60]/8 border border-[#27ae60]/25 rounded-lg p-4 text-sm text-[#27ae60]">
+                  <div className="bg-[#7c9f61]/8 border border-[#7c9f61]/25 rounded-lg p-4 text-sm text-[#7c9f61]">
                     ⚡ PIX tem confirmação instantânea! O QR code será exibido após confirmar o pedido.
                   </div>
                 )}
@@ -456,7 +456,7 @@ export default function CheckoutPage() {
                   {shippingLoading ? (
                     <span className="text-muted-foreground flex items-center gap-1"><Loader2 className="size-3 animate-spin" /> calculando...</span>
                   ) : selectedShipping ? (
-                    <span className="font-medium text-[#27ae60]">{formatCurrency(shippingCost)}</span>
+                    <span className="font-medium text-[#7c9f61]">{formatCurrency(shippingCost)}</span>
                   ) : (
                     <span className="text-muted-foreground text-xs">informe o CEP</span>
                   )}

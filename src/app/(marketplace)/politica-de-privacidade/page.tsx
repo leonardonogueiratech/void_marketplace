@@ -177,9 +177,9 @@ export default function PrivacidadePage() {
   const lastUpdate = "24 de abril de 2026";
 
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
       {/* Header */}
-      <div className="bg-[#1e3a5f] text-white py-14">
+      <div className="bg-[#071a33] text-white py-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-white/50 text-sm mb-5">
             <Link href="/" className="hover:text-white transition-colors">Início</Link>
@@ -206,14 +206,14 @@ export default function PrivacidadePage() {
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Sticky index */}
           <aside className="lg:w-56 shrink-0">
-            <div className="lg:sticky lg:top-24 bg-white rounded-2xl border border-[#1e3a5f]/10 p-4">
-              <p className="text-xs font-semibold text-[#1e3a5f] uppercase tracking-wider mb-3">Sumário</p>
+            <div className="lg:sticky lg:top-24 bg-white rounded-2xl border border-[#071a33]/10 p-4">
+              <p className="text-xs font-semibold text-[#071a33] uppercase tracking-wider mb-3">Sumário</p>
               <nav className="space-y-1">
                 {sections.map((s) => (
                   <a
                     key={s.id}
                     href={`#${s.id}`}
-                    className="block text-xs text-neutral-500 hover:text-[#1e3a5f] py-1 leading-snug transition-colors"
+                    className="block text-xs text-neutral-500 hover:text-[#071a33] py-1 leading-snug transition-colors"
                   >
                     {s.title}
                   </a>
@@ -225,7 +225,7 @@ export default function PrivacidadePage() {
           {/* Content */}
           <div className="flex-1 min-w-0 space-y-10">
             {/* LGPD badge */}
-            <div className="bg-[#27ae60]/8 border border-[#27ae60]/20 rounded-2xl p-5 text-sm text-[#1e3a5f] leading-relaxed">
+            <div className="bg-[#7c9f61]/8 border border-[#7c9f61]/20 rounded-2xl p-5 text-sm text-[#071a33] leading-relaxed">
               <strong>Adequado à LGPD.</strong> Esta política foi elaborada em conformidade com a Lei Geral de
               Proteção de Dados (Lei 13.709/18) e reflete nosso compromisso com a transparência e o respeito
               aos direitos dos titulares de dados.
@@ -233,7 +233,7 @@ export default function PrivacidadePage() {
 
             {sections.map((section) => (
               <section key={section.id} id={section.id} className="scroll-mt-24">
-                <h2 className="text-lg font-bold text-[#1e3a5f] mb-4 pb-2 border-b border-[#1e3a5f]/10">
+                <h2 className="text-lg font-bold text-[#071a33] mb-4 pb-2 border-b border-[#071a33]/10">
                   {section.title}
                 </h2>
                 <div className="text-sm text-neutral-600 leading-relaxed whitespace-pre-line">
@@ -242,11 +242,11 @@ export default function PrivacidadePage() {
               </section>
             ))}
 
-            <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 p-6 text-center">
+            <div className="bg-white rounded-2xl border border-[#071a33]/10 p-6 text-center">
               <p className="text-sm text-neutral-500 mb-3">Dúvidas sobre sua privacidade?</p>
               <Link
                 href="/contato"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#1e3a5f] hover:text-[#e07b2a] transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#071a33] hover:text-[#c1652e] transition-colors"
               >
                 Entre em contato <ChevronRight className="size-4" />
               </Link>

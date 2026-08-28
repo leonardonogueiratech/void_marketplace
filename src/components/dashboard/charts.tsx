@@ -17,7 +17,7 @@ import {
 function CurrencyTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white border border-[#1e3a5f]/10 rounded-xl shadow-lg px-3 py-2 text-xs">
+    <div className="bg-white border border-[#071a33]/10 rounded-xl shadow-lg px-3 py-2 text-xs">
       <p className="text-neutral-400 mb-1">{label}</p>
       {payload.map((p: any) => (
         <p key={p.name} style={{ color: p.color }} className="font-semibold">
@@ -52,8 +52,8 @@ export function RevenueChart({ data }: { data: DailyData[] }) {
       <AreaChart data={data} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="receitaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#1e3a5f" stopOpacity={0.15} />
-            <stop offset="95%" stopColor="#1e3a5f" stopOpacity={0} />
+            <stop offset="5%" stopColor="#071a33" stopOpacity={0.15} />
+            <stop offset="95%" stopColor="#071a33" stopOpacity={0} />
           </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" stroke="#f0ece6" />
@@ -70,11 +70,11 @@ export function RevenueChart({ data }: { data: DailyData[] }) {
           type="monotone"
           dataKey="receita"
           name="receita"
-          stroke="#1e3a5f"
+          stroke="#071a33"
           strokeWidth={2}
           fill="url(#receitaGrad)"
           dot={false}
-          activeDot={{ r: 4, fill: "#1e3a5f" }}
+          activeDot={{ r: 4, fill: "#071a33" }}
         />
       </AreaChart>
     </ResponsiveContainer>
@@ -110,7 +110,7 @@ export function MonthlyBarChart({ data }: { data: MonthlyData[] }) {
           width={52}
         />
         <Tooltip content={<CurrencyTooltip />} />
-        <Bar dataKey="receita" name="receita" fill="#27ae60" radius={[6, 6, 0, 0]} maxBarSize={48} />
+        <Bar dataKey="receita" name="receita" fill="#7c9f61" radius={[6, 6, 0, 0]} maxBarSize={48} />
       </BarChart>
     </ResponsiveContainer>
   );

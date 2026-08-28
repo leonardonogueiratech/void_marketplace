@@ -45,9 +45,9 @@ function baseTemplate(content: string) {
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:580px">
 
         <!-- Header -->
-        <tr><td style="background:#1e3a5f;border-radius:16px 16px 0 0;padding:28px 36px;text-align:center">
+        <tr><td style="background:#071a33;border-radius:16px 16px 0 0;padding:28px 36px;text-align:center">
           <div style="display:inline-flex;align-items:center;gap:10px">
-            <div style="width:36px;height:36px;background:#e07b2a;border-radius:10px;display:inline-block;line-height:36px;text-align:center;font-size:18px">✦</div>
+            <div style="width:36px;height:36px;background:#c1652e;border-radius:10px;display:inline-block;line-height:36px;text-align:center;font-size:18px">✦</div>
             <span style="color:white;font-size:20px;font-weight:700;letter-spacing:-0.3px">Feito de Gente</span>
           </div>
         </td></tr>
@@ -58,7 +58,7 @@ function baseTemplate(content: string) {
         </td></tr>
 
         <!-- Footer -->
-        <tr><td style="background:#1e3a5f;border-radius:0 0 16px 16px;padding:20px 36px;text-align:center">
+        <tr><td style="background:#071a33;border-radius:0 0 16px 16px;padding:20px 36px;text-align:center">
           <p style="margin:0;color:rgba(255,255,255,0.5);font-size:12px;line-height:1.6">
             © 2026 Feito de Gente · Marketplace de artesanato brasileiro<br>
             <a href="${BASE_URL}" style="color:rgba(255,255,255,0.4);text-decoration:none">feitodegente.com.br</a>
@@ -81,7 +81,7 @@ function itemsTable(items: { name: string; quantity: number; totalPrice: number 
     <tr>
       <td style="padding:10px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#333">${i.name}</td>
       <td style="padding:10px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#888;text-align:center">${i.quantity}×</td>
-      <td style="padding:10px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#1e3a5f;font-weight:600;text-align:right">
+      <td style="padding:10px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#071a33;font-weight:600;text-align:right">
         R$ ${i.totalPrice.toFixed(2).replace(".", ",")}
       </td>
     </tr>`
@@ -99,7 +99,7 @@ function itemsTable(items: { name: string; quantity: number; totalPrice: number 
     </table>`;
 }
 
-function ctaButton(href: string, label: string, color = "#1e3a5f") {
+function ctaButton(href: string, label: string, color = "#071a33") {
   return `
     <div style="text-align:center;margin-top:28px">
       <a href="${href}" style="display:inline-block;background:${color};color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.02em">
@@ -125,8 +125,8 @@ export async function sendOrderConfirmedToCustomer(opts: {
   const shortId = opts.orderId.slice(-8).toUpperCase();
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Pagamento confirmado", "#27ae60")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Pagamento confirmado", "#7c9f61")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Pagamento confirmado! Seu pedido está sendo preparado ✦
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -134,16 +134,16 @@ export async function sendOrderConfirmedToCustomer(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:20px">
       <p style="margin:0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Pedido</p>
-      <p style="margin:4px 0 0;font-size:16px;font-weight:700;color:#1e3a5f;font-family:monospace">#${shortId}</p>
+      <p style="margin:4px 0 0;font-size:16px;font-weight:700;color:#071a33;font-family:monospace">#${shortId}</p>
       <p style="margin:4px 0 0;font-size:13px;color:#888">${opts.storeName}</p>
     </div>
 
     ${itemsTable(opts.items)}
 
     <div style="text-align:right;padding:10px 0;border-top:2px solid #f0ece6;margin-bottom:8px">
-      <span style="font-size:15px;font-weight:700;color:#1e3a5f">
+      <span style="font-size:15px;font-weight:700;color:#071a33">
         Total: R$ ${opts.total.toFixed(2).replace(".", ",")}
       </span>
     </div>
@@ -152,12 +152,12 @@ export async function sendOrderConfirmedToCustomer(opts: {
       Você receberá um novo e-mail quando seu pedido for enviado com o código de rastreio.
     </p>
 
-    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Acompanhar pedido →", "#e07b2a")}
+    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Acompanhar pedido →", "#c1652e")}
 
     <p style="font-size:12px;color:#bbb;line-height:1.6;margin-top:20px;text-align:center">
       Mudou de ideia? Pedidos ainda não confirmados pelo artesão podem ser cancelados direto no site,
       e você tem até 7 dias após a entrega para desistir da compra sem justificativa (art. 49 do CDC).
-      <a href="${BASE_URL}/termos#cancelamento-devolucao" style="color:#e07b2a;text-decoration:underline">Ver política de cancelamento →</a>
+      <a href="${BASE_URL}/termos#cancelamento-devolucao" style="color:#c1652e;text-decoration:underline">Ver política de cancelamento →</a>
     </p>
   `;
 
@@ -177,8 +177,8 @@ export async function sendPaymentInAnalysis(opts: {
   const shortId = opts.orderId.slice(-8).toUpperCase();
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Pagamento em análise", "#e07b2a")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Pagamento em análise", "#c1652e")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Recebemos seu pedido — pagamento em análise
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -187,9 +187,9 @@ export async function sendPaymentInAnalysis(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:20px">
       <p style="margin:0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Pedido</p>
-      <p style="margin:4px 0 0;font-size:16px;font-weight:700;color:#1e3a5f;font-family:monospace">#${shortId}</p>
+      <p style="margin:4px 0 0;font-size:16px;font-weight:700;color:#071a33;font-family:monospace">#${shortId}</p>
     </div>
 
     <p style="font-size:13px;color:#888;line-height:1.6">
@@ -197,7 +197,7 @@ export async function sendPaymentInAnalysis(opts: {
       Se for recusado, avisaremos também.
     </p>
 
-    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Acompanhar pedido →", "#e07b2a")}
+    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Acompanhar pedido →", "#c1652e")}
   `;
 
   await send({
@@ -223,8 +223,8 @@ export async function sendNewOrderToArtisan(opts: {
 
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Novo pedido", "#e07b2a")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Novo pedido", "#c1652e")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Você recebeu um novo pedido! 🎉
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -232,21 +232,21 @@ export async function sendNewOrderToArtisan(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;gap:24px">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;gap:24px">
       <div>
         <p style="margin:0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Pedido</p>
-        <p style="margin:4px 0 0;font-size:16px;font-weight:700;color:#1e3a5f;font-family:monospace">#${shortId}</p>
+        <p style="margin:4px 0 0;font-size:16px;font-weight:700;color:#071a33;font-family:monospace">#${shortId}</p>
       </div>
       ${location ? `<div>
         <p style="margin:0;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Destino</p>
-        <p style="margin:4px 0 0;font-size:14px;font-weight:600;color:#1e3a5f">${location}</p>
+        <p style="margin:4px 0 0;font-size:14px;font-weight:600;color:#071a33">${location}</p>
       </div>` : ""}
     </div>
 
     ${itemsTable(opts.items)}
 
     <div style="text-align:right;padding:10px 0;border-top:2px solid #f0ece6;margin-bottom:16px">
-      <span style="font-size:15px;font-weight:700;color:#1e3a5f">
+      <span style="font-size:15px;font-weight:700;color:#071a33">
         Subtotal: R$ ${opts.subtotal.toFixed(2).replace(".", ",")}
       </span>
     </div>
@@ -277,7 +277,7 @@ export async function sendOrderShippedToCustomer(opts: {
   const content = `
     <div style="margin-bottom:24px">
       ${badge("Pedido enviado", "#2c4f7b")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Seu pedido está a caminho! 📦
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -287,11 +287,11 @@ export async function sendOrderShippedToCustomer(opts: {
 
     <div style="background:#edf2f8;border:1px solid #dce6f0;border-radius:14px;padding:20px 24px;margin-bottom:24px;text-align:center">
       <p style="margin:0 0 6px;font-size:12px;color:#2c4f7b;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Código de rastreio</p>
-      <p style="margin:0;font-size:24px;font-weight:800;color:#1e3a5f;letter-spacing:2px;font-family:monospace">${opts.trackingCode}</p>
+      <p style="margin:0;font-size:24px;font-weight:800;color:#071a33;letter-spacing:2px;font-family:monospace">${opts.trackingCode}</p>
     </div>
 
     <p style="font-size:13px;color:#888;line-height:1.6;text-align:center">
-      Pedido <span style="font-family:monospace;font-weight:700;color:#1e3a5f">#${shortId}</span>
+      Pedido <span style="font-family:monospace;font-weight:700;color:#071a33">#${shortId}</span>
       · vendido por ${opts.storeName}
     </p>
 
@@ -319,8 +319,8 @@ export async function sendOrderDeliveredToCustomer(opts: {
   const shortId = opts.orderId.slice(-8).toUpperCase();
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Entregue", "#27ae60")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Entregue", "#7c9f61")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Seu pedido chegou! 🎁
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -328,20 +328,20 @@ export async function sendOrderDeliveredToCustomer(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:24px;text-align:center">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:24px;text-align:center">
       <p style="margin:0;font-size:13px;color:#888">Pedido</p>
-      <p style="margin:4px 0 0;font-size:18px;font-weight:700;color:#1e3a5f;font-family:monospace">#${shortId}</p>
+      <p style="margin:4px 0 0;font-size:18px;font-weight:700;color:#071a33;font-family:monospace">#${shortId}</p>
     </div>
 
     <div style="background:#f0f7ee;border:1px solid #c8e0c0;border-radius:12px;padding:20px 24px;margin-bottom:24px;text-align:center">
       <p style="margin:0 0 8px;font-size:15px;font-weight:600;color:#2a5a1a">Gostou do que recebeu?</p>
-      <p style="margin:0;font-size:13px;color:#27ae60;line-height:1.5">
+      <p style="margin:0;font-size:13px;color:#7c9f61;line-height:1.5">
         Sua avaliação ajuda outros compradores e incentiva o trabalho artesanal.
         Leva menos de 1 minuto!
       </p>
     </div>
 
-    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Avaliar minha compra ★", "#e07b2a")}
+    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Avaliar minha compra ★", "#c1652e")}
   `;
 
   await send({
@@ -360,8 +360,8 @@ export async function sendOrderRefunded(opts: {
   const shortId = opts.orderId.slice(-8).toUpperCase();
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Pedido reembolsado", "#1e3a5f")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Pedido reembolsado", "#071a33")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Seu reembolso foi processado
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -369,7 +369,7 @@ export async function sendOrderRefunded(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:8px">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:8px">
       <p style="margin:0;font-size:13px;color:#666;line-height:1.6">
         O valor será devolvido pelo mesmo meio de pagamento utilizado na compra.
         O prazo para o valor aparecer no seu extrato/fatura depende da sua instituição financeira,
@@ -395,7 +395,7 @@ export async function sendOrderCancelledToCustomer(opts: {
   const content = `
     <div style="margin-bottom:24px">
       ${badge("Pedido cancelado", "#999")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Seu pedido foi cancelado
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -403,7 +403,7 @@ export async function sendOrderCancelledToCustomer(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:8px">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:8px">
       <p style="margin:0;font-size:13px;color:#666;line-height:1.6">
         Como o pagamento ainda não havia sido confirmado, nenhum valor foi cobrado.
       </p>
@@ -427,7 +427,7 @@ export async function sendOrderCancelledToArtisan(opts: {
   const content = `
     <div style="margin-bottom:24px">
       ${badge("Pedido cancelado", "#999")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Um pedido foi cancelado pelo cliente
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -468,8 +468,8 @@ export async function sendReturnRequestToArtisan(opts: {
   const shortId = opts.orderId.slice(-8).toUpperCase();
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Solicitação de devolução", "#e07b2a")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Solicitação de devolução", "#c1652e")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         ${opts.customerName} solicitou a devolução de um produto
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -477,9 +477,9 @@ export async function sendReturnRequestToArtisan(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:20px">
       <p style="margin:0 0 6px;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Motivo</p>
-      <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#1e3a5f">${RETURN_REASON_LABELS[opts.reason] ?? opts.reason}</p>
+      <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#071a33">${RETURN_REASON_LABELS[opts.reason] ?? opts.reason}</p>
       ${opts.description ? `
       <p style="margin:0 0 6px;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:.06em">Detalhes</p>
       <p style="margin:0;font-size:14px;color:#444;line-height:1.6">${opts.description}</p>` : ""}
@@ -509,8 +509,8 @@ export async function sendReturnDecisionToCustomer(opts: {
 }) {
   const content = opts.approved ? `
     <div style="margin-bottom:24px">
-      ${badge("Devolução aprovada", "#27ae60")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Devolução aprovada", "#7c9f61")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Sua devolução foi aprovada ✦
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -525,11 +525,11 @@ export async function sendReturnDecisionToCustomer(opts: {
       </p>
     </div>
 
-    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Ver meus pedidos →", "#27ae60")}
+    ${ctaButton(`${BASE_URL}/conta/pedidos`, "Ver meus pedidos →", "#7c9f61")}
   ` : `
     <div style="margin-bottom:24px">
-      ${badge("Devolução recusada", "#e07b2a")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Devolução recusada", "#c1652e")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Sua solicitação não foi aprovada
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -538,7 +538,7 @@ export async function sendReturnDecisionToCustomer(opts: {
     </div>
 
     ${opts.artisanNote ? `
-    <div style="border-left:3px solid #e07b2a;padding:14px 18px;background:#fffbf7;border-radius:0 10px 10px 0;margin-bottom:20px">
+    <div style="border-left:3px solid #c1652e;padding:14px 18px;background:#fffbf7;border-radius:0 10px 10px 0;margin-bottom:20px">
       <p style="margin:0 0 6px;font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:.06em">Motivo</p>
       <p style="margin:0;color:#444;font-size:14px;line-height:1.7">${opts.artisanNote}</p>
     </div>` : ""}
@@ -546,7 +546,7 @@ export async function sendReturnDecisionToCustomer(opts: {
     <p style="font-size:13px;color:#888;line-height:1.6">
       Se não concordar com a decisão, entre em contato com nossa equipe.
     </p>
-    ${ctaButton(`${BASE_URL}/contato`, "Falar com a equipe →", "#1e3a5f")}
+    ${ctaButton(`${BASE_URL}/contato`, "Falar com a equipe →", "#071a33")}
   `;
 
   await send({
@@ -564,8 +564,8 @@ export async function sendReturnReceivedToCustomer(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Produto recebido", "#1e3a5f")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Produto recebido", "#071a33")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         O artesão recebeu sua devolução
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -590,8 +590,8 @@ export async function sendReturnRefundedToCustomer(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Reembolso processado", "#27ae60")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Reembolso processado", "#7c9f61")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Seu reembolso foi processado ✦
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -599,7 +599,7 @@ export async function sendReturnRefundedToCustomer(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:8px">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:8px">
       <p style="margin:0;font-size:13px;color:#666;line-height:1.6">
         O valor será devolvido pelo mesmo meio de pagamento utilizado na compra.
         O prazo para aparecer no seu extrato/fatura depende da sua instituição financeira.
@@ -623,8 +623,8 @@ export async function sendReturnShippedBackToArtisan(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Produto a caminho", "#1e3a5f")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Produto a caminho", "#071a33")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         O cliente enviou o produto de volta
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -634,7 +634,7 @@ export async function sendReturnShippedBackToArtisan(opts: {
 
     <div style="background:#edf2f8;border:1px solid #dce6f0;border-radius:14px;padding:20px 24px;margin-bottom:20px;text-align:center">
       <p style="margin:0 0 6px;font-size:12px;color:#2c4f7b;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Código de rastreio</p>
-      <p style="margin:0;font-size:22px;font-weight:800;color:#1e3a5f;letter-spacing:2px;font-family:monospace">${opts.trackingCode}</p>
+      <p style="margin:0;font-size:22px;font-weight:800;color:#071a33;letter-spacing:2px;font-family:monospace">${opts.trackingCode}</p>
     </div>
 
     <p style="font-size:13px;color:#888;line-height:1.6">
@@ -660,8 +660,8 @@ export async function sendArtisanApproved(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Cadastro aprovado", "#27ae60")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Cadastro aprovado", "#7c9f61")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Parabéns, ${opts.artisanName}! Sua loja está no ar ✦
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -671,7 +671,7 @@ export async function sendArtisanApproved(opts: {
 
     <div style="background:#f0f7ee;border:1px solid #c8e0c0;border-radius:12px;padding:20px 24px;margin-bottom:24px">
       <p style="margin:0 0 12px;font-size:14px;font-weight:700;color:#2a5a1a">O que fazer agora:</p>
-      <ul style="margin:0;padding:0 0 0 18px;color:#27ae60;font-size:13px;line-height:2">
+      <ul style="margin:0;padding:0 0 0 18px;color:#7c9f61;font-size:13px;line-height:2">
         <li>Acesse o <strong>Dashboard</strong> e cadastre seus primeiros produtos</li>
         <li>Complete o perfil da sua loja com foto e biografia</li>
         <li>Compartilhe sua loja nas redes sociais</li>
@@ -683,7 +683,7 @@ export async function sendArtisanApproved(opts: {
       Boas vendas!
     </p>
 
-    ${ctaButton(`${BASE_URL}/dashboard`, "Acessar meu painel →", "#27ae60")}
+    ${ctaButton(`${BASE_URL}/dashboard`, "Acessar meu painel →", "#7c9f61")}
   `;
 
   await send({
@@ -702,8 +702,8 @@ export async function sendArtisanRejected(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Cadastro em revisão", "#e07b2a")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Cadastro em revisão", "#c1652e")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Olá, ${opts.artisanName}. Precisamos de mais informações.
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -712,11 +712,11 @@ export async function sendArtisanRejected(opts: {
     </div>
 
     ${opts.reason ? `
-    <div style="border-left:3px solid #e07b2a;padding:14px 18px;background:#fffbf7;border-radius:0 10px 10px 0;margin-bottom:24px">
+    <div style="border-left:3px solid #c1652e;padding:14px 18px;background:#fffbf7;border-radius:0 10px 10px 0;margin-bottom:24px">
       <p style="margin:0 0 6px;font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:.06em">Motivo</p>
       <p style="margin:0;color:#444;font-size:14px;line-height:1.7">${opts.reason}</p>
     </div>` : `
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:24px">
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:24px">
       <p style="margin:0;font-size:13px;color:#666;line-height:1.6">
         Verifique se seus produtos são de produção própria e artesanal, se as fotos e descrições
         representam fielmente o trabalho, e se os dados da loja estão completos.
@@ -728,7 +728,7 @@ export async function sendArtisanRejected(opts: {
       e reenviar o cadastro.
     </p>
 
-    ${ctaButton(`${BASE_URL}/contato`, "Falar com a equipe →", "#1e3a5f")}
+    ${ctaButton(`${BASE_URL}/contato`, "Falar com a equipe →", "#071a33")}
   `;
 
   await send({
@@ -746,8 +746,8 @@ export async function sendArtisanApplicationReceived(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Cadastro recebido", "#1e3a5f")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Cadastro recebido", "#071a33")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Recebemos seu cadastro, ${opts.artisanName}! ✦
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -755,8 +755,8 @@ export async function sendArtisanApplicationReceived(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:20px 24px;margin-bottom:24px">
-      <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#1e3a5f">O que acontece agora:</p>
+    <div style="background:#f2ede0;border-radius:12px;padding:20px 24px;margin-bottom:24px">
+      <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#071a33">O que acontece agora:</p>
       <ul style="margin:0;padding:0 0 0 18px;color:#666;font-size:13px;line-height:2.2">
         <li>Nossa equipe irá analisar seu perfil em até <strong>2 dias úteis</strong></li>
         <li>Você receberá um e-mail assim que for aprovado</li>
@@ -765,14 +765,14 @@ export async function sendArtisanApplicationReceived(opts: {
     </div>
 
     <div style="background:#fff8f0;border:1px solid #fde8d0;border-radius:12px;padding:18px 22px;margin-bottom:24px">
-      <p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#c96a1e">Use o tempo de espera bem:</p>
+      <p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#9a5125">Use o tempo de espera bem:</p>
       <p style="margin:0;font-size:13px;color:#888;line-height:1.6">
-        Leia o <a href="${BASE_URL}/guia-do-vendedor" style="color:#e07b2a;font-weight:600;text-decoration:none">Guia do Vendedor</a>
+        Leia o <a href="${BASE_URL}/guia-do-vendedor" style="color:#c1652e;font-weight:600;text-decoration:none">Guia do Vendedor</a>
         e descubra como funciona o Asaas, como enviar pelos Correios e dicas para vender mais.
       </p>
     </div>
 
-    ${ctaButton(`${BASE_URL}/guia-do-vendedor`, "Ler o Guia do Vendedor →", "#e07b2a")}
+    ${ctaButton(`${BASE_URL}/guia-do-vendedor`, "Ler o Guia do Vendedor →", "#c1652e")}
   `;
 
   await send({
@@ -798,17 +798,17 @@ export async function sendAdminNewArtisanApplication(opts: {
 
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Novo cadastro de artesão", "#e07b2a")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Novo cadastro de artesão", "#c1652e")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Novo artesão aguardando aprovação
       </h1>
       <p style="margin:0;color:#888;font-size:14px">Um vendedor acabou de se cadastrar e está aguardando sua análise.</p>
     </div>
 
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f3ed;border-radius:12px;padding:20px;margin-bottom:24px">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f2ede0;border-radius:12px;padding:20px;margin-bottom:24px">
       <tr>
         <td style="padding:5px 0;width:80px;color:#999;font-size:13px;vertical-align:top">Nome</td>
-        <td style="padding:5px 0;font-weight:600;color:#1e3a5f;font-size:13px">${opts.artisanName}</td>
+        <td style="padding:5px 0;font-weight:600;color:#071a33;font-size:13px">${opts.artisanName}</td>
       </tr>
       <tr>
         <td style="padding:5px 0;color:#999;font-size:13px;vertical-align:top">Loja</td>
@@ -817,7 +817,7 @@ export async function sendAdminNewArtisanApplication(opts: {
       <tr>
         <td style="padding:5px 0;color:#999;font-size:13px;vertical-align:top">E-mail</td>
         <td style="padding:5px 0;font-size:13px">
-          <a href="mailto:${opts.email}" style="color:#e07b2a;text-decoration:none">${opts.email}</a>
+          <a href="mailto:${opts.email}" style="color:#c1652e;text-decoration:none">${opts.email}</a>
         </td>
       </tr>
       <tr>
@@ -850,8 +850,8 @@ export async function sendAdminNewArtisanApplication(opts: {
 export async function sendWelcomeEmail(opts: { to: string; name: string }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Cadastro confirmado", "#27ae60")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Cadastro confirmado", "#7c9f61")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Bem-vindo(a), ${opts.name}! ✦
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -859,8 +859,8 @@ export async function sendWelcomeEmail(opts: { to: string; name: string }) {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:20px 24px;margin-bottom:24px">
-      <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#1e3a5f">Agora você pode:</p>
+    <div style="background:#f2ede0;border-radius:12px;padding:20px 24px;margin-bottom:24px">
+      <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#071a33">Agora você pode:</p>
       <ul style="margin:0;padding:0 0 0 18px;color:#666;font-size:13px;line-height:2.2">
         <li>Explorar produtos artesanais de todo o Brasil</li>
         <li>Acompanhar seus pedidos e entregas pela sua conta</li>
@@ -868,11 +868,11 @@ export async function sendWelcomeEmail(opts: { to: string; name: string }) {
       </ul>
     </div>
 
-    ${ctaButton(`${BASE_URL}/produtos`, "Explorar produtos →", "#e07b2a")}
+    ${ctaButton(`${BASE_URL}/produtos`, "Explorar produtos →", "#c1652e")}
 
     <p style="font-size:12px;color:#bbb;line-height:1.6;margin-top:24px;text-align:center">
       Antes de comprar, vale conhecer nossa
-      <a href="${BASE_URL}/termos#cancelamento-devolucao" style="color:#e07b2a;text-decoration:underline">política de cancelamento e devolução</a>.
+      <a href="${BASE_URL}/termos#cancelamento-devolucao" style="color:#c1652e;text-decoration:underline">política de cancelamento e devolução</a>.
     </p>
   `;
 
@@ -895,8 +895,8 @@ export async function sendPasswordReset(opts: {
 
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Redefinir senha", "#1e3a5f")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Redefinir senha", "#071a33")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Redefinir sua senha
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -904,12 +904,12 @@ export async function sendPasswordReset(opts: {
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:20px 24px;margin-bottom:24px;text-align:center">
+    <div style="background:#f2ede0;border-radius:12px;padding:20px 24px;margin-bottom:24px;text-align:center">
       <p style="margin:0 0 16px;font-size:14px;color:#555;line-height:1.6">
         Clique no botão abaixo para criar uma nova senha.<br>
         Este link é válido por <strong>1 hora</strong>.
       </p>
-      ${ctaButton(resetUrl, "Criar nova senha →", "#e07b2a")}
+      ${ctaButton(resetUrl, "Criar nova senha →", "#c1652e")}
     </div>
 
     <p style="font-size:12px;color:#bbb;text-align:center;line-height:1.6">
@@ -943,14 +943,14 @@ export async function sendNewChatMessage(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Nova mensagem", "#1e3a5f")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Nova mensagem", "#071a33")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         ${opts.senderName} te enviou uma mensagem
       </h1>
       <p style="margin:0;color:#888;font-size:14px">Olá, ${opts.recipientName}!</p>
     </div>
 
-    <div style="border-left:3px solid #1e3a5f;padding:14px 18px;background:#f7f3ed;border-radius:0 10px 10px 0;margin-bottom:28px">
+    <div style="border-left:3px solid #071a33;padding:14px 18px;background:#f2ede0;border-radius:0 10px 10px 0;margin-bottom:28px">
       <p style="margin:0;color:#444;font-size:14px;line-height:1.7;white-space:pre-wrap">${opts.preview}</p>
     </div>
 
@@ -973,8 +973,8 @@ export async function sendAdminMelhorEnvioSaldoBaixo(opts: { saldo: number }) {
 
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Alerta de saldo", "#e07b2a")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Alerta de saldo", "#c1652e")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         Saldo baixo no Melhor Envio
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -983,15 +983,15 @@ export async function sendAdminMelhorEnvioSaldoBaixo(opts: { saldo: number }) {
     </div>
 
     <div style="background:#fff8f0;border:2px solid #fde8d0;border-radius:14px;padding:24px;margin-bottom:24px;text-align:center">
-      <p style="margin:0 0 6px;font-size:12px;color:#c96a1e;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Saldo atual</p>
-      <p style="margin:0;font-size:36px;font-weight:800;color:#e07b2a">${saldoFmt}</p>
-      <p style="margin:8px 0 0;font-size:12px;color:#c96a1e">
+      <p style="margin:0 0 6px;font-size:12px;color:#9a5125;text-transform:uppercase;letter-spacing:.08em;font-weight:700">Saldo atual</p>
+      <p style="margin:0;font-size:36px;font-weight:800;color:#c1652e">${saldoFmt}</p>
+      <p style="margin:8px 0 0;font-size:12px;color:#9a5125">
         Artesãos podem ter problemas ao gerar etiquetas.
       </p>
     </div>
 
-    <div style="background:#f7f3ed;border-radius:12px;padding:16px 20px;margin-bottom:24px">
-      <p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#1e3a5f">Como recarregar:</p>
+    <div style="background:#f2ede0;border-radius:12px;padding:16px 20px;margin-bottom:24px">
+      <p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#071a33">Como recarregar:</p>
       <ol style="margin:0;padding:0 0 0 18px;color:#666;font-size:13px;line-height:2">
         <li>Acesse <strong>melhorenvio.com.br</strong> → Carteira</li>
         <li>Escolha PIX ou boleto para depositar</li>
@@ -999,7 +999,7 @@ export async function sendAdminMelhorEnvioSaldoBaixo(opts: { saldo: number }) {
       </ol>
     </div>
 
-    ${ctaButton("https://melhorenvio.com.br/painel/financeiro/carteira", "Recarregar agora →", "#e07b2a")}
+    ${ctaButton("https://melhorenvio.com.br/painel/financeiro/carteira", "Recarregar agora →", "#c1652e")}
   `;
 
   await send({
@@ -1018,18 +1018,18 @@ export async function sendAdminEntregasAtrasadas(opts: {
     .map(
       (o) => `
     <tr>
-      <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#1e3a5f;font-family:monospace">#${o.id.slice(-8).toUpperCase()}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#071a33;font-family:monospace">#${o.id.slice(-8).toUpperCase()}</td>
       <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#444">${o.storeName}</td>
       <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#444">${o.customerName}</td>
-      <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#e07b2a;font-weight:700;text-align:right">${o.daysSinceShipped}d</td>
+      <td style="padding:8px 0;border-bottom:1px solid #f0ece6;font-size:13px;color:#c1652e;font-weight:700;text-align:right">${o.daysSinceShipped}d</td>
     </tr>`
     )
     .join("");
 
   const content = `
     <div style="margin-bottom:24px">
-      ${badge("Entregas paradas", "#e07b2a")}
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">
+      ${badge("Entregas paradas", "#c1652e")}
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">
         ${opts.orders.length} pedido(s) enviados há muito tempo sem confirmação de entrega
       </h1>
       <p style="margin:0;color:#888;font-size:14px">
@@ -1069,21 +1069,21 @@ export async function sendContactNotification(msg: {
 
   const content = `
     <div style="margin-bottom:24px">
-      <div style="display:inline-block;background:#e07b2a;color:white;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px">Nova mensagem</div>
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">Você recebeu uma mensagem de contato</h1>
+      <div style="display:inline-block;background:#c1652e;color:white;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px">Nova mensagem</div>
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">Você recebeu uma mensagem de contato</h1>
       <p style="margin:0;color:#888;font-size:14px">Alguém entrou em contato pelo site.</p>
     </div>
 
     <!-- Dados do remetente -->
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f3ed;border-radius:12px;padding:20px;margin-bottom:20px">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f2ede0;border-radius:12px;padding:20px;margin-bottom:20px">
       <tr>
         <td style="padding:5px 0;width:70px;color:#999;font-size:13px;vertical-align:top">Nome</td>
-        <td style="padding:5px 0;font-weight:600;color:#1e3a5f;font-size:13px">${msg.name}</td>
+        <td style="padding:5px 0;font-weight:600;color:#071a33;font-size:13px">${msg.name}</td>
       </tr>
       <tr>
         <td style="padding:5px 0;color:#999;font-size:13px;vertical-align:top">E-mail</td>
         <td style="padding:5px 0;color:#444;font-size:13px">
-          <a href="mailto:${msg.email}" style="color:#e07b2a;text-decoration:none">${msg.email}</a>
+          <a href="mailto:${msg.email}" style="color:#c1652e;text-decoration:none">${msg.email}</a>
         </td>
       </tr>
       <tr>
@@ -1093,7 +1093,7 @@ export async function sendContactNotification(msg: {
     </table>
 
     <!-- Mensagem -->
-    <div style="border-left:3px solid #e07b2a;padding:14px 18px;background:#fffbf7;border-radius:0 10px 10px 0;margin-bottom:28px">
+    <div style="border-left:3px solid #c1652e;padding:14px 18px;background:#fffbf7;border-radius:0 10px 10px 0;margin-bottom:28px">
       <p style="margin:0 0 6px;font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:.06em">Mensagem</p>
       <p style="margin:0;color:#444;font-size:14px;line-height:1.7;white-space:pre-wrap">${msg.message}</p>
     </div>
@@ -1101,7 +1101,7 @@ export async function sendContactNotification(msg: {
     <!-- CTA -->
     <div style="text-align:center">
       <a href="${BASE_URL}/admin/mensagens"
-         style="display:inline-block;background:#1e3a5f;color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.02em">
+         style="display:inline-block;background:#071a33;color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.02em">
         Responder no painel →
       </a>
       <p style="margin:14px 0 0;font-size:12px;color:#bbb">
@@ -1128,13 +1128,13 @@ export async function sendReplyNotification(opts: {
 }) {
   const content = `
     <div style="margin-bottom:24px">
-      <div style="display:inline-block;background:#27ae60;color:white;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px">Resposta recebida</div>
-      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3">Olá, ${opts.clientName}! ✦</h1>
+      <div style="display:inline-block;background:#7c9f61;color:white;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px">Resposta recebida</div>
+      <h1 style="margin:0 0 6px;font-size:22px;font-weight:700;color:#071a33;line-height:1.3">Olá, ${opts.clientName}! ✦</h1>
       <p style="margin:0;color:#888;font-size:14px">Respondemos à sua mensagem. Veja abaixo.</p>
     </div>
 
     <!-- Resposta -->
-    <div style="background:#1e3a5f;border-radius:14px;padding:22px 24px;margin-bottom:20px">
+    <div style="background:#071a33;border-radius:14px;padding:22px 24px;margin-bottom:20px">
       <p style="margin:0 0 10px;font-size:11px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:.08em;font-weight:600">Resposta da equipe Feito de Gente</p>
       <p style="margin:0;color:white;font-size:15px;line-height:1.75;white-space:pre-wrap">${opts.reply}</p>
     </div>
@@ -1147,12 +1147,12 @@ export async function sendReplyNotification(opts: {
     </div>
 
     <!-- CTA -->
-    <div style="text-align:center;background:#f7f3ed;border-radius:14px;padding:24px">
+    <div style="text-align:center;background:#f2ede0;border-radius:14px;padding:24px">
       <p style="margin:0 0 16px;color:#666;font-size:14px;line-height:1.5">
         Clique abaixo para ver a conversa completa<br>e enviar uma nova mensagem se precisar.
       </p>
       <a href="${BASE_URL}/contato/resposta/${opts.token}"
-         style="display:inline-block;background:#e07b2a;color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.02em">
+         style="display:inline-block;background:#c1652e;color:white;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.02em">
         Ver conversa completa →
       </a>
     </div>

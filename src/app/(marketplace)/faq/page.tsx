@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const categories = [
   {
     icon: ShoppingBag,
-    color: "#e07b2a",
+    color: "#c1652e",
     label: "Compradores",
     id: "compradores",
     questions: [
@@ -49,7 +49,7 @@ const categories = [
   },
   {
     icon: Store,
-    color: "#27ae60",
+    color: "#7c9f61",
     label: "Artesãos",
     id: "artesaos",
     questions: [
@@ -85,7 +85,7 @@ const categories = [
   },
   {
     icon: CreditCard,
-    color: "#1e3a5f",
+    color: "#071a33",
     label: "Pagamentos",
     id: "pagamentos",
     questions: [
@@ -113,7 +113,7 @@ const categories = [
   },
   {
     icon: Package,
-    color: "#e07b2a",
+    color: "#c1652e",
     label: "Pedidos e Envio",
     id: "pedidos",
     questions: [
@@ -137,7 +137,7 @@ const categories = [
   },
   {
     icon: ShieldCheck,
-    color: "#27ae60",
+    color: "#7c9f61",
     label: "Segurança e Conta",
     id: "seguranca",
     questions: [
@@ -163,28 +163,28 @@ const categories = [
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
-      <div className="bg-[#1e3a5f] py-14">
+      <div className="bg-[#071a33] py-14">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-[#a8d5a2] mb-3">Ajuda</p>
-          <h1 className="text-4xl font-bold text-[#f7f3ed] mb-4">Perguntas Frequentes</h1>
-          <p className="text-[#f7f3ed]/60 text-lg max-w-xl mx-auto">
+          <h1 className="text-4xl font-bold text-[#f2ede0] mb-4">Perguntas Frequentes</h1>
+          <p className="text-[#f2ede0]/60 text-lg max-w-xl mx-auto">
             Encontre respostas rápidas sobre compras, vendas, pagamentos e muito mais.
           </p>
         </div>
       </div>
 
       {/* ── Nav de categorias ────────────────────────────────────────────── */}
-      <div className="bg-white border-b border-[#1e3a5f]/8 sticky top-[calc(3.5rem+2px)] z-30">
+      <div className="bg-white border-b border-[#071a33]/8 sticky top-[calc(3.5rem+2px)] z-30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-1 overflow-x-auto py-3 scrollbar-hide">
             {categories.map(({ icon: Icon, label, id, color }) => (
               <a
                 key={id}
                 href={`#${id}`}
-                className="flex items-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-full whitespace-nowrap border border-[#1e3a5f]/12 text-neutral-500 hover:border-[#1e3a5f]/30 hover:text-[#1e3a5f] transition-colors"
+                className="flex items-center gap-1.5 text-sm font-medium px-4 py-1.5 rounded-full whitespace-nowrap border border-[#071a33]/12 text-neutral-500 hover:border-[#071a33]/30 hover:text-[#071a33] transition-colors"
               >
                 <Icon className="size-3.5" style={{ color }} />
                 {label}
@@ -204,16 +204,16 @@ export default function FAQPage() {
                 <Icon className="size-5" style={{ color }} />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[#1e3a5f]">{label}</h2>
+                <h2 className="text-xl font-bold text-[#071a33]">{label}</h2>
                 <p className="text-xs text-neutral-400">{questions.length} perguntas</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-[#1e3a5f]/8 overflow-hidden shadow-sm">
-              <Accordion className="divide-y divide-[#1e3a5f]/6">
+            <div className="bg-white rounded-2xl border border-[#071a33]/8 overflow-hidden shadow-sm">
+              <Accordion className="divide-y divide-[#071a33]/6">
                 {questions.map((item, i) => (
                   <AccordionItem key={i} value={`${id}-${i}`} className="border-none">
-                    <AccordionTrigger className="px-6 py-4 text-left text-sm font-semibold text-[#1e3a5f] hover:text-[#1e3a5f] hover:no-underline hover:bg-[#f7f3ed]/60 transition-colors [&[data-state=open]]:bg-[#f7f3ed]/60">
+                    <AccordionTrigger className="px-6 py-4 text-left text-sm font-semibold text-[#071a33] hover:text-[#071a33] hover:no-underline hover:bg-[#f2ede0]/60 transition-colors [&[data-state=open]]:bg-[#f2ede0]/60">
                       {item.q}
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-5 pt-0 text-sm text-neutral-500 leading-relaxed">
@@ -227,24 +227,24 @@ export default function FAQPage() {
         ))}
 
         {/* ── Ainda com dúvidas? ───────────────────────────────────────── */}
-        <section className="bg-[#27ae60] rounded-2xl p-8 text-center relative overflow-hidden">
+        <section className="bg-[#7c9f61] rounded-2xl p-8 text-center relative overflow-hidden">
           <div
             className="absolute inset-0 opacity-[0.05] pointer-events-none rounded-2xl"
-            style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "20px 20px" }}
+            style={{ backgroundImage: "radial-gradient(circle, #f2ede0 1px, transparent 1px)", backgroundSize: "20px 20px" }}
           />
           <div className="relative">
-            <MessageCircle className="size-10 text-[#f7f3ed]/60 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-[#f7f3ed] mb-2">Ainda com dúvidas?</h2>
-            <p className="text-[#f7f3ed]/65 mb-6 max-w-sm mx-auto">
+            <MessageCircle className="size-10 text-[#f2ede0]/60 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-[#f2ede0] mb-2">Ainda com dúvidas?</h2>
+            <p className="text-[#f2ede0]/65 mb-6 max-w-sm mx-auto">
               Nossa equipe de suporte está pronta para te ajudar. Respondemos em até 24 horas.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Button asChild className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold hover:scale-105 transition-all shadow-md">
+              <Button asChild className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold hover:scale-105 transition-all shadow-md">
                 <Link href="/contato">
                   Falar com o suporte <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="border-[#f7f3ed]/70 text-[#f7f3ed] bg-white/10 hover:bg-white/20 hover:border-white">
+              <Button asChild variant="outline" className="border-[#f2ede0]/70 text-[#f2ede0] bg-white/10 hover:bg-white/20 hover:border-white">
                 <Link href="/contato">Enviar e-mail</Link>
               </Button>
             </div>

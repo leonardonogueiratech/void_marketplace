@@ -44,7 +44,7 @@ export function ExportButton({ data, filename, label = "Exportar CSV" }: Props) 
       size="sm"
       onClick={handleExport}
       disabled={!data.length}
-      className="border-[#1e3a5f]/20 text-[#1e3a5f] hover:bg-[#1e3a5f]/5"
+      className="border-[#071a33]/20 text-[#071a33] hover:bg-[#071a33]/5"
     >
       <Download className="mr-2 size-4" />
       {label}

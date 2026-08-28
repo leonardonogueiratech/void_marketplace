@@ -46,54 +46,54 @@ export function ProfileForm({ user }: Props) {
   return (
     <div className="space-y-4 max-w-lg">
       {/* Info readonly */}
-      <Card className="border-[#1e3a5f]/10 bg-[#f7f3ed]/50">
+      <Card className="border-[#071a33]/10 bg-[#f2ede0]/50">
         <CardContent className="pt-4 pb-4 space-y-3">
           <div className="flex items-center gap-2 text-sm text-neutral-500">
-            <Mail className="size-4 text-[#1e3a5f]/40" />
+            <Mail className="size-4 text-[#071a33]/40" />
             <span>{user.email}</span>
-            <span className="ml-auto text-xs bg-[#27ae60]/10 text-[#27ae60] px-2 py-0.5 rounded-full">verificado</span>
+            <span className="ml-auto text-xs bg-[#7c9f61]/10 text-[#7c9f61] px-2 py-0.5 rounded-full">verificado</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-neutral-500">
-            <Calendar className="size-4 text-[#1e3a5f]/40" />
+            <Calendar className="size-4 text-[#071a33]/40" />
             <span>Membro desde {formatDate(user.createdAt)}</span>
           </div>
         </CardContent>
       </Card>
 
       {/* Editable form */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base text-[#1e3a5f]">Editar dados</CardTitle>
+          <CardTitle className="text-base text-[#071a33]">Editar dados</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <Label className="text-[#1e3a5f] font-medium">Nome completo</Label>
+              <Label className="text-[#071a33] font-medium">Nome completo</Label>
               <Input
                 required
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[#1e3a5f] font-medium">
+              <Label className="text-[#071a33] font-medium">
                 Telefone <span className="text-neutral-400 font-normal">(opcional)</span>
               </Label>
               <Input
                 placeholder="11999999999"
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[#1e3a5f] font-medium">CPF ou CNPJ</Label>
+              <Label className="text-[#071a33] font-medium">CPF ou CNPJ</Label>
               <Input
                 placeholder="000.000.000-00 ou 00.000.000/0001-00"
                 value={form.cpfCnpj}
                 onChange={(e) => setForm({ ...form, cpfCnpj: e.target.value.replace(/\D/g, "") })}
-                className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
               />
               <p className="text-[11px] text-neutral-400">Necessário para concluir pagamentos via PIX, boleto ou cartão.</p>
             </div>
@@ -101,7 +101,7 @@ export function ProfileForm({ user }: Props) {
               <Button
                 type="submit"
                 disabled={loading}
-                className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold hover:scale-105 transition-all"
+                className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold hover:scale-105 transition-all"
               >
                 {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
                 Salvar alterações

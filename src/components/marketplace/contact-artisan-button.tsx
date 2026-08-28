@@ -42,7 +42,7 @@ export function ContactArtisanButton({ artisanUserId, artisanName, isLoggedIn }:
     <button
       onClick={handleClick}
       disabled={loading}
-      className="w-full inline-flex items-center justify-center gap-2 border border-[#1e3a5f]/20 text-[#1e3a5f] font-semibold text-sm px-6 py-3 rounded-xl hover:bg-[#1e3a5f]/5 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+      className="w-full inline-flex items-center justify-center gap-2 border border-[#071a33]/20 text-[#071a33] font-semibold text-sm px-6 py-3 rounded-xl hover:bg-[#071a33]/5 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
     >
       {loading ? <Loader2 className="size-4 animate-spin" /> : <MessageCircle className="size-4" />}
       Falar com {artisanName}

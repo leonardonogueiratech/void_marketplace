@@ -94,11 +94,11 @@ export function ReviewButton({ orderId, storeName }: Props) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-[#1e3a5f]">Avaliar compra</DialogTitle>
+            <DialogTitle className="text-[#071a33]">Avaliar compra</DialogTitle>
           </DialogHeader>
 
           <div className="text-sm text-neutral-500 -mt-1 mb-2">
-            Sua opinião sobre <span className="font-semibold text-[#1e3a5f]">{storeName}</span>
+            Sua opinião sobre <span className="font-semibold text-[#071a33]">{storeName}</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -131,7 +131,7 @@ export function ReviewButton({ orderId, storeName }: Props) {
               <Button
                 type="submit"
                 disabled={loading || rating === 0}
-                className="flex-1 bg-[#1e3a5f] hover:bg-[#162d4a] text-white"
+                className="flex-1 bg-[#071a33] hover:bg-[#051224] text-white"
               >
                 {loading
                   ? <><Loader2 className="mr-2 size-4 animate-spin" /> Enviando...</>

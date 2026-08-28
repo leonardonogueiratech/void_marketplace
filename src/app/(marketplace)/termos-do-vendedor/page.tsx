@@ -9,7 +9,7 @@ export default function TermosDoVendedorPage() {
   return (
     <div className="max-w-3xl mx-auto py-10 px-4 space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-[#1e3a5f]">Termos de Adesão do Vendedor</h1>
+        <h1 className="text-3xl font-bold text-[#071a33]">Termos de Adesão do Vendedor</h1>
         <p className="text-neutral-500 mt-2 text-sm">
           Última atualização: maio de 2025
         </p>
@@ -192,11 +192,11 @@ export default function TermosDoVendedorPage() {
       <div className="border-t border-neutral-200 pt-6 text-sm text-neutral-500">
         <p>
           Dúvidas? Entre em contato pelo{" "}
-          <a href="/contato" className="text-[#1e3a5f] underline hover:text-[#e07b2a] transition-colors">
+          <a href="/contato" className="text-[#071a33] underline hover:text-[#c1652e] transition-colors">
             formulário de contato
           </a>{" "}
           ou pelo e-mail{" "}
-          <a href="mailto:contato@feitodegente.com.br" className="text-[#1e3a5f] underline hover:text-[#e07b2a] transition-colors">
+          <a href="mailto:contato@feitodegente.com.br" className="text-[#071a33] underline hover:text-[#c1652e] transition-colors">
             contato@feitodegente.com.br
           </a>
           .
@@ -209,7 +209,7 @@ export default function TermosDoVendedorPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="space-y-2">
-      <h2 className="text-lg font-semibold text-[#1e3a5f]">{title}</h2>
+      <h2 className="text-lg font-semibold text-[#071a33]">{title}</h2>
       <div className="text-neutral-600 leading-relaxed text-sm">{children}</div>
     </section>
   );

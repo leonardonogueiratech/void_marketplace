@@ -51,7 +51,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-[#1e3a5f] border-b border-white/10">
+    <header className="sticky top-0 z-50 bg-brand-cream/95 backdrop-blur border-b border-brand-navy/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16 md:h-18 lg:h-20 gap-4">
 
@@ -81,13 +81,13 @@ export function Navbar() {
                   href={link.href}
                   className={`relative text-sm font-medium px-3 py-1.5 rounded-lg transition-colors ${
                     active
-                      ? "text-white bg-white/15"
-                      : "text-white/70 hover:text-white hover:bg-white/10"
+                      ? "text-brand-navy bg-brand-navy/8"
+                      : "text-brand-navy/60 hover:text-brand-navy hover:bg-brand-navy/5"
                   }`}
                 >
                   {link.label}
                   {active && (
-                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#e07b2a] rounded-full" />
+                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#c1652e] rounded-full" />
                   )}
                 </Link>
               );
@@ -100,16 +100,16 @@ export function Navbar() {
             className={`hidden md:flex items-center transition-all duration-200 ${searchOpen ? "flex-1 max-w-xs" : "w-auto"}`}
           >
             {searchOpen ? (
-              <div className="flex items-center w-full gap-1 bg-white/10 border border-white/20 rounded-full px-3 py-1.5">
-                <Search className="size-4 text-white/60 shrink-0" />
+              <div className="flex items-center w-full gap-1 bg-white border border-brand-navy/15 rounded-full px-3 py-1.5">
+                <Search className="size-4 text-brand-navy/50 shrink-0" />
                 <input
                   ref={searchRef}
                   type="text"
                   placeholder="Buscar produtos..."
-                  className="flex-1 bg-transparent text-sm text-white placeholder:text-white/40 outline-none"
+                  className="flex-1 bg-transparent text-sm text-brand-navy placeholder:text-brand-navy/35 outline-none"
                   onBlur={() => setSearchOpen(false)}
                 />
-                <button type="submit" className="text-xs text-white/70 font-medium hover:text-white">
+                <button type="submit" className="text-xs text-brand-navy/60 font-medium hover:text-brand-navy">
                   Buscar
                 </button>
               </div>
@@ -117,10 +117,10 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={openSearch}
-                className="flex items-center gap-2 text-sm text-white/50 bg-white/10 border border-white/15 rounded-full px-3 py-1.5 hover:bg-white/15 hover:border-white/25 transition-colors"
+                className="flex items-center gap-2 text-sm text-brand-navy/50 bg-white border border-brand-navy/12 rounded-full px-3 py-1.5 hover:bg-brand-navy/5 hover:border-brand-navy/20 transition-colors"
               >
-                <Search className="size-4 text-white/60" />
-                <span className="hidden lg:inline text-xs text-white/50">Buscar...</span>
+                <Search className="size-4 text-brand-navy/50" />
+                <span className="hidden lg:inline text-xs text-brand-navy/50">Buscar...</span>
               </button>
             )}
           </form>
@@ -128,18 +128,18 @@ export function Navbar() {
           {/* Actions */}
           <div className="flex items-center gap-1">
             {/* Mobile search */}
-            <Button variant="ghost" size="icon" className="md:hidden hover:bg-white/10" asChild>
+            <Button variant="ghost" size="icon" className="md:hidden hover:bg-brand-navy/5" asChild>
               <Link href="/produtos?q=">
-                <Search className="size-5 text-white" />
+                <Search className="size-5 text-brand-navy" />
               </Link>
             </Button>
 
             {/* Cart */}
-            <Button variant="ghost" size="icon" className="relative hover:bg-white/10" asChild>
+            <Button variant="ghost" size="icon" className="relative hover:bg-brand-navy/5" asChild>
               <Link href="/carrinho">
-                <ShoppingBag className="size-5 text-white" />
+                <ShoppingBag className="size-5 text-brand-navy" />
                 {itemCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 size-5 flex items-center justify-center p-0 text-xs bg-[#e07b2a] hover:bg-[#e07b2a]">
+                  <Badge className="absolute -top-1 -right-1 size-5 flex items-center justify-center p-0 text-xs bg-[#c1652e] hover:bg-[#c1652e]">
                     {itemCount}
                   </Badge>
                 )}
@@ -150,39 +150,39 @@ export function Navbar() {
             {session ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-white/10">
-                    <Avatar className="size-8 ring-2 ring-white/30">
+                  <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-brand-navy/5">
+                    <Avatar className="size-8 ring-2 ring-brand-navy/15">
                       <AvatarImage src={session.user.image ?? undefined} />
-                      <AvatarFallback className="text-xs bg-white/20 text-white">
+                      <AvatarFallback className="text-xs bg-brand-navy/10 text-brand-navy">
                         {getInitials(session.user.name ?? "U")}
                       </AvatarFallback>
                     </Avatar>
                     {hasUnreadChat && (
                       <span
                         title="Você tem mensagens não lidas"
-                        className="absolute top-0 right-0 size-2.5 rounded-full bg-[#e07b2a] ring-2 ring-[#1e3a5f]"
+                        className="absolute top-0 right-0 size-2.5 rounded-full bg-[#c1652e] ring-2 ring-brand-cream"
                       />
                     )}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-lg">
                   <div className="px-3 py-2 border-b border-border">
-                    <p className="text-sm font-semibold text-[#1e3a5f]">{session.user.name}</p>
+                    <p className="text-sm font-semibold text-[#071a33]">{session.user.name}</p>
                     <p className="text-xs text-muted-foreground truncate">{session.user.email}</p>
                   </div>
                   <DropdownMenuItem asChild className="mt-1">
                     <Link href="/conta/perfil">
-                      <User className="mr-2 size-4 text-[#27ae60]" /> Minha Conta
+                      <User className="mr-2 size-4 text-[#7c9f61]" /> Minha Conta
                     </Link>
                   </DropdownMenuItem>
                   {(session.user.role === "ARTISAN" || session.user.role === "ADMIN") && (
                     <DropdownMenuItem asChild>
                       <Link href="/dashboard">
-                        <Store className="mr-2 size-4 text-[#27ae60]" /> Minha Loja
+                        <Store className="mr-2 size-4 text-[#7c9f61]" /> Minha Loja
                         {hasUnreadChat && (
                           <span
                             title="Você tem mensagens não lidas"
-                            className="ml-auto size-2 rounded-full bg-[#e07b2a]"
+                            className="ml-auto size-2 rounded-full bg-[#c1652e]"
                           />
                         )}
                       </Link>
@@ -191,7 +191,7 @@ export function Navbar() {
                   {session.user.role === "ADMIN" && (
                     <DropdownMenuItem asChild>
                       <Link href="/admin">
-                        <ShieldCheck className="mr-2 size-4 text-[#27ae60]" /> Administrador
+                        <ShieldCheck className="mr-2 size-4 text-[#7c9f61]" /> Administrador
                       </Link>
                     </DropdownMenuItem>
                   )}
@@ -208,7 +208,7 @@ export function Navbar() {
               <Button
                 asChild
                 size="sm"
-                className="bg-white/20 hover:bg-white/30 text-white border border-white/50 hover:border-white rounded-full px-5 hidden sm:flex"
+                className="bg-brand-navy hover:bg-[#051224] text-white rounded-full px-5 hidden sm:flex"
               >
                 <Link href="/login">Entrar</Link>
               </Button>
@@ -218,10 +218,10 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden hover:bg-white/10"
+              className="md:hidden hover:bg-brand-navy/5"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
-              {mobileOpen ? <X className="size-5 text-white" /> : <Menu className="size-5 text-white" />}
+              {mobileOpen ? <X className="size-5 text-brand-navy" /> : <Menu className="size-5 text-brand-navy" />}
             </Button>
           </div>
         </div>
@@ -229,16 +229,16 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-white/10 bg-[#1a3356]">
+        <div className="md:hidden border-t border-brand-navy/10 bg-brand-cream">
           {/* Mobile search */}
           <form onSubmit={handleSearch} className="px-4 pt-3 pb-1">
-            <div className="flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-3 py-2">
-              <Search className="size-4 text-white/50 shrink-0" />
+            <div className="flex items-center gap-2 bg-white border border-brand-navy/12 rounded-full px-3 py-2">
+              <Search className="size-4 text-brand-navy/45 shrink-0" />
               <input
                 ref={searchRef}
                 type="text"
                 placeholder="Buscar produtos..."
-                className="flex-1 bg-transparent text-sm text-white placeholder:text-white/40 outline-none"
+                className="flex-1 bg-transparent text-sm text-brand-navy placeholder:text-brand-navy/35 outline-none"
               />
             </div>
           </form>
@@ -252,8 +252,8 @@ export function Navbar() {
                   href={link.href}
                   className={`py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${
                     active
-                      ? "text-white bg-white/15"
-                      : "text-white/70 hover:text-white hover:bg-white/10"
+                      ? "text-brand-navy bg-brand-navy/8"
+                      : "text-brand-navy/60 hover:text-brand-navy hover:bg-brand-navy/5"
                   }`}
                   onClick={() => setMobileOpen(false)}
                 >
@@ -264,8 +264,8 @@ export function Navbar() {
           </nav>
 
           {!session && (
-            <div className="px-4 pb-4 pt-2 border-t border-white/10 mt-2">
-              <Button asChild className="w-full bg-white/15 hover:bg-white/25 text-white border border-white/20">
+            <div className="px-4 pb-4 pt-2 border-t border-brand-navy/10 mt-2">
+              <Button asChild className="w-full bg-brand-navy hover:bg-[#051224] text-white">
                 <Link href="/login" onClick={() => setMobileOpen(false)}>Entrar</Link>
               </Button>
             </div>

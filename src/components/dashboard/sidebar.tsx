@@ -69,14 +69,14 @@ export function DashboardSidebar({ artisan }: SidebarProps) {
           Minha Loja
         </p>
         <div className="flex items-center gap-3">
-          <Avatar className="size-10 ring-2 ring-[#e07b2a]/20">
+          <Avatar className="size-10 ring-2 ring-[#c1652e]/20">
             <AvatarImage src={artisan.logoImage ?? undefined} />
-            <AvatarFallback className="text-sm bg-[#e07b2a]/10 text-[#e07b2a] font-bold">
+            <AvatarFallback className="text-sm bg-[#c1652e]/10 text-[#c1652e] font-bold">
               {getInitials(artisan.storeName)}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-sm truncate text-[#1e3a5f]">{artisan.storeName}</p>
+            <p className="font-semibold text-sm truncate text-[#071a33]">{artisan.storeName}</p>
             <span className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${STATUS_COLORS[artisan.status]}`}>
               {STATUS_LABELS[artisan.status]}
             </span>
@@ -86,7 +86,7 @@ export function DashboardSidebar({ artisan }: SidebarProps) {
         <Link
           href={`/artesao/${artisan.slug}`}
           target="_blank"
-          className="mt-2.5 flex items-center gap-1.5 text-xs text-neutral-400 hover:text-[#e07b2a] transition-colors"
+          className="mt-2.5 flex items-center gap-1.5 text-xs text-neutral-400 hover:text-[#c1652e] transition-colors"
         >
           <ExternalLink className="size-3" /> Ver loja pública
         </Link>
@@ -103,8 +103,8 @@ export function DashboardSidebar({ artisan }: SidebarProps) {
               onClick={() => setOpen(false)}
               className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-[#1e3a5f] text-white"
-                  : "text-neutral-500 hover:bg-neutral-100 hover:text-[#1e3a5f]"
+                  ? "bg-[#071a33] text-white"
+                  : "text-neutral-500 hover:bg-neutral-100 hover:text-[#071a33]"
               }`}
             >
               <Icon className="size-4 shrink-0" />
@@ -112,7 +112,7 @@ export function DashboardSidebar({ artisan }: SidebarProps) {
               {href === "/dashboard/chat" && hasUnreadChat && (
                 <span
                   title="Você tem mensagens não lidas"
-                  className="ml-auto size-2 rounded-full bg-[#e07b2a]"
+                  className="ml-auto size-2 rounded-full bg-[#c1652e]"
                 />
               )}
             </Link>
@@ -125,7 +125,7 @@ export function DashboardSidebar({ artisan }: SidebarProps) {
         <Link
           href="/conta/perfil"
           onClick={() => setOpen(false)}
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-neutral-500 hover:bg-neutral-100 hover:text-[#1e3a5f] transition-colors"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-neutral-500 hover:bg-neutral-100 hover:text-[#071a33] transition-colors"
         >
           <User className="size-4" />
           <span>Minha Conta</span>

@@ -28,7 +28,7 @@ export default async function DashboardSettingsPage() {
   });
 
   const storeStatusLabels: Record<string, { label: string; color: string }> = {
-    APPROVED: { label: "Aprovada", color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
+    APPROVED: { label: "Aprovada", color: "bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20" },
     PENDING:  { label: "Em análise", color: "bg-amber-50 text-amber-700 border-amber-200" },
     REJECTED: { label: "Rejeitada", color: "bg-red-50 text-red-600 border-red-200" },
     SUSPENDED:{ label: "Suspensa", color: "bg-neutral-100 text-neutral-500 border-neutral-200" },
@@ -38,37 +38,37 @@ export default async function DashboardSettingsPage() {
   return (
     <div className="space-y-8 max-w-3xl">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Configurações</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Configurações</h1>
         <p className="text-sm text-neutral-500 mt-1">Conta, plano e visibilidade da loja.</p>
       </div>
 
       {/* Account + store info */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-[#1e3a5f] flex items-center gap-2">
+            <CardTitle className="text-sm text-[#071a33] flex items-center gap-2">
               <User className="size-4" /> Conta
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div>
               <p className="text-xs text-neutral-400">Nome</p>
-              <p className="font-medium text-[#1e3a5f]">{session?.user.name ?? "—"}</p>
+              <p className="font-medium text-[#071a33]">{session?.user.name ?? "—"}</p>
             </div>
             <div>
               <p className="text-xs text-neutral-400">Email</p>
-              <p className="font-medium text-[#1e3a5f] truncate">{session?.user.email ?? "—"}</p>
+              <p className="font-medium text-[#071a33] truncate">{session?.user.email ?? "—"}</p>
             </div>
             <div>
               <p className="text-xs text-neutral-400">Membro desde</p>
-              <p className="font-medium text-[#1e3a5f]">{formatDate(artisan.createdAt)}</p>
+              <p className="font-medium text-[#071a33]">{formatDate(artisan.createdAt)}</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-[#1e3a5f] flex items-center gap-2">
+            <CardTitle className="text-sm text-[#071a33] flex items-center gap-2">
               <Store className="size-4" /> Loja
             </CardTitle>
           </CardHeader>
@@ -81,13 +81,13 @@ export default async function DashboardSettingsPage() {
             </div>
             <div>
               <p className="text-xs text-neutral-400">URL pública</p>
-              <p className="font-medium text-[#1e3a5f] text-xs">/artesao/{artisan.slug}</p>
+              <p className="font-medium text-[#071a33] text-xs">/artesao/{artisan.slug}</p>
             </div>
             <div>
               <p className="text-xs text-neutral-400">Destaque</p>
-              <p className="font-medium text-[#1e3a5f]">{artisan.featured ? "Sim" : "Não"}</p>
+              <p className="font-medium text-[#071a33]">{artisan.featured ? "Sim" : "Não"}</p>
             </div>
-            <Button variant="outline" size="sm" asChild className="w-full mt-1 border-[#1e3a5f]/20 text-[#1e3a5f] text-xs">
+            <Button variant="outline" size="sm" asChild className="w-full mt-1 border-[#071a33]/20 text-[#071a33] text-xs">
               <Link href={`/artesao/${artisan.slug}`} target="_blank">
                 <ExternalLink className="mr-1.5 size-3" /> Ver loja pública
               </Link>
@@ -97,9 +97,9 @@ export default async function DashboardSettingsPage() {
       </div>
 
       {/* Subscription management */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base text-[#1e3a5f]">Plano e assinatura</CardTitle>
+          <CardTitle className="text-base text-[#071a33]">Plano e assinatura</CardTitle>
         </CardHeader>
         <CardContent>
           <SubscriptionPanel
@@ -113,9 +113,9 @@ export default async function DashboardSettingsPage() {
       </Card>
 
       {/* Resumo do plano atual */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm text-[#1e3a5f] flex items-center gap-2">
+          <CardTitle className="text-sm text-[#071a33] flex items-center gap-2">
             <Receipt className="size-4" /> Detalhes do plano atual
           </CardTitle>
         </CardHeader>
@@ -140,7 +140,7 @@ export default async function DashboardSettingsPage() {
             ].map(({ label, value }) => (
               <div key={label}>
                 <p className="text-xs text-neutral-400">{label}</p>
-                <p className="font-semibold text-[#1e3a5f] mt-0.5">{value}</p>
+                <p className="font-semibold text-[#071a33] mt-0.5">{value}</p>
               </div>
             ))}
           </div>
@@ -155,16 +155,16 @@ export default async function DashboardSettingsPage() {
                 {recentWithdrawals.map((w) => (
                   <div key={w.id} className="flex items-center justify-between py-1.5 border-b border-neutral-100 last:border-0">
                     <div>
-                      <p className="text-sm text-[#1e3a5f] font-medium">{formatCurrency(w.amount)}</p>
+                      <p className="text-sm text-[#071a33] font-medium">{formatCurrency(w.amount)}</p>
                       <p className="text-xs text-neutral-400">PIX {w.pixKey} · {formatDate(w.createdAt)}</p>
                     </div>
-                    <span className="text-xs bg-[#27ae60]/10 text-[#27ae60] px-2 py-0.5 rounded-full">
+                    <span className="text-xs bg-[#7c9f61]/10 text-[#7c9f61] px-2 py-0.5 rounded-full">
                       Pago
                     </span>
                   </div>
                 ))}
               </div>
-              <Button variant="outline" size="sm" asChild className="mt-3 text-xs border-[#1e3a5f]/20 text-[#1e3a5f]">
+              <Button variant="outline" size="sm" asChild className="mt-3 text-xs border-[#071a33]/20 text-[#071a33]">
                 <Link href="/dashboard/financeiro">Ver extrato completo →</Link>
               </Button>
             </div>

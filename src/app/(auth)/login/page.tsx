@@ -68,7 +68,7 @@ function LoginForm() {
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Senha</Label>
-              <Link href="/recuperar-senha" className="text-xs text-muted-foreground hover:text-[#1e3a5f] transition-colors">
+              <Link href="/recuperar-senha" className="text-xs text-muted-foreground hover:text-[#071a33] transition-colors">
                 Esqueceu a senha?
               </Link>
             </div>
@@ -105,7 +105,7 @@ function LoginForm() {
         </p>
         <p className="text-center text-sm text-muted-foreground mt-2">
           Quer vender?{" "}
-          <Link href="/seja-artesao" className="text-[#e07b2a] hover:underline font-medium">
+          <Link href="/seja-artesao" className="text-[#c1652e] hover:underline font-medium">
             Seja um artesão
           </Link>
         </p>

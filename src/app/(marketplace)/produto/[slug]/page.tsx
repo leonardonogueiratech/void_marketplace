@@ -130,7 +130,7 @@ export default async function ProductPage({ params }: Props) {
           <div>
             <Link
               href={`/artesao/${product.artisan.slug}`}
-              className="text-sm text-[#e07b2a] hover:underline font-medium"
+              className="text-sm text-[#c1652e] hover:underline font-medium"
             >
               {product.artisan.storeName}
             </Link>
@@ -169,14 +169,14 @@ export default async function ProductPage({ params }: Props) {
               </span>
             )}
             {discount && (
-              <Badge className="bg-[#27ae60] hover:bg-[#27ae60]">-{discount}%</Badge>
+              <Badge className="bg-[#7c9f61] hover:bg-[#7c9f61]">-{discount}%</Badge>
             )}
           </div>
 
           {/* Stock */}
           <div>
             {product.stock > 0 ? (
-              <span className="text-sm text-[#27ae60] font-medium">
+              <span className="text-sm text-[#7c9f61] font-medium">
                 ✓ {product.stock} disponível{product.stock > 1 ? "is" : ""}
               </span>
             ) : (
@@ -236,9 +236,9 @@ export default async function ProductPage({ params }: Props) {
 
           {/* Story */}
           {product.story && (
-            <div className="bg-[#f7f3ed] rounded-lg p-4 border border-[#e07b2a]/20">
-              <p className="text-sm font-medium text-[#e07b2a] mb-1">✦ A história desta peça</p>
-              <p className="text-sm text-[#1e3a5f]/70 leading-relaxed">{product.story}</p>
+            <div className="bg-[#f2ede0] rounded-lg p-4 border border-[#c1652e]/20">
+              <p className="text-sm font-medium text-[#c1652e] mb-1">✦ A história desta peça</p>
+              <p className="text-sm text-[#071a33]/70 leading-relaxed">{product.story}</p>
             </div>
           )}
 
@@ -251,7 +251,7 @@ export default async function ProductPage({ params }: Props) {
               { icon: Truck, text: "Entrega pelo artesão" },
             ].map(({ icon: Icon, text }) => (
               <div key={text} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Icon className="size-4 text-[#27ae60]" />
+                <Icon className="size-4 text-[#7c9f61]" />
                 <span>{text}</span>
               </div>
             ))}

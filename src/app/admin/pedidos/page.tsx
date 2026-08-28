@@ -8,10 +8,10 @@ import { RefundButton } from "./refund-button";
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   PENDING:         { label: "Pendente",       color: "bg-neutral-100 text-neutral-500 border-neutral-200" },
   PAYMENT_PENDING: { label: "Aguard. Pgto",  color: "bg-amber-50 text-amber-600 border-amber-200" },
-  PAID:            { label: "Pago",           color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
+  PAID:            { label: "Pago",           color: "bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20" },
   PROCESSING:      { label: "Preparando",    color: "bg-blue-50 text-blue-600 border-blue-200" },
   SHIPPED:         { label: "Enviado",        color: "bg-purple-50 text-purple-600 border-purple-200" },
-  DELIVERED:       { label: "Entregue",       color: "bg-[#27ae60]/15 text-[#27ae60] border-[#27ae60]/25" },
+  DELIVERED:       { label: "Entregue",       color: "bg-[#7c9f61]/15 text-[#7c9f61] border-[#7c9f61]/25" },
   CANCELLED:       { label: "Cancelado",      color: "bg-red-50 text-red-500 border-red-200" },
   REFUNDED:        { label: "Reembolsado",    color: "bg-neutral-100 text-neutral-400 border-neutral-200" },
 };
@@ -63,7 +63,7 @@ export default async function AdminOrdersPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Pedidos</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Pedidos</h1>
         <p className="text-sm text-neutral-500 mt-1">{total} pedido(s) no total.</p>
       </div>
 
@@ -75,8 +75,8 @@ export default async function AdminOrdersPage({
             href={tab.value ? `/admin/pedidos?status=${tab.value}` : "/admin/pedidos"}
             className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
               (status ?? "") === tab.value
-                ? "bg-[#1e3a5f] text-white border-[#1e3a5f]"
-                : "bg-white text-neutral-500 border-[#1e3a5f]/15 hover:border-[#1e3a5f]/30"
+                ? "bg-[#071a33] text-white border-[#071a33]"
+                : "bg-white text-neutral-500 border-[#071a33]/15 hover:border-[#071a33]/30"
             }`}
           >
             {tab.label}
@@ -87,7 +87,7 @@ export default async function AdminOrdersPage({
         ))}
       </div>
 
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardContent className="p-0">
           {orders.length === 0 ? (
             <p className="text-sm text-neutral-400 text-center py-10">Nenhum pedido encontrado.</p>
@@ -95,32 +95,32 @@ export default async function AdminOrdersPage({
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-[#1e3a5f]/8">
+                  <tr className="border-b border-[#071a33]/8">
                     {["Pedido", "Comprador", "Itens", "Total", "Pagamento", "Status", "Data", "Ações"].map((h) => (
                       <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-neutral-400 uppercase tracking-wide whitespace-nowrap">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1e3a5f]/6">
+                <tbody className="divide-y divide-[#071a33]/6">
                   {orders.map((o) => {
                     const st = STATUS_CONFIG[o.status] ?? STATUS_CONFIG.PENDING;
                     const canRefund = !!o.payment?.asaasPaymentId
                       && !["REFUNDED", "CANCELLED", "PENDING", "PAYMENT_PENDING"].includes(o.status);
                     return (
-                      <tr key={o.id} className="hover:bg-[#f7f3ed]/40 transition-colors">
+                      <tr key={o.id} className="hover:bg-[#f2ede0]/40 transition-colors">
                         <td className="px-5 py-3">
-                          <span className="font-mono text-xs text-[#1e3a5f] font-semibold">
+                          <span className="font-mono text-xs text-[#071a33] font-semibold">
                             #{o.id.slice(-6).toUpperCase()}
                           </span>
                         </td>
                         <td className="px-5 py-3">
-                          <p className="font-medium text-[#1e3a5f] text-xs">{o.user.name ?? "—"}</p>
+                          <p className="font-medium text-[#071a33] text-xs">{o.user.name ?? "—"}</p>
                           <p className="text-xs text-neutral-400">{o.user.email}</p>
                         </td>
                         <td className="px-5 py-3 text-neutral-500 text-xs">
                           {o.items.length} item(s)
                         </td>
-                        <td className="px-5 py-3 font-semibold text-[#1e3a5f] text-xs whitespace-nowrap">
+                        <td className="px-5 py-3 font-semibold text-[#071a33] text-xs whitespace-nowrap">
                           {formatCurrency(o.total)}
                         </td>
                         <td className="px-5 py-3 text-neutral-400 text-xs">
@@ -155,7 +155,7 @@ export default async function AdminOrdersPage({
             {page > 1 && (
               <Link
                 href={`/admin/pedidos?${status ? `status=${status}&` : ""}page=${page - 1}`}
-                className="px-3 py-1.5 rounded-full border border-[#1e3a5f]/15 hover:border-[#1e3a5f]/30 transition-colors"
+                className="px-3 py-1.5 rounded-full border border-[#071a33]/15 hover:border-[#071a33]/30 transition-colors"
               >
                 ← Anterior
               </Link>
@@ -163,7 +163,7 @@ export default async function AdminOrdersPage({
             {page < totalPages && (
               <Link
                 href={`/admin/pedidos?${status ? `status=${status}&` : ""}page=${page + 1}`}
-                className="px-3 py-1.5 rounded-full border border-[#1e3a5f]/15 hover:border-[#1e3a5f]/30 transition-colors"
+                className="px-3 py-1.5 rounded-full border border-[#071a33]/15 hover:border-[#071a33]/30 transition-colors"
               >
                 Próxima →
               </Link>

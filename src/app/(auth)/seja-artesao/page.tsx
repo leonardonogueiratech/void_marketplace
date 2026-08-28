@@ -21,7 +21,7 @@ const PLANS = [
   {
     id: "FREE",
     name: "Inicial",
-    color: "#27ae60",
+    color: "#7c9f61",
     price: SUBSCRIPTION_PRICES.FREE,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
@@ -39,7 +39,7 @@ const PLANS = [
   {
     id: "BASIC",
     name: "Profissional",
-    color: "#1e3a5f",
+    color: "#071a33",
     price: SUBSCRIPTION_PRICES.BASIC,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
@@ -57,7 +57,7 @@ const PLANS = [
   {
     id: "PRO",
     name: "Ateliê",
-    color: "#e07b2a",
+    color: "#c1652e",
     price: SUBSCRIPTION_PRICES.PRO,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
@@ -129,9 +129,9 @@ export default function BeArtisanPage() {
     <div className="w-full max-w-4xl">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-[#1e3a5f]">
+        <h1 className="text-3xl font-bold text-[#071a33]">
           Abra sua vitrine.{" "}
-          <span className="text-[#e07b2a]">O Brasil está esperando.</span>
+          <span className="text-[#c1652e]">O Brasil está esperando.</span>
         </h1>
         <p className="text-neutral-500 mt-2 max-w-md mx-auto">
           Você faz a parte mais difícil. A gente cuida do resto.
@@ -140,15 +140,15 @@ export default function BeArtisanPage() {
 
       {/* Step indicator */}
       <div className="flex items-center justify-center gap-3 mb-8">
-        <div className={`flex items-center gap-2 text-sm font-medium ${step === 1 ? "text-[#1e3a5f]" : "text-[#27ae60]"}`}>
-          <div className={`size-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${step === 1 ? "border-[#1e3a5f] bg-[#1e3a5f] text-white" : "border-[#27ae60] bg-[#27ae60] text-white"}`}>
+        <div className={`flex items-center gap-2 text-sm font-medium ${step === 1 ? "text-[#071a33]" : "text-[#7c9f61]"}`}>
+          <div className={`size-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${step === 1 ? "border-[#071a33] bg-[#071a33] text-white" : "border-[#7c9f61] bg-[#7c9f61] text-white"}`}>
             {step > 1 ? <CheckCircle2 className="size-4" /> : "1"}
           </div>
           Escolha o plano
         </div>
         <div className="h-px w-10 bg-neutral-200" />
-        <div className={`flex items-center gap-2 text-sm font-medium ${step === 2 ? "text-[#1e3a5f]" : "text-neutral-400"}`}>
-          <div className={`size-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${step === 2 ? "border-[#1e3a5f] bg-[#1e3a5f] text-white" : "border-neutral-200 bg-white text-neutral-400"}`}>
+        <div className={`flex items-center gap-2 text-sm font-medium ${step === 2 ? "text-[#071a33]" : "text-neutral-400"}`}>
+          <div className={`size-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${step === 2 ? "border-[#071a33] bg-[#071a33] text-white" : "border-neutral-200 bg-white text-neutral-400"}`}>
             2
           </div>
           Seus dados
@@ -165,8 +165,8 @@ export default function BeArtisanPage() {
                 onClick={() => setSelectedPlan(plan.id)}
                 className={`relative pt-8 pb-6 px-6 rounded-2xl border-2 text-left transition-all ${
                   selectedPlan === plan.id
-                    ? "border-[#1e3a5f] bg-[#1e3a5f]/5 shadow-md"
-                    : "border-[#1e3a5f]/15 bg-white hover:border-[#1e3a5f]/30 hover:shadow-sm"
+                    ? "border-[#071a33] bg-[#071a33]/5 shadow-md"
+                    : "border-[#071a33]/15 bg-white hover:border-[#071a33]/30 hover:shadow-sm"
                 }`}
               >
                 {plan.badge && (
@@ -178,12 +178,12 @@ export default function BeArtisanPage() {
                   </span>
                 )}
 
-                <div className="font-bold text-lg text-[#1e3a5f] mb-0.5">{plan.name}</div>
+                <div className="font-bold text-lg text-[#071a33] mb-0.5">{plan.name}</div>
 
                 {/* Período gratuito em destaque */}
                 <div className="mb-1">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-[#27ae60]">Grátis</span>
+                    <span className="text-2xl font-bold text-[#7c9f61]">Grátis</span>
                     <span className="text-xs text-neutral-400">3 meses ★</span>
                   </div>
                   <p className="text-[11px] text-neutral-400">
@@ -207,7 +207,7 @@ export default function BeArtisanPage() {
                 <ul className="space-y-2">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-neutral-600">
-                      <CheckCircle2 className="size-4 text-[#27ae60] shrink-0" />
+                      <CheckCircle2 className="size-4 text-[#7c9f61] shrink-0" />
                       {f}
                     </li>
                   ))}
@@ -219,13 +219,13 @@ export default function BeArtisanPage() {
             <Button
               size="lg"
               onClick={() => setStep(2)}
-              className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold px-8 hover:scale-105 transition-all"
+              className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold px-8 hover:scale-105 transition-all"
             >
               {PLANS.find((p) => p.id === selectedPlan)?.cta} <ArrowRight className="ml-2 size-4" />
             </Button>
             <p className="text-xs text-neutral-400 mt-3">
               ★ Oferta de lançamento: 3 meses grátis, depois mais 3 meses com 50% off.{" "}
-              <a href="/planos" className="underline hover:text-[#1e3a5f] transition-colors">
+              <a href="/planos" className="underline hover:text-[#071a33] transition-colors">
                 Ver comparativo completo →
               </a>
             </p>
@@ -235,9 +235,9 @@ export default function BeArtisanPage() {
 
       {/* Step 2 — Registration form */}
       {step === 2 && (
-        <Card className="w-full max-w-lg mx-auto border-[#1e3a5f]/15 shadow-lg rounded-2xl">
+        <Card className="w-full max-w-lg mx-auto border-[#071a33]/15 shadow-lg rounded-2xl">
           <CardHeader className="pb-4">
-            <CardTitle className="text-[#1e3a5f]">Dados do cadastro</CardTitle>
+            <CardTitle className="text-[#071a33]">Dados do cadastro</CardTitle>
             <CardDescription>
               Nossa equipe irá analisar e aprovar em até 2 dias úteis.
               Então você já pode começar a vender.
@@ -247,105 +247,105 @@ export default function BeArtisanPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5 col-span-2">
-                  <Label className="text-[#1e3a5f] font-medium">Nome completo</Label>
+                  <Label className="text-[#071a33] font-medium">Nome completo</Label>
                   <Input
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
-                  <Label className="text-[#1e3a5f] font-medium">Email</Label>
+                  <Label className="text-[#071a33] font-medium">Email</Label>
                   <Input
                     type="email"
                     required
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
-                  <Label className="text-[#1e3a5f] font-medium">Senha</Label>
+                  <Label className="text-[#071a33] font-medium">Senha</Label>
                   <Input
                     type="password"
                     required
                     minLength={6}
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
-                  <Label className="text-[#1e3a5f] font-medium">Nome da sua loja / ateliê</Label>
+                  <Label className="text-[#071a33] font-medium">Nome da sua loja / ateliê</Label>
                   <Input
                     required
                     value={form.storeName}
                     placeholder="Ex: Ateliê das Mãos de Ouro"
                     onChange={(e) => setForm({ ...form, storeName: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[#1e3a5f] font-medium">Cidade</Label>
+                  <Label className="text-[#071a33] font-medium">Cidade</Label>
                   <Input
                     value={form.city}
                     onChange={(e) => setForm({ ...form, city: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[#1e3a5f] font-medium">Estado (UF)</Label>
+                  <Label className="text-[#071a33] font-medium">Estado (UF)</Label>
                   <Input
                     maxLength={2}
                     placeholder="SP"
                     value={form.state}
                     onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
-                  <Label className="text-[#1e3a5f] font-medium">CPF ou CNPJ</Label>
+                  <Label className="text-[#071a33] font-medium">CPF ou CNPJ</Label>
                   <Input
                     required
                     placeholder="000.000.000-00 ou 00.000.000/0001-00"
                     value={form.cpfCnpj}
                     onChange={(e) => setForm({ ...form, cpfCnpj: e.target.value.replace(/\D/g, "") })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                   <p className="text-[11px] text-neutral-400">Necessário para criar sua conta de recebimentos no Asaas.</p>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[#1e3a5f] font-medium">Data de nascimento</Label>
+                  <Label className="text-[#071a33] font-medium">Data de nascimento</Label>
                   <Input
                     required
                     type="date"
                     value={form.birthDate}
                     onChange={(e) => setForm({ ...form, birthDate: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[#1e3a5f] font-medium">CEP</Label>
+                  <Label className="text-[#071a33] font-medium">CEP</Label>
                   <Input
                     required
                     placeholder="00000-000"
                     value={form.zipCode}
                     onChange={(e) => setForm({ ...form, zipCode: e.target.value.replace(/\D/g, "") })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[#1e3a5f] font-medium">Número do endereço</Label>
+                  <Label className="text-[#071a33] font-medium">Número do endereço</Label>
                   <Input
                     placeholder="123"
                     value={form.addressNumber}
                     onChange={(e) => setForm({ ...form, addressNumber: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[#1e3a5f] font-medium">Renda/faturamento mensal (R$)</Label>
+                  <Label className="text-[#071a33] font-medium">Renda/faturamento mensal (R$)</Label>
                   <Input
                     required
                     type="number"
@@ -354,55 +354,55 @@ export default function BeArtisanPage() {
                     placeholder="2000"
                     value={form.incomeValue}
                     onChange={(e) => setForm({ ...form, incomeValue: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[#1e3a5f] font-medium">WhatsApp</Label>
+                  <Label className="text-[#071a33] font-medium">WhatsApp</Label>
                   <Input
                     placeholder="11999999999"
                     value={form.whatsapp}
                     onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[#1e3a5f] font-medium">Instagram (sem @)</Label>
+                  <Label className="text-[#071a33] font-medium">Instagram (sem @)</Label>
                   <Input
                     placeholder="seuuser"
                     value={form.instagram}
                     onChange={(e) => setForm({ ...form, instagram: e.target.value })}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
                 <div className="space-y-1.5 col-span-2">
-                  <Label className="text-[#1e3a5f] font-medium">Fale sobre você e seu trabalho</Label>
+                  <Label className="text-[#071a33] font-medium">Fale sobre você e seu trabalho</Label>
                   <Textarea
                     rows={3}
                     required
                     value={form.bio}
                     onChange={(e) => setForm({ ...form, bio: e.target.value })}
                     placeholder="Conte sobre seu artesanato, materiais que usa, de onde vem sua inspiração..."
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
                   />
                 </div>
               </div>
 
               {/* Termo de adesão */}
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#1e3a5f]/5 border border-[#1e3a5f]/15">
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#071a33]/5 border border-[#071a33]/15">
                 <input
                   type="checkbox"
                   id="terms"
                   checked={termsAccepted}
                   onChange={(e) => setTermsAccepted(e.target.checked)}
-                  className="mt-0.5 size-4 accent-[#1e3a5f] cursor-pointer"
+                  className="mt-0.5 size-4 accent-[#071a33] cursor-pointer"
                 />
                 <label htmlFor="terms" className="text-sm text-neutral-600 cursor-pointer leading-relaxed">
                   Li e concordo com os{" "}
                   <a
                     href="/termos-do-vendedor"
                     target="_blank"
-                    className="text-[#1e3a5f] font-medium underline hover:text-[#e07b2a] transition-colors"
+                    className="text-[#071a33] font-medium underline hover:text-[#c1652e] transition-colors"
                   >
                     Termos de Adesão do Vendedor
                   </a>
@@ -415,13 +415,13 @@ export default function BeArtisanPage() {
                   type="button"
                   variant="outline"
                   onClick={() => setStep(1)}
-                  className="border-[#1e3a5f]/20 text-[#1e3a5f]"
+                  className="border-[#071a33]/20 text-[#071a33]"
                 >
                   <ArrowLeft className="mr-1 size-4" /> Voltar
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold"
+                  className="flex-1 bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold"
                   disabled={loading || !termsAccepted}
                 >
                   {loading && <Loader2 className="mr-2 size-4 animate-spin" />}

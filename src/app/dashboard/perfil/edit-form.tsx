@@ -163,24 +163,24 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
     <form onSubmit={handleSubmit} className="space-y-6">
 
       {/* Imagens */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-[#1e3a5f] text-base">Imagens da loja</CardTitle>
+          <CardTitle className="text-[#071a33] text-base">Imagens da loja</CardTitle>
           <CardDescription>Logo e banner exibidos no seu perfil público.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
 
           {/* Banner */}
           <div>
-            <Label className="text-[#1e3a5f] font-medium mb-2 block">Banner</Label>
+            <Label className="text-[#071a33] font-medium mb-2 block">Banner</Label>
             <div
-              className="relative h-32 rounded-xl border-2 border-dashed border-[#1e3a5f]/20 bg-[#f7f3ed] overflow-hidden cursor-pointer hover:border-[#1e3a5f]/40 transition-colors"
+              className="relative h-32 rounded-xl border-2 border-dashed border-[#071a33]/20 bg-[#f2ede0] overflow-hidden cursor-pointer hover:border-[#071a33]/40 transition-colors"
               onClick={() => bannerRef.current?.click()}
             >
               {bannerUploading ? (
                 <div className="flex flex-col items-center justify-center h-full gap-1.5">
-                  <Loader2 className="size-6 text-[#1e3a5f] animate-spin" />
-                  <span className="text-xs text-[#1e3a5f]">Enviando...</span>
+                  <Loader2 className="size-6 text-[#071a33] animate-spin" />
+                  <span className="text-xs text-[#071a33]">Enviando...</span>
                 </div>
               ) : bannerUrl ? (
                 <img src={bannerUrl} alt="Banner" className="w-full h-full object-cover" />
@@ -202,14 +202,14 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
 
           {/* Logo */}
           <div>
-            <Label className="text-[#1e3a5f] font-medium mb-2 block">Logo / Avatar da loja</Label>
+            <Label className="text-[#071a33] font-medium mb-2 block">Logo / Avatar da loja</Label>
             <div className="flex items-center gap-4">
               <div
-                className="size-20 rounded-2xl border-2 border-dashed border-[#1e3a5f]/20 bg-[#f7f3ed] overflow-hidden cursor-pointer hover:border-[#1e3a5f]/40 transition-colors flex items-center justify-center"
+                className="size-20 rounded-2xl border-2 border-dashed border-[#071a33]/20 bg-[#f2ede0] overflow-hidden cursor-pointer hover:border-[#071a33]/40 transition-colors flex items-center justify-center"
                 onClick={() => logoRef.current?.click()}
               >
                 {logoUploading ? (
-                  <Loader2 className="size-5 text-[#1e3a5f] animate-spin" />
+                  <Loader2 className="size-5 text-[#071a33] animate-spin" />
                 ) : logoUrl ? (
                   <img src={logoUrl} alt="Logo" className="w-full h-full object-cover" />
                 ) : (
@@ -233,33 +233,33 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
       </Card>
 
       {/* Informações básicas */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-[#1e3a5f] text-base">Informações básicas</CardTitle>
+          <CardTitle className="text-[#071a33] text-base">Informações básicas</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5 sm:col-span-2">
-            <Label className="text-[#1e3a5f] font-medium">Nome da loja *</Label>
+            <Label className="text-[#071a33] font-medium">Nome da loja *</Label>
             <Input
               required
               value={form.storeName}
               onChange={(e) => setForm({ ...form, storeName: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
-            <Label className="text-[#1e3a5f] font-medium">Bio *</Label>
+            <Label className="text-[#071a33] font-medium">Bio *</Label>
             <Textarea
               required
               rows={3}
               value={form.bio}
               onChange={(e) => setForm({ ...form, bio: e.target.value })}
               placeholder="Conte sobre seu artesanato, materiais e inspiração..."
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
-            <Label className="text-[#1e3a5f] font-medium">
+            <Label className="text-[#071a33] font-medium">
               História da marca <span className="text-neutral-400 font-normal">(opcional)</span>
             </Label>
             <Textarea
@@ -267,90 +267,90 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
               value={form.story}
               onChange={(e) => setForm({ ...form, story: e.target.value })}
               placeholder="Como tudo começou? Qual é a sua história com o artesanato?"
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
         </CardContent>
       </Card>
 
       {/* Localização e contato */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-[#1e3a5f] text-base">Localização e contato</CardTitle>
+          <CardTitle className="text-[#071a33] text-base">Localização e contato</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5 sm:col-span-2">
-            <Label className="text-[#1e3a5f] font-medium">Bairro / Região</Label>
+            <Label className="text-[#071a33] font-medium">Bairro / Região</Label>
             <Input
               value={form.location}
               onChange={(e) => setForm({ ...form, location: e.target.value })}
               placeholder="Ex: Centro, Vila Mariana..."
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[#1e3a5f] font-medium">Cidade</Label>
+            <Label className="text-[#071a33] font-medium">Cidade</Label>
             <Input
               value={form.city}
               onChange={(e) => setForm({ ...form, city: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[#1e3a5f] font-medium">Estado (UF)</Label>
+            <Label className="text-[#071a33] font-medium">Estado (UF)</Label>
             <Input
               maxLength={2}
               placeholder="SP"
               value={form.state}
               onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[#1e3a5f] font-medium">CEP de origem</Label>
+            <Label className="text-[#071a33] font-medium">CEP de origem</Label>
             <Input
               placeholder="00000-000"
               value={form.zipCode}
               onChange={(e) => setForm({ ...form, zipCode: e.target.value.replace(/\D/g, "") })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
             <p className="text-[11px] text-neutral-400">Usado para calcular frete e gerar etiquetas de envio.</p>
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[#1e3a5f] font-medium">WhatsApp</Label>
+            <Label className="text-[#071a33] font-medium">WhatsApp</Label>
             <Input
               placeholder="11999999999"
               value={form.whatsapp}
               onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-[#1e3a5f] font-medium">Instagram (sem @)</Label>
+            <Label className="text-[#071a33] font-medium">Instagram (sem @)</Label>
             <Input
               placeholder="seuuser"
               value={form.instagram}
               onChange={(e) => setForm({ ...form, instagram: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
-            <Label className="text-[#1e3a5f] font-medium">Site</Label>
+            <Label className="text-[#071a33] font-medium">Site</Label>
             <Input
               type="url"
               placeholder="https://www.seusite.com.br"
               value={form.website}
               onChange={(e) => setForm({ ...form, website: e.target.value })}
-              className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
             />
           </div>
         </CardContent>
       </Card>
 
       {/* Transportadoras */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-[#1e3a5f] text-base flex items-center gap-2">
+          <CardTitle className="text-[#071a33] text-base flex items-center gap-2">
             <Truck className="size-4" /> Transportadoras
           </CardTitle>
           <CardDescription>
@@ -359,8 +359,8 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center gap-2.5 bg-[#f7f3ed] rounded-lg px-3 py-2.5 text-sm text-neutral-500">
-            <Check className="size-4 text-[#27ae60]" />
+          <div className="flex items-center gap-2.5 bg-[#f2ede0] rounded-lg px-3 py-2.5 text-sm text-neutral-500">
+            <Check className="size-4 text-[#7c9f61]" />
             Correios (sempre ativo)
           </div>
           {OPTIONAL_CARRIERS.map((carrier) => {
@@ -371,18 +371,18 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
                 type="button"
                 onClick={() => toggleCarrier(carrier.id)}
                 className={`w-full flex items-start gap-2.5 text-left rounded-lg border px-3 py-2.5 transition-colors ${
-                  active ? "border-[#27ae60] bg-[#27ae60]/5" : "border-[#1e3a5f]/15 hover:border-[#1e3a5f]/30"
+                  active ? "border-[#7c9f61] bg-[#7c9f61]/5" : "border-[#071a33]/15 hover:border-[#071a33]/30"
                 }`}
               >
                 <div
                   className={`mt-0.5 size-4 shrink-0 rounded border flex items-center justify-center ${
-                    active ? "bg-[#27ae60] border-[#27ae60]" : "border-neutral-300"
+                    active ? "bg-[#7c9f61] border-[#7c9f61]" : "border-neutral-300"
                   }`}
                 >
                   {active && <Check className="size-3 text-white" />}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[#1e3a5f]">{carrier.label}</p>
+                  <p className="text-sm font-medium text-[#071a33]">{carrier.label}</p>
                   <p className="text-xs text-neutral-400">{carrier.hint}</p>
                 </div>
               </button>
@@ -393,9 +393,9 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
 
       {/* Categorias */}
       {allCategories.length > 0 && (
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-3">
-            <CardTitle className="text-[#1e3a5f] text-base">Categorias de atuação</CardTitle>
+            <CardTitle className="text-[#071a33] text-base">Categorias de atuação</CardTitle>
             <CardDescription>Selecione as categorias do seu artesanato.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -409,8 +409,8 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
                     onClick={() => toggleCategory(cat.id)}
                     className={`inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full border transition-all ${
                       active
-                        ? "bg-[#27ae60] border-[#27ae60] text-white"
-                        : "bg-white border-[#1e3a5f]/20 text-neutral-600 hover:border-[#27ae60]/50"
+                        ? "bg-[#7c9f61] border-[#7c9f61] text-white"
+                        : "bg-white border-[#071a33]/20 text-neutral-600 hover:border-[#7c9f61]/50"
                     }`}
                   >
                     {active && <Check className="size-3" />}
@@ -427,7 +427,7 @@ export function EditProfileForm({ artisan, allCategories }: Props) {
         <Button
           type="submit"
           disabled={loading || logoUploading || bannerUploading}
-          className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold px-8 hover:scale-105 transition-all"
+          className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold px-8 hover:scale-105 transition-all"
         >
           {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
           Salvar alterações

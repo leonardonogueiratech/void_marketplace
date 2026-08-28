@@ -183,9 +183,9 @@ export default function TermosPage() {
   const lastUpdate = "24 de abril de 2026";
 
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
       {/* Header */}
-      <div className="bg-[#1e3a5f] text-white py-14">
+      <div className="bg-[#071a33] text-white py-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-white/50 text-sm mb-5">
             <Link href="/" className="hover:text-white transition-colors">Início</Link>
@@ -212,14 +212,14 @@ export default function TermosPage() {
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Sticky index */}
           <aside className="lg:w-56 shrink-0">
-            <div className="lg:sticky lg:top-24 bg-white rounded-2xl border border-[#1e3a5f]/10 p-4">
-              <p className="text-xs font-semibold text-[#1e3a5f] uppercase tracking-wider mb-3">Sumário</p>
+            <div className="lg:sticky lg:top-24 bg-white rounded-2xl border border-[#071a33]/10 p-4">
+              <p className="text-xs font-semibold text-[#071a33] uppercase tracking-wider mb-3">Sumário</p>
               <nav className="space-y-1">
                 {sections.map((s) => (
                   <a
                     key={s.id}
                     href={`#${s.id}`}
-                    className="block text-xs text-neutral-500 hover:text-[#1e3a5f] py-1 leading-snug transition-colors"
+                    className="block text-xs text-neutral-500 hover:text-[#071a33] py-1 leading-snug transition-colors"
                   >
                     {s.title}
                   </a>
@@ -231,7 +231,7 @@ export default function TermosPage() {
           {/* Content */}
           <div className="flex-1 min-w-0 space-y-10">
             {/* Intro box */}
-            <div className="bg-[#e07b2a]/8 border border-[#e07b2a]/20 rounded-2xl p-5 text-sm text-[#1e3a5f] leading-relaxed">
+            <div className="bg-[#c1652e]/8 border border-[#c1652e]/20 rounded-2xl p-5 text-sm text-[#071a33] leading-relaxed">
               <strong>Resumo simples:</strong> O Feito de Gente é um marketplace. Artesãos vendem seus produtos e
               Clientes compram. Nós intermediamos, cobramos uma comissão e garantimos a segurança das transações.
               Ao usar a plataforma, você concorda com estas regras.
@@ -239,7 +239,7 @@ export default function TermosPage() {
 
             {sections.map((section) => (
               <section key={section.id} id={section.id} className="scroll-mt-24">
-                <h2 className="text-lg font-bold text-[#1e3a5f] mb-4 pb-2 border-b border-[#1e3a5f]/10">
+                <h2 className="text-lg font-bold text-[#071a33] mb-4 pb-2 border-b border-[#071a33]/10">
                   {section.title}
                 </h2>
                 <div className="text-sm text-neutral-600 leading-relaxed whitespace-pre-line">
@@ -248,11 +248,11 @@ export default function TermosPage() {
               </section>
             ))}
 
-            <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 p-6 text-center">
+            <div className="bg-white rounded-2xl border border-[#071a33]/10 p-6 text-center">
               <p className="text-sm text-neutral-500 mb-3">Tem alguma dúvida sobre os Termos de Uso?</p>
               <Link
                 href="/contato"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#1e3a5f] hover:text-[#e07b2a] transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#071a33] hover:text-[#c1652e] transition-colors"
               >
                 Fale conosco <ChevronRight className="size-4" />
               </Link>

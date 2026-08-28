@@ -7,7 +7,7 @@ import { ExternalLink } from "lucide-react";
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   PENDING:   { label: "Aguardando", color: "bg-amber-100 text-amber-700 border-amber-200" },
-  APPROVED:  { label: "Aprovado",   color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
+  APPROVED:  { label: "Aprovado",   color: "bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20" },
   REJECTED:  { label: "Rejeitado",  color: "bg-red-50 text-red-600 border-red-200" },
   SUSPENDED: { label: "Suspenso",   color: "bg-neutral-100 text-neutral-500 border-neutral-200" },
 };
@@ -47,7 +47,7 @@ export default async function AdminArtisansPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Artesãos</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Artesãos</h1>
         <p className="text-sm text-neutral-500 mt-1">{total} artesão(s) encontrado(s).</p>
       </div>
 
@@ -59,8 +59,8 @@ export default async function AdminArtisansPage({
             href={tab.value ? `/admin/artesaos?status=${tab.value}` : "/admin/artesaos"}
             className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
               (status ?? "") === tab.value
-                ? "bg-[#1e3a5f] text-white border-[#1e3a5f]"
-                : "bg-white text-neutral-500 border-[#1e3a5f]/15 hover:border-[#1e3a5f]/30"
+                ? "bg-[#071a33] text-white border-[#071a33]"
+                : "bg-white text-neutral-500 border-[#071a33]/15 hover:border-[#071a33]/30"
             }`}
           >
             {tab.label}
@@ -71,24 +71,24 @@ export default async function AdminArtisansPage({
         ))}
       </div>
 
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardContent className="p-0">
           {artisans.length === 0 ? (
             <p className="text-sm text-neutral-400 text-center py-10">Nenhum artesão encontrado.</p>
           ) : (
-            <div className="divide-y divide-[#1e3a5f]/6">
+            <div className="divide-y divide-[#071a33]/6">
               {artisans.map((a) => {
                 const st = STATUS_CONFIG[a.status] ?? STATUS_CONFIG.PENDING;
                 return (
-                  <div key={a.id} className="px-5 py-4 flex flex-wrap items-start gap-4 hover:bg-[#f7f3ed]/40 transition-colors">
-                    <div className="size-10 rounded-xl bg-[#1e3a5f] text-white flex items-center justify-center text-sm font-bold shrink-0">
+                  <div key={a.id} className="px-5 py-4 flex flex-wrap items-start gap-4 hover:bg-[#f2ede0]/40 transition-colors">
+                    <div className="size-10 rounded-xl bg-[#071a33] text-white flex items-center justify-center text-sm font-bold shrink-0">
                       {a.storeName.slice(0, 2).toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="text-sm font-semibold text-[#1e3a5f]">{a.storeName}</p>
+                        <p className="text-sm font-semibold text-[#071a33]">{a.storeName}</p>
                         <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${st.color}`}>{st.label}</span>
-                        <span className="text-xs text-neutral-400 border border-[#1e3a5f]/10 px-2 py-0.5 rounded-full">
+                        <span className="text-xs text-neutral-400 border border-[#071a33]/10 px-2 py-0.5 rounded-full">
                           {a.subscription?.plan ?? "FREE"}
                         </span>
                       </div>
@@ -101,7 +101,7 @@ export default async function AdminArtisansPage({
                       <Link
                         href={`/artesao/${a.slug}`}
                         target="_blank"
-                        className="size-7 rounded-lg bg-[#f7f3ed] flex items-center justify-center text-neutral-400 hover:text-[#1e3a5f] transition-colors"
+                        className="size-7 rounded-lg bg-[#f2ede0] flex items-center justify-center text-neutral-400 hover:text-[#071a33] transition-colors"
                       >
                         <ExternalLink className="size-3.5" />
                       </Link>

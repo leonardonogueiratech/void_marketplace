@@ -31,10 +31,10 @@ export function MessageReplyForm({ id, hasReply }: { id: string; hasReply: boole
   }
 
   return (
-    <div className="mt-3 border-t border-[#1e3a5f]/8 pt-3">
+    <div className="mt-3 border-t border-[#071a33]/8 pt-3">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1e3a5f] hover:text-[#e07b2a] transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#071a33] hover:text-[#c1652e] transition-colors"
       >
         {open ? <ChevronUp className="size-3.5" /> : <ChevronDown className="size-3.5" />}
         {hasReply ? "Editar resposta" : "Responder"}
@@ -47,13 +47,13 @@ export function MessageReplyForm({ id, hasReply }: { id: string; hasReply: boole
             onChange={(e) => setReply(e.target.value)}
             placeholder="Escreva a resposta para o cliente..."
             rows={4}
-            className="w-full rounded-xl border border-[#1e3a5f]/15 px-3.5 py-2.5 text-sm text-[#1e3a5f] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/40 resize-none transition-all"
+            className="w-full rounded-xl border border-[#071a33]/15 px-3.5 py-2.5 text-sm text-[#071a33] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#071a33]/20 focus:border-[#071a33]/40 resize-none transition-all"
           />
           <div className="flex items-center gap-2">
             <button
               onClick={submit}
               disabled={!reply.trim() || loading}
-              className="inline-flex items-center gap-1.5 text-xs bg-[#1e3a5f] text-white font-semibold px-4 py-2 rounded-full hover:bg-[#1e3a5f]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1.5 text-xs bg-[#071a33] text-white font-semibold px-4 py-2 rounded-full hover:bg-[#071a33]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? <Loader2 className="size-3 animate-spin" /> : <Send className="size-3" />}
               Enviar resposta

@@ -80,13 +80,13 @@ export function ChatWindow({ conversationId, currentUserId, otherName }: ChatWin
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="px-5 py-3.5 border-b border-[#1e3a5f]/8 bg-white shrink-0">
-        <p className="text-sm font-semibold text-[#1e3a5f]">{otherName}</p>
+      <div className="px-5 py-3.5 border-b border-[#071a33]/8 bg-white shrink-0">
+        <p className="text-sm font-semibold text-[#071a33]">{otherName}</p>
         <p className="text-xs text-neutral-400">Conversa privada</p>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3 bg-[#f7f3ed]/40">
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3 bg-[#f2ede0]/40">
         {messages.length === 0 && (
           <p className="text-center text-xs text-neutral-400 mt-8">
             Nenhuma mensagem ainda. Diga olá!
@@ -96,7 +96,7 @@ export function ChatWindow({ conversationId, currentUserId, otherName }: ChatWin
           const isMine = m.senderId === currentUserId;
           return (
             <div key={m.id} className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isMine ? "bg-[#1e3a5f] text-white rounded-br-sm" : "bg-white text-[#1e3a5f] border border-[#1e3a5f]/8 rounded-bl-sm"}`}>
+              <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isMine ? "bg-[#071a33] text-white rounded-br-sm" : "bg-white text-[#071a33] border border-[#071a33]/8 rounded-bl-sm"}`}>
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">{m.content}</p>
                 <p className={`text-xs mt-1 ${isMine ? "text-white/50" : "text-neutral-400"}`}>
                   {formatDateTime(m.createdAt)}
@@ -109,20 +109,20 @@ export function ChatWindow({ conversationId, currentUserId, otherName }: ChatWin
       </div>
 
       {/* Input */}
-      <div className="px-4 py-3 border-t border-[#1e3a5f]/8 bg-white shrink-0 flex items-end gap-2">
+      <div className="px-4 py-3 border-t border-[#071a33]/8 bg-white shrink-0 flex items-end gap-2">
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKey}
           placeholder={`Mensagem para ${otherName}...`}
           rows={1}
-          className="flex-1 resize-none rounded-xl border border-[#1e3a5f]/15 px-3.5 py-2.5 text-sm text-[#1e3a5f] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/40 transition-all max-h-28 overflow-y-auto"
+          className="flex-1 resize-none rounded-xl border border-[#071a33]/15 px-3.5 py-2.5 text-sm text-[#071a33] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#071a33]/20 focus:border-[#071a33]/40 transition-all max-h-28 overflow-y-auto"
           style={{ minHeight: "42px" }}
         />
         <button
           onClick={send}
           disabled={!text.trim() || sending}
-          className="size-10 rounded-xl bg-[#1e3a5f] text-white flex items-center justify-center hover:bg-[#1e3a5f]/90 active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+          className="size-10 rounded-xl bg-[#071a33] text-white flex items-center justify-center hover:bg-[#071a33]/90 active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
         >
           {sending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
         </button>

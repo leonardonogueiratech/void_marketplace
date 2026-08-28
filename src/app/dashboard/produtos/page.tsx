@@ -56,10 +56,10 @@ export default async function DashboardProductsPage({ searchParams }: Props) {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#1e3a5f]">Produtos</h1>
+          <h1 className="text-2xl font-bold text-[#071a33]">Produtos</h1>
           <p className="text-muted-foreground mt-1">{total} produto(s)</p>
         </div>
-        <Button asChild className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+        <Button asChild className="bg-[#071a33] hover:bg-[#051224] text-white">
           <Link href="/dashboard/produtos/novo">
             <Plus className="size-4 mr-2" /> Novo produto
           </Link>
@@ -76,7 +76,7 @@ export default async function DashboardProductsPage({ searchParams }: Props) {
               {q || status ? "Nenhum produto encontrado com esses filtros." : "Você ainda não tem produtos cadastrados."}
             </p>
             {!q && !status && (
-              <Button asChild className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+              <Button asChild className="bg-[#071a33] hover:bg-[#051224] text-white">
                 <Link href="/dashboard/produtos/novo">
                   <Plus className="size-4 mr-2" /> Adicionar primeiro produto
                 </Link>
@@ -87,7 +87,7 @@ export default async function DashboardProductsPage({ searchParams }: Props) {
       ) : (
         <div className="grid grid-cols-1 gap-3 mt-4">
           {products.map((product) => (
-            <Card key={product.id} className="overflow-hidden border-[#1e3a5f]/10 hover:border-[#1e3a5f]/25 transition-colors">
+            <Card key={product.id} className="overflow-hidden border-[#071a33]/10 hover:border-[#071a33]/25 transition-colors">
               <CardContent className="p-0">
                 <div className="flex items-center gap-4 p-4">
                   <div className="relative size-16 rounded-lg overflow-hidden bg-neutral-100 shrink-0">
@@ -108,13 +108,13 @@ export default async function DashboardProductsPage({ searchParams }: Props) {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <h3 className="font-medium truncate text-[#1e3a5f]">{product.name}</h3>
+                      <h3 className="font-medium truncate text-[#071a33]">{product.name}</h3>
                       <span className={`text-xs px-2 py-0.5 rounded-full shrink-0 ${STATUS_CONFIG[product.status]?.color}`}>
                         {STATUS_CONFIG[product.status]?.label}
                       </span>
                     </div>
                     <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                      <span className="font-medium text-[#1e3a5f]">{formatCurrency(product.price)}</span>
+                      <span className="font-medium text-[#071a33]">{formatCurrency(product.price)}</span>
                       <span>·</span>
                       <span>{product.stock} em estoque</span>
                       {product.category && (

@@ -37,7 +37,7 @@ export default async function DashboardReviewsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Avaliações</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Avaliações</h1>
         <p className="mt-1 text-sm text-neutral-500">Acompanhe e responda o que os clientes dizem sobre sua loja.</p>
       </div>
 
@@ -47,7 +47,7 @@ export default async function DashboardReviewsPage() {
           <CardContent className="pt-5">
             <p className="text-xs text-neutral-500 uppercase tracking-wider mb-2">Média geral</p>
             <div className="flex items-end gap-2">
-              <p className="text-3xl font-bold text-[#1e3a5f]">
+              <p className="text-3xl font-bold text-[#071a33]">
                 {average > 0 ? average.toFixed(1) : "—"}
               </p>
               {average > 0 && (
@@ -67,7 +67,7 @@ export default async function DashboardReviewsPage() {
         <Card>
           <CardContent className="pt-5">
             <p className="text-xs text-neutral-500 uppercase tracking-wider mb-2">Total de avaliações</p>
-            <p className="text-3xl font-bold text-[#1e3a5f]">{reviews.length}</p>
+            <p className="text-3xl font-bold text-[#071a33]">{reviews.length}</p>
           </CardContent>
         </Card>
 
@@ -105,18 +105,18 @@ export default async function DashboardReviewsPage() {
       ) : (
         <div className="space-y-4">
           {reviews.map((review) => (
-            <Card key={review.id} className="border-[#1e3a5f]/10">
+            <Card key={review.id} className="border-[#071a33]/10">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <Avatar className="size-9">
                       <AvatarImage src={review.user.image ?? undefined} />
-                      <AvatarFallback className="text-xs bg-[#1e3a5f]/10 text-[#1e3a5f]">
+                      <AvatarFallback className="text-xs bg-[#071a33]/10 text-[#071a33]">
                         {getInitials(review.user.name ?? "Cliente")}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="text-sm font-semibold text-[#1e3a5f]">
+                      <p className="text-sm font-semibold text-[#071a33]">
                         {review.user.name ?? "Cliente"}
                       </p>
                       <p className="text-xs text-neutral-400">

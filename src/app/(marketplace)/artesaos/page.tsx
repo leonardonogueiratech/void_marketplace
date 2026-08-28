@@ -16,13 +16,13 @@ export default async function ArtisansPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
       {/* Header — navy, autoridade e comunidade */}
-      <div className="bg-[#1e3a5f] py-10">
+      <div className="bg-[#071a33] py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-widest text-[#a8d5a2] mb-1">Comunidade</p>
-          <h1 className="text-3xl font-bold text-[#f7f3ed]">Artesãos</h1>
-          <p className="text-[#f7f3ed]/55 mt-1 text-sm">
+          <h1 className="text-3xl font-bold text-[#f2ede0]">Artesãos</h1>
+          <p className="text-[#f2ede0]/55 mt-1 text-sm">
             {artisans.length} artesã{artisans.length !== 1 ? "os" : "o"} cadastrado{artisans.length !== 1 ? "s" : ""} na plataforma
           </p>
         </div>

@@ -7,7 +7,7 @@ export default async function ContaLayout({ children }: { children: React.ReactN
   if (!session?.user) redirect("/login");
 
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-6">
           <ContaSidebar user={session.user} role={session.user.role ?? "CUSTOMER"} />

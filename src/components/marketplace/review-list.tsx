@@ -104,7 +104,7 @@ export function ReviewList({ reviews, averageRating, artisanName, distribution }
               onClick={() => setSort(opt)}
               className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                 sort === opt
-                  ? "bg-[#1e3a5f] text-white"
+                  ? "bg-[#071a33] text-white"
                   : "text-neutral-500 hover:bg-neutral-100"
               }`}
             >
@@ -132,7 +132,7 @@ export function ReviewList({ reviews, averageRating, artisanName, distribution }
                   {review.user.name ?? "Cliente"}
                 </span>
                 {review.orderId && (
-                  <Badge className="gap-1 text-[10px] px-1.5 py-0.5 bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20 hover:bg-[#27ae60]/10">
+                  <Badge className="gap-1 text-[10px] px-1.5 py-0.5 bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20 hover:bg-[#7c9f61]/10">
                     <ShieldCheck className="size-2.5" /> Compra verificada
                   </Badge>
                 )}
@@ -151,12 +151,12 @@ export function ReviewList({ reviews, averageRating, artisanName, distribution }
 
               {/* Resposta do artesão */}
               {review.reply && (
-                <div className="mt-3 ml-2 border-l-2 border-[#1e3a5f]/20 pl-3 space-y-1">
+                <div className="mt-3 ml-2 border-l-2 border-[#071a33]/20 pl-3 space-y-1">
                   <div className="flex items-center gap-1.5">
-                    <div className="size-5 rounded-full bg-[#1e3a5f] flex items-center justify-center shrink-0">
+                    <div className="size-5 rounded-full bg-[#071a33] flex items-center justify-center shrink-0">
                       <Star className="size-2.5 fill-white text-white" />
                     </div>
-                    <span className="text-xs font-semibold text-[#1e3a5f]">
+                    <span className="text-xs font-semibold text-[#071a33]">
                       Resposta de {artisanName ?? "artesão"}
                     </span>
                   </div>
@@ -172,7 +172,7 @@ export function ReviewList({ reviews, averageRating, artisanName, distribution }
       {total > 5 && !showAll && (
         <button
           onClick={() => setShowAll(true)}
-          className="w-full flex items-center justify-center gap-2 py-2.5 text-sm text-[#1e3a5f] font-medium border border-[#1e3a5f]/20 rounded-xl hover:bg-[#1e3a5f]/5 transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-2.5 text-sm text-[#071a33] font-medium border border-[#071a33]/20 rounded-xl hover:bg-[#071a33]/5 transition-colors"
         >
           Ver todas as {total} avaliações <ChevronDown className="size-4" />
         </button>

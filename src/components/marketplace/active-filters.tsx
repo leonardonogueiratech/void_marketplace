@@ -63,7 +63,7 @@ export function ActiveFilters({ params, categories, total }: ActiveFiltersProps)
         <button
           key={chip.key}
           onClick={() => removeChip(chip.key)}
-          className="inline-flex items-center gap-1.5 text-xs font-medium bg-[#1e3a5f] text-white px-3 py-1.5 rounded-full hover:bg-[#162d4a] transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-medium bg-[#071a33] text-white px-3 py-1.5 rounded-full hover:bg-[#051224] transition-colors"
         >
           {chip.label}
           <X className="size-3" />
@@ -71,7 +71,7 @@ export function ActiveFilters({ params, categories, total }: ActiveFiltersProps)
       ))}
       <button
         onClick={() => router.push("/produtos")}
-        className="text-xs text-[#27ae60] hover:text-[#1e9150] font-medium underline underline-offset-2 transition-colors"
+        className="text-xs text-[#7c9f61] hover:text-[#1e9150] font-medium underline underline-offset-2 transition-colors"
       >
         Limpar tudo
       </button>

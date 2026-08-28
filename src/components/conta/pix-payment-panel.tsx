@@ -12,8 +12,8 @@ interface Props {
 
 export function PixPaymentPanel({ pixQrCode, pixQrCodeBase64 }: Props) {
   return (
-    <div className="bg-[#f7f3ed] border border-[#1e3a5f]/10 rounded-xl p-4 space-y-3">
-      <p className="flex items-center gap-1.5 text-sm font-semibold text-[#1e3a5f]">
+    <div className="bg-[#f2ede0] border border-[#071a33]/10 rounded-xl p-4 space-y-3">
+      <p className="flex items-center gap-1.5 text-sm font-semibold text-[#071a33]">
         <QrCode className="size-4" /> Pagar com PIX
       </p>
       {pixQrCodeBase64 && (

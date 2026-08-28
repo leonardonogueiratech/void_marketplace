@@ -15,26 +15,26 @@ export default async function ContactReplyPage({
   if (!msg) notFound();
 
   return (
-    <div className="min-h-screen bg-[#f7f3ed] py-12 px-4">
+    <div className="min-h-screen bg-[#f2ede0] py-12 px-4">
       <div className="max-w-xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="size-14 rounded-full bg-[#1e3a5f]/8 flex items-center justify-center mx-auto mb-4">
-            <Mail className="size-6 text-[#1e3a5f]" />
+          <div className="size-14 rounded-full bg-[#071a33]/8 flex items-center justify-center mx-auto mb-4">
+            <Mail className="size-6 text-[#071a33]" />
           </div>
-          <h1 className="text-xl font-bold text-[#1e3a5f]">Sua mensagem de contato</h1>
+          <h1 className="text-xl font-bold text-[#071a33]">Sua mensagem de contato</h1>
           <p className="text-sm text-neutral-500 mt-1">Enviada em {formatDate(msg.createdAt)}</p>
         </div>
 
         <div className="space-y-4">
           {/* Mensagem original */}
-          <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 p-5">
+          <div className="bg-white rounded-2xl border border-[#071a33]/10 p-5">
             <div className="flex items-center gap-2 mb-3">
-              <div className="size-7 rounded-full bg-[#1e3a5f] text-white text-xs font-bold flex items-center justify-center">
+              <div className="size-7 rounded-full bg-[#071a33] text-white text-xs font-bold flex items-center justify-center">
                 {msg.name.slice(0, 1).toUpperCase()}
               </div>
               <div>
-                <p className="text-sm font-semibold text-[#1e3a5f]">{msg.name}</p>
+                <p className="text-sm font-semibold text-[#071a33]">{msg.name}</p>
                 <p className="text-xs text-neutral-400">{msg.email}</p>
               </div>
               <span className="ml-auto text-xs text-neutral-300">{formatDate(msg.createdAt)}</span>
@@ -45,13 +45,13 @@ export default async function ContactReplyPage({
 
           {/* Resposta */}
           {msg.reply ? (
-            <div className="bg-white rounded-2xl border border-[#27ae60]/15 ring-1 ring-[#27ae60]/10 p-5">
+            <div className="bg-white rounded-2xl border border-[#7c9f61]/15 ring-1 ring-[#7c9f61]/10 p-5">
               <div className="flex items-center gap-2 mb-3">
-                <div className="size-7 rounded-lg bg-[#1e3a5f] flex items-center justify-center">
+                <div className="size-7 rounded-lg bg-[#071a33] flex items-center justify-center">
                   <CheckCircle2 className="size-3.5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-[#1e3a5f]">Equipe Feito de Gente</p>
+                  <p className="text-sm font-semibold text-[#071a33]">Equipe Feito de Gente</p>
                   <p className="text-xs text-neutral-400">Atendimento</p>
                 </div>
                 <span className="ml-auto text-xs text-neutral-300">
@@ -61,7 +61,7 @@ export default async function ContactReplyPage({
               <p className="text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap">{msg.reply}</p>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 p-5 text-center">
+            <div className="bg-white rounded-2xl border border-[#071a33]/10 p-5 text-center">
               <Clock className="size-6 text-neutral-300 mx-auto mb-2" />
               <p className="text-sm font-semibold text-neutral-500">Aguardando resposta</p>
               <p className="text-xs text-neutral-400 mt-1">
@@ -76,7 +76,7 @@ export default async function ContactReplyPage({
           <p className="text-xs text-neutral-400">Tem mais dúvidas?</p>
           <Link
             href="/contato"
-            className="inline-block text-sm font-semibold text-[#1e3a5f] underline underline-offset-2 hover:text-[#e07b2a] transition-colors"
+            className="inline-block text-sm font-semibold text-[#071a33] underline underline-offset-2 hover:text-[#c1652e] transition-colors"
           >
             Enviar nova mensagem
           </Link>

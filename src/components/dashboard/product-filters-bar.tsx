@@ -47,7 +47,7 @@ export function ProductFiltersBar({ statusCounts, total }: Props) {
           defaultValue={currentQ}
           placeholder="Buscar por nome do produto..."
           onChange={(e) => push({ q: e.target.value || undefined, status: currentStatus !== "ALL" ? currentStatus : undefined })}
-          className="w-full pl-9 pr-9 py-2 text-sm rounded-xl border border-[#1e3a5f]/15 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/30 transition-all"
+          className="w-full pl-9 pr-9 py-2 text-sm rounded-xl border border-[#071a33]/15 focus:outline-none focus:ring-2 focus:ring-[#071a33]/20 focus:border-[#071a33]/30 transition-all"
         />
         {currentQ && (
           <button
@@ -70,7 +70,7 @@ export function ProductFiltersBar({ statusCounts, total }: Props) {
               onClick={() => push({ status: tab.value !== "ALL" ? tab.value : undefined, q: currentQ || undefined })}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                 active
-                  ? "bg-[#1e3a5f] text-white"
+                  ? "bg-[#071a33] text-white"
                   : "bg-neutral-100 text-neutral-500 hover:bg-neutral-200"
               } ${isPending ? "opacity-60" : ""}`}
             >

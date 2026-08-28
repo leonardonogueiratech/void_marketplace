@@ -67,8 +67,8 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
             onClick={() => setFilter(ALL)}
             className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
               filter === ALL
-                ? "bg-[#1e3a5f] text-white border-[#1e3a5f]"
-                : "bg-white text-neutral-500 border-[#1e3a5f]/15 hover:border-[#1e3a5f]/30"
+                ? "bg-[#071a33] text-white border-[#071a33]"
+                : "bg-white text-neutral-500 border-[#071a33]/15 hover:border-[#071a33]/30"
             }`}
           >
             Todos
@@ -84,7 +84,7 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
               className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
                 filter === opt.value
                   ? `${opt.color} shadow-sm`
-                  : "bg-white text-neutral-500 border-[#1e3a5f]/15 hover:border-[#1e3a5f]/30"
+                  : "bg-white text-neutral-500 border-[#071a33]/15 hover:border-[#071a33]/30"
               }`}
             >
               {opt.label}
@@ -97,7 +97,7 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
 
         {/* List */}
         {visible.length === 0 ? (
-          <Card className="border-[#1e3a5f]/10">
+          <Card className="border-[#071a33]/10">
             <CardContent className="py-14 text-center">
               <Package className="size-8 text-neutral-300 mx-auto mb-3" />
               <p className="text-sm text-neutral-400">Nenhum pedido neste status.</p>
@@ -112,18 +112,18 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
               const canGenerateLabel = SHIPPABLE_STATUSES.includes(item.order.status);
 
               return (
-                <Card key={item.id} className="border-[#1e3a5f]/10 hover:shadow-md transition-shadow">
+                <Card key={item.id} className="border-[#071a33]/10 hover:shadow-md transition-shadow">
                   <CardContent className="p-5">
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div className="min-w-0 flex-1 space-y-2">
                         {/* Order ID + date */}
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-xs text-neutral-400 bg-[#f7f3ed] px-2 py-0.5 rounded">
+                          <span className="font-mono text-xs text-neutral-400 bg-[#f2ede0] px-2 py-0.5 rounded">
                             #{item.order.id.slice(-8).toUpperCase()}
                           </span>
                           <span className="text-xs text-neutral-400">{formatDate(item.order.createdAt)}</span>
                           {item.order.payment && (
-                            <span className="text-xs text-neutral-400 border border-[#1e3a5f]/10 px-2 py-0.5 rounded-full">
+                            <span className="text-xs text-neutral-400 border border-[#071a33]/10 px-2 py-0.5 rounded-full">
                               {PAYMENT_LABELS[item.order.payment.method] ?? item.order.payment.method}
                             </span>
                           )}
@@ -131,7 +131,7 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
 
                         {/* Product */}
                         <div>
-                          <p className="font-semibold text-[#1e3a5f]">{item.product.name}</p>
+                          <p className="font-semibold text-[#071a33]">{item.product.name}</p>
                           <p className="text-sm text-neutral-500">
                             {item.quantity}× · {formatCurrency(item.totalPrice)}
                           </p>
@@ -152,11 +152,11 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
 
                         {/* Tracking code */}
                         {trackingCode && (
-                          <div className="inline-flex items-center gap-1.5 bg-[#1e3a5f]/5 border border-[#1e3a5f]/10 rounded-lg px-2.5 py-1.5">
-                            <Package className="size-3 text-[#1e3a5f]" />
-                            <span className="text-xs font-mono font-semibold text-[#1e3a5f]">{trackingCode}</span>
+                          <div className="inline-flex items-center gap-1.5 bg-[#071a33]/5 border border-[#071a33]/10 rounded-lg px-2.5 py-1.5">
+                            <Package className="size-3 text-[#071a33]" />
+                            <span className="text-xs font-mono font-semibold text-[#071a33]">{trackingCode}</span>
                             {item.order.trackingEvents[0] && (
-                              <span className="text-xs text-neutral-400 border-l border-[#1e3a5f]/10 pl-1.5 ml-0.5">
+                              <span className="text-xs text-neutral-400 border-l border-[#071a33]/10 pl-1.5 ml-0.5">
                                 {item.order.trackingEvents[0].description} · {formatDate(item.order.trackingEvents[0].occurredAt)}
                               </span>
                             )}
@@ -171,14 +171,14 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
                                 href={labelUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-xs font-medium text-[#27ae60] hover:text-[#1f8a4c] border border-[#27ae60]/30 rounded-lg px-3 py-1.5 transition-colors hover:bg-[#27ae60]/5"
+                                className="inline-flex items-center gap-1.5 text-xs font-medium text-[#7c9f61] hover:text-[#1f8a4c] border border-[#7c9f61]/30 rounded-lg px-3 py-1.5 transition-colors hover:bg-[#7c9f61]/5"
                               >
                                 <Download className="size-3" /> Baixar etiqueta
                               </a>
                             ) : null}
                             <button
                               onClick={() => setEtiquetaOrderId(item.order.id)}
-                              className="inline-flex items-center gap-1.5 text-xs font-medium text-[#e07b2a] hover:text-[#c96a1e] border border-[#e07b2a]/30 rounded-lg px-3 py-1.5 transition-colors hover:bg-[#e07b2a]/5"
+                              className="inline-flex items-center gap-1.5 text-xs font-medium text-[#c1652e] hover:text-[#9a5125] border border-[#c1652e]/30 rounded-lg px-3 py-1.5 transition-colors hover:bg-[#c1652e]/5"
                             >
                               <Printer className="size-3" />
                               {labelUrl ? "Regerar etiqueta" : "Gerar etiqueta"}
@@ -194,7 +194,7 @@ export function OrdersList({ items }: { items: OrderItem[] }) {
                           currentStatus={item.order.status}
                           currentTrackingCode={trackingCode}
                         />
-                        <span className="text-lg font-bold text-[#1e3a5f]">
+                        <span className="text-lg font-bold text-[#071a33]">
                           {formatCurrency(item.totalPrice)}
                         </span>
                       </div>

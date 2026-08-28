@@ -27,7 +27,7 @@ const PLANS = [
   {
     id: "FREE",
     name: "Inicial",
-    color: "#27ae60",
+    color: "#7c9f61",
     price: SUBSCRIPTION_PRICES.FREE,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
@@ -42,7 +42,7 @@ const PLANS = [
   {
     id: "BASIC",
     name: "Profissional",
-    color: "#1e3a5f",
+    color: "#071a33",
     price: SUBSCRIPTION_PRICES.BASIC,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
@@ -57,7 +57,7 @@ const PLANS = [
   {
     id: "PRO",
     name: "Ateliê",
-    color: "#e07b2a",
+    color: "#c1652e",
     price: SUBSCRIPTION_PRICES.PRO,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
@@ -139,7 +139,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
   const currentPlanData = PLANS.find((p) => p.id === currentPlan);
 
   const statusColors: Record<string, string> = {
-    ACTIVE:   "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20",
+    ACTIVE:   "bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20",
     PAST_DUE: "bg-red-50 text-red-600 border-red-200",
     CANCELLED:"bg-neutral-100 text-neutral-500 border-neutral-200",
     INACTIVE: "bg-amber-50 text-amber-700 border-amber-200",
@@ -154,10 +154,10 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
   return (
     <div className="space-y-6">
       {/* Current plan summary */}
-      <div className="flex flex-wrap items-center gap-3 p-4 rounded-xl bg-[#f7f3ed] border border-[#1e3a5f]/10">
+      <div className="flex flex-wrap items-center gap-3 p-4 rounded-xl bg-[#f2ede0] border border-[#071a33]/10">
         <div className="flex-1">
           <p className="text-xs text-neutral-400 uppercase tracking-wide mb-0.5">Plano atual</p>
-          <p className="text-lg font-bold text-[#1e3a5f]">
+          <p className="text-lg font-bold text-[#071a33]">
             {currentPlanData?.name ?? currentPlan}
           </p>
           <p className="text-xs text-neutral-400">
@@ -187,7 +187,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
       </div>
 
       {/* Launch promo notice */}
-      <div className="bg-[#e07b2a]/8 border border-[#e07b2a]/20 rounded-xl px-4 py-3 text-sm text-[#e07b2a] font-medium flex items-start gap-2">
+      <div className="bg-[#c1652e]/8 border border-[#c1652e]/20 rounded-xl px-4 py-3 text-sm text-[#c1652e] font-medium flex items-start gap-2">
         <span className="shrink-0">★</span>
         <span>
           Preços e comissões de lançamento válidos pelos primeiros 3 meses. Após o período,
@@ -207,8 +207,8 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
               key={plan.id}
               className={`relative rounded-2xl border-2 p-5 transition-all ${
                 isCurrent
-                  ? "border-[#1e3a5f] bg-[#1e3a5f]/4 shadow-md"
-                  : "border-[#1e3a5f]/12 bg-white"
+                  ? "border-[#071a33] bg-[#071a33]/4 shadow-md"
+                  : "border-[#071a33]/12 bg-white"
               }`}
             >
               {plan.badge && !isCurrent && (
@@ -220,15 +220,15 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
                 </span>
               )}
               {isCurrent && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#1e3a5f] text-white text-xs font-bold px-3 py-0.5 rounded-full whitespace-nowrap">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#071a33] text-white text-xs font-bold px-3 py-0.5 rounded-full whitespace-nowrap">
                   Plano atual
                 </span>
               )}
 
-              <p className="font-bold text-[#1e3a5f] mb-0.5">{plan.name}</p>
+              <p className="font-bold text-[#071a33] mb-0.5">{plan.name}</p>
 
               {/* Launch price prominent */}
-              <p className="text-xl font-bold text-[#27ae60] mb-0.5">
+              <p className="text-xl font-bold text-[#7c9f61] mb-0.5">
                 Grátis <span className="text-xs font-normal text-neutral-400">3 meses ★</span>
               </p>
               <p className="text-xs text-neutral-400 mb-1">
@@ -247,7 +247,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
               <ul className="space-y-1.5 mb-4">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-start gap-1.5 text-xs text-neutral-500">
-                    <CheckCircle2 className="size-3.5 text-[#27ae60] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="size-3.5 text-[#7c9f61] shrink-0 mt-0.5" />
                     {f}
                   </li>
                 ))}
@@ -260,7 +260,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
                   disabled={isLoading || loading !== null}
                   className={`w-full text-xs font-semibold ${
                     isUpgrade
-                      ? "bg-[#e07b2a] hover:bg-[#c96a1e] text-white"
+                      ? "bg-[#c1652e] hover:bg-[#9a5125] text-white"
                       : "bg-neutral-100 hover:bg-neutral-200 text-neutral-600"
                   }`}
                 >
@@ -320,7 +320,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
       <Dialog open={!!cardDialogPlan} onOpenChange={(open) => !open && setCardDialogPlan(null)}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-[#1e3a5f] flex items-center gap-2">
+            <DialogTitle className="text-[#071a33] flex items-center gap-2">
               <CreditCard className="size-4" /> Dados do cartão
             </DialogTitle>
           </DialogHeader>
@@ -361,7 +361,7 @@ export function SubscriptionPanel({ currentPlan, currentStatus, periodEnd, hasCa
               <Button type="button" variant="outline" className="flex-1" onClick={() => setCardDialogPlan(null)}>
                 Cancelar
               </Button>
-              <Button type="submit" disabled={loading !== null} className="flex-1 bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+              <Button type="submit" disabled={loading !== null} className="flex-1 bg-[#071a33] hover:bg-[#051224] text-white">
                 {loading !== null && <Loader2 className="mr-2 size-4 animate-spin" />}
                 Confirmar e assinar
               </Button>

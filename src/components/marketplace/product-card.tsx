@@ -61,10 +61,10 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <div
       onClick={() => router.push(`/produto/${product.slug}`)}
-      className="group relative flex flex-col rounded-2xl overflow-hidden border border-[#1e3a5f]/10 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-250 cursor-pointer"
+      className="group relative flex flex-col rounded-2xl overflow-hidden border border-[#071a33]/10 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-250 cursor-pointer"
     >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden bg-[#f7f3ed]">
+      <div className="relative aspect-square overflow-hidden bg-[#f2ede0]">
         <Image
           src={imageUrl}
           alt={product.images[0]?.alt ?? product.name}
@@ -85,12 +85,12 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Badges */}
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           {discount && (
-            <Badge className="bg-[#e07b2a] hover:bg-[#e07b2a] text-white text-xs px-1.5 py-0.5">
+            <Badge className="bg-[#c1652e] hover:bg-[#c1652e] text-white text-xs px-1.5 py-0.5">
               -{discount}%
             </Badge>
           )}
           {product.featured && !discount && (
-            <Badge className="bg-[#27ae60] hover:bg-[#27ae60] text-white text-xs px-1.5 py-0.5">
+            <Badge className="bg-[#7c9f61] hover:bg-[#7c9f61] text-white text-xs px-1.5 py-0.5">
               Destaque
             </Badge>
           )}
@@ -115,7 +115,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {!outOfStock && (
           <button
             onClick={handleAddToCart}
-            className="absolute bottom-2 right-2 flex items-center gap-1.5 bg-[#1e3a5f] text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-[#162d4a]"
+            className="absolute bottom-2 right-2 flex items-center gap-1.5 bg-[#071a33] text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-[#051224]"
           >
             <ShoppingBag className="size-3.5" />
             Adicionar
@@ -127,12 +127,12 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="p-3 flex flex-col gap-1">
         <Link
           href={`/artesao/${product.artisan.slug}`}
-          className="text-xs text-[#27ae60] font-medium hover:underline truncate"
+          className="text-xs text-[#7c9f61] font-medium hover:underline truncate"
           onClick={(e) => e.stopPropagation()}
         >
           {product.artisan.storeName}
         </Link>
-        <h3 className="text-sm font-medium text-[#1e3a5f] leading-snug line-clamp-2">
+        <h3 className="text-sm font-medium text-[#071a33] leading-snug line-clamp-2">
           {product.name}
         </h3>
 
@@ -155,7 +155,7 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
 
         <div className="flex items-center gap-2 mt-1">
-          <span className="font-bold text-[#1e3a5f]">
+          <span className="font-bold text-[#071a33]">
             {formatCurrency(product.price)}
           </span>
           {product.comparePrice && (

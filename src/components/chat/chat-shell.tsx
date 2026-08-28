@@ -38,15 +38,15 @@ export function ChatShell({ currentUserId, initialConversationId }: ChatShellPro
   const selectedConversation = conversations.find((c) => c.id === selectedId);
 
   return (
-    <div className="flex h-[70vh] md:h-[calc(100vh-8rem)] bg-white rounded-2xl border border-[#1e3a5f]/10 overflow-hidden">
+    <div className="flex h-[70vh] md:h-[calc(100vh-8rem)] bg-white rounded-2xl border border-[#071a33]/10 overflow-hidden">
       {/* Sidebar */}
-      <div className={`w-full md:w-72 shrink-0 border-r border-[#1e3a5f]/8 flex flex-col ${selectedId ? "hidden md:flex" : "flex"}`}>
-        <div className="px-5 py-4 border-b border-[#1e3a5f]/8">
+      <div className={`w-full md:w-72 shrink-0 border-r border-[#071a33]/8 flex flex-col ${selectedId ? "hidden md:flex" : "flex"}`}>
+        <div className="px-5 py-4 border-b border-[#071a33]/8">
           <div className="flex items-center gap-2">
-            <MessageSquare className="size-4 text-[#1e3a5f]" />
-            <h2 className="text-sm font-bold text-[#1e3a5f]">Mensagens</h2>
+            <MessageSquare className="size-4 text-[#071a33]" />
+            <h2 className="text-sm font-bold text-[#071a33]">Mensagens</h2>
             {conversations.some((c) => c.unread > 0) && (
-              <span className="size-2 rounded-full bg-[#e07b2a]" />
+              <span className="size-2 rounded-full bg-[#c1652e]" />
             )}
           </div>
         </div>
@@ -64,10 +64,10 @@ export function ChatShell({ currentUserId, initialConversationId }: ChatShellPro
         {selectedId && selectedConversation ? (
           <>
             {/* Mobile back */}
-            <div className="md:hidden px-4 py-2 border-b border-[#1e3a5f]/8">
+            <div className="md:hidden px-4 py-2 border-b border-[#071a33]/8">
               <button
                 onClick={() => setSelectedId(null)}
-                className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-[#1e3a5f] transition-colors"
+                className="flex items-center gap-1.5 text-xs text-neutral-500 hover:text-[#071a33] transition-colors"
               >
                 <ArrowLeft className="size-3.5" /> Voltar
               </button>

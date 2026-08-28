@@ -92,12 +92,12 @@ export default async function ProductsPage({
   const activeCategory = categories.find((c) => c.slug === params.categoria);
 
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
       {/* Page header — creme com acento verde */}
-      <div className="bg-[#f7f3ed] border-b border-[#1e3a5f]/8 py-10">
+      <div className="bg-[#f2ede0] border-b border-[#071a33]/8 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#27ae60] mb-1">Marketplace</p>
-          <h1 className="text-3xl font-bold text-[#1e3a5f]">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#7c9f61] mb-1">Marketplace</p>
+          <h1 className="text-3xl font-bold text-[#071a33]">
             {activeCategory ? activeCategory.name : "Todos os Produtos"}
           </h1>
           <p className="text-neutral-500 mt-1 text-sm">
@@ -122,9 +122,9 @@ export default async function ProductsPage({
             <ActiveFilters params={params} categories={categories} total={total} />
 
             {products.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-[#1e3a5f]/20 bg-white py-20 text-center px-6 mt-4">
+              <div className="rounded-2xl border border-dashed border-[#071a33]/20 bg-white py-20 text-center px-6 mt-4">
                 <p className="text-2xl mb-2">🔍</p>
-                <p className="font-semibold text-[#1e3a5f] text-lg">Nenhum produto encontrado</p>
+                <p className="font-semibold text-[#071a33] text-lg">Nenhum produto encontrado</p>
                 <p className="text-sm text-muted-foreground mt-1">
                   Tente ajustar os filtros ou buscar por outro termo.
                 </p>
@@ -146,8 +146,8 @@ export default async function ProductsPage({
                         href={`?${new URLSearchParams({ ...params, pagina: String(p) })}`}
                         className={`size-9 flex items-center justify-center rounded-lg text-sm font-medium border transition-colors ${
                           p === page
-                            ? "bg-[#1e3a5f] text-white border-[#1e3a5f]"
-                            : "border-[#1e3a5f]/20 text-[#1e3a5f] hover:bg-white"
+                            ? "bg-[#071a33] text-white border-[#071a33]"
+                            : "border-[#071a33]/20 text-[#071a33] hover:bg-white"
                         }`}
                       >
                         {p}

@@ -16,7 +16,7 @@ export default async function ContaPerfilPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Meus dados</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Meus dados</h1>
         <p className="text-sm text-neutral-500 mt-1">Informações da sua conta de comprador.</p>
       </div>
       <ProfileForm user={user} />

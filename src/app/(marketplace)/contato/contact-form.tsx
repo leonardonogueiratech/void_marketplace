@@ -49,17 +49,17 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 p-10 text-center">
-        <div className="size-14 rounded-full bg-[#27ae60]/10 flex items-center justify-center mx-auto mb-4">
-          <CheckCircle2 className="size-7 text-[#27ae60]" />
+      <div className="bg-white rounded-2xl border border-[#071a33]/10 p-10 text-center">
+        <div className="size-14 rounded-full bg-[#7c9f61]/10 flex items-center justify-center mx-auto mb-4">
+          <CheckCircle2 className="size-7 text-[#7c9f61]" />
         </div>
-        <h3 className="text-lg font-bold text-[#1e3a5f] mb-2">Mensagem enviada!</h3>
+        <h3 className="text-lg font-bold text-[#071a33] mb-2">Mensagem enviada!</h3>
         <p className="text-sm text-neutral-500 mb-6">
           Recebemos sua mensagem e responderemos em até 1 dia útil para <strong>{form.email}</strong>.
         </p>
         <button
           onClick={() => { setSent(false); setForm({ name: "", email: "", subject: "", message: "" }); }}
-          className="text-xs font-medium text-[#1e3a5f] underline underline-offset-2 hover:text-[#1e3a5f]/70 transition-colors"
+          className="text-xs font-medium text-[#071a33] underline underline-offset-2 hover:text-[#071a33]/70 transition-colors"
         >
           Enviar outra mensagem
         </button>
@@ -68,8 +68,8 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-[#1e3a5f]/10 p-7 space-y-5">
-      <h2 className="text-lg font-bold text-[#1e3a5f]">Envie uma mensagem</h2>
+    <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-[#071a33]/10 p-7 space-y-5">
+      <h2 className="text-lg font-bold text-[#071a33]">Envie uma mensagem</h2>
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
@@ -79,7 +79,7 @@ export function ContactForm() {
             value={form.name}
             onChange={(e) => set("name", e.target.value)}
             placeholder="Seu nome completo"
-            className="w-full rounded-xl border border-[#1e3a5f]/15 px-3.5 py-2.5 text-sm text-[#1e3a5f] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/40 transition-all"
+            className="w-full rounded-xl border border-[#071a33]/15 px-3.5 py-2.5 text-sm text-[#071a33] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#071a33]/20 focus:border-[#071a33]/40 transition-all"
           />
         </div>
         <div>
@@ -89,7 +89,7 @@ export function ContactForm() {
             value={form.email}
             onChange={(e) => set("email", e.target.value)}
             placeholder="seu@email.com"
-            className="w-full rounded-xl border border-[#1e3a5f]/15 px-3.5 py-2.5 text-sm text-[#1e3a5f] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/40 transition-all"
+            className="w-full rounded-xl border border-[#071a33]/15 px-3.5 py-2.5 text-sm text-[#071a33] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#071a33]/20 focus:border-[#071a33]/40 transition-all"
           />
         </div>
       </div>
@@ -99,7 +99,7 @@ export function ContactForm() {
         <select
           value={form.subject}
           onChange={(e) => set("subject", e.target.value)}
-          className="w-full rounded-xl border border-[#1e3a5f]/15 px-3.5 py-2.5 text-sm text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/40 transition-all bg-white"
+          className="w-full rounded-xl border border-[#071a33]/15 px-3.5 py-2.5 text-sm text-[#071a33] focus:outline-none focus:ring-2 focus:ring-[#071a33]/20 focus:border-[#071a33]/40 transition-all bg-white"
         >
           <option value="">Selecione um assunto</option>
           {SUBJECTS.map((s) => (
@@ -115,14 +115,14 @@ export function ContactForm() {
           onChange={(e) => set("message", e.target.value)}
           placeholder="Descreva sua dúvida ou mensagem com o máximo de detalhes..."
           rows={5}
-          className="w-full rounded-xl border border-[#1e3a5f]/15 px-3.5 py-2.5 text-sm text-[#1e3a5f] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f]/20 focus:border-[#1e3a5f]/40 transition-all resize-none"
+          className="w-full rounded-xl border border-[#071a33]/15 px-3.5 py-2.5 text-sm text-[#071a33] placeholder-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#071a33]/20 focus:border-[#071a33]/40 transition-all resize-none"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full inline-flex items-center justify-center gap-2 bg-[#1e3a5f] text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-[#1e3a5f]/90 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full inline-flex items-center justify-center gap-2 bg-[#071a33] text-white font-semibold text-sm px-6 py-3 rounded-xl hover:bg-[#071a33]/90 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {loading ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
         {loading ? "Enviando..." : "Enviar mensagem"}

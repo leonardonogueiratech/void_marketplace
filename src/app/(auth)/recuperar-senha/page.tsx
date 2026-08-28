@@ -40,18 +40,18 @@ export default function RecuperarSenhaPage() {
     return (
       <Card className="w-full max-w-md">
         <CardContent className="pt-8 pb-8 text-center space-y-4">
-          <div className="size-16 rounded-full bg-[#27ae60]/10 flex items-center justify-center mx-auto">
-            <CheckCircle2 className="size-8 text-[#27ae60]" />
+          <div className="size-16 rounded-full bg-[#7c9f61]/10 flex items-center justify-center mx-auto">
+            <CheckCircle2 className="size-8 text-[#7c9f61]" />
           </div>
-          <h2 className="text-xl font-bold text-[#1e3a5f]">E-mail enviado!</h2>
+          <h2 className="text-xl font-bold text-[#071a33]">E-mail enviado!</h2>
           <p className="text-sm text-neutral-500 leading-relaxed">
-            Se existe uma conta com o e-mail <strong className="text-[#1e3a5f]">{email}</strong>,
+            Se existe uma conta com o e-mail <strong className="text-[#071a33]">{email}</strong>,
             você receberá um link para redefinir sua senha em instantes.
           </p>
           <p className="text-xs text-neutral-400">Verifique também a pasta de spam.</p>
           <Link
             href="/login"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-[#1e3a5f] hover:text-[#e07b2a] transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[#071a33] hover:text-[#c1652e] transition-colors"
           >
             <ArrowLeft className="size-4" /> Voltar ao login
           </Link>
@@ -63,8 +63,8 @@ export default function RecuperarSenhaPage() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <div className="size-10 rounded-xl bg-[#1e3a5f]/8 flex items-center justify-center mb-2">
-          <Mail className="size-5 text-[#1e3a5f]" />
+        <div className="size-10 rounded-xl bg-[#071a33]/8 flex items-center justify-center mb-2">
+          <Mail className="size-5 text-[#071a33]" />
         </div>
         <CardTitle className="text-xl">Esqueceu a senha?</CardTitle>
         <CardDescription>
@@ -84,13 +84,13 @@ export default function RecuperarSenhaPage() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <Button type="submit" className="w-full bg-[#1e3a5f] hover:bg-[#162d4a] text-white" disabled={loading}>
+          <Button type="submit" className="w-full bg-[#071a33] hover:bg-[#051224] text-white" disabled={loading}>
             {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
             Enviar link de redefinição
           </Button>
         </form>
         <p className="text-center text-sm text-muted-foreground mt-5">
-          <Link href="/login" className="inline-flex items-center gap-1 hover:text-[#1e3a5f] transition-colors">
+          <Link href="/login" className="inline-flex items-center gap-1 hover:text-[#071a33] transition-colors">
             <ArrowLeft className="size-3.5" /> Voltar ao login
           </Link>
         </p>

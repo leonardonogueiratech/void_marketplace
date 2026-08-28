@@ -77,7 +77,7 @@ export default async function AccountOrdersPage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-[#1e3a5f]">Meus pedidos</h1>
+          <h1 className="text-3xl font-bold text-[#071a33]">Meus pedidos</h1>
           <p className="mt-2 text-neutral-500 text-sm">Acompanhe pagamentos, status e entregas.</p>
           <p className="mt-1 text-xs text-neutral-400">
             Precisa cancelar ou devolver um pedido?{" "}
@@ -97,7 +97,7 @@ export default async function AccountOrdersPage() {
           <CardContent className="py-16 text-center">
             <p className="text-lg font-medium text-neutral-900">Você ainda não fez nenhum pedido.</p>
             <p className="mt-2 text-neutral-500 text-sm">Explore produtos artesanais e monte sua primeira cesta.</p>
-            <Button className="mt-6 bg-[#1e3a5f] hover:bg-[#162d4a] text-white" asChild>
+            <Button className="mt-6 bg-[#071a33] hover:bg-[#051224] text-white" asChild>
               <Link href="/produtos">Ver produtos</Link>
             </Button>
           </CardContent>
@@ -110,12 +110,12 @@ export default async function AccountOrdersPage() {
             const storeName = order.items[0]?.product?.artisan?.storeName ?? "Artesão";
 
             return (
-              <Card key={order.id} className="border-[#1e3a5f]/10 overflow-hidden">
+              <Card key={order.id} className="border-[#071a33]/10 overflow-hidden">
                 {/* Header */}
-                <CardHeader className="bg-[#f7f3ed]/60 border-b border-[#1e3a5f]/8 py-4">
+                <CardHeader className="bg-[#f2ede0]/60 border-b border-[#071a33]/8 py-4">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <CardTitle className="text-base text-[#1e3a5f]">
+                      <CardTitle className="text-base text-[#071a33]">
                         Pedido <span className="font-mono">#{order.id.slice(-8).toUpperCase()}</span>
                       </CardTitle>
                       <p className="mt-0.5 text-xs text-neutral-400">Feito em {formatDate(order.createdAt)}</p>
@@ -140,17 +140,17 @@ export default async function AccountOrdersPage() {
                       const image = item.product.images[0]?.url ?? "/placeholder-product.jpg";
                       return (
                         <div key={item.id} className="flex flex-wrap items-center gap-4">
-                          <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-[#f7f3ed]">
+                          <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-[#f2ede0]">
                             <Image src={image} alt={item.product.name} fill sizes="64px" className="object-cover" />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <Link href={`/produto/${item.product.slug}`} className="font-medium text-[#1e3a5f] hover:text-[#e07b2a] text-sm">
+                            <Link href={`/produto/${item.product.slug}`} className="font-medium text-[#071a33] hover:text-[#c1652e] text-sm">
                               {item.product.name}
                             </Link>
                             <p className="text-xs text-neutral-400 mt-0.5">Qtd: {item.quantity}</p>
                           </div>
                           <div className="text-right shrink-0">
-                            <p className="font-semibold text-[#1e3a5f] text-sm">{formatCurrency(item.totalPrice)}</p>
+                            <p className="font-semibold text-[#071a33] text-sm">{formatCurrency(item.totalPrice)}</p>
                             <p className="text-xs text-neutral-400">{formatCurrency(item.unitPrice)} un.</p>
                           </div>
                           {order.status === "DELIVERED" && (
@@ -175,11 +175,11 @@ export default async function AccountOrdersPage() {
                     />
                   )}
                   {order.status === "PAYMENT_PENDING" && order.payment?.method === "BOLETO" && order.payment.boletoUrl && (
-                    <div className="bg-[#f7f3ed] border border-[#1e3a5f]/10 rounded-xl p-4 flex items-center justify-between gap-3">
-                      <p className="flex items-center gap-1.5 text-sm font-semibold text-[#1e3a5f]">
+                    <div className="bg-[#f2ede0] border border-[#071a33]/10 rounded-xl p-4 flex items-center justify-between gap-3">
+                      <p className="flex items-center gap-1.5 text-sm font-semibold text-[#071a33]">
                         <FileText className="size-4" /> Boleto aguardando pagamento
                       </p>
-                      <Button asChild size="sm" className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+                      <Button asChild size="sm" className="bg-[#071a33] hover:bg-[#051224] text-white">
                         <a href={order.payment.boletoUrl} target="_blank" rel="noopener noreferrer">Visualizar boleto</a>
                       </Button>
                     </div>
@@ -211,7 +211,7 @@ export default async function AccountOrdersPage() {
                   )}
 
                   {/* Footer: address + total + actions */}
-                  <div className="flex flex-wrap gap-4 border-t border-[#1e3a5f]/8 pt-4 items-end justify-between">
+                  <div className="flex flex-wrap gap-4 border-t border-[#071a33]/8 pt-4 items-end justify-between">
                     <div className="text-xs text-neutral-400 space-y-0.5">
                       {order.customer ? (
                         <>
@@ -230,7 +230,7 @@ export default async function AccountOrdersPage() {
                         {order.shippingCost > 0 && <p>Frete: {formatCurrency(order.shippingCost)}</p>}
                         {order.discount > 0 && <p className="text-green-600">Desconto: -{formatCurrency(order.discount)}</p>}
                       </div>
-                      <p className="text-lg font-bold text-[#1e3a5f]">Total: {formatCurrency(order.total)}</p>
+                      <p className="text-lg font-bold text-[#071a33]">Total: {formatCurrency(order.total)}</p>
                       <div className="flex items-center gap-2">
                         {order.status === "DELIVERED" && !hasReview && (
                           <ReviewButton orderId={order.id} storeName={storeName} />

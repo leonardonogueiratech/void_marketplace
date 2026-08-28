@@ -16,7 +16,7 @@ function ChartTooltip({ active, payload, label, currency }: {
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white border border-[#1e3a5f]/10 rounded-xl shadow-lg px-3 py-2 text-xs min-w-[120px]">
+    <div className="bg-white border border-[#071a33]/10 rounded-xl shadow-lg px-3 py-2 text-xs min-w-[120px]">
       {label && <p className="text-neutral-400 mb-1.5 font-medium">{label}</p>}
       {payload.map((p: any, i: number) => (
         <p key={i} className="font-semibold" style={{ color: p.color || p.fill }}>
@@ -50,8 +50,8 @@ export function DailyGmvChart({ data }: { data: DailyData[] }) {
       <AreaChart data={data} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="gmvGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#27ae60" stopOpacity={0.18} />
-            <stop offset="95%" stopColor="#27ae60" stopOpacity={0} />
+            <stop offset="5%" stopColor="#7c9f61" stopOpacity={0.18} />
+            <stop offset="95%" stopColor="#7c9f61" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="ordersGrad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#17a2b8" stopOpacity={0.15} />
@@ -64,7 +64,7 @@ export function DailyGmvChart({ data }: { data: DailyData[] }) {
         <YAxis yAxisId="orders" orientation="right" tick={{ fontSize: 10, fill: "#bbb" }} tickLine={false} axisLine={false} width={28} />
         <Tooltip content={<ChartTooltip currency />} />
         <Legend iconType="circle" iconSize={7} wrapperStyle={{ fontSize: "11px", paddingTop: "8px" }} />
-        <Area yAxisId="gmv" type="monotone" dataKey="gmv" name="GMV" stroke="#27ae60" strokeWidth={2} fill="url(#gmvGrad)" dot={false} activeDot={{ r: 4, fill: "#27ae60" }} />
+        <Area yAxisId="gmv" type="monotone" dataKey="gmv" name="GMV" stroke="#7c9f61" strokeWidth={2} fill="url(#gmvGrad)" dot={false} activeDot={{ r: 4, fill: "#7c9f61" }} />
         <Area yAxisId="orders" type="monotone" dataKey="orders" name="Pedidos" stroke="#17a2b8" strokeWidth={1.5} fill="url(#ordersGrad)" dot={false} activeDot={{ r: 3, fill: "#17a2b8" }} />
       </AreaChart>
     </ResponsiveContainer>
@@ -84,7 +84,7 @@ export function MonthlyGmvChart({ data }: { data: MonthlyData[] }) {
         <XAxis dataKey="month" tick={{ fontSize: 10, fill: "#bbb" }} tickLine={false} axisLine={false} />
         <YAxis tick={{ fontSize: 10, fill: "#bbb" }} tickLine={false} axisLine={false} tickFormatter={(v) => `R$${v}`} width={56} />
         <Tooltip content={<ChartTooltip currency />} />
-        <Bar dataKey="gmv" name="GMV" fill="#27ae60" radius={[5, 5, 0, 0]} maxBarSize={44} />
+        <Bar dataKey="gmv" name="GMV" fill="#7c9f61" radius={[5, 5, 0, 0]} maxBarSize={44} />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -94,11 +94,11 @@ export function MonthlyGmvChart({ data }: { data: MonthlyData[] }) {
 
 const STATUS_COLORS: Record<string, string> = {
   PENDING: "#f59e0b",
-  PAYMENT_PENDING: "#e07b2a",
+  PAYMENT_PENDING: "#c1652e",
   PAID: "#17a2b8",
-  PROCESSING: "#1e3a5f",
+  PROCESSING: "#071a33",
   SHIPPED: "#6366f1",
-  DELIVERED: "#27ae60",
+  DELIVERED: "#7c9f61",
   CANCELLED: "#ef4444",
   REFUNDED: "#94a3b8",
 };
@@ -144,8 +144,8 @@ export function UserGrowthChart({ data }: { data: UserGrowthData[] }) {
         <YAxis tick={{ fontSize: 10, fill: "#bbb" }} tickLine={false} axisLine={false} width={28} allowDecimals={false} />
         <Tooltip content={<ChartTooltip />} />
         <Legend iconType="circle" iconSize={7} wrapperStyle={{ fontSize: "11px", paddingTop: "8px" }} />
-        <Bar dataKey="compradores" name="Compradores" fill="#1e3a5f" radius={[4, 4, 0, 0]} maxBarSize={22} />
-        <Bar dataKey="artesaos" name="Artesãos" fill="#27ae60" radius={[4, 4, 0, 0]} maxBarSize={22} />
+        <Bar dataKey="compradores" name="Compradores" fill="#071a33" radius={[4, 4, 0, 0]} maxBarSize={22} />
+        <Bar dataKey="artesaos" name="Artesãos" fill="#7c9f61" radius={[4, 4, 0, 0]} maxBarSize={22} />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -155,8 +155,8 @@ export function UserGrowthChart({ data }: { data: UserGrowthData[] }) {
 
 const PLAN_COLORS: Record<string, string> = {
   FREE: "#94a3b8",
-  BASIC: "#27ae60",
-  PRO: "#e07b2a",
+  BASIC: "#7c9f61",
+  PRO: "#c1652e",
 };
 
 const PLAN_LABELS: Record<string, string> = {

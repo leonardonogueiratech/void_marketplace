@@ -31,7 +31,7 @@ export default async function DashboardProfilePage() {
     SUSPENDED: "Suspenso",
   };
   const statusColors: Record<string, string> = {
-    APPROVED: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20",
+    APPROVED: "bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20",
     PENDING: "bg-amber-50 text-amber-700 border-amber-200",
     REJECTED: "bg-red-50 text-red-600 border-red-200",
     SUSPENDED: "bg-neutral-100 text-neutral-600 border-neutral-200",
@@ -43,12 +43,12 @@ export default async function DashboardProfilePage() {
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#1e3a5f]">Perfil da loja</h1>
+          <h1 className="text-2xl font-bold text-[#071a33]">Perfil da loja</h1>
           <p className="mt-1 text-sm text-neutral-500">
             Informações exibidas publicamente no marketplace.
           </p>
         </div>
-        <Button variant="outline" asChild className="border-[#1e3a5f]/20 text-[#1e3a5f] hover:bg-[#1e3a5f]/5 self-start sm:self-auto">
+        <Button variant="outline" asChild className="border-[#071a33]/20 text-[#071a33] hover:bg-[#071a33]/5 self-start sm:self-auto">
           <Link href={`/artesao/${artisan.slug}`} target="_blank">
             <ExternalLink className="mr-2 size-4" /> Ver loja pública
           </Link>
@@ -56,8 +56,8 @@ export default async function DashboardProfilePage() {
       </div>
 
       {/* Preview card */}
-      <Card className="overflow-hidden border-[#1e3a5f]/10 shadow-sm">
-        <div className="relative h-36 bg-gradient-to-br from-[#e07b2a]/20 via-[#f7f3ed] to-[#27ae60]/15">
+      <Card className="overflow-hidden border-[#071a33]/10 shadow-sm">
+        <div className="relative h-36 bg-gradient-to-br from-[#c1652e]/20 via-[#f2ede0] to-[#7c9f61]/15">
           {artisan.bannerImage && (
             <img
               src={artisan.bannerImage}
@@ -68,7 +68,7 @@ export default async function DashboardProfilePage() {
         </div>
         <CardContent className="relative pt-0 pb-5">
           <div className="-mt-9 flex flex-col gap-4 sm:flex-row sm:items-end">
-            <div className="size-[72px] shrink-0 flex items-center justify-center rounded-2xl border-4 border-white bg-[#1e3a5f] text-white text-xl font-bold shadow-sm overflow-hidden">
+            <div className="size-[72px] shrink-0 flex items-center justify-center rounded-2xl border-4 border-white bg-[#071a33] text-white text-xl font-bold shadow-sm overflow-hidden">
               {artisan.logoImage
                 ? <img src={artisan.logoImage} alt={artisan.storeName} className="w-full h-full object-cover" />
                 : artisan.storeName.slice(0, 2).toUpperCase()
@@ -76,27 +76,27 @@ export default async function DashboardProfilePage() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-xl font-bold text-[#1e3a5f]">{artisan.storeName}</h2>
+                <h2 className="text-xl font-bold text-[#071a33]">{artisan.storeName}</h2>
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${statusColors[artisan.status] ?? statusColors.PENDING}`}>
                   {statusLabels[artisan.status] ?? artisan.status}
                 </span>
                 {artisan.featured && (
-                  <Badge className="bg-[#e07b2a] hover:bg-[#e07b2a] text-white text-xs">Destaque</Badge>
+                  <Badge className="bg-[#c1652e] hover:bg-[#c1652e] text-white text-xs">Destaque</Badge>
                 )}
               </div>
               <p className="text-xs text-neutral-400 mt-0.5">@{artisan.slug}</p>
             </div>
             <div className="flex gap-4 text-center">
               <div>
-                <p className="text-lg font-bold text-[#1e3a5f]">{artisan._count.products}</p>
+                <p className="text-lg font-bold text-[#071a33]">{artisan._count.products}</p>
                 <p className="text-xs text-neutral-400">produtos</p>
               </div>
               <div>
-                <p className="text-lg font-bold text-[#1e3a5f]">{artisan._count.reviews}</p>
+                <p className="text-lg font-bold text-[#071a33]">{artisan._count.reviews}</p>
                 <p className="text-xs text-neutral-400">avaliações</p>
               </div>
               <div>
-                <p className="text-lg font-bold text-[#27ae60]">{artisan.subscription?.plan ?? "FREE"}</p>
+                <p className="text-lg font-bold text-[#7c9f61]">{artisan.subscription?.plan ?? "FREE"}</p>
                 <p className="text-xs text-neutral-400">plano</p>
               </div>
             </div>
@@ -136,7 +136,7 @@ export default async function DashboardProfilePage() {
 
       {/* Edit form */}
       <div>
-        <h2 className="text-lg font-bold text-[#1e3a5f] mb-4">Editar perfil</h2>
+        <h2 className="text-lg font-bold text-[#071a33] mb-4">Editar perfil</h2>
         <EditProfileForm
           artisan={artisan}
           allCategories={allCategories}

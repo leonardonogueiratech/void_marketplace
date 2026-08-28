@@ -40,7 +40,7 @@ export function RefundReturnButton({ id }: { id: string }) {
   return (
     <button
       onClick={() => setConfirming(true)}
-      className="inline-flex items-center gap-1 text-xs bg-[#27ae60]/10 text-[#27ae60] border border-[#27ae60]/20 px-3 py-1.5 rounded-full hover:bg-[#27ae60]/20 transition-colors font-medium"
+      className="inline-flex items-center gap-1 text-xs bg-[#7c9f61]/10 text-[#7c9f61] border border-[#7c9f61]/20 px-3 py-1.5 rounded-full hover:bg-[#7c9f61]/20 transition-colors font-medium"
     >
       <RotateCcw className="size-3" />
       Processar reembolso

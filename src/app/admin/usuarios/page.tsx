@@ -9,9 +9,9 @@ export default async function AdminUsersPage() {
   });
 
   const roleColors: Record<string, string> = {
-    CUSTOMER: "bg-[#1e3a5f]/8 text-[#1e3a5f] border-[#1e3a5f]/15",
-    ARTISAN:  "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20",
-    ADMIN:    "bg-[#e07b2a]/10 text-[#e07b2a] border-[#e07b2a]/20",
+    CUSTOMER: "bg-[#071a33]/8 text-[#071a33] border-[#071a33]/15",
+    ARTISAN:  "bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20",
+    ADMIN:    "bg-[#c1652e]/10 text-[#c1652e] border-[#c1652e]/20",
   };
   const roleLabels: Record<string, string> = {
     CUSTOMER: "Comprador", ARTISAN: "Artesão", ADMIN: "Administrador",
@@ -20,30 +20,30 @@ export default async function AdminUsersPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Usuários</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Usuários</h1>
         <p className="text-sm text-neutral-500 mt-1">{users.length} usuário(s) cadastrado(s).</p>
       </div>
 
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#1e3a5f]/8">
+                <tr className="border-b border-[#071a33]/8">
                   {["Nome", "Email", "Perfil", "Pedidos", "Cadastro"].map((h) => (
                     <th key={h} className="text-left px-5 py-3 text-xs font-semibold text-neutral-400 uppercase tracking-wide">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1e3a5f]/6">
+              <tbody className="divide-y divide-[#071a33]/6">
                 {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-[#f7f3ed]/40 transition-colors">
+                  <tr key={u.id} className="hover:bg-[#f2ede0]/40 transition-colors">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="size-7 rounded-full bg-[#1e3a5f] text-white text-xs flex items-center justify-center font-bold shrink-0">
+                        <div className="size-7 rounded-full bg-[#071a33] text-white text-xs flex items-center justify-center font-bold shrink-0">
                           {(u.name ?? u.email).slice(0, 1).toUpperCase()}
                         </div>
-                        <span className="font-medium text-[#1e3a5f]">{u.name ?? "—"}</span>
+                        <span className="font-medium text-[#071a33]">{u.name ?? "—"}</span>
                       </div>
                     </td>
                     <td className="px-5 py-3 text-neutral-500 text-xs">{u.email}</td>

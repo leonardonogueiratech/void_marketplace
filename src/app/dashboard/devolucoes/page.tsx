@@ -11,7 +11,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   REJECTED:     { label: "Recusada", color: "bg-red-50 text-red-500 border-red-200" },
   SHIPPED_BACK: { label: "A caminho de volta", color: "bg-purple-50 text-purple-600 border-purple-200" },
   RECEIVED:     { label: "Recebida — reembolso pendente", color: "bg-indigo-50 text-indigo-600 border-indigo-200" },
-  REFUNDED:     { label: "Reembolsada", color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
+  REFUNDED:     { label: "Reembolsada", color: "bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20" },
 };
 
 const REASON_LABELS: Record<string, string> = {
@@ -36,11 +36,11 @@ export default async function DashboardReturnsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Devoluções</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Devoluções</h1>
         <p className="text-sm text-neutral-500 mt-1">Solicitações de devolução dos seus produtos.</p>
       </div>
 
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardContent className="p-0">
           {returns.length === 0 ? (
             <div className="flex flex-col items-center py-12 text-center">
@@ -48,7 +48,7 @@ export default async function DashboardReturnsPage() {
               <p className="text-sm text-neutral-400">Nenhuma solicitação de devolução.</p>
             </div>
           ) : (
-            <div className="divide-y divide-[#1e3a5f]/6">
+            <div className="divide-y divide-[#071a33]/6">
               {returns.map((r) => {
                 const photos: string[] = JSON.parse(r.photos || "[]");
                 const st = STATUS_CONFIG[r.status] ?? STATUS_CONFIG.PENDING;
@@ -56,7 +56,7 @@ export default async function DashboardReturnsPage() {
                   <div key={r.id} className="p-5 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <p className="font-semibold text-[#1e3a5f] text-sm">{r.orderItem.product.name}</p>
+                        <p className="font-semibold text-[#071a33] text-sm">{r.orderItem.product.name}</p>
                         <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${st.color}`}>{st.label}</span>
                       </div>
                       <p className="text-xs text-neutral-400">
@@ -67,7 +67,7 @@ export default async function DashboardReturnsPage() {
                         <div className="flex gap-2 mt-2">
                           {photos.map((url) => (
                             <a key={url} href={url} target="_blank" rel="noopener noreferrer">
-                              <img src={url} alt="Foto da devolução" className="size-16 rounded-lg object-cover border border-[#1e3a5f]/10" />
+                              <img src={url} alt="Foto da devolução" className="size-16 rounded-lg object-cover border border-[#071a33]/10" />
                             </a>
                           ))}
                         </div>

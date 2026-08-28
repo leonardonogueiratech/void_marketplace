@@ -3,9 +3,9 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
       {/* Hero */}
-      <section className="bg-[#1e3a5f] py-16 px-4">
+      <section className="bg-[#071a33] py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Fale com a gente
@@ -21,7 +21,7 @@ export default function ContactPage() {
           {/* Info */}
           <div className="md:col-span-2 space-y-6">
             <div>
-              <h2 className="text-lg font-bold text-[#1e3a5f] mb-4">Informações</h2>
+              <h2 className="text-lg font-bold text-[#071a33] mb-4">Informações</h2>
               <div className="space-y-4">
                 {[
                   {
@@ -46,26 +46,26 @@ export default function ContactPage() {
                   },
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex items-start gap-3">
-                    <div className="size-9 rounded-xl bg-[#1e3a5f]/8 flex items-center justify-center shrink-0 mt-0.5">
-                      <Icon className="size-4 text-[#1e3a5f]" />
+                    <div className="size-9 rounded-xl bg-[#071a33]/8 flex items-center justify-center shrink-0 mt-0.5">
+                      <Icon className="size-4 text-[#071a33]" />
                     </div>
                     <div>
                       <p className="text-xs text-neutral-400 font-medium">{label}</p>
-                      <p className="text-sm text-[#1e3a5f] font-medium">{value}</p>
+                      <p className="text-sm text-[#071a33] font-medium">{value}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="rounded-2xl bg-[#e07b2a]/8 border border-[#e07b2a]/15 p-5">
-              <p className="text-sm font-semibold text-[#e07b2a] mb-1">Quer vender no Feito de Gente?</p>
+            <div className="rounded-2xl bg-[#c1652e]/8 border border-[#c1652e]/15 p-5">
+              <p className="text-sm font-semibold text-[#c1652e] mb-1">Quer vender no Feito de Gente?</p>
               <p className="text-xs text-neutral-600 leading-relaxed">
                 Cadastre-se como artesão e alcance compradores em todo o Brasil. É rápido e fácil.
               </p>
               <a
                 href="/seja-artesao"
-                className="inline-block mt-3 text-xs font-semibold text-[#e07b2a] underline underline-offset-2 hover:text-[#c96a1e] transition-colors"
+                className="inline-block mt-3 text-xs font-semibold text-[#c1652e] underline underline-offset-2 hover:text-[#9a5125] transition-colors"
               >
                 Saiba mais →
               </a>

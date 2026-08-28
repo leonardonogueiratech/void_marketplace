@@ -53,7 +53,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           </div>
           <div className="p-3">
-            <p className="font-semibold text-sm text-[#1e3a5f]">{category.name}</p>
+            <p className="font-semibold text-sm text-[#071a33]">{category.name}</p>
             <p className="text-xs text-neutral-500 mt-0.5">{count} produto{count !== 1 ? "s" : ""}</p>
           </div>
         </>
@@ -61,7 +61,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
         <div className="p-5 flex flex-col gap-3">
           <span className="text-4xl leading-none">{style.emoji}</span>
           <div>
-            <p className="font-semibold text-sm text-[#1e3a5f] leading-snug">{category.name}</p>
+            <p className="font-semibold text-sm text-[#071a33] leading-snug">{category.name}</p>
             <p className="text-xs text-neutral-500 mt-0.5">{count} produto{count !== 1 ? "s" : ""}</p>
           </div>
         </div>

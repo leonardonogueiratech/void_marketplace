@@ -32,9 +32,9 @@ export function ArtisanApprovalActions({ token }: { token: string }) {
 
   if (done === "approve") {
     return (
-      <div className="bg-white rounded-2xl border border-[#27ae60]/20 p-5 text-center">
-        <CheckCircle2 className="size-6 text-[#27ae60] mx-auto mb-2" />
-        <p className="text-sm font-semibold text-[#27ae60]">Cadastro aprovado!</p>
+      <div className="bg-white rounded-2xl border border-[#7c9f61]/20 p-5 text-center">
+        <CheckCircle2 className="size-6 text-[#7c9f61] mx-auto mb-2" />
+        <p className="text-sm font-semibold text-[#7c9f61]">Cadastro aprovado!</p>
         <p className="text-xs text-neutral-400 mt-1">O artesão foi notificado por e-mail.</p>
       </div>
     );
@@ -85,7 +85,7 @@ export function ArtisanApprovalActions({ token }: { token: string }) {
       <Button
         onClick={() => act("approve")}
         disabled={loading !== null}
-        className="flex-1 bg-[#27ae60] hover:bg-[#229954] text-white font-semibold"
+        className="flex-1 bg-[#7c9f61] hover:bg-[#63804e] text-white font-semibold"
       >
         {loading === "approve" ? <Loader2 className="size-4 animate-spin mr-2" /> : <CheckCircle2 className="size-4 mr-2" />}
         Aprovar

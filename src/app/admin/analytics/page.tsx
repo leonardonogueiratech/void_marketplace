@@ -267,10 +267,10 @@ function KpiCard({
   suffix?: string;
 }) {
   const TrendIcon = change == null ? null : change > 0 ? TrendingUp : change < 0 ? TrendingDown : Minus;
-  const trendColor = change == null ? "" : change > 0 ? "text-[#27ae60]" : change < 0 ? "text-red-500" : "text-neutral-400";
+  const trendColor = change == null ? "" : change > 0 ? "text-[#7c9f61]" : change < 0 ? "text-red-500" : "text-neutral-400";
 
   return (
-    <Card className="border-[#1e3a5f]/10">
+    <Card className="border-[#071a33]/10">
       <CardContent className="pt-5 pb-4">
         <div className="flex items-center justify-between mb-3">
           <span className="text-xs text-neutral-500 font-medium">{label}</span>
@@ -278,7 +278,7 @@ function KpiCard({
             <Icon className={`size-4 ${color}`} />
           </div>
         </div>
-        <p className="text-2xl font-bold text-[#1e3a5f]">{value}{suffix}</p>
+        <p className="text-2xl font-bold text-[#071a33]">{value}{suffix}</p>
         {TrendIcon && change != null && (
           <div className={`flex items-center gap-1 mt-1.5 ${trendColor}`}>
             <TrendIcon className="size-3" />
@@ -302,7 +302,7 @@ export default async function AnalyticsPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Analytics</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Analytics</h1>
         <p className="text-sm text-neutral-500 mt-1">
           Visão completa do desempenho do marketplace. KPIs comparados com os 30 dias anteriores.
         </p>
@@ -315,8 +315,8 @@ export default async function AnalyticsPage() {
           value={formatCurrency(kpis.gmv.current)}
           change={kpis.gmv.change}
           icon={DollarSign}
-          color="text-[#27ae60]"
-          bg="bg-[#27ae60]/8"
+          color="text-[#7c9f61]"
+          bg="bg-[#7c9f61]/8"
         />
         <KpiCard
           label="Receita da plataforma"
@@ -330,24 +330,24 @@ export default async function AnalyticsPage() {
           value={formatCurrency(kpis.avgTicket.current)}
           change={kpis.avgTicket.change}
           icon={ShoppingBag}
-          color="text-[#e07b2a]"
-          bg="bg-[#e07b2a]/8"
+          color="text-[#c1652e]"
+          bg="bg-[#c1652e]/8"
         />
         <KpiCard
           label="Taxa de conclusão"
           value={kpis.completionRate}
           suffix="%"
           icon={BarChart2}
-          color="text-[#1e3a5f]"
-          bg="bg-[#1e3a5f]/8"
+          color="text-[#071a33]"
+          bg="bg-[#071a33]/8"
         />
       </div>
 
       {/* ── GMV Diário ── */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-semibold text-[#1e3a5f] flex items-center gap-2">
-            <TrendingUp className="size-4 text-[#27ae60]" />
+          <CardTitle className="text-sm font-semibold text-[#071a33] flex items-center gap-2">
+            <TrendingUp className="size-4 text-[#7c9f61]" />
             GMV Diário — últimos 30 dias
           </CardTitle>
         </CardHeader>
@@ -358,10 +358,10 @@ export default async function AnalyticsPage() {
 
       {/* ── GMV Mensal + Status ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-semibold text-[#1e3a5f] flex items-center gap-2">
-              <BarChart2 className="size-4 text-[#27ae60]" />
+            <CardTitle className="text-sm font-semibold text-[#071a33] flex items-center gap-2">
+              <BarChart2 className="size-4 text-[#7c9f61]" />
               GMV Mensal — últimos 12 meses
             </CardTitle>
           </CardHeader>
@@ -370,10 +370,10 @@ export default async function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-semibold text-[#1e3a5f] flex items-center gap-2">
-              <ShoppingBag className="size-4 text-[#e07b2a]" />
+            <CardTitle className="text-sm font-semibold text-[#071a33] flex items-center gap-2">
+              <ShoppingBag className="size-4 text-[#c1652e]" />
               Pedidos por Status
             </CardTitle>
           </CardHeader>
@@ -386,13 +386,13 @@ export default async function AnalyticsPage() {
       {/* ── Top Artesãos + Top Produtos ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Artesãos */}
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-3 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-semibold text-[#1e3a5f] flex items-center gap-2">
-              <Store className="size-4 text-[#27ae60]" />
+            <CardTitle className="text-sm font-semibold text-[#071a33] flex items-center gap-2">
+              <Store className="size-4 text-[#7c9f61]" />
               Top Artesãos por GMV
             </CardTitle>
-            <Link href="/admin/artesaos" className="text-xs text-[#27ae60] hover:underline">
+            <Link href="/admin/artesaos" className="text-xs text-[#7c9f61] hover:underline">
               Ver todos →
             </Link>
           </CardHeader>
@@ -402,18 +402,18 @@ export default async function AnalyticsPage() {
             ) : (
               <div className="space-y-0">
                 {topArtisans.map((a, i) => (
-                  <div key={a.slug} className="flex items-center gap-3 py-2.5 border-b border-[#1e3a5f]/5 last:border-0">
+                  <div key={a.slug} className="flex items-center gap-3 py-2.5 border-b border-[#071a33]/5 last:border-0">
                     <span className="text-xs font-bold text-neutral-300 w-5 text-right shrink-0">
                       {i + 1}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <Link href={`/artesao/${a.slug}`} target="_blank" className="text-sm font-semibold text-[#1e3a5f] hover:underline truncate block">
+                      <Link href={`/artesao/${a.slug}`} target="_blank" className="text-sm font-semibold text-[#071a33] hover:underline truncate block">
                         {a.storeName}
                       </Link>
                       <div className="flex items-center gap-1 mt-0.5">
                         {a.rating > 0 && (
                           <>
-                            <Star className="size-3 fill-[#e07b2a] text-[#e07b2a]" />
+                            <Star className="size-3 fill-[#c1652e] text-[#c1652e]" />
                             <span className="text-[10px] text-neutral-400">{a.rating.toFixed(1)}</span>
                             <span className="text-[10px] text-neutral-300 mx-1">·</span>
                           </>
@@ -421,7 +421,7 @@ export default async function AnalyticsPage() {
                         <span className="text-[10px] text-neutral-400">{a.orders} pedido{a.orders !== 1 ? "s" : ""}</span>
                       </div>
                     </div>
-                    <span className="text-sm font-bold text-[#27ae60] shrink-0">
+                    <span className="text-sm font-bold text-[#7c9f61] shrink-0">
                       {formatCurrency(a.gmv)}
                     </span>
                   </div>
@@ -432,13 +432,13 @@ export default async function AnalyticsPage() {
         </Card>
 
         {/* Top Produtos */}
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-3 flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-semibold text-[#1e3a5f] flex items-center gap-2">
-              <Package className="size-4 text-[#e07b2a]" />
+            <CardTitle className="text-sm font-semibold text-[#071a33] flex items-center gap-2">
+              <Package className="size-4 text-[#c1652e]" />
               Top Produtos por Receita
             </CardTitle>
-            <Link href="/admin/pedidos" className="text-xs text-[#27ae60] hover:underline">
+            <Link href="/admin/pedidos" className="text-xs text-[#7c9f61] hover:underline">
               Ver pedidos →
             </Link>
           </CardHeader>
@@ -448,24 +448,24 @@ export default async function AnalyticsPage() {
             ) : (
               <div className="space-y-0">
                 {topProducts.map((p, i) => (
-                  <div key={p.slug} className="flex items-center gap-3 py-2.5 border-b border-[#1e3a5f]/5 last:border-0">
+                  <div key={p.slug} className="flex items-center gap-3 py-2.5 border-b border-[#071a33]/5 last:border-0">
                     <span className="text-xs font-bold text-neutral-300 w-5 text-right shrink-0">
                       {i + 1}
                     </span>
                     {p.image ? (
-                      <img src={p.image} alt={p.name} className="size-9 rounded-lg object-cover shrink-0 border border-[#1e3a5f]/8" />
+                      <img src={p.image} alt={p.name} className="size-9 rounded-lg object-cover shrink-0 border border-[#071a33]/8" />
                     ) : (
-                      <div className="size-9 rounded-lg bg-[#f7f3ed] shrink-0 border border-[#1e3a5f]/8 flex items-center justify-center">
+                      <div className="size-9 rounded-lg bg-[#f2ede0] shrink-0 border border-[#071a33]/8 flex items-center justify-center">
                         <Package className="size-4 text-neutral-300" />
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <Link href={`/produto/${p.slug}`} target="_blank" className="text-sm font-semibold text-[#1e3a5f] hover:underline truncate block">
+                      <Link href={`/produto/${p.slug}`} target="_blank" className="text-sm font-semibold text-[#071a33] hover:underline truncate block">
                         {p.name}
                       </Link>
                       <span className="text-[10px] text-neutral-400">{p.artisan} · {p.units} un.</span>
                     </div>
-                    <span className="text-sm font-bold text-[#e07b2a] shrink-0">
+                    <span className="text-sm font-bold text-[#c1652e] shrink-0">
                       {formatCurrency(p.gmv)}
                     </span>
                   </div>
@@ -478,10 +478,10 @@ export default async function AnalyticsPage() {
 
       {/* ── Crescimento de Usuários + Planos ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="border-[#1e3a5f]/10 lg:col-span-2">
+        <Card className="border-[#071a33]/10 lg:col-span-2">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-semibold text-[#1e3a5f] flex items-center gap-2">
-              <Users className="size-4 text-[#1e3a5f]" />
+            <CardTitle className="text-sm font-semibold text-[#071a33] flex items-center gap-2">
+              <Users className="size-4 text-[#071a33]" />
               Crescimento de Usuários — últimos 12 meses
             </CardTitle>
           </CardHeader>
@@ -490,9 +490,9 @@ export default async function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-semibold text-[#1e3a5f] flex items-center gap-2">
+            <CardTitle className="text-sm font-semibold text-[#071a33] flex items-center gap-2">
               <Store className="size-4 text-[#17a2b8]" />
               Distribuição de Planos
             </CardTitle>
@@ -504,12 +504,12 @@ export default async function AnalyticsPage() {
                 const total = planData.reduce((s, x) => s + x.count, 0);
                 const pct = total > 0 ? Math.round((p.count / total) * 100) : 0;
                 const labels: Record<string, string> = { FREE: "Gratuito", BASIC: "Básico", PRO: "Pro" };
-                const colors: Record<string, string> = { FREE: "bg-slate-400", BASIC: "bg-[#27ae60]", PRO: "bg-[#e07b2a]" };
+                const colors: Record<string, string> = { FREE: "bg-slate-400", BASIC: "bg-[#7c9f61]", PRO: "bg-[#c1652e]" };
                 return (
                   <div key={p.plan} className="flex items-center gap-2 text-xs">
                     <div className={`size-2 rounded-full ${colors[p.plan] ?? "bg-neutral-300"} shrink-0`} />
                     <span className="text-neutral-500 flex-1">{labels[p.plan] ?? p.plan}</span>
-                    <span className="font-semibold text-[#1e3a5f]">{p.count}</span>
+                    <span className="font-semibold text-[#071a33]">{p.count}</span>
                     <span className="text-neutral-400">({pct}%)</span>
                   </div>
                 );

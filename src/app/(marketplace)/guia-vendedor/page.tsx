@@ -26,7 +26,7 @@ const steps = [
   {
     number: "01",
     icon: Store,
-    color: "#1e3a5f",
+    color: "#071a33",
     title: "Crie sua conta de artesão",
     description:
       "Acesse /seja-artesao, preencha os dados da sua loja e aguarde a aprovação da nossa equipe. O processo leva até 48 horas úteis.",
@@ -35,7 +35,7 @@ const steps = [
   {
     number: "02",
     icon: Camera,
-    color: "#e07b2a",
+    color: "#c1652e",
     title: "Monte seu perfil e vitrine",
     description:
       "Configure logo, banner e descrição da sua loja no painel. Uma vitrine bem apresentada aumenta em até 3x as chances de venda.",
@@ -44,7 +44,7 @@ const steps = [
   {
     number: "03",
     icon: Package,
-    color: "#27ae60",
+    color: "#7c9f61",
     title: "Cadastre seus produtos",
     description:
       "Adicione título, descrição detalhada, fotos, preço, estoque e dimensões para o cálculo de frete.",
@@ -53,7 +53,7 @@ const steps = [
   {
     number: "04",
     icon: ClipboardList,
-    color: "#1e3a5f",
+    color: "#071a33",
     title: "Gerencie seus pedidos",
     description:
       "Receba notificações por e-mail a cada novo pedido. Atualize o status conforme você embala, despacha e entrega.",
@@ -62,7 +62,7 @@ const steps = [
   {
     number: "05",
     icon: Wallet,
-    color: "#e07b2a",
+    color: "#c1652e",
     title: "Receba seus pagamentos",
     description:
       "Os valores são liberados após a confirmação de entrega. A plataforma retém uma comissão única de 15% por venda, igual para todos os planos.",
@@ -119,40 +119,40 @@ const tips = [
 
 export default function GuiaVendedorPage() {
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="bg-[#1e3a5f] relative overflow-hidden py-20 md:py-28">
+      <section className="bg-[#071a33] relative overflow-hidden py-20 md:py-28">
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "28px 28px" }}
+          style={{ backgroundImage: "radial-gradient(circle, #f2ede0 1px, transparent 1px)", backgroundSize: "28px 28px" }}
         />
         <div className="absolute right-0 top-0 w-1/2 h-full pointer-events-none overflow-hidden">
-          <div className="absolute -right-24 -top-24 w-[480px] h-[480px] rounded-full bg-[#e07b2a]/15" />
-          <div className="absolute right-16 bottom-8 w-72 h-72 rounded-full bg-[#27ae60]/10" />
+          <div className="absolute -right-24 -top-24 w-[480px] h-[480px] rounded-full bg-[#c1652e]/15" />
+          <div className="absolute right-16 bottom-8 w-72 h-72 rounded-full bg-[#7c9f61]/10" />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-10 bg-[#e07b2a]/50" />
+            <div className="h-px w-10 bg-[#c1652e]/50" />
             <span className="text-xs font-semibold uppercase tracking-widest text-[#f0b97a]">Para artesãos</span>
-            <div className="h-px w-10 bg-[#e07b2a]/50" />
+            <div className="h-px w-10 bg-[#c1652e]/50" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-[#f7f3ed] leading-tight mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#f2ede0] leading-tight mb-6">
             Guia do Vendedor
             <br />
-            <span className="text-[#e07b2a]">do Feito de Gente</span>
+            <span className="text-[#c1652e]">do Feito de Gente</span>
           </h1>
-          <p className="text-lg text-[#f7f3ed]/70 max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="text-lg text-[#f2ede0]/70 max-w-2xl mx-auto leading-relaxed mb-10">
             Tudo o que você precisa saber para montar sua loja, cadastrar produtos,
             gerenciar pedidos e receber pelo seu trabalho — do início ao primeiro saque.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Button size="lg" asChild className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold shadow-lg hover:scale-105 transition-all">
+            <Button size="lg" asChild className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold shadow-lg hover:scale-105 transition-all">
               <Link href="/conta/seja-artesao">
                 Quero vender agora <ArrowRight className="ml-2 size-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="border-[#f7f3ed]/70 text-[#f7f3ed] bg-white/10 hover:bg-white/20 hover:border-white">
+            <Button size="lg" variant="outline" asChild className="border-[#f2ede0]/70 text-[#f2ede0] bg-white/10 hover:bg-white/20 hover:border-white">
               <Link href="/dashboard">Ir para o painel</Link>
             </Button>
           </div>
@@ -160,7 +160,7 @@ export default function GuiaVendedorPage() {
       </section>
 
       {/* ── Números rápidos ──────────────────────────────────────────────── */}
-      <section className="bg-white py-10 border-b border-[#1e3a5f]/8">
+      <section className="bg-white py-10 border-b border-[#071a33]/8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
@@ -170,7 +170,7 @@ export default function GuiaVendedorPage() {
               { value: "0", label: "Taxa de cadastro" },
             ].map(({ value, label }) => (
               <div key={label} className="space-y-1">
-                <span className="block text-3xl font-bold text-[#1e3a5f]">{value}</span>
+                <span className="block text-3xl font-bold text-[#071a33]">{value}</span>
                 <span className="text-xs text-neutral-500 font-medium">{label}</span>
               </div>
             ))}
@@ -179,11 +179,11 @@ export default function GuiaVendedorPage() {
       </section>
 
       {/* ── Passo a passo ────────────────────────────────────────────────── */}
-      <section className="py-20 bg-[#f7f3ed]">
+      <section className="py-20 bg-[#f2ede0]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#27ae60] mb-2">Do zero à primeira venda</p>
-            <h2 className="text-3xl font-bold text-[#1e3a5f]">Como funciona passo a passo</h2>
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#7c9f61] mb-2">Do zero à primeira venda</p>
+            <h2 className="text-3xl font-bold text-[#071a33]">Como funciona passo a passo</h2>
           </div>
           <div className="space-y-6">
             {steps.map(({ number, icon: Icon, color, title, description, tips }) => (
@@ -197,7 +197,7 @@ export default function GuiaVendedorPage() {
                   </div>
                   <div>
                     <span className="text-xs font-bold uppercase tracking-widest" style={{ color }}>{number}</span>
-                    <h3 className="font-bold text-[#1e3a5f] text-lg leading-snug">{title}</h3>
+                    <h3 className="font-bold text-[#071a33] text-lg leading-snug">{title}</h3>
                   </div>
                 </div>
                 <div className="flex-1">
@@ -221,17 +221,17 @@ export default function GuiaVendedorPage() {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#e07b2a] mb-2">Ciclo de vida do pedido</p>
-            <h2 className="text-3xl font-bold text-[#1e3a5f]">Entendendo os status</h2>
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#c1652e] mb-2">Ciclo de vida do pedido</p>
+            <h2 className="text-3xl font-bold text-[#071a33]">Entendendo os status</h2>
             <p className="text-neutral-500 mt-3 max-w-xl mx-auto">
               Cada pedido passa por etapas claras. Você atualiza o status pelo painel e o cliente é notificado por e-mail automaticamente.
             </p>
           </div>
           <div className="relative">
-            <div className="hidden md:block absolute left-[18px] top-8 bottom-8 w-px bg-[#1e3a5f]/10" />
+            <div className="hidden md:block absolute left-[18px] top-8 bottom-8 w-px bg-[#071a33]/10" />
             <div className="space-y-4">
               {statusFlow.map(({ status, desc }, i) => {
-                const colors = ["#6b7280", "#1e3a5f", "#e07b2a", "#27ae60", "#ef4444"];
+                const colors = ["#6b7280", "#071a33", "#c1652e", "#7c9f61", "#ef4444"];
                 return (
                   <div key={status} className="flex items-start gap-5 group">
                     <div
@@ -240,7 +240,7 @@ export default function GuiaVendedorPage() {
                     >
                       <span className="text-xs font-bold" style={{ color: colors[i] }}>{i + 1}</span>
                     </div>
-                    <div className="flex-1 bg-[#f7f3ed] rounded-xl px-5 py-4 group-hover:bg-[#f0ebe3] transition-colors">
+                    <div className="flex-1 bg-[#f2ede0] rounded-xl px-5 py-4 group-hover:bg-[#f0ebe3] transition-colors">
                       <span
                         className="inline-block text-xs font-bold uppercase tracking-wide px-2.5 py-0.5 rounded-full mb-1"
                         style={{ background: `${colors[i]}18`, color: colors[i] }}
@@ -258,19 +258,19 @@ export default function GuiaVendedorPage() {
       </section>
 
       {/* ── Dicas ────────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-[#f7f3ed]">
+      <section className="py-20 bg-[#f2ede0]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#27ae60] mb-2">Para vender mais</p>
-            <h2 className="text-3xl font-bold text-[#1e3a5f]">Dicas dos melhores vendedores</h2>
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#7c9f61] mb-2">Para vender mais</p>
+            <h2 className="text-3xl font-bold text-[#071a33]">Dicas dos melhores vendedores</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {tips.map(({ icon: Icon, title, description }) => (
               <div key={title} className="bg-white rounded-2xl p-6 border border-transparent hover:shadow-md transition-shadow">
-                <div className="size-10 rounded-xl bg-[#e07b2a]/10 flex items-center justify-center mb-4">
-                  <Icon className="size-5 text-[#e07b2a]" />
+                <div className="size-10 rounded-xl bg-[#c1652e]/10 flex items-center justify-center mb-4">
+                  <Icon className="size-5 text-[#c1652e]" />
                 </div>
-                <h3 className="font-bold text-[#1e3a5f] mb-2">{title}</h3>
+                <h3 className="font-bold text-[#071a33] mb-2">{title}</h3>
                 <p className="text-sm text-neutral-500 leading-relaxed">{description}</p>
               </div>
             ))}
@@ -282,8 +282,8 @@ export default function GuiaVendedorPage() {
       <section className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#1e3a5f] mb-2">Dúvidas frequentes</p>
-            <h2 className="text-3xl font-bold text-[#1e3a5f]">Perguntas dos artesãos</h2>
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#071a33] mb-2">Dúvidas frequentes</p>
+            <h2 className="text-3xl font-bold text-[#071a33]">Perguntas dos artesãos</h2>
           </div>
           <div className="space-y-4">
             {[
@@ -308,11 +308,11 @@ export default function GuiaVendedorPage() {
                 a: "Cada conta só pode ter uma loja vinculada. Se você trabalha com técnicas muito distintas, recomendamos separar em categorias dentro da mesma loja.",
               },
             ].map(({ q, a }) => (
-              <div key={q} className="rounded-xl border border-[#1e3a5f]/10 overflow-hidden">
+              <div key={q} className="rounded-xl border border-[#071a33]/10 overflow-hidden">
                 <div className="flex items-start gap-3 p-5">
-                  <ChevronRight className="size-4 text-[#e07b2a] flex-shrink-0 mt-0.5" />
+                  <ChevronRight className="size-4 text-[#c1652e] flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold text-[#1e3a5f] mb-1">{q}</p>
+                    <p className="font-semibold text-[#071a33] mb-1">{q}</p>
                     <p className="text-sm text-neutral-500 leading-relaxed">{a}</p>
                   </div>
                 </div>
@@ -323,7 +323,7 @@ export default function GuiaVendedorPage() {
       </section>
 
       {/* ── CTA final ────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-[#e07b2a] relative overflow-hidden">
+      <section className="py-20 bg-[#c1652e] relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "24px 24px" }}
@@ -338,7 +338,7 @@ export default function GuiaVendedorPage() {
             3 meses grátis, depois mais 3 meses com 50% off na mensalidade. Comissão única de 15%, sempre.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Button size="lg" asChild className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white font-semibold shadow-lg hover:scale-105 transition-all">
+            <Button size="lg" asChild className="bg-[#071a33] hover:bg-[#051224] text-white font-semibold shadow-lg hover:scale-105 transition-all">
               <Link href="/conta/seja-artesao">
                 Criar minha loja <ArrowRight className="ml-2 size-4" />
               </Link>

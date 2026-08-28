@@ -72,9 +72,9 @@ export default async function DashboardPage() {
   const revenue30d = last30Items.reduce((s, i) => s + i.totalPrice, 0);
 
   const stats = [
-    { label: "Produtos cadastrados", value: products, icon: Package, color: "text-[#1e3a5f]" },
-    { label: "Total de vendas", value: artisan.totalSales, icon: TrendingUp, color: "text-[#27ae60]" },
-    { label: "Receita (30 dias)", value: formatCurrency(revenue30d), icon: DollarSign, color: "text-[#e07b2a]" },
+    { label: "Produtos cadastrados", value: products, icon: Package, color: "text-[#071a33]" },
+    { label: "Total de vendas", value: artisan.totalSales, icon: TrendingUp, color: "text-[#7c9f61]" },
+    { label: "Receita (30 dias)", value: formatCurrency(revenue30d), icon: DollarSign, color: "text-[#c1652e]" },
     { label: "Avaliação média", value: artisan.rating > 0 ? artisan.rating.toFixed(1) : "—", icon: Star, color: "text-[#17a2b8]" },
   ];
 
@@ -84,14 +84,14 @@ export default async function DashboardPage() {
     PAID: { label: "Pago", color: "bg-blue-100 text-blue-700" },
     PROCESSING: { label: "Processando", color: "bg-indigo-100 text-indigo-700" },
     SHIPPED: { label: "Enviado", color: "bg-purple-100 text-purple-700" },
-    DELIVERED: { label: "Entregue", color: "bg-[#27ae60]/10 text-[#27ae60]" },
+    DELIVERED: { label: "Entregue", color: "bg-[#7c9f61]/10 text-[#7c9f61]" },
     CANCELLED: { label: "Cancelado", color: "bg-red-100 text-red-700" },
   };
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Olá, {artisan.storeName}!</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Olá, {artisan.storeName}!</h1>
         <p className="text-neutral-500 mt-1 text-sm">Aqui está um resumo da sua loja.</p>
       </div>
 
@@ -110,22 +110,22 @@ export default async function DashboardPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map(({ label, value, icon: Icon, color }) => (
-          <Card key={label} className="border-[#1e3a5f]/10">
+          <Card key={label} className="border-[#071a33]/10">
             <CardContent className="pt-5 pb-4">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs text-neutral-500">{label}</span>
                 <Icon className={`size-4 ${color}`} />
               </div>
-              <p className="text-2xl font-bold text-[#1e3a5f]">{value}</p>
+              <p className="text-2xl font-bold text-[#071a33]">{value}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Revenue chart */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base text-[#1e3a5f] flex items-center justify-between">
+          <CardTitle className="text-base text-[#071a33] flex items-center justify-between">
             Receita — últimos 30 dias
             <span className="text-sm font-normal text-neutral-400">{formatCurrency(revenue30d)}</span>
           </CardTitle>
@@ -137,11 +137,11 @@ export default async function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent orders */}
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-[#1e3a5f] flex items-center justify-between">
+            <CardTitle className="text-base text-[#071a33] flex items-center justify-between">
               Pedidos recentes
-              <Link href="/dashboard/pedidos" className="text-sm font-normal text-[#27ae60] hover:underline">
+              <Link href="/dashboard/pedidos" className="text-sm font-normal text-[#7c9f61] hover:underline">
                 Ver todos
               </Link>
             </CardTitle>
@@ -154,13 +154,13 @@ export default async function DashboardPage() {
                 {recentOrders.map((item) => (
                   <div key={item.id} className="flex items-center justify-between gap-3">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#1e3a5f] truncate">{item.product.name}</p>
+                      <p className="text-sm font-medium text-[#071a33] truncate">{item.product.name}</p>
                       <p className="text-xs text-neutral-400">
                         {item.order.user.name} · {formatDate(item.order.createdAt)}
                       </p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-sm font-semibold text-[#1e3a5f]">{formatCurrency(item.totalPrice)}</span>
+                      <span className="text-sm font-semibold text-[#071a33]">{formatCurrency(item.totalPrice)}</span>
                       <span className={`text-xs px-2 py-0.5 rounded-full ${statusLabels[item.order.status]?.color ?? "bg-neutral-100"}`}>
                         {statusLabels[item.order.status]?.label ?? item.order.status}
                       </span>
@@ -173,9 +173,9 @@ export default async function DashboardPage() {
         </Card>
 
         {/* Quick actions */}
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-[#1e3a5f]">Ações rápidas</CardTitle>
+            <CardTitle className="text-base text-[#071a33]">Ações rápidas</CardTitle>
           </CardHeader>
           <CardContent className="space-y-1">
             {[
@@ -187,13 +187,13 @@ export default async function DashboardPage() {
               <Link
                 key={href}
                 href={href}
-                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#1e3a5f]/4 transition-colors group"
+                className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#071a33]/4 transition-colors group"
               >
-                <div className="size-8 rounded-lg bg-[#f7f3ed] flex items-center justify-center group-hover:bg-[#1e3a5f]/8 transition-colors">
-                  <Icon className="size-4 text-[#1e3a5f]" />
+                <div className="size-8 rounded-lg bg-[#f2ede0] flex items-center justify-center group-hover:bg-[#071a33]/8 transition-colors">
+                  <Icon className="size-4 text-[#071a33]" />
                 </div>
-                <span className="text-sm text-neutral-600 group-hover:text-[#1e3a5f] transition-colors">{label}</span>
-                <span className="ml-auto text-neutral-300 group-hover:text-[#1e3a5f] transition-colors text-sm">→</span>
+                <span className="text-sm text-neutral-600 group-hover:text-[#071a33] transition-colors">{label}</span>
+                <span className="ml-auto text-neutral-300 group-hover:text-[#071a33] transition-colors text-sm">→</span>
               </Link>
             ))}
           </CardContent>

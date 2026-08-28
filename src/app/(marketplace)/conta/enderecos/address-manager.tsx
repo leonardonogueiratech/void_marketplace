@@ -112,7 +112,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
     <div className="space-y-4 max-w-lg">
       {/* Address list */}
       {addresses.length === 0 && !showForm && (
-        <Card className="border-[#1e3a5f]/10 border-dashed">
+        <Card className="border-[#071a33]/10 border-dashed">
           <CardContent className="py-10 text-center">
             <MapPin className="size-8 text-neutral-300 mx-auto mb-3" />
             <p className="text-sm text-neutral-400">Nenhum endereço cadastrado.</p>
@@ -121,19 +121,19 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
       )}
 
       {addresses.map((addr) => (
-        <Card key={addr.id} className={`border-[#1e3a5f]/10 ${addr.isDefault ? "ring-1 ring-[#27ae60]/30" : ""}`}>
+        <Card key={addr.id} className={`border-[#071a33]/10 ${addr.isDefault ? "ring-1 ring-[#7c9f61]/30" : ""}`}>
           <CardContent className="py-4 flex items-start justify-between gap-3">
             <div className="flex items-start gap-3 min-w-0">
-              <div className="size-8 rounded-lg bg-[#f7f3ed] flex items-center justify-center shrink-0 mt-0.5">
-                <MapPin className="size-4 text-[#1e3a5f]" />
+              <div className="size-8 rounded-lg bg-[#f2ede0] flex items-center justify-center shrink-0 mt-0.5">
+                <MapPin className="size-4 text-[#071a33]" />
               </div>
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-0.5">
                   {addr.label && (
-                    <span className="text-sm font-semibold text-[#1e3a5f]">{addr.label}</span>
+                    <span className="text-sm font-semibold text-[#071a33]">{addr.label}</span>
                   )}
                   {addr.isDefault && (
-                    <span className="text-xs bg-[#27ae60]/10 text-[#27ae60] px-2 py-0.5 rounded-full font-medium">
+                    <span className="text-xs bg-[#7c9f61]/10 text-[#7c9f61] px-2 py-0.5 rounded-full font-medium">
                       Padrão
                     </span>
                   )}
@@ -152,7 +152,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                 <button
                   onClick={() => handleSetDefault(addr.id)}
                   title="Definir como padrão"
-                  className="size-8 rounded-lg flex items-center justify-center text-neutral-300 hover:text-[#27ae60] hover:bg-[#27ae60]/8 transition-colors"
+                  className="size-8 rounded-lg flex items-center justify-center text-neutral-300 hover:text-[#7c9f61] hover:bg-[#7c9f61]/8 transition-colors"
                 >
                   <Star className="size-4" />
                 </button>
@@ -174,28 +174,28 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
 
       {/* Add form */}
       {showForm ? (
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardContent className="pt-4 pb-4">
             <div className="flex items-center justify-between mb-4">
-              <p className="text-sm font-semibold text-[#1e3a5f]">Novo endereço</p>
+              <p className="text-sm font-semibold text-[#071a33]">Novo endereço</p>
               <button onClick={() => setShowForm(false)} className="text-neutral-400 hover:text-neutral-600">
                 <X className="size-4" />
               </button>
             </div>
             <form onSubmit={handleAdd} className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5 col-span-2">
-                <Label className="text-[#1e3a5f] font-medium text-xs">
+                <Label className="text-[#071a33] font-medium text-xs">
                   Identificação <span className="text-neutral-400 font-normal">(ex: Casa, Trabalho)</span>
                 </Label>
                 <Input
                   placeholder="Casa"
                   value={form.label}
                   onChange={(e) => setForm({ ...form, label: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
+                  className="border-[#071a33]/20 focus-visible:ring-[#7c9f61] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5 col-span-2">
-                <Label className="text-[#1e3a5f] font-medium text-xs">CEP *</Label>
+                <Label className="text-[#071a33] font-medium text-xs">CEP *</Label>
                 <div className="relative">
                   <Input
                     required
@@ -207,7 +207,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                       lookupCep(digits);
                     }}
                     maxLength={9}
-                    className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm pr-8"
+                    className="border-[#071a33]/20 focus-visible:ring-[#7c9f61] h-9 text-sm pr-8"
                   />
                   <div className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400">
                     {cepLoading
@@ -217,60 +217,60 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                 </div>
               </div>
               <div className="space-y-1.5 col-span-2">
-                <Label className="text-[#1e3a5f] font-medium text-xs">Rua *</Label>
+                <Label className="text-[#071a33] font-medium text-xs">Rua *</Label>
                 <Input
                   required
                   value={form.street}
                   onChange={(e) => setForm({ ...form, street: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
+                  className="border-[#071a33]/20 focus-visible:ring-[#7c9f61] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[#1e3a5f] font-medium text-xs">Número *</Label>
+                <Label className="text-[#071a33] font-medium text-xs">Número *</Label>
                 <Input
                   ref={numberRef}
                   required
                   value={form.number}
                   onChange={(e) => setForm({ ...form, number: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
+                  className="border-[#071a33]/20 focus-visible:ring-[#7c9f61] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[#1e3a5f] font-medium text-xs">Complemento</Label>
+                <Label className="text-[#071a33] font-medium text-xs">Complemento</Label>
                 <Input
                   placeholder="Apto, bloco..."
                   value={form.complement}
                   onChange={(e) => setForm({ ...form, complement: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
+                  className="border-[#071a33]/20 focus-visible:ring-[#7c9f61] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5 col-span-2">
-                <Label className="text-[#1e3a5f] font-medium text-xs">Bairro *</Label>
+                <Label className="text-[#071a33] font-medium text-xs">Bairro *</Label>
                 <Input
                   required
                   value={form.district}
                   onChange={(e) => setForm({ ...form, district: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
+                  className="border-[#071a33]/20 focus-visible:ring-[#7c9f61] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[#1e3a5f] font-medium text-xs">Cidade *</Label>
+                <Label className="text-[#071a33] font-medium text-xs">Cidade *</Label>
                 <Input
                   required
                   value={form.city}
                   onChange={(e) => setForm({ ...form, city: e.target.value })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
+                  className="border-[#071a33]/20 focus-visible:ring-[#7c9f61] h-9 text-sm"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-[#1e3a5f] font-medium text-xs">UF *</Label>
+                <Label className="text-[#071a33] font-medium text-xs">UF *</Label>
                 <Input
                   required
                   maxLength={2}
                   placeholder="SP"
                   value={form.state}
                   onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })}
-                  className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60] h-9 text-sm"
+                  className="border-[#071a33]/20 focus-visible:ring-[#7c9f61] h-9 text-sm"
                 />
               </div>
               <div className="col-span-2 flex items-center gap-2 pt-1">
@@ -279,7 +279,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   id="isDefault"
                   checked={form.isDefault}
                   onChange={(e) => setForm({ ...form, isDefault: e.target.checked })}
-                  className="accent-[#27ae60]"
+                  className="accent-[#7c9f61]"
                 />
                 <label htmlFor="isDefault" className="text-sm text-neutral-600 cursor-pointer">
                   Definir como endereço padrão
@@ -291,7 +291,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   variant="outline"
                   size="sm"
                   onClick={() => setShowForm(false)}
-                  className="border-[#1e3a5f]/20 text-[#1e3a5f]"
+                  className="border-[#071a33]/20 text-[#071a33]"
                 >
                   Cancelar
                 </Button>
@@ -299,7 +299,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
                   type="submit"
                   size="sm"
                   disabled={loading}
-                  className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold"
+                  className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold"
                 >
                   {loading && <Loader2 className="mr-2 size-3.5 animate-spin" />}
                   Salvar endereço
@@ -312,7 +312,7 @@ export function AddressManager({ initialAddresses }: { initialAddresses: Address
         <Button
           variant="outline"
           onClick={() => setShowForm(true)}
-          className="w-full border-dashed border-[#1e3a5f]/20 text-[#1e3a5f] hover:bg-[#1e3a5f]/4"
+          className="w-full border-dashed border-[#071a33]/20 text-[#071a33] hover:bg-[#071a33]/4"
         >
           <Plus className="mr-2 size-4" /> Adicionar endereço
         </Button>

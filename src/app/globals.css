@@ -10,6 +10,12 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
+  --font-hand: var(--font-hand);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-green: var(--brand-green);
+  --color-brand-cream: var(--brand-cream);
+  --color-brand-terracota: var(--brand-terracota);
+  --color-brand-mustard: var(--brand-mustard);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,50 +54,59 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* ─── Feito de Gente — Paleta ─────────────────────────────────────────────────
-   Azul marinho  #1e3a5f  → primária
-   Verde folha   #27ae60  → secundária / acentos
-   Creme         #f7f3ed  → fundo
-   Âmbar chama   #e07b2a  → destaques quentes
+/* ─── Feito de Gente — Paleta V2 (identidade 2026-08-08) ──────────────────────
+   Navy         #071A33  → primária
+   Verde        #7C9F61  → secundária / acentos
+   Creme/off-white #F2EDE0 → fundo (aproximado do moodboard, sem hex exato)
+   Terracota    #C1652E  → destaques quentes (aproximado do moodboard, sem hex exato)
+   Mostarda     #D9B84C  → acentos/estrelas
 ────────────────────────────────────────────────────────────────────────────── */
 
 :root {
-  --font-sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Barlow Condensed", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-geist-mono: "Consolas", "SFMono-Regular", Menlo, monospace;
+  --font-hand: "Caveat", cursive;
 
-  /* Fundo creme suave */
-  --background: oklch(0.972 0.008 75);
-  --foreground: oklch(0.18 0.04 245);
+  /* Fundo creme/off-white texturizado */
+  --background: #f2ede0;
+  --foreground: #071a33;
 
   /* Cards brancos levemente quentes */
-  --card: oklch(0.995 0.003 75);
-  --card-foreground: oklch(0.18 0.04 245);
-  --popover: oklch(0.995 0.003 75);
-  --popover-foreground: oklch(0.18 0.04 245);
+  --card: #fdfbf6;
+  --card-foreground: #071a33;
+  --popover: #fdfbf6;
+  --popover-foreground: #071a33;
 
-  /* Primária — azul marinho */
-  --primary: oklch(0.29 0.08 245);
-  --primary-foreground: oklch(0.98 0 0);
+  /* Primária — navy */
+  --primary: #071a33;
+  --primary-foreground: #f2ede0;
 
-  /* Secundária — verde alavancado */
-  --secondary: oklch(0.93 0.04 145);
-  --secondary-foreground: oklch(0.28 0.09 145);
+  /* Secundária — verde */
+  --secondary: #e7ede1;
+  --secondary-foreground: #4d6339;
 
   /* Muted */
-  --muted: oklch(0.94 0.006 75);
-  --muted-foreground: oklch(0.50 0.03 245);
+  --muted: #ece5d5;
+  --muted-foreground: #5c6470;
 
-  /* Accent — verde folha */
-  --accent: oklch(0.93 0.04 145);
-  --accent-foreground: oklch(0.28 0.09 145);
+  /* Accent — verde */
+  --accent: #e7ede1;
+  --accent-foreground: #4d6339;
 
   /* Destructive */
   --destructive: oklch(0.577 0.245 27.325);
 
   /* Bordas e inputs */
-  --border: oklch(0.88 0.01 75);
-  --input: oklch(0.88 0.01 75);
-  --ring: oklch(0.29 0.08 245);
+  --border: #ddd3ba;
+  --input: #ddd3ba;
+  --ring: #071a33;
+
+  /* Cores da marca, prontas pra usar como bg-brand-terracota etc. */
+  --brand-navy: #071a33;
+  --brand-green: #7c9f61;
+  --brand-cream: #f2ede0;
+  --brand-terracota: #c1652e;
+  --brand-mustard: #d9b84c;
 
   /* Radius */
   --radius: 0.625rem;

@@ -126,7 +126,7 @@ export function CategoryManager({ initialCategories }: Props) {
       <div className="flex justify-end">
         <Button
           onClick={() => setShowNew((v) => !v)}
-          className="bg-[#1e3a5f] hover:bg-[#163050] text-white"
+          className="bg-[#071a33] hover:bg-[#163050] text-white"
         >
           <Plus className="size-4 mr-2" /> Nova categoria
         </Button>
@@ -134,9 +134,9 @@ export function CategoryManager({ initialCategories }: Props) {
 
       {/* New category form */}
       {showNew && (
-        <Card className="border-[#1e3a5f]/20">
+        <Card className="border-[#071a33]/20">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-[#1e3a5f]">Nova categoria</CardTitle>
+            <CardTitle className="text-base text-[#071a33]">Nova categoria</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="space-y-1.5">
@@ -157,7 +157,7 @@ export function CategoryManager({ initialCategories }: Props) {
               />
             </div>
             <div className="flex gap-2">
-              <Button onClick={handleCreate} disabled={creating || !newName.trim()} className="bg-[#27ae60] hover:bg-[#3d6835] text-white">
+              <Button onClick={handleCreate} disabled={creating || !newName.trim()} className="bg-[#7c9f61] hover:bg-[#3d6835] text-white">
                 {creating && <Loader2 className="size-4 mr-2 animate-spin" />}
                 Criar
               </Button>
@@ -184,8 +184,8 @@ export function CategoryManager({ initialCategories }: Props) {
 
               return (
                 <div key={cat.id} className="flex items-center gap-4 px-5 py-4">
-                  <div className="size-8 rounded-lg bg-[#1e3a5f]/8 flex items-center justify-center shrink-0">
-                    <Tag className="size-4 text-[#1e3a5f]" />
+                  <div className="size-8 rounded-lg bg-[#071a33]/8 flex items-center justify-center shrink-0">
+                    <Tag className="size-4 text-[#071a33]" />
                   </div>
 
                   {isEditing ? (
@@ -205,7 +205,7 @@ export function CategoryManager({ initialCategories }: Props) {
                       <button
                         onClick={() => handleSaveEdit(cat.id)}
                         disabled={isSaving}
-                        className="text-[#27ae60] hover:text-[#3d6835] shrink-0"
+                        className="text-[#7c9f61] hover:text-[#3d6835] shrink-0"
                       >
                         {isSaving ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />}
                       </button>
@@ -243,14 +243,14 @@ export function CategoryManager({ initialCategories }: Props) {
                         {isSaving ? (
                           <Loader2 className="size-4 animate-spin" />
                         ) : cat.active ? (
-                          <ToggleRight className="size-4 text-[#27ae60]" />
+                          <ToggleRight className="size-4 text-[#7c9f61]" />
                         ) : (
                           <ToggleLeft className="size-4" />
                         )}
                       </button>
                       <button
                         onClick={() => startEdit(cat)}
-                        className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-[#1e3a5f] transition-colors"
+                        className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-400 hover:text-[#071a33] transition-colors"
                       >
                         <Pencil className="size-4" />
                       </button>

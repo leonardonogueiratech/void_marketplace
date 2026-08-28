@@ -66,7 +66,7 @@ export default function ConfirmarRecuperacaoPage({
     return (
       <Card className="w-full max-w-md">
         <CardContent className="py-12 flex flex-col items-center gap-3">
-          <Loader2 className="size-8 text-[#1e3a5f] animate-spin" />
+          <Loader2 className="size-8 text-[#071a33] animate-spin" />
           <p className="text-sm text-neutral-500">Validando link...</p>
         </CardContent>
       </Card>
@@ -80,11 +80,11 @@ export default function ConfirmarRecuperacaoPage({
           <div className="size-16 rounded-full bg-red-50 flex items-center justify-center mx-auto">
             <XCircle className="size-8 text-red-500" />
           </div>
-          <h2 className="text-xl font-bold text-[#1e3a5f]">Link inválido ou expirado</h2>
+          <h2 className="text-xl font-bold text-[#071a33]">Link inválido ou expirado</h2>
           <p className="text-sm text-neutral-500">
             Este link de redefinição não é mais válido. Solicite um novo.
           </p>
-          <Button asChild className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+          <Button asChild className="bg-[#071a33] hover:bg-[#051224] text-white">
             <Link href="/recuperar-senha">Solicitar novo link</Link>
           </Button>
         </CardContent>
@@ -95,8 +95,8 @@ export default function ConfirmarRecuperacaoPage({
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <div className="size-10 rounded-xl bg-[#27ae60]/10 flex items-center justify-center mb-2">
-          <ShieldCheck className="size-5 text-[#27ae60]" />
+        <div className="size-10 rounded-xl bg-[#7c9f61]/10 flex items-center justify-center mb-2">
+          <ShieldCheck className="size-5 text-[#7c9f61]" />
         </div>
         <CardTitle className="text-xl">Criar nova senha</CardTitle>
         <CardDescription>Escolha uma senha segura com pelo menos 6 caracteres.</CardDescription>
@@ -151,7 +151,7 @@ export default function ConfirmarRecuperacaoPage({
 
           <Button
             type="submit"
-            className="w-full bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold"
+            className="w-full bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold"
             disabled={loading || form.password !== form.confirm}
           >
             {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
@@ -159,7 +159,7 @@ export default function ConfirmarRecuperacaoPage({
           </Button>
         </form>
         <p className="text-center text-sm text-muted-foreground mt-5">
-          <Link href="/login" className="inline-flex items-center gap-1 hover:text-[#1e3a5f] transition-colors">
+          <Link href="/login" className="inline-flex items-center gap-1 hover:text-[#071a33] transition-colors">
             <ArrowLeft className="size-3.5" /> Voltar ao login
           </Link>
         </p>

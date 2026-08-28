@@ -59,16 +59,16 @@ export function ReviewReply({ reviewId, existingReply }: Props) {
 
   if (!editing && existingReply) {
     return (
-      <div className="mt-4 rounded-xl border border-[#1e3a5f]/10 bg-[#f7f3ed] p-4">
+      <div className="mt-4 rounded-xl border border-[#071a33]/10 bg-[#f2ede0] p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-xs font-semibold text-[#1e3a5f] mb-1">Sua resposta</p>
+            <p className="text-xs font-semibold text-[#071a33] mb-1">Sua resposta</p>
             <p className="text-sm text-neutral-600 leading-relaxed">{existingReply}</p>
           </div>
           <div className="flex gap-1 shrink-0">
             <button
               onClick={() => { setText(existingReply); setEditing(true); }}
-              className="p-1.5 rounded-lg text-neutral-400 hover:text-[#1e3a5f] hover:bg-[#1e3a5f]/8 transition-colors"
+              className="p-1.5 rounded-lg text-neutral-400 hover:text-[#071a33] hover:bg-[#071a33]/8 transition-colors"
               title="Editar resposta"
             >
               <Pencil className="size-3.5" />
@@ -91,7 +91,7 @@ export function ReviewReply({ reviewId, existingReply }: Props) {
     return (
       <button
         onClick={() => setEditing(true)}
-        className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[#1e3a5f] hover:text-[#e07b2a] transition-colors"
+        className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[#071a33] hover:text-[#c1652e] transition-colors"
       >
         <MessageSquarePlus className="size-3.5" />
         Responder avaliação
@@ -115,7 +115,7 @@ export function ReviewReply({ reviewId, existingReply }: Props) {
           size="sm"
           onClick={handleSave}
           disabled={loading || !text.trim()}
-          className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white h-8 text-xs"
+          className="bg-[#071a33] hover:bg-[#051224] text-white h-8 text-xs"
         >
           {loading ? <Loader2 className="size-3.5 animate-spin mr-1" /> : <Check className="size-3.5 mr-1" />}
           Publicar resposta

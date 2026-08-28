@@ -12,7 +12,7 @@ export default async function DashboardChatPage({
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Mensagens</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Mensagens</h1>
         <p className="text-sm text-neutral-500 mt-1">Converse com seus compradores.</p>
       </div>
       <ChatShell currentUserId={session!.user!.id!} initialConversationId={conv} />

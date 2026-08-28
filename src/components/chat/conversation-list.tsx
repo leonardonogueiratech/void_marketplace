@@ -28,20 +28,20 @@ export function ConversationList({ conversations, selectedId, onSelect }: Conver
   }
 
   return (
-    <div className="divide-y divide-[#1e3a5f]/6">
+    <div className="divide-y divide-[#071a33]/6">
       {conversations.map((c) => (
         <button
           key={c.id}
           onClick={() => onSelect(c.id)}
-          className={`w-full text-left px-4 py-3.5 hover:bg-[#f7f3ed]/60 transition-colors ${selectedId === c.id ? "bg-[#f7f3ed]" : ""}`}
+          className={`w-full text-left px-4 py-3.5 hover:bg-[#f2ede0]/60 transition-colors ${selectedId === c.id ? "bg-[#f2ede0]" : ""}`}
         >
           <div className="flex items-center gap-3">
-            <div className="size-9 rounded-full bg-[#1e3a5f] text-white text-xs font-bold flex items-center justify-center shrink-0">
+            <div className="size-9 rounded-full bg-[#071a33] text-white text-xs font-bold flex items-center justify-center shrink-0">
               {(c.other?.name ?? "?").slice(0, 1).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-0.5">
-                <p className="text-sm font-semibold text-[#1e3a5f] truncate">{c.other?.name ?? "Usuário"}</p>
+                <p className="text-sm font-semibold text-[#071a33] truncate">{c.other?.name ?? "Usuário"}</p>
                 {c.lastMessage && (
                   <span className="text-xs text-neutral-400 shrink-0 ml-2">{formatDateTime(c.lastMessage.createdAt)}</span>
                 )}
@@ -51,7 +51,7 @@ export function ConversationList({ conversations, selectedId, onSelect }: Conver
                   {c.lastMessage?.content ?? "Iniciar conversa"}
                 </p>
                 {c.unread > 0 && (
-                  <span className="ml-2 size-4 rounded-full bg-[#e07b2a] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                  <span className="ml-2 size-4 rounded-full bg-[#c1652e] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
                     {c.unread > 9 ? "9+" : c.unread}
                   </span>
                 )}

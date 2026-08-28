@@ -31,7 +31,7 @@ export function MessageActions({ id, read }: { id: string; read: boolean }) {
         <button
           onClick={markRead}
           disabled={loading !== null}
-          className="inline-flex items-center gap-1 text-xs bg-[#1e3a5f]/8 text-[#1e3a5f] border border-[#1e3a5f]/15 px-2.5 py-1 rounded-full hover:bg-[#1e3a5f]/15 transition-colors"
+          className="inline-flex items-center gap-1 text-xs bg-[#071a33]/8 text-[#071a33] border border-[#071a33]/15 px-2.5 py-1 rounded-full hover:bg-[#071a33]/15 transition-colors"
         >
           {loading === "read" ? <Loader2 className="size-3 animate-spin" /> : <CheckCheck className="size-3" />}
           Lida

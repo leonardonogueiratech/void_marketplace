@@ -19,7 +19,7 @@ const PLANS = [
   {
     id: "FREE",
     name: "Inicial",
-    color: "#27ae60",
+    color: "#7c9f61",
     price: SUBSCRIPTION_PRICES.FREE,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
@@ -29,7 +29,7 @@ const PLANS = [
   {
     id: "BASIC",
     name: "Profissional",
-    color: "#1e3a5f",
+    color: "#071a33",
     price: SUBSCRIPTION_PRICES.BASIC,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
@@ -39,7 +39,7 @@ const PLANS = [
   {
     id: "PRO",
     name: "Ateliê",
-    color: "#e07b2a",
+    color: "#c1652e",
     price: SUBSCRIPTION_PRICES.PRO,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
@@ -100,10 +100,10 @@ export default function ContaSejaArtesaoPage() {
   if (step === 3) {
     return (
       <div className="max-w-md mx-auto text-center py-12 space-y-5">
-        <div className="size-20 rounded-full bg-[#27ae60]/10 flex items-center justify-center mx-auto">
-          <CheckCircle2 className="size-10 text-[#27ae60]" />
+        <div className="size-20 rounded-full bg-[#7c9f61]/10 flex items-center justify-center mx-auto">
+          <CheckCircle2 className="size-10 text-[#7c9f61]" />
         </div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Cadastro enviado!</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Cadastro enviado!</h1>
         <p className="text-neutral-500">
           Nossa equipe vai analisar seu perfil em até <strong>2 dias úteis</strong>.
           Você receberá um e-mail assim que for aprovado e poderá começar a vender.
@@ -112,11 +112,11 @@ export default function ContaSejaArtesaoPage() {
           <Clock className="size-4 shrink-0 mt-0.5" />
           <p>Enquanto aguarda, você ainda pode navegar como comprador normalmente. Quando aprovado, o painel de artesão aparecerá automaticamente.</p>
         </div>
-        <div className="bg-[#1e3a5f]/5 border border-[#1e3a5f]/15 rounded-xl p-4 text-sm text-[#1e3a5f] text-left">
+        <div className="bg-[#071a33]/5 border border-[#071a33]/15 rounded-xl p-4 text-sm text-[#071a33] text-left">
           <p className="font-semibold mb-1">Use o tempo de espera bem:</p>
           <a
             href="/guia-do-vendedor"
-            className="inline-flex items-center gap-1.5 text-[#e07b2a] font-medium underline hover:text-[#c96a1e] transition-colors"
+            className="inline-flex items-center gap-1.5 text-[#c1652e] font-medium underline hover:text-[#9a5125] transition-colors"
           >
             Leia o Guia do Vendedor →
           </a>
@@ -126,7 +126,7 @@ export default function ContaSejaArtesaoPage() {
         </div>
         <Button
           onClick={() => router.push("/")}
-          className="bg-[#1e3a5f] hover:bg-[#162d4a] text-white"
+          className="bg-[#071a33] hover:bg-[#051224] text-white"
         >
           Voltar para o início
         </Button>
@@ -138,10 +138,10 @@ export default function ContaSejaArtesaoPage() {
     <div className="max-w-2xl mx-auto py-8 space-y-8">
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <div className="size-10 rounded-xl bg-[#e07b2a]/10 flex items-center justify-center">
-            <Store className="size-5 text-[#e07b2a]" />
+          <div className="size-10 rounded-xl bg-[#c1652e]/10 flex items-center justify-center">
+            <Store className="size-5 text-[#c1652e]" />
           </div>
-          <h1 className="text-2xl font-bold text-[#1e3a5f]">Quero ser artesão</h1>
+          <h1 className="text-2xl font-bold text-[#071a33]">Quero ser artesão</h1>
         </div>
         <p className="text-neutral-500 text-sm">
           Transforme sua conta em uma loja. Sua conta de comprador continua funcionando normalmente.
@@ -152,10 +152,10 @@ export default function ContaSejaArtesaoPage() {
       <div className="flex items-center gap-2">
         {[{ n: 1, label: "Plano" }, { n: 2, label: "Sua loja" }].map(({ n, label }, idx) => (
           <div key={n} className="flex items-center gap-2">
-            <div className={`flex items-center gap-1.5 text-xs font-medium ${step >= n ? "text-[#1e3a5f]" : "text-neutral-400"}`}>
+            <div className={`flex items-center gap-1.5 text-xs font-medium ${step >= n ? "text-[#071a33]" : "text-neutral-400"}`}>
               <div className={`size-6 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
-                step > n ? "bg-[#27ae60] border-[#27ae60] text-white" :
-                step === n ? "bg-[#1e3a5f] border-[#1e3a5f] text-white" :
+                step > n ? "bg-[#7c9f61] border-[#7c9f61] text-white" :
+                step === n ? "bg-[#071a33] border-[#071a33] text-white" :
                 "bg-white border-neutral-200 text-neutral-400"
               }`}>
                 {step > n ? "✓" : n}
@@ -177,8 +177,8 @@ export default function ContaSejaArtesaoPage() {
                 onClick={() => setSelectedPlan(plan.id)}
                 className={`relative pt-7 pb-5 px-5 rounded-2xl border-2 text-left transition-all ${
                   selectedPlan === plan.id
-                    ? "border-[#1e3a5f] bg-[#1e3a5f]/4 shadow-md"
-                    : "border-[#1e3a5f]/12 bg-white hover:border-[#1e3a5f]/25"
+                    ? "border-[#071a33] bg-[#071a33]/4 shadow-md"
+                    : "border-[#071a33]/12 bg-white hover:border-[#071a33]/25"
                 }`}
               >
                 {plan.badge && (
@@ -186,10 +186,10 @@ export default function ContaSejaArtesaoPage() {
                     {plan.badge}
                   </span>
                 )}
-                <p className="font-bold text-[#1e3a5f] mb-0.5">{plan.name}</p>
+                <p className="font-bold text-[#071a33] mb-0.5">{plan.name}</p>
                 <div className="mb-1">
                   <div className="flex items-baseline gap-0.5">
-                    <span className="text-xl font-bold text-[#27ae60]">Grátis</span>
+                    <span className="text-xl font-bold text-[#7c9f61]">Grátis</span>
                     <span className="text-[11px] text-neutral-400">3 meses ★</span>
                   </div>
                   <p className="text-[10px] text-neutral-400">
@@ -203,14 +203,14 @@ export default function ContaSejaArtesaoPage() {
                 <ul className="space-y-1.5">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-1.5 text-xs text-neutral-500">
-                      <CheckCircle2 className="size-3 text-[#27ae60] shrink-0" /> {f}
+                      <CheckCircle2 className="size-3 text-[#7c9f61] shrink-0" /> {f}
                     </li>
                   ))}
                 </ul>
               </button>
             ))}
           </div>
-          <Button onClick={() => setStep(2)} className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold w-full sm:w-auto">
+          <Button onClick={() => setStep(2)} className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold w-full sm:w-auto">
             Continuar <ArrowRight className="ml-2 size-4" />
           </Button>
         </div>
@@ -218,9 +218,9 @@ export default function ContaSejaArtesaoPage() {
 
       {/* Step 2 — Store info */}
       {step === 2 && (
-        <Card className="border-[#1e3a5f]/12">
+        <Card className="border-[#071a33]/12">
           <CardHeader className="pb-4">
-            <CardTitle className="text-[#1e3a5f]">Dados da sua loja</CardTitle>
+            <CardTitle className="text-[#071a33]">Dados da sua loja</CardTitle>
             <CardDescription>Nossa equipe irá analisar e aprovar em até 2 dias úteis.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -274,10 +274,10 @@ export default function ContaSejaArtesaoPage() {
 
               {/* Cartão de crédito — obrigatório pra planos pagos */}
               {isPaidPlan && (
-                <div className="space-y-3 p-4 rounded-xl bg-[#1e3a5f]/4 border border-[#1e3a5f]/15">
+                <div className="space-y-3 p-4 rounded-xl bg-[#071a33]/4 border border-[#071a33]/15">
                   <div className="flex items-center gap-2">
-                    <CreditCard className="size-4 text-[#1e3a5f]" />
-                    <p className="text-sm font-semibold text-[#1e3a5f]">Dados do cartão de crédito</p>
+                    <CreditCard className="size-4 text-[#071a33]" />
+                    <p className="text-sm font-semibold text-[#071a33]">Dados do cartão de crédito</p>
                   </div>
                   <p className="text-xs text-neutral-500 -mt-1">
                     A cobrança da mensalidade começa só depois da aprovação do seu cadastro.
@@ -335,20 +335,20 @@ export default function ContaSejaArtesaoPage() {
               )}
 
               {/* Termo de adesão */}
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#1e3a5f]/5 border border-[#1e3a5f]/15">
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#071a33]/5 border border-[#071a33]/15">
                 <input
                   type="checkbox"
                   id="terms"
                   checked={termsAccepted}
                   onChange={(e) => setTermsAccepted(e.target.checked)}
-                  className="mt-0.5 size-4 accent-[#1e3a5f] cursor-pointer"
+                  className="mt-0.5 size-4 accent-[#071a33] cursor-pointer"
                 />
                 <label htmlFor="terms" className="text-sm text-neutral-600 cursor-pointer leading-relaxed">
                   Li e concordo com os{" "}
                   <a
                     href="/termos-do-vendedor"
                     target="_blank"
-                    className="text-[#1e3a5f] font-medium underline hover:text-[#e07b2a] transition-colors"
+                    className="text-[#071a33] font-medium underline hover:text-[#c1652e] transition-colors"
                   >
                     Termos de Adesão do Vendedor
                   </a>
@@ -358,7 +358,7 @@ export default function ContaSejaArtesaoPage() {
 
               <div className="flex gap-3 pt-2">
                 <Button type="button" variant="outline" onClick={() => setStep(1)}>← Voltar</Button>
-                <Button type="submit" disabled={loading || !termsAccepted} className="flex-1 bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold">
+                <Button type="submit" disabled={loading || !termsAccepted} className="flex-1 bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold">
                   {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
                   Enviar cadastro
                 </Button>

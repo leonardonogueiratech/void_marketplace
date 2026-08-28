@@ -43,7 +43,7 @@ export function ShippingEstimator({ productId }: { productId: string }) {
   return (
     <div className="border border-border rounded-lg p-4">
       <p className="flex items-center gap-1.5 text-sm font-medium text-neutral-700 mb-3">
-        <Truck className="size-4 text-[#27ae60]" /> Calcular frete
+        <Truck className="size-4 text-[#7c9f61]" /> Calcular frete
       </p>
 
       <div className="flex gap-2">
@@ -70,7 +70,7 @@ export function ShippingEstimator({ productId }: { productId: string }) {
                 <span className="font-medium text-neutral-800">{o.label}</span>
                 <span className="text-muted-foreground"> · {o.description}</span>
               </div>
-              <span className="font-semibold text-[#1e3a5f]">{formatCurrency(o.price)}</span>
+              <span className="font-semibold text-[#071a33]">{formatCurrency(o.price)}</span>
             </div>
           ))}
           <p className="text-[11px] text-neutral-400 pt-1">

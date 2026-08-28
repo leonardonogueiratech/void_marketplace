@@ -23,7 +23,7 @@ const plans = [
     id: "FREE",
     name: "Inicial",
     icon: Zap,
-    color: "#27ae60",
+    color: "#7c9f61",
     price: SUBSCRIPTION_PRICES.FREE,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.FREE,
     commission: COMMISSION_BY_PLAN.FREE,
@@ -49,7 +49,7 @@ const plans = [
     id: "BASIC",
     name: "Profissional",
     icon: Star,
-    color: "#1e3a5f",
+    color: "#071a33",
     price: SUBSCRIPTION_PRICES.BASIC,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.BASIC,
     commission: COMMISSION_BY_PLAN.BASIC,
@@ -75,7 +75,7 @@ const plans = [
     id: "PRO",
     name: "Ateliê",
     icon: Sparkles,
-    color: "#e07b2a",
+    color: "#c1652e",
     price: SUBSCRIPTION_PRICES.PRO,
     launchPrice: SUBSCRIPTION_LAUNCH_PRICES.PRO,
     commission: COMMISSION_BY_PLAN.PRO,
@@ -189,25 +189,25 @@ export default function PlansPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f3ed]">
+    <div className="min-h-screen bg-[#f2ede0]">
 
       {/* ── Header ───────────────────────────────────────────────────────── */}
-      <div className="bg-[#1e3a5f] py-16 relative overflow-hidden">
+      <div className="bg-[#071a33] py-16 relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.04] pointer-events-none"
-          style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "28px 28px" }}
+          style={{ backgroundImage: "radial-gradient(circle, #f2ede0 1px, transparent 1px)", backgroundSize: "28px 28px" }}
         />
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-[#a8d5a2] mb-3">Para artesãos</p>
-          <h1 className="text-4xl font-bold text-[#f7f3ed] mb-4">Planos e Preços</h1>
-          <p className="text-[#f7f3ed]/60 text-lg max-w-xl mx-auto">
+          <h1 className="text-4xl font-bold text-[#f2ede0] mb-4">Planos e Preços</h1>
+          <p className="text-[#f2ede0]/60 text-lg max-w-xl mx-auto">
             Mensalidade + comissão por venda. Todos os custos transparentes — sem surpresas.
           </p>
         </div>
       </div>
 
       {/* ── Banner de lançamento ─────────────────────────────────────────── */}
-      <div className="bg-[#e07b2a] py-3 px-4">
+      <div className="bg-[#c1652e] py-3 px-4">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 text-center">
           <span className="text-white font-bold text-sm">★ Promoção de Lançamento</span>
           <span className="text-white/85 text-sm">
@@ -227,8 +227,8 @@ export default function PlansPage() {
                 key={plan.id}
                 className={`relative bg-white rounded-2xl overflow-hidden border transition-shadow hover:shadow-xl ${
                   plan.highlight
-                    ? "border-[#1e3a5f] shadow-lg ring-2 ring-[#1e3a5f]/20"
-                    : "border-[#1e3a5f]/12 shadow-sm"
+                    ? "border-[#071a33] shadow-lg ring-2 ring-[#071a33]/20"
+                    : "border-[#071a33]/12 shadow-sm"
                 }`}
               >
                 {plan.badge && (
@@ -247,7 +247,7 @@ export default function PlansPage() {
                       <Icon className="size-5" style={{ color: plan.color }} />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-[#1e3a5f]">{plan.name}</h2>
+                      <h2 className="text-xl font-bold text-[#071a33]">{plan.name}</h2>
                       <p className="text-xs text-neutral-400">{PLAN_PROFILES[plan.id]}</p>
                     </div>
                   </div>
@@ -255,7 +255,7 @@ export default function PlansPage() {
                   {/* Price — período gratuito em destaque */}
                   <div className="mt-4 mb-1">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-2xl font-bold text-[#27ae60]">Grátis</span>
+                      <span className="text-2xl font-bold text-[#7c9f61]">Grátis</span>
                     </div>
                     <p className="text-xs text-neutral-400 mt-0.5">
                       nos primeiros 3 meses · depois R$ {plan.launchPrice.toFixed(2).replace(".", ",")}/mês por mais 3 meses
@@ -283,7 +283,7 @@ export default function PlansPage() {
                     {plan.features.map((f) => (
                       <li key={f.label} className="flex items-center gap-2.5 text-sm">
                         {f.included ? (
-                          <Check className="size-4 text-[#27ae60] shrink-0" strokeWidth={2.5} />
+                          <Check className="size-4 text-[#7c9f61] shrink-0" strokeWidth={2.5} />
                         ) : (
                           <X className="size-4 text-neutral-300 shrink-0" />
                         )}
@@ -299,7 +299,7 @@ export default function PlansPage() {
                     className="w-full font-semibold"
                     style={
                       plan.highlight
-                        ? { background: "#1e3a5f", color: "#fff" }
+                        ? { background: "#071a33", color: "#fff" }
                         : { background: `${plan.color}18`, color: plan.color }
                     }
                   >
@@ -322,54 +322,54 @@ export default function PlansPage() {
         {/* ── Simulador de ganhos ──────────────────────────────────────── */}
         <section className="mt-16">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-[#1e3a5f]">O que você recebe por venda de R$ 100</h2>
+            <h2 className="text-2xl font-bold text-[#071a33]">O que você recebe por venda de R$ 100</h2>
             <p className="text-neutral-500 mt-1 text-sm">
               Comissão única de 15% sobre vendas — igual para todos os planos, sempre
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 overflow-hidden shadow-sm">
-            <div className="grid grid-cols-4 bg-[#f7f3ed] border-b border-[#1e3a5f]/8">
+          <div className="bg-white rounded-2xl border border-[#071a33]/10 overflow-hidden shadow-sm">
+            <div className="grid grid-cols-4 bg-[#f2ede0] border-b border-[#071a33]/8">
               <div className="p-4 text-xs font-semibold text-neutral-400 uppercase tracking-wider">Custo</div>
               {plans.map((p) => (
-                <div key={p.id} className="p-4 text-center text-sm font-bold text-[#1e3a5f]">{p.name}</div>
+                <div key={p.id} className="p-4 text-center text-sm font-bold text-[#071a33]">{p.name}</div>
               ))}
             </div>
 
-            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6">
+            <div className="grid grid-cols-4 border-b border-[#071a33]/6">
               <div className="p-4 text-sm text-neutral-600">Preço de venda</div>
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center text-sm font-medium text-neutral-700">R$ 100,00</div>
               ))}
             </div>
 
-            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-[#e07b2a]/5">
+            <div className="grid grid-cols-4 border-b border-[#071a33]/6 bg-[#c1652e]/5">
               <div className="p-4 text-sm text-neutral-600">Comissão da plataforma</div>
               {plans.map((p) => (
-                <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
+                <div key={p.id} className="p-4 text-center text-sm text-[#c1652e] font-medium">
                   − R$ {nets[p.id as keyof typeof nets].commissionAmt.toFixed(2).replace(".", ",")}
-                  <span className="block text-xs text-[#e07b2a]/60">
+                  <span className="block text-xs text-[#c1652e]/60">
                     ({(COMMISSION_BY_PLAN[p.id] * 100).toFixed(0)}%)
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-4 border-b border-[#1e3a5f]/6 bg-[#e07b2a]/5">
+            <div className="grid grid-cols-4 border-b border-[#071a33]/6 bg-[#c1652e]/5">
               <div className="p-4 text-sm text-neutral-600">Taxa de pagamento*</div>
               {plans.map((p) => (
-                <div key={p.id} className="p-4 text-center text-sm text-[#e07b2a] font-medium">
+                <div key={p.id} className="p-4 text-center text-sm text-[#c1652e] font-medium">
                   − R$ {nets[p.id as keyof typeof nets].processingAmt.toFixed(2).replace(".", ",")}
-                  <span className="block text-xs text-[#e07b2a]/60">(2,99% + R$0,39)</span>
+                  <span className="block text-xs text-[#c1652e]/60">(2,99% + R$0,39)</span>
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-4 bg-[#f7f3ed]">
-              <div className="p-4 text-sm font-bold text-[#1e3a5f]">Você recebe</div>
+            <div className="grid grid-cols-4 bg-[#f2ede0]">
+              <div className="p-4 text-sm font-bold text-[#071a33]">Você recebe</div>
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center">
-                  <span className="text-xl font-bold text-[#27ae60]">
+                  <span className="text-xl font-bold text-[#7c9f61]">
                     R$ {nets[p.id as keyof typeof nets].net.toFixed(2).replace(".", ",")}
                   </span>
                   <span className="block text-xs text-neutral-400 mt-0.5">por venda</span>
@@ -387,17 +387,17 @@ export default function PlansPage() {
         {/* ── Tabela comparativa completa ──────────────────────────────── */}
         <section className="mt-16">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-[#1e3a5f]">Comparativo completo</h2>
+            <h2 className="text-2xl font-bold text-[#071a33]">Comparativo completo</h2>
           </div>
 
-          <div className="bg-white rounded-2xl border border-[#1e3a5f]/10 overflow-hidden shadow-sm">
+          <div className="bg-white rounded-2xl border border-[#071a33]/10 overflow-hidden shadow-sm">
             {/* Header */}
-            <div className="grid grid-cols-4 bg-[#f7f3ed] border-b border-[#1e3a5f]/8">
+            <div className="grid grid-cols-4 bg-[#f2ede0] border-b border-[#071a33]/8">
               <div className="p-4 text-xs font-semibold text-neutral-400 uppercase tracking-wider">Recurso</div>
               {plans.map((p) => (
                 <div key={p.id} className="p-4 text-center">
-                  <span className="text-sm font-bold text-[#1e3a5f]">{p.name}</span>
-                  <span className="block text-xs text-[#27ae60] font-semibold mt-0.5">
+                  <span className="text-sm font-bold text-[#071a33]">{p.name}</span>
+                  <span className="block text-xs text-[#7c9f61] font-semibold mt-0.5">
                     Grátis 3 meses ★
                   </span>
                   <span className="block text-xs text-neutral-400">
@@ -410,18 +410,18 @@ export default function PlansPage() {
             {comparisonRows.map((row, i) => (
               <div
                 key={row.label}
-                className={`grid grid-cols-4 border-b border-[#1e3a5f]/6 last:border-0 ${
+                className={`grid grid-cols-4 border-b border-[#071a33]/6 last:border-0 ${
                   row.highlight
-                    ? "bg-[#e07b2a]/5"
+                    ? "bg-[#c1652e]/5"
                     : i % 2 === 0
                     ? ""
-                    : "bg-[#f7f3ed]/40"
+                    : "bg-[#f2ede0]/40"
                 }`}
               >
                 <div className="p-4 text-sm text-neutral-600 font-medium">
                   {row.label.replace(" ★", "")}
                   {row.highlight && (
-                    <span className="ml-1.5 text-[10px] font-bold text-[#e07b2a] bg-[#e07b2a]/10 px-1.5 py-0.5 rounded-full">
+                    <span className="ml-1.5 text-[10px] font-bold text-[#c1652e] bg-[#c1652e]/10 px-1.5 py-0.5 rounded-full">
                       LANÇAMENTO
                     </span>
                   )}
@@ -433,9 +433,9 @@ export default function PlansPage() {
             ))}
           </div>
 
-          <div className="mt-4 bg-[#1e3a5f]/4 border border-[#1e3a5f]/10 rounded-xl p-4 flex items-start gap-3">
-            <BadgeCheck className="size-5 text-[#27ae60] shrink-0 mt-0.5" />
-            <p className="text-sm text-[#1e3a5f]/80 leading-relaxed">
+          <div className="mt-4 bg-[#071a33]/4 border border-[#071a33]/10 rounded-xl p-4 flex items-start gap-3">
+            <BadgeCheck className="size-5 text-[#7c9f61] shrink-0 mt-0.5" />
+            <p className="text-sm text-[#071a33]/80 leading-relaxed">
               <strong>Todos os planos incluem o Selo Produto Autoral</strong>, reforçando o posicionamento de exclusividade
               da plataforma e certificando que cada peça é criada por um artesão real.
             </p>
@@ -470,26 +470,26 @@ export default function PlansPage() {
               a: "O plano Inicial é ideal para artesãos Pessoa Física que querem estruturar sua loja com até 20 produtos. O plano Profissional é recomendado para MEIs com produção regular, com até 50 produtos. O Ateliê é para marcas maiores, com produtos ilimitados.",
             },
           ].map(({ q, a }) => (
-            <div key={q} className="bg-white rounded-2xl p-6 border border-[#1e3a5f]/8 hover:shadow-md transition-shadow">
-              <h3 className="font-bold text-[#1e3a5f] mb-2 text-sm">{q}</h3>
+            <div key={q} className="bg-white rounded-2xl p-6 border border-[#071a33]/8 hover:shadow-md transition-shadow">
+              <h3 className="font-bold text-[#071a33] mb-2 text-sm">{q}</h3>
               <p className="text-sm text-neutral-500 leading-relaxed">{a}</p>
             </div>
           ))}
         </section>
 
         {/* ── CTA final ────────────────────────────────────────────────── */}
-        <section className="mt-14 bg-[#1e3a5f] rounded-2xl p-10 text-center relative overflow-hidden">
+        <section className="mt-14 bg-[#071a33] rounded-2xl p-10 text-center relative overflow-hidden">
           <div
             className="absolute inset-0 opacity-[0.04] pointer-events-none rounded-2xl"
-            style={{ backgroundImage: "radial-gradient(circle, #f7f3ed 1px, transparent 1px)", backgroundSize: "20px 20px" }}
+            style={{ backgroundImage: "radial-gradient(circle, #f2ede0 1px, transparent 1px)", backgroundSize: "20px 20px" }}
           />
           <div className="relative">
             <p className="text-xs font-semibold uppercase tracking-widest text-[#a8d5a2] mb-3">Oferta de lançamento</p>
-            <h2 className="text-2xl font-bold text-[#f7f3ed] mb-2">Abra sua vitrine com 50% off</h2>
-            <p className="text-[#f7f3ed]/65 mb-7 max-w-sm mx-auto">
+            <h2 className="text-2xl font-bold text-[#f2ede0] mb-2">Abra sua vitrine com 50% off</h2>
+            <p className="text-[#f2ede0]/65 mb-7 max-w-sm mx-auto">
               Por tempo limitado: mensalidade e comissão reduzidas por 3 meses completos.
             </p>
-            <Button asChild size="lg" className="bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold shadow-lg hover:scale-105 transition-all">
+            <Button asChild size="lg" className="bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold shadow-lg hover:scale-105 transition-all">
               <Link href="/seja-artesao">
                 Criar minha loja agora <ArrowRight className="ml-2 size-4" />
               </Link>

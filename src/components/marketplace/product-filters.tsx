@@ -52,14 +52,14 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
   ].filter(Boolean).length;
 
   return (
-    <div className="sticky top-24 bg-white rounded-2xl border border-[#1e3a5f]/10 shadow-sm overflow-hidden">
+    <div className="sticky top-24 bg-white rounded-2xl border border-[#071a33]/10 shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[#1e3a5f]/8 bg-[#f7f3ed]">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-[#071a33]/8 bg-[#f2ede0]">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="size-4 text-[#27ae60]" />
-          <span className="text-sm font-semibold text-[#1e3a5f]">Filtros</span>
+          <SlidersHorizontal className="size-4 text-[#7c9f61]" />
+          <span className="text-sm font-semibold text-[#071a33]">Filtros</span>
           {activeCount > 0 && (
-            <span className="size-5 rounded-full bg-[#27ae60] text-white text-xs flex items-center justify-center font-medium">
+            <span className="size-5 rounded-full bg-[#7c9f61] text-white text-xs flex items-center justify-center font-medium">
               {activeCount}
             </span>
           )}
@@ -67,7 +67,7 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
         {activeCount > 0 && (
           <button
             onClick={clearFilters}
-            className="text-xs text-[#27ae60] hover:text-[#1e9150] font-medium flex items-center gap-1 transition-colors"
+            className="text-xs text-[#7c9f61] hover:text-[#1e9150] font-medium flex items-center gap-1 transition-colors"
           >
             <X className="size-3" /> Limpar
           </button>
@@ -77,7 +77,7 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
       <div className="p-4 space-y-5">
         {/* Order */}
         <div>
-          <p className="text-xs font-semibold text-[#1e3a5f]/50 uppercase tracking-wider mb-2">
+          <p className="text-xs font-semibold text-[#071a33]/50 uppercase tracking-wider mb-2">
             Ordenar por
           </p>
           <div className="flex flex-col gap-0.5">
@@ -89,8 +89,8 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
                   onClick={() => updateFilter("ordem", opt.value)}
                   className={`flex items-center justify-between text-left text-sm px-3 py-2 rounded-lg transition-all ${
                     isActive
-                      ? "bg-[#1e3a5f] text-white font-medium"
-                      : "text-neutral-600 hover:bg-[#f7f3ed] hover:text-[#1e3a5f]"
+                      ? "bg-[#071a33] text-white font-medium"
+                      : "text-neutral-600 hover:bg-[#f2ede0] hover:text-[#071a33]"
                   }`}
                 >
                   {opt.label}
@@ -102,13 +102,13 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-[#1e3a5f]/8" />
+        <div className="h-px bg-[#071a33]/8" />
 
         {/* Categories */}
         {categories.length > 0 && (
           <>
             <div>
-              <p className="text-xs font-semibold text-[#1e3a5f]/50 uppercase tracking-wider mb-2">
+              <p className="text-xs font-semibold text-[#071a33]/50 uppercase tracking-wider mb-2">
                 Categoria
               </p>
               <div className="flex flex-col gap-0.5">
@@ -116,8 +116,8 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
                   onClick={() => updateFilter("categoria", "")}
                   className={`flex items-center justify-between text-left text-sm px-3 py-2 rounded-lg transition-all ${
                     !activeCategory
-                      ? "bg-[#27ae60] text-white font-medium"
-                      : "text-neutral-600 hover:bg-[#f7f3ed] hover:text-[#1e3a5f]"
+                      ? "bg-[#7c9f61] text-white font-medium"
+                      : "text-neutral-600 hover:bg-[#f2ede0] hover:text-[#071a33]"
                   }`}
                 >
                   Todas as categorias
@@ -131,8 +131,8 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
                       onClick={() => updateFilter("categoria", cat.slug)}
                       className={`flex items-center justify-between text-left text-sm px-3 py-2 rounded-lg transition-all ${
                         isActive
-                          ? "bg-[#27ae60] text-white font-medium"
-                          : "text-neutral-600 hover:bg-[#f7f3ed] hover:text-[#1e3a5f]"
+                          ? "bg-[#7c9f61] text-white font-medium"
+                          : "text-neutral-600 hover:bg-[#f2ede0] hover:text-[#071a33]"
                       }`}
                     >
                       {cat.name}
@@ -142,13 +142,13 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
                 })}
               </div>
             </div>
-            <div className="h-px bg-[#1e3a5f]/8" />
+            <div className="h-px bg-[#071a33]/8" />
           </>
         )}
 
         {/* Price range */}
         <div>
-          <p className="text-xs font-semibold text-[#1e3a5f]/50 uppercase tracking-wider mb-2">
+          <p className="text-xs font-semibold text-[#071a33]/50 uppercase tracking-wider mb-2">
             Faixa de Preço (R$)
           </p>
           <div className="flex gap-2 items-center">
@@ -156,15 +156,15 @@ export function ProductFilters({ categories }: ProductFiltersProps) {
               type="number"
               placeholder="Mín"
               defaultValue={minPrice}
-              className="h-8 text-sm border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="h-8 text-sm border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
               onBlur={(e) => updateFilter("min", e.target.value)}
             />
-            <span className="text-[#1e3a5f]/30 text-sm font-medium">—</span>
+            <span className="text-[#071a33]/30 text-sm font-medium">—</span>
             <Input
               type="number"
               placeholder="Máx"
               defaultValue={maxPrice}
-              className="h-8 text-sm border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+              className="h-8 text-sm border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
               onBlur={(e) => updateFilter("max", e.target.value)}
             />
           </div>

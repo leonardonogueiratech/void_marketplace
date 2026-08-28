@@ -13,7 +13,7 @@ export const STATUS_OPTIONS = [
   { value: "PAID",            label: "Pago",               color: "bg-blue-100 text-blue-700 border-blue-200" },
   { value: "PROCESSING",      label: "Em preparo",         color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
   { value: "SHIPPED",         label: "Enviado",            color: "bg-purple-100 text-purple-700 border-purple-200" },
-  { value: "DELIVERED",       label: "Entregue",           color: "bg-[#27ae60]/10 text-[#27ae60] border-[#27ae60]/20" },
+  { value: "DELIVERED",       label: "Entregue",           color: "bg-[#7c9f61]/10 text-[#7c9f61] border-[#7c9f61]/20" },
   { value: "CANCELLED",       label: "Cancelado",          color: "bg-red-50 text-red-600 border-red-200" },
   { value: "REFUNDED",        label: "Reembolsado",        color: "bg-neutral-100 text-neutral-500 border-neutral-200" },
 ] as const;
@@ -97,18 +97,18 @@ export function OrderStatusSelect({ orderId, currentStatus, currentTrackingCode 
         {open && (
           <>
             <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-            <div className="absolute right-0 top-8 z-50 w-48 bg-white rounded-xl border border-[#1e3a5f]/10 shadow-xl overflow-hidden py-1">
+            <div className="absolute right-0 top-8 z-50 w-48 bg-white rounded-xl border border-[#071a33]/10 shadow-xl overflow-hidden py-1">
               {STATUS_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
                   onClick={() => handleSelect(opt.value)}
-                  className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#f7f3ed] transition-colors ${status === opt.value ? "font-semibold" : ""}`}
+                  className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#f2ede0] transition-colors ${status === opt.value ? "font-semibold" : ""}`}
                 >
                   <span className={`size-2 rounded-full border ${opt.color}`} />
                   {opt.label}
                   {opt.value === "SHIPPED" && <Truck className="size-3 ml-auto text-purple-400" />}
                   {status === opt.value && opt.value !== "SHIPPED" && (
-                    <span className="ml-auto text-[#27ae60]">✓</span>
+                    <span className="ml-auto text-[#7c9f61]">✓</span>
                   )}
                 </button>
               ))}

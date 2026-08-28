@@ -27,10 +27,10 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
   return (
     <Link
       href={`/artesao/${artisan.slug}`}
-      className="group flex flex-col rounded-2xl overflow-hidden border border-[#1e3a5f]/10 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-250"
+      className="group flex flex-col rounded-2xl overflow-hidden border border-[#071a33]/10 bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-250"
     >
       {/* Banner */}
-      <div className="relative h-28 bg-gradient-to-br from-[#27ae60]/20 to-[#1e3a5f]/20 overflow-hidden">
+      <div className="relative h-28 bg-gradient-to-br from-[#7c9f61]/20 to-[#071a33]/20 overflow-hidden">
         {artisan.bannerImage ? (
           <Image
             src={artisan.bannerImage}
@@ -40,11 +40,11 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
             sizes="(max-width: 640px) 100vw, 33vw"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#27ae60]/30 via-[#1e3a5f]/20 to-[#e07b2a]/20" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#7c9f61]/30 via-[#071a33]/20 to-[#c1652e]/20" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         {artisan.featured && (
-          <Badge className="absolute top-2 right-2 bg-[#e07b2a] hover:bg-[#e07b2a] text-white text-xs">
+          <Badge className="absolute top-2 right-2 bg-[#c1652e] hover:bg-[#c1652e] text-white text-xs">
             ✦ Destaque
           </Badge>
         )}
@@ -52,15 +52,15 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
 
       {/* Content */}
       <div className="p-4 flex gap-3">
-        <Avatar className="size-14 -mt-8 border-2 border-white shadow-md shrink-0 ring-2 ring-[#f7f3ed]">
+        <Avatar className="size-14 -mt-8 border-2 border-white shadow-md shrink-0 ring-2 ring-[#f2ede0]">
           <AvatarImage src={artisan.logoImage ?? undefined} />
-          <AvatarFallback className="text-sm bg-[#27ae60]/15 text-[#27ae60] font-semibold">
+          <AvatarFallback className="text-sm bg-[#7c9f61]/15 text-[#7c9f61] font-semibold">
             {getInitials(artisan.storeName)}
           </AvatarFallback>
         </Avatar>
 
         <div className="flex-1 min-w-0 pt-1">
-          <h3 className="font-bold text-[#1e3a5f] truncate leading-tight">
+          <h3 className="font-bold text-[#071a33] truncate leading-tight">
             {artisan.storeName}
           </h3>
           <p className="text-xs text-muted-foreground truncate">{artisan.user.name}</p>
@@ -70,7 +70,7 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
       <div className="px-4 pb-4 flex flex-col gap-2">
         {(artisan.city || artisan.state) && (
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <MapPin className="size-3 text-[#27ae60]" />
+            <MapPin className="size-3 text-[#7c9f61]" />
             <span>{[artisan.city, artisan.state].filter(Boolean).join(", ")}</span>
           </div>
         )}
@@ -82,7 +82,7 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
         )}
 
         {/* Stats */}
-        <div className="flex items-center gap-3 pt-1 border-t border-[#1e3a5f]/6">
+        <div className="flex items-center gap-3 pt-1 border-t border-[#071a33]/6">
           {artisan.rating > 0 && (
             <div className="flex items-center gap-1">
               <Star className="size-3 fill-amber-400 text-amber-400" />
@@ -94,8 +94,8 @@ export function ArtisanCard({ artisan }: ArtisanCardProps) {
           )}
           {artisan._count && artisan._count.products > 0 && (
             <div className="flex items-center gap-1 ml-auto">
-              <Package className="size-3 text-[#27ae60]" />
-              <span className="text-xs text-[#27ae60] font-medium">{artisan._count.products}</span>
+              <Package className="size-3 text-[#7c9f61]" />
+              <span className="text-xs text-[#7c9f61] font-medium">{artisan._count.products}</span>
             </div>
           )}
         </div>

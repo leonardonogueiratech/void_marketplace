@@ -40,12 +40,12 @@ export function PixKeyForm({ savedPixKey }: { savedPixKey: string | null }) {
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-xs text-neutral-400 mb-0.5">Chave PIX cadastrada</p>
-          <p className="text-sm font-medium text-[#1e3a5f] break-all">{savedPixKey}</p>
+          <p className="text-sm font-medium text-[#071a33] break-all">{savedPixKey}</p>
         </div>
         <Button
           variant="outline"
           size="sm"
-          className="shrink-0 border-[#1e3a5f]/20 text-[#1e3a5f] text-xs"
+          className="shrink-0 border-[#071a33]/20 text-[#071a33] text-xs"
           onClick={() => setEditing(true)}
         >
           <Pencil className="mr-1.5 size-3" /> Alterar
@@ -62,7 +62,7 @@ export function PixKeyForm({ savedPixKey }: { savedPixKey: string | null }) {
           placeholder="CPF, email, telefone ou chave aleatória"
           value={pixKey}
           onChange={(e) => setPixKey(e.target.value)}
-          className="border-[#1e3a5f]/20 focus-visible:ring-[#27ae60]"
+          className="border-[#071a33]/20 focus-visible:ring-[#7c9f61]"
         />
         <p className="text-[11px] text-neutral-400">
           Esta chave será usada para seus saques. Você pode alterar a qualquer momento.
@@ -72,7 +72,7 @@ export function PixKeyForm({ savedPixKey }: { savedPixKey: string | null }) {
         <Button
           onClick={handleSave}
           disabled={loading}
-          className="bg-[#27ae60] hover:bg-[#219a52] text-white"
+          className="bg-[#7c9f61] hover:bg-[#219a52] text-white"
           size="sm"
         >
           {loading ? <Loader2 className="mr-1.5 size-3 animate-spin" /> : <Check className="mr-1.5 size-3" />}

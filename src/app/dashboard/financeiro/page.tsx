@@ -76,7 +76,7 @@ export default async function FinancialPage() {
   const withdrawalStatusConfig: Record<string, { label: string; color: string }> = {
     PENDING: { label: "Aguardando", color: "bg-amber-100 text-amber-700" },
     PROCESSING: { label: "Processando", color: "bg-blue-100 text-blue-700" },
-    PAID: { label: "Pago", color: "bg-[#27ae60]/10 text-[#27ae60]" },
+    PAID: { label: "Pago", color: "bg-[#7c9f61]/10 text-[#7c9f61]" },
     REJECTED: { label: "Rejeitado", color: "bg-red-100 text-red-700" },
   };
 
@@ -84,7 +84,7 @@ export default async function FinancialPage() {
     <div className="space-y-8 max-w-4xl">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#1e3a5f]">Financeiro</h1>
+          <h1 className="text-2xl font-bold text-[#071a33]">Financeiro</h1>
           <p className="text-sm text-neutral-500 mt-1">Resumo de receitas, comissões e saques.</p>
         </div>
         <ExportButton
@@ -97,27 +97,27 @@ export default async function FinancialPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Total em vendas", value: formatCurrency(totalSales), icon: TrendingUp, color: "text-[#1e3a5f]" },
-          { label: "Disponível p/ saque", value: formatCurrency(freeBalance), icon: DollarSign, color: "text-[#27ae60]" },
-          { label: "Retido (em entrega)", value: formatCurrency(heldBalance), icon: Clock, color: "text-[#e07b2a]" },
+          { label: "Total em vendas", value: formatCurrency(totalSales), icon: TrendingUp, color: "text-[#071a33]" },
+          { label: "Disponível p/ saque", value: formatCurrency(freeBalance), icon: DollarSign, color: "text-[#7c9f61]" },
+          { label: "Retido (em entrega)", value: formatCurrency(heldBalance), icon: Clock, color: "text-[#c1652e]" },
           { label: "Comissão plataforma", value: formatCurrency(totalCommissions), icon: CheckCircle2, color: "text-[#17a2b8]" },
         ].map(({ label, value, icon: Icon, color }) => (
-          <Card key={label} className="border-[#1e3a5f]/10">
+          <Card key={label} className="border-[#071a33]/10">
             <CardContent className="pt-5 pb-4">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs text-neutral-500">{label}</span>
                 <Icon className={`size-4 ${color}`} />
               </div>
-              <p className="text-2xl font-bold text-[#1e3a5f]">{value}</p>
+              <p className="text-2xl font-bold text-[#071a33]">{value}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Monthly chart */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base text-[#1e3a5f]">Receita por mês (últimos 6 meses)</CardTitle>
+          <CardTitle className="text-base text-[#071a33]">Receita por mês (últimos 6 meses)</CardTitle>
         </CardHeader>
         <CardContent>
           <MonthlyBarChart data={monthlyData} />
@@ -126,9 +126,9 @@ export default async function FinancialPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Dados bancários */}
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base text-[#1e3a5f] flex items-center gap-2">
+            <CardTitle className="text-base text-[#071a33] flex items-center gap-2">
               <Landmark className="size-4" /> Dados bancários
             </CardTitle>
           </CardHeader>
@@ -138,18 +138,18 @@ export default async function FinancialPage() {
         </Card>
 
         {/* Withdrawal form */}
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader>
-            <CardTitle className="text-base text-[#1e3a5f]">Solicitar saque</CardTitle>
+            <CardTitle className="text-base text-[#071a33]">Solicitar saque</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-sm text-neutral-500 mb-4 space-y-1">
               <p>
                 Disponível:{" "}
-                <strong className="text-[#27ae60]">{formatCurrency(freeBalance)}</strong>
+                <strong className="text-[#7c9f61]">{formatCurrency(freeBalance)}</strong>
               </p>
               {heldBalance > 0 && (
-                <p className="text-xs text-[#e07b2a]">
+                <p className="text-xs text-[#c1652e]">
                   {formatCurrency(heldBalance)} retidos — liberados após entrega ou 15 dias
                 </p>
               )}
@@ -159,9 +159,9 @@ export default async function FinancialPage() {
         </Card>
 
         {/* Withdrawal history */}
-        <Card className="border-[#1e3a5f]/10">
+        <Card className="border-[#071a33]/10">
           <CardHeader>
-            <CardTitle className="text-base text-[#1e3a5f]">Histórico de saques</CardTitle>
+            <CardTitle className="text-base text-[#071a33]">Histórico de saques</CardTitle>
           </CardHeader>
           <CardContent>
             {withdrawals.length === 0 ? (
@@ -171,7 +171,7 @@ export default async function FinancialPage() {
                 {withdrawals.map((w) => (
                   <div key={w.id} className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-semibold text-[#1e3a5f]">{formatCurrency(w.amount)}</p>
+                      <p className="text-sm font-semibold text-[#071a33]">{formatCurrency(w.amount)}</p>
                       <p className="text-xs text-neutral-400">
                         {formatDate(w.createdAt)} · PIX: {w.pixKey}
                       </p>
@@ -190,9 +190,9 @@ export default async function FinancialPage() {
       </div>
 
       {/* Commission table */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3 flex flex-row items-center justify-between">
-          <CardTitle className="text-base text-[#1e3a5f]">
+          <CardTitle className="text-base text-[#071a33]">
             Extrato de comissões
             <span className="ml-2 text-xs font-normal text-neutral-400">
               ({allCommissions.length} registros)
@@ -206,7 +206,7 @@ export default async function FinancialPage() {
             <div className="overflow-x-auto max-h-[480px] overflow-y-auto">
               <table className="w-full text-sm">
                 <thead className="sticky top-0 bg-white z-10">
-                  <tr className="border-b border-[#1e3a5f]/8">
+                  <tr className="border-b border-[#071a33]/8">
                     <th className="text-left px-4 py-2.5 text-xs font-semibold text-neutral-400 uppercase tracking-wide">Data</th>
                     <th className="text-left px-4 py-2.5 text-xs font-semibold text-neutral-400 uppercase tracking-wide">Produto</th>
                     <th className="text-right px-4 py-2.5 text-xs font-semibold text-neutral-400 uppercase tracking-wide">Venda</th>
@@ -215,17 +215,17 @@ export default async function FinancialPage() {
                     <th className="text-center px-4 py-2.5 text-xs font-semibold text-neutral-400 uppercase tracking-wide">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1e3a5f]/6">
+                <tbody className="divide-y divide-[#071a33]/6">
                   {allCommissions.map((c, i) => (
-                    <tr key={i} className="hover:bg-[#f7f3ed]/60 transition-colors">
+                    <tr key={i} className="hover:bg-[#f2ede0]/60 transition-colors">
                       <td className="px-4 py-3 text-xs text-neutral-400">{formatDate(c.createdAt)}</td>
-                      <td className="px-4 py-3 font-medium text-[#1e3a5f] max-w-[180px] truncate">{c.orderItem.product.name}</td>
-                      <td className="px-4 py-3 text-right text-[#1e3a5f] font-medium">{formatCurrency(c.saleAmount)}</td>
+                      <td className="px-4 py-3 font-medium text-[#071a33] max-w-[180px] truncate">{c.orderItem.product.name}</td>
+                      <td className="px-4 py-3 text-right text-[#071a33] font-medium">{formatCurrency(c.saleAmount)}</td>
                       <td className="px-4 py-3 text-right text-red-500 text-xs">−{formatCurrency(c.amount)}</td>
-                      <td className="px-4 py-3 text-right font-semibold text-[#27ae60]">{formatCurrency(c.saleAmount - c.amount)}</td>
+                      <td className="px-4 py-3 text-right font-semibold text-[#7c9f61]">{formatCurrency(c.saleAmount - c.amount)}</td>
                       <td className="px-4 py-3 text-center">
                         {c.paid ? (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#27ae60]/10 text-[#27ae60]">Sacado</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-[#7c9f61]/10 text-[#7c9f61]">Sacado</span>
                         ) : c.orderItem.order.status === "DELIVERED" || c.createdAt <= escrowCutoff ? (
                           <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600">Disponível</span>
                         ) : (
@@ -242,9 +242,9 @@ export default async function FinancialPage() {
       </Card>
 
       {/* Commission info */}
-      <Card className="border-[#1e3a5f]/10 bg-[#f7f3ed]/50">
+      <Card className="border-[#071a33]/10 bg-[#f2ede0]/50">
         <CardHeader>
-          <CardTitle className="text-base text-[#1e3a5f]">Como funciona a comissão</CardTitle>
+          <CardTitle className="text-base text-[#071a33]">Como funciona a comissão</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-neutral-500 space-y-1.5">
           <p>• Comissão única de 15% sobre vendas, igual para todos os planos.</p>

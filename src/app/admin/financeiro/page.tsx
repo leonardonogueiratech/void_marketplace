@@ -49,19 +49,19 @@ export default async function AdminFinanceiroPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-[#1e3a5f]">Financeiro</h1>
+        <h1 className="text-2xl font-bold text-[#071a33]">Financeiro</h1>
         <p className="text-sm text-neutral-500 mt-1">Comissões geradas e solicitações de saque.</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Volume total de vendas", value: formatCurrency(totalSales), icon: TrendingUp, color: "text-[#1e3a5f]", bg: "bg-[#1e3a5f]/8" },
-          { label: "Comissões geradas", value: formatCurrency(totalCommissions), icon: DollarSign, color: "text-[#27ae60]", bg: "bg-[#27ae60]/8" },
-          { label: "Comissões pagas", value: formatCurrency(paidAmount), icon: CheckCircle2, color: "text-[#27ae60]", bg: "bg-[#27ae60]/8" },
-          { label: "Saques pendentes", value: pendingWithdrawals.length, icon: Clock, color: "text-[#e07b2a]", bg: "bg-[#e07b2a]/8", alert: pendingWithdrawals.length > 0 },
+          { label: "Volume total de vendas", value: formatCurrency(totalSales), icon: TrendingUp, color: "text-[#071a33]", bg: "bg-[#071a33]/8" },
+          { label: "Comissões geradas", value: formatCurrency(totalCommissions), icon: DollarSign, color: "text-[#7c9f61]", bg: "bg-[#7c9f61]/8" },
+          { label: "Comissões pagas", value: formatCurrency(paidAmount), icon: CheckCircle2, color: "text-[#7c9f61]", bg: "bg-[#7c9f61]/8" },
+          { label: "Saques pendentes", value: pendingWithdrawals.length, icon: Clock, color: "text-[#c1652e]", bg: "bg-[#c1652e]/8", alert: pendingWithdrawals.length > 0 },
         ].map(({ label, value, icon: Icon, color, bg, alert }) => (
-          <Card key={label} className={`border-[#1e3a5f]/10 ${alert ? "ring-1 ring-[#e07b2a]/30" : ""}`}>
+          <Card key={label} className={`border-[#071a33]/10 ${alert ? "ring-1 ring-[#c1652e]/30" : ""}`}>
             <CardContent className="pt-5 pb-4">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs text-neutral-500">{label}</span>
@@ -69,19 +69,19 @@ export default async function AdminFinanceiroPage() {
                   <Icon className={`size-4 ${color}`} />
                 </div>
               </div>
-              <p className="text-2xl font-bold text-[#1e3a5f]">{value}</p>
+              <p className="text-2xl font-bold text-[#071a33]">{value}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {/* Pending withdrawals */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base text-[#1e3a5f] flex items-center gap-2">
+          <CardTitle className="text-base text-[#071a33] flex items-center gap-2">
             Saques pendentes
             {pendingWithdrawals.length > 0 && (
-              <span className="text-xs bg-[#e07b2a] text-white px-2 py-0.5 rounded-full">
+              <span className="text-xs bg-[#c1652e] text-white px-2 py-0.5 rounded-full">
                 {pendingWithdrawals.length}
               </span>
             )}
@@ -89,22 +89,22 @@ export default async function AdminFinanceiroPage() {
         </CardHeader>
         <CardContent>
           {pendingWithdrawals.length === 0 ? (
-            <div className="flex items-center gap-2 py-4 text-sm text-[#27ae60]">
+            <div className="flex items-center gap-2 py-4 text-sm text-[#7c9f61]">
               <CheckCircle2 className="size-4" /> Nenhum saque pendente.
             </div>
           ) : (
             <div className="space-y-3">
               {pendingWithdrawals.map((w) => (
-                <div key={w.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 border-b border-[#1e3a5f]/6 last:border-0">
+                <div key={w.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 border-b border-[#071a33]/6 last:border-0">
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-[#1e3a5f]">{w.artisan.storeName}</p>
+                    <p className="text-sm font-semibold text-[#071a33]">{w.artisan.storeName}</p>
                     <p className="text-xs text-neutral-400">
                       Chave PIX: <span className="font-mono">{w.pixKey}</span>
                     </p>
                     <p className="text-xs text-neutral-400">{formatDate(w.createdAt)}</p>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
-                    <span className="text-base font-bold text-[#1e3a5f]">{formatCurrency(w.amount)}</span>
+                    <span className="text-base font-bold text-[#071a33]">{formatCurrency(w.amount)}</span>
                     <WithdrawalActions id={w.id} />
                   </div>
                 </div>
@@ -115,9 +115,9 @@ export default async function AdminFinanceiroPage() {
       </Card>
 
       {/* Recent withdrawals history */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base text-[#1e3a5f]">Histórico de saques</CardTitle>
+          <CardTitle className="text-base text-[#071a33]">Histórico de saques</CardTitle>
         </CardHeader>
         <CardContent>
           {recentWithdrawals.length === 0 ? (
@@ -126,7 +126,7 @@ export default async function AdminFinanceiroPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-[#1e3a5f]/8 text-xs text-neutral-400 uppercase tracking-wide">
+                  <tr className="border-b border-[#071a33]/8 text-xs text-neutral-400 uppercase tracking-wide">
                     <th className="text-left py-2 pr-4">Artesão</th>
                     <th className="text-left py-2 pr-4">Chave PIX</th>
                     <th className="text-right py-2 pr-4">Valor</th>
@@ -136,8 +136,8 @@ export default async function AdminFinanceiroPage() {
                 </thead>
                 <tbody>
                   {recentWithdrawals.map((w) => (
-                    <tr key={w.id} className="border-b border-[#1e3a5f]/5 last:border-0">
-                      <td className="py-2.5 pr-4 font-medium text-[#1e3a5f]">{w.artisan.storeName}</td>
+                    <tr key={w.id} className="border-b border-[#071a33]/5 last:border-0">
+                      <td className="py-2.5 pr-4 font-medium text-[#071a33]">{w.artisan.storeName}</td>
                       <td className="py-2.5 pr-4 font-mono text-xs text-neutral-500">{w.pixKey}</td>
                       <td className="py-2.5 pr-4 text-right font-semibold">{formatCurrency(w.amount)}</td>
                       <td className="py-2.5 pr-4">
@@ -156,18 +156,18 @@ export default async function AdminFinanceiroPage() {
       </Card>
 
       {/* Commission breakdown */}
-      <Card className="border-[#1e3a5f]/10">
+      <Card className="border-[#071a33]/10">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base text-[#1e3a5f]">Resumo de comissões</CardTitle>
+          <CardTitle className="text-base text-[#071a33]">Resumo de comissões</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { label: "Total gerado", value: formatCurrency(totalCommissions), color: "text-[#1e3a5f]" },
-              { label: "Já pago aos artesãos", value: formatCurrency(paidAmount), color: "text-[#27ae60]" },
-              { label: "A pagar (pendente)", value: formatCurrency(pendingAmount), color: "text-[#e07b2a]" },
+              { label: "Total gerado", value: formatCurrency(totalCommissions), color: "text-[#071a33]" },
+              { label: "Já pago aos artesãos", value: formatCurrency(paidAmount), color: "text-[#7c9f61]" },
+              { label: "A pagar (pendente)", value: formatCurrency(pendingAmount), color: "text-[#c1652e]" },
             ].map(({ label, value, color }) => (
-              <div key={label} className="bg-[#f7f3ed] rounded-xl p-4">
+              <div key={label} className="bg-[#f2ede0] rounded-xl p-4">
                 <p className="text-xs text-neutral-500 mb-1">{label}</p>
                 <p className={`text-xl font-bold ${color}`}>{value}</p>
               </div>

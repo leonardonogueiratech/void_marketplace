@@ -136,8 +136,8 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
     }
     if (returnRequest.status === "APPROVED") {
       return (
-        <div className="flex flex-col gap-2 bg-[#27ae60]/8 border border-[#27ae60]/20 rounded-xl px-3 py-2.5 max-w-xs">
-          <span className="flex items-center gap-1.5 text-xs font-medium text-[#27ae60]">
+        <div className="flex flex-col gap-2 bg-[#7c9f61]/8 border border-[#7c9f61]/20 rounded-xl px-3 py-2.5 max-w-xs">
+          <span className="flex items-center gap-1.5 text-xs font-medium text-[#7c9f61]">
             <CheckCircle2 className="size-3.5" /> Devolução aprovada — envie o produto
           </span>
 
@@ -146,7 +146,7 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
               href={labelUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs font-medium text-[#1e3a5f] bg-white border border-[#27ae60]/30 rounded-lg px-2.5 py-1.5 hover:bg-[#27ae60]/5"
+              className="flex items-center gap-1.5 text-xs font-medium text-[#071a33] bg-white border border-[#7c9f61]/30 rounded-lg px-2.5 py-1.5 hover:bg-[#7c9f61]/5"
             >
               <Tag className="size-3.5" /> Baixar etiqueta de devolução (PDF)
             </a>
@@ -156,7 +156,7 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
               variant="outline"
               onClick={handleGenerateLabel}
               disabled={generatingLabel}
-              className="h-7 text-xs w-fit border-[#27ae60]/40 text-[#27ae60] hover:bg-[#27ae60]/10"
+              className="h-7 text-xs w-fit border-[#7c9f61]/40 text-[#7c9f61] hover:bg-[#7c9f61]/10"
             >
               {generatingLabel ? <Loader2 className="mr-1.5 size-3 animate-spin" /> : <Tag className="mr-1.5 size-3" />}
               Gerar etiqueta de devolução grátis
@@ -174,7 +174,7 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
               size="sm"
               onClick={handleSendTracking}
               disabled={sendingTracking || !trackingCode.trim()}
-              className="h-7 text-xs bg-[#27ae60] hover:bg-[#229954] text-white shrink-0"
+              className="h-7 text-xs bg-[#7c9f61] hover:bg-[#63804e] text-white shrink-0"
             >
               {sendingTracking ? <Loader2 className="size-3 animate-spin" /> : "Enviei"}
             </Button>
@@ -201,7 +201,7 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
     }
     if (returnRequest.status === "REFUNDED") {
       return (
-        <div className="flex items-center gap-1.5 text-xs text-[#27ae60] bg-[#27ae60]/8 border border-[#27ae60]/20 rounded-full px-3 py-1.5">
+        <div className="flex items-center gap-1.5 text-xs text-[#7c9f61] bg-[#7c9f61]/8 border border-[#7c9f61]/20 rounded-full px-3 py-1.5">
           <CheckCircle2 className="size-3.5" /> Reembolso concluído
         </div>
       );
@@ -214,7 +214,7 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
     <>
       <button
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 hover:text-[#1e3a5f] bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 rounded-lg px-3 py-1.5 transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 hover:text-[#071a33] bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 rounded-lg px-3 py-1.5 transition-colors"
       >
         <RotateCcw className="size-3.5" />
         Solicitar devolução
@@ -223,7 +223,7 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-[#1e3a5f]">Solicitar devolução</DialogTitle>
+            <DialogTitle className="text-[#071a33]">Solicitar devolução</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -268,7 +268,7 @@ export function ReturnRequestPanel({ orderItemId, eligible, returnRequest }: Pro
               <Button type="button" variant="outline" className="flex-1" onClick={() => setOpen(false)}>
                 Cancelar
               </Button>
-              <Button type="submit" disabled={loading} className="flex-1 bg-[#1e3a5f] hover:bg-[#162d4a] text-white">
+              <Button type="submit" disabled={loading} className="flex-1 bg-[#071a33] hover:bg-[#051224] text-white">
                 {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <RotateCcw className="mr-2 size-4" />}
                 Enviar solicitação
               </Button>

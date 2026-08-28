@@ -25,10 +25,10 @@ export default function GuiaDoVendedorPage() {
 
       {/* Header */}
       <div>
-        <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#e07b2a] bg-[#e07b2a]/10 px-3 py-1 rounded-full mb-3">
+        <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#c1652e] bg-[#c1652e]/10 px-3 py-1 rounded-full mb-3">
           Para artesãos
         </div>
-        <h1 className="text-3xl font-bold text-[#1e3a5f]">Guia completo do vendedor</h1>
+        <h1 className="text-3xl font-bold text-[#071a33]">Guia completo do vendedor</h1>
         <p className="text-neutral-500 mt-2 leading-relaxed">
           Do cadastro ao saque: tudo que você precisa saber para vender com segurança
           e receber direitinho na plataforma Feito de Gente.
@@ -36,8 +36,8 @@ export default function GuiaDoVendedorPage() {
       </div>
 
       {/* Índice */}
-      <nav className="bg-[#f7f3ed] rounded-2xl p-5 space-y-2">
-        <p className="text-sm font-semibold text-[#1e3a5f] mb-3">Neste guia:</p>
+      <nav className="bg-[#f2ede0] rounded-2xl p-5 space-y-2">
+        <p className="text-sm font-semibold text-[#071a33] mb-3">Neste guia:</p>
         {[
           { href: "#como-funciona", label: "Como a plataforma funciona" },
           { href: "#aprovacao", label: "Aprovação do cadastro" },
@@ -52,7 +52,7 @@ export default function GuiaDoVendedorPage() {
           <a
             key={item.href}
             href={item.href}
-            className="flex items-center gap-2 text-sm text-[#1e3a5f] hover:text-[#e07b2a] transition-colors"
+            className="flex items-center gap-2 text-sm text-[#071a33] hover:text-[#c1652e] transition-colors"
           >
             <ArrowRight className="size-3 shrink-0" /> {item.label}
           </a>
@@ -72,11 +72,11 @@ export default function GuiaDoVendedorPage() {
             { n: "2", title: "Cliente compra", desc: "O pagamento é processado automaticamente pela plataforma." },
             { n: "3", title: "Você envia", desc: "Embala, posta nos Correios e informa o rastreio." },
           ].map((step) => (
-            <div key={step.n} className="bg-[#1e3a5f]/5 rounded-xl p-4">
-              <div className="size-7 rounded-full bg-[#1e3a5f] text-white flex items-center justify-center text-xs font-bold mb-2">
+            <div key={step.n} className="bg-[#071a33]/5 rounded-xl p-4">
+              <div className="size-7 rounded-full bg-[#071a33] text-white flex items-center justify-center text-xs font-bold mb-2">
                 {step.n}
               </div>
-              <p className="text-sm font-semibold text-[#1e3a5f]">{step.title}</p>
+              <p className="text-sm font-semibold text-[#071a33]">{step.title}</p>
               <p className="text-xs text-neutral-500 mt-1">{step.desc}</p>
             </div>
           ))}
@@ -250,11 +250,11 @@ export default function GuiaDoVendedorPage() {
             },
           ].map((item, i) => (
             <div key={i} className="flex gap-3">
-              <div className="size-6 rounded-full bg-[#e07b2a] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+              <div className="size-6 rounded-full bg-[#c1652e] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                 {i + 1}
               </div>
               <div>
-                <p className="text-sm font-semibold text-[#1e3a5f]">{item.title}</p>
+                <p className="text-sm font-semibold text-[#071a33]">{item.title}</p>
                 <p className="text-xs text-neutral-500 mt-0.5">{item.desc}</p>
               </div>
             </div>
@@ -291,25 +291,25 @@ export default function GuiaDoVendedorPage() {
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Link
             href="/contato"
-            className="flex items-center gap-3 p-4 rounded-xl border border-[#1e3a5f]/15 hover:border-[#1e3a5f]/40 hover:bg-[#1e3a5f]/3 transition-all"
+            className="flex items-center gap-3 p-4 rounded-xl border border-[#071a33]/15 hover:border-[#071a33]/40 hover:bg-[#071a33]/3 transition-all"
           >
-            <div className="size-9 rounded-lg bg-[#1e3a5f]/8 flex items-center justify-center">
-              <Phone className="size-4 text-[#1e3a5f]" />
+            <div className="size-9 rounded-lg bg-[#071a33]/8 flex items-center justify-center">
+              <Phone className="size-4 text-[#071a33]" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-[#1e3a5f]">Formulário de contato</p>
+              <p className="text-sm font-semibold text-[#071a33]">Formulário de contato</p>
               <p className="text-xs text-neutral-500">Resposta em até 1 dia útil</p>
             </div>
           </Link>
           <a
             href="mailto:contato@feitodegente.com.br"
-            className="flex items-center gap-3 p-4 rounded-xl border border-[#1e3a5f]/15 hover:border-[#1e3a5f]/40 hover:bg-[#1e3a5f]/3 transition-all"
+            className="flex items-center gap-3 p-4 rounded-xl border border-[#071a33]/15 hover:border-[#071a33]/40 hover:bg-[#071a33]/3 transition-all"
           >
-            <div className="size-9 rounded-lg bg-[#1e3a5f]/8 flex items-center justify-center">
-              <Settings className="size-4 text-[#1e3a5f]" />
+            <div className="size-9 rounded-lg bg-[#071a33]/8 flex items-center justify-center">
+              <Settings className="size-4 text-[#071a33]" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-[#1e3a5f]">E-mail direto</p>
+              <p className="text-sm font-semibold text-[#071a33]">E-mail direto</p>
               <p className="text-xs text-neutral-500">contato@feitodegente.com.br</p>
             </div>
           </a>
@@ -317,12 +317,12 @@ export default function GuiaDoVendedorPage() {
       </Section>
 
       {/* CTA */}
-      <div className="bg-[#1e3a5f] rounded-2xl p-6 text-center space-y-3">
+      <div className="bg-[#071a33] rounded-2xl p-6 text-center space-y-3">
         <h2 className="text-white font-bold text-lg">Pronto para começar?</h2>
         <p className="text-white/70 text-sm">50% off nos 3 primeiros meses. Comece a vender hoje.</p>
         <Link
           href="/seja-artesao"
-          className="inline-flex items-center gap-2 bg-[#e07b2a] hover:bg-[#c96a1e] text-white font-semibold px-6 py-2.5 rounded-full text-sm transition-colors"
+          className="inline-flex items-center gap-2 bg-[#c1652e] hover:bg-[#9a5125] text-white font-semibold px-6 py-2.5 rounded-full text-sm transition-colors"
         >
           Quero ser artesão <ArrowRight className="size-4" />
         </Link>
@@ -344,10 +344,10 @@ function Section({
   return (
     <section id={id} className="scroll-mt-24 space-y-3">
       <div className="flex items-center gap-3">
-        <div className="size-9 rounded-xl bg-[#1e3a5f]/8 flex items-center justify-center text-[#1e3a5f]">
+        <div className="size-9 rounded-xl bg-[#071a33]/8 flex items-center justify-center text-[#071a33]">
           {icon}
         </div>
-        <h2 className="text-xl font-bold text-[#1e3a5f]">{title}</h2>
+        <h2 className="text-xl font-bold text-[#071a33]">{title}</h2>
       </div>
       <div className="text-neutral-600 leading-relaxed text-sm pl-12">{children}</div>
     </section>
@@ -361,11 +361,11 @@ function StepList({ children }: { children: React.ReactNode }) {
 function StepItem({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
   return (
     <li className="flex gap-3">
-      <div className="size-6 rounded-full bg-[#1e3a5f] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+      <div className="size-6 rounded-full bg-[#071a33] text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
         {n}
       </div>
       <div>
-        <p className="text-sm font-semibold text-[#1e3a5f]">{title}</p>
+        <p className="text-sm font-semibold text-[#071a33]">{title}</p>
         <p className="text-xs text-neutral-500 mt-0.5 leading-relaxed">{children}</p>
       </div>
     </li>
@@ -375,7 +375,7 @@ function StepItem({ n, title, children }: { n: number; title: string; children: 
 function CheckItem({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex items-start gap-2 text-sm">
-      <CheckCircle2 className="size-4 text-[#27ae60] shrink-0 mt-0.5" />
+      <CheckCircle2 className="size-4 text-[#7c9f61] shrink-0 mt-0.5" />
       <span>{children}</span>
     </li>
   );
