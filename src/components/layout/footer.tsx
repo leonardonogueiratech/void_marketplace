@@ -33,7 +33,7 @@ export function Footer() {
                 <Share2 className="size-4 text-[#f2ede0]" />
               </a>
               <a
-                href="https://wa.me"
+                href="https://wa.me/5521967384052"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="size-9 rounded-full border border-[#f2ede0]/20 flex items-center justify-center hover:bg-[#f2ede0]/10 transition-colors"

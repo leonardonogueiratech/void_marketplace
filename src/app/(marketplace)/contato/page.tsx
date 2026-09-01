@@ -32,7 +32,7 @@ export default function ContactPage() {
                   {
                     icon: Phone,
                     label: "WhatsApp",
-                    value: "(11) 99999-0000",
+                    value: "(21) 96738-4052",
                   },
                   {
                     icon: MapPin,
